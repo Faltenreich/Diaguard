@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.tag.list
 
-import com.faltenreich.diaguard.tag.Tag
-import com.faltenreich.diaguard.tag.TagRepository
+import com.faltenreich.diaguard.data.tag.Tag
+import com.faltenreich.diaguard.data.tag.TagRepository
 import kotlinx.coroutines.flow.Flow
 
 class GetTagsUseCase(

@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.food.api
 
 import com.faltenreich.diaguard.TestSuite
+import com.faltenreich.diaguard.data.food.api.FoodApi
 import com.faltenreich.diaguard.view.paging.PagingPage
 import kotlinx.coroutines.test.runTest
 import org.koin.test.inject

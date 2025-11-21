@@ -2,14 +2,14 @@ package com.faltenreich.diaguard.tag.detail
 
 import app.cash.turbine.test
 import com.faltenreich.diaguard.TestSuite
-import com.faltenreich.diaguard.entry.EntryRepository
+import com.faltenreich.diaguard.data.entry.EntryRepository
 import com.faltenreich.diaguard.entry.form.EntryFormScreen
 import com.faltenreich.diaguard.entry.search.EntrySearchScreen
 import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.navigation.NavigationEvent
-import com.faltenreich.diaguard.shared.database.DatabaseKey
-import com.faltenreich.diaguard.tag.Tag
-import com.faltenreich.diaguard.tag.TagRepository
+import com.faltenreich.diaguard.data.DatabaseKey
+import com.faltenreich.diaguard.data.tag.Tag
+import com.faltenreich.diaguard.data.tag.TagRepository
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.koin.core.parameter.parametersOf

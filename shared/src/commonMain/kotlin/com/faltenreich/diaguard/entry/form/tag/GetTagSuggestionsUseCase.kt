@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.entry.form.tag
 
-import com.faltenreich.diaguard.tag.Tag
+import com.faltenreich.diaguard.data.tag.Tag
 
 class GetTagSuggestionsUseCase {
 

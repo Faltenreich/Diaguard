@@ -3,9 +3,9 @@ package com.faltenreich.diaguard.food.form
 import app.cash.turbine.test
 import app.cash.turbine.turbineScope
 import com.faltenreich.diaguard.TestSuite
-import com.faltenreich.diaguard.food.Food
+import com.faltenreich.diaguard.data.food.Food
 import com.faltenreich.diaguard.food.FoodFactory
-import com.faltenreich.diaguard.food.FoodRepository
+import com.faltenreich.diaguard.data.food.FoodRepository
 import com.faltenreich.diaguard.food.eaten.list.FoodEatenListScreen
 import com.faltenreich.diaguard.food.nutrient.FoodNutrient
 import com.faltenreich.diaguard.food.nutrient.FoodNutrientData

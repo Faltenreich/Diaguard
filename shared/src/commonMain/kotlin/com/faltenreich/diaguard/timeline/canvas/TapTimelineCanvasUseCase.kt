@@ -5,7 +5,7 @@ import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
 import com.faltenreich.diaguard.entry.list.EntryListItemState
 import com.faltenreich.diaguard.entry.list.MapEntryListItemStateUseCase
-import com.faltenreich.diaguard.measurement.value.MeasurementValue
+import com.faltenreich.diaguard.data.measurement.value.MeasurementValue
 
 class TapTimelineCanvasUseCase(private val mapEntryListItemState: MapEntryListItemStateUseCase) {
 

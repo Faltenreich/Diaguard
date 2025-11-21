@@ -16,7 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import com.faltenreich.diaguard.view.TextInput
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
-import com.faltenreich.diaguard.tag.Tag
+import com.faltenreich.diaguard.data.tag.Tag
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.tag
 import org.jetbrains.compose.resources.stringResource

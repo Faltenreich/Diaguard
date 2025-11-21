@@ -1,10 +1,10 @@
 package com.faltenreich.diaguard.measurement.category.form
 
-import com.faltenreich.diaguard.measurement.category.MeasurementCategory
+import com.faltenreich.diaguard.data.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.measurement.category.usecase.DeleteMeasurementCategoryUseCase
 import com.faltenreich.diaguard.measurement.category.usecase.GetMeasurementCategoryByIdUseCase
 import com.faltenreich.diaguard.measurement.category.usecase.StoreMeasurementCategoryUseCase
-import com.faltenreich.diaguard.measurement.property.MeasurementProperty
+import com.faltenreich.diaguard.data.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormScreen
 import com.faltenreich.diaguard.measurement.property.usecase.GetMeasurementPropertiesUseCase
 import com.faltenreich.diaguard.measurement.property.usecase.StoreMeasurementPropertyUseCase

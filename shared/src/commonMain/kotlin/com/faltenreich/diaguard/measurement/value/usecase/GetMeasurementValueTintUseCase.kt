@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.measurement.value.usecase
 
-import com.faltenreich.diaguard.measurement.value.MeasurementValue
+import com.faltenreich.diaguard.data.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.measurement.value.MeasurementValueTint
 
 class GetMeasurementValueTintUseCase {

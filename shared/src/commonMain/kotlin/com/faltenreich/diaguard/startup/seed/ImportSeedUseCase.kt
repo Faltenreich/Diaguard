@@ -1,13 +1,13 @@
 package com.faltenreich.diaguard.startup.seed
 
-import com.faltenreich.diaguard.food.FoodRepository
-import com.faltenreich.diaguard.measurement.category.MeasurementCategoryRepository
-import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
-import com.faltenreich.diaguard.measurement.unit.MeasurementUnitRepository
-import com.faltenreich.diaguard.measurement.unit.suggestion.MeasurementUnitSuggestion
-import com.faltenreich.diaguard.measurement.unit.suggestion.MeasurementUnitSuggestionRepository
+import com.faltenreich.diaguard.data.food.FoodRepository
+import com.faltenreich.diaguard.data.measurement.category.MeasurementCategoryRepository
+import com.faltenreich.diaguard.data.measurement.property.MeasurementPropertyRepository
+import com.faltenreich.diaguard.data.measurement.unit.MeasurementUnitRepository
+import com.faltenreich.diaguard.data.measurement.unit.suggestion.MeasurementUnitSuggestion
+import com.faltenreich.diaguard.data.measurement.unit.suggestion.MeasurementUnitSuggestionRepository
 import com.faltenreich.diaguard.logging.Logger
-import com.faltenreich.diaguard.tag.TagRepository
+import com.faltenreich.diaguard.data.tag.TagRepository
 
 /**
  * Import from files bundled with the app

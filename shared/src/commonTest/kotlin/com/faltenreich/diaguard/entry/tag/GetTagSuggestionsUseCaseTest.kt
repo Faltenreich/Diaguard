@@ -3,7 +3,7 @@ package com.faltenreich.diaguard.entry.tag
 import com.faltenreich.diaguard.TestSuite
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.entry.form.tag.GetTagSuggestionsUseCase
-import com.faltenreich.diaguard.tag.Tag
+import com.faltenreich.diaguard.data.tag.Tag
 import kotlinx.coroutines.test.runTest
 import org.koin.test.inject
 import kotlin.test.Test

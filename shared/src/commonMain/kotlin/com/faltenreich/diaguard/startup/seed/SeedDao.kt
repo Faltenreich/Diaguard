@@ -1,9 +1,9 @@
 package com.faltenreich.diaguard.startup.seed
 
-import com.faltenreich.diaguard.food.Food
-import com.faltenreich.diaguard.measurement.category.MeasurementCategory
-import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
-import com.faltenreich.diaguard.tag.Tag
+import com.faltenreich.diaguard.data.food.Food
+import com.faltenreich.diaguard.data.measurement.category.MeasurementCategory
+import com.faltenreich.diaguard.data.measurement.unit.MeasurementUnit
+import com.faltenreich.diaguard.data.tag.Tag
 
 interface SeedDao {
 

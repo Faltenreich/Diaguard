@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.tag
 
 import com.faltenreich.diaguard.architecture.either.ValidationResult
 import com.faltenreich.diaguard.architecture.either.ValidationRule
+import com.faltenreich.diaguard.data.tag.Tag
 
 class ValidateTagUseCase(private val rules: List<ValidationRule<Tag>>) {
 

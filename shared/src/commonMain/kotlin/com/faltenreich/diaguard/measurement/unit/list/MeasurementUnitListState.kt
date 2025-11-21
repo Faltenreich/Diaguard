@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.measurement.unit.list
 
-import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
+import com.faltenreich.diaguard.data.measurement.unit.MeasurementUnit
 
 data class MeasurementUnitListState(
     val units: List<MeasurementUnit.Local>,

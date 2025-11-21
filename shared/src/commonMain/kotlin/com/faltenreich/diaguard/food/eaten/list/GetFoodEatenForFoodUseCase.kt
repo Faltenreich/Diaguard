@@ -3,9 +3,9 @@ package com.faltenreich.diaguard.food.eaten.list
 import com.faltenreich.diaguard.localization.Localization
 import com.faltenreich.diaguard.localization.NumberFormatter
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
-import com.faltenreich.diaguard.food.Food
-import com.faltenreich.diaguard.food.eaten.FoodEaten
-import com.faltenreich.diaguard.food.eaten.FoodEatenRepository
+import com.faltenreich.diaguard.data.food.Food
+import com.faltenreich.diaguard.data.food.eaten.FoodEaten
+import com.faltenreich.diaguard.data.food.eaten.FoodEatenRepository
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesPreference
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import diaguard.shared.generated.resources.Res

@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.measurement.unit.usecase
 
-import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
-import com.faltenreich.diaguard.measurement.unit.MeasurementUnitRepository
+import com.faltenreich.diaguard.data.measurement.unit.MeasurementUnit
+import com.faltenreich.diaguard.data.measurement.unit.MeasurementUnitRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 

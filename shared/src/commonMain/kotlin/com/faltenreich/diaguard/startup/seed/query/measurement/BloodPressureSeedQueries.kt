@@ -1,11 +1,11 @@
 package com.faltenreich.diaguard.startup.seed.query.measurement
 
-import com.faltenreich.diaguard.measurement.category.MeasurementCategory
-import com.faltenreich.diaguard.measurement.property.aggregationstyle.MeasurementAggregationStyle
-import com.faltenreich.diaguard.measurement.property.MeasurementProperty
-import com.faltenreich.diaguard.measurement.unit.suggestion.MeasurementUnitSuggestion
-import com.faltenreich.diaguard.measurement.property.range.MeasurementValueRange
-import com.faltenreich.diaguard.shared.database.DatabaseKey
+import com.faltenreich.diaguard.data.measurement.category.MeasurementCategory
+import com.faltenreich.diaguard.data.measurement.property.MeasurementAggregationStyle
+import com.faltenreich.diaguard.data.measurement.property.MeasurementProperty
+import com.faltenreich.diaguard.data.measurement.unit.suggestion.MeasurementUnitSuggestion
+import com.faltenreich.diaguard.data.measurement.property.MeasurementValueRange
+import com.faltenreich.diaguard.data.DatabaseKey
 import com.faltenreich.diaguard.localization.Localization
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.blood_pressure

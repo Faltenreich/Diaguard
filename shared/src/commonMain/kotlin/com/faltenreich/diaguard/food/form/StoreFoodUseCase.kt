@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.food.form
 
-import com.faltenreich.diaguard.food.Food
-import com.faltenreich.diaguard.food.FoodRepository
+import com.faltenreich.diaguard.data.food.Food
+import com.faltenreich.diaguard.data.food.FoodRepository
 
 class StoreFoodUseCase(private val repository: FoodRepository) {
 

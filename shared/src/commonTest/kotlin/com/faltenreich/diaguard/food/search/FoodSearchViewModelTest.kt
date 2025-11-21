@@ -3,7 +3,7 @@ package com.faltenreich.diaguard.food.search
 import app.cash.turbine.test
 import com.faltenreich.diaguard.TestSuite
 import com.faltenreich.diaguard.food.FoodFactory
-import com.faltenreich.diaguard.food.FoodRepository
+import com.faltenreich.diaguard.data.food.FoodRepository
 import com.faltenreich.diaguard.food.form.FoodFormScreen
 import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.navigation.NavigationEvent

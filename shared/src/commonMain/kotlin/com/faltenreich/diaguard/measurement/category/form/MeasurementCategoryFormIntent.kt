@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.measurement.category.form
 
-import com.faltenreich.diaguard.measurement.property.MeasurementProperty
+import com.faltenreich.diaguard.data.measurement.property.MeasurementProperty
 
 sealed interface MeasurementCategoryFormIntent {
 

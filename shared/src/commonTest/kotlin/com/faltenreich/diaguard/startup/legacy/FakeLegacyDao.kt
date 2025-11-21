@@ -1,14 +1,14 @@
 package com.faltenreich.diaguard.startup.legacy
 
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
-import com.faltenreich.diaguard.entry.Entry
-import com.faltenreich.diaguard.entry.tag.EntryTag
-import com.faltenreich.diaguard.food.Food
-import com.faltenreich.diaguard.food.eaten.FoodEaten
-import com.faltenreich.diaguard.measurement.value.MeasurementValue
+import com.faltenreich.diaguard.data.entry.Entry
+import com.faltenreich.diaguard.data.entry.tag.EntryTag
+import com.faltenreich.diaguard.data.food.Food
+import com.faltenreich.diaguard.data.food.eaten.FoodEaten
+import com.faltenreich.diaguard.data.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.preference.Preference
-import com.faltenreich.diaguard.shared.database.DatabaseKey
-import com.faltenreich.diaguard.tag.Tag
+import com.faltenreich.diaguard.data.DatabaseKey
+import com.faltenreich.diaguard.data.tag.Tag
 
 class FakeLegacyDao(private val dateTimeFactory: DateTimeFactory) : LegacyDao {
 

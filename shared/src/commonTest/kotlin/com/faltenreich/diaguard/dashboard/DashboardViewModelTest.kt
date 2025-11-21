@@ -3,7 +3,7 @@ package com.faltenreich.diaguard.dashboard
 import app.cash.turbine.test
 import com.faltenreich.diaguard.TestSuite
 import com.faltenreich.diaguard.dashboard.hba1c.DashboardHbA1cState
-import com.faltenreich.diaguard.shared.database.DatabaseKey
+import com.faltenreich.diaguard.data.DatabaseKey
 import kotlinx.coroutines.test.runTest
 import org.koin.test.inject
 import kotlin.test.Ignore

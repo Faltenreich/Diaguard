@@ -8,8 +8,8 @@ import com.faltenreich.diaguard.datetime.DateProgression
 import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.factory.GetTodayUseCase
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
-import com.faltenreich.diaguard.entry.Entry
-import com.faltenreich.diaguard.entry.EntryRepository
+import com.faltenreich.diaguard.data.entry.Entry
+import com.faltenreich.diaguard.data.entry.EntryRepository
 import com.faltenreich.diaguard.entry.list.MapEntryListItemStateUseCase
 import com.faltenreich.diaguard.log.list.item.LogDayState
 import com.faltenreich.diaguard.log.list.item.LogDayStyle

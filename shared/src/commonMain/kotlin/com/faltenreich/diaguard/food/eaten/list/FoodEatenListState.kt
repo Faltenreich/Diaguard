@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.food.eaten.list
 
-import com.faltenreich.diaguard.food.eaten.FoodEaten
+import com.faltenreich.diaguard.data.food.eaten.FoodEaten
 
 sealed interface FoodEatenListState {
 

@@ -7,7 +7,7 @@ import com.faltenreich.diaguard.export.form.ExportFormIntent
 import com.faltenreich.diaguard.export.form.ExportFormState
 import com.faltenreich.diaguard.export.form.ExportFormViewModel
 import com.faltenreich.diaguard.export.pdf.PdfLayout
-import com.faltenreich.diaguard.measurement.category.MeasurementCategoryRepository
+import com.faltenreich.diaguard.data.measurement.category.MeasurementCategoryRepository
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.koin.test.inject

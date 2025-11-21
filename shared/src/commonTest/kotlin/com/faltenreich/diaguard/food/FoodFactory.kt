@@ -1,5 +1,7 @@
 package com.faltenreich.diaguard.food
 
+import com.faltenreich.diaguard.data.food.Food
+
 object FoodFactory {
 
     fun createByUser(): Food.User {

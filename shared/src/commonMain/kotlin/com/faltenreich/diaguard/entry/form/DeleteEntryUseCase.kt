@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.entry.form
 
-import com.faltenreich.diaguard.entry.Entry
-import com.faltenreich.diaguard.entry.EntryRepository
+import com.faltenreich.diaguard.data.entry.Entry
+import com.faltenreich.diaguard.data.entry.EntryRepository
 
 class DeleteEntryUseCase(
     private val entryRepository: EntryRepository,

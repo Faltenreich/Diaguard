@@ -1,9 +1,9 @@
 package com.faltenreich.diaguard.entry.list
 
-import com.faltenreich.diaguard.entry.Entry
-import com.faltenreich.diaguard.measurement.category.MeasurementCategory
-import com.faltenreich.diaguard.measurement.property.MeasurementProperty
-import com.faltenreich.diaguard.measurement.value.MeasurementValue
+import com.faltenreich.diaguard.data.entry.Entry
+import com.faltenreich.diaguard.data.measurement.category.MeasurementCategory
+import com.faltenreich.diaguard.data.measurement.property.MeasurementProperty
+import com.faltenreich.diaguard.data.measurement.value.MeasurementValue
 
 data class EntryListItemState(
     val entry: Entry.Local,

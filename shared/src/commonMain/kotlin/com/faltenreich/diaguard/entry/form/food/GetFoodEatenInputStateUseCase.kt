@@ -1,15 +1,15 @@
 package com.faltenreich.diaguard.entry.form.food
 
-import com.faltenreich.diaguard.entry.Entry
-import com.faltenreich.diaguard.food.Food
+import com.faltenreich.diaguard.data.entry.Entry
+import com.faltenreich.diaguard.data.food.Food
 import com.faltenreich.diaguard.food.eaten.FoodEatenInputState
 import com.faltenreich.diaguard.food.eaten.list.GetFoodEatenForEntryUseCase
-import com.faltenreich.diaguard.measurement.property.MeasurementProperty
-import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
-import com.faltenreich.diaguard.measurement.value.MeasurementValueMapper
+import com.faltenreich.diaguard.data.measurement.property.MeasurementProperty
+import com.faltenreich.diaguard.data.measurement.property.MeasurementPropertyRepository
+import com.faltenreich.diaguard.data.measurement.value.MeasurementValueMapper
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesPreference
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
-import com.faltenreich.diaguard.shared.database.DatabaseKey
+import com.faltenreich.diaguard.data.DatabaseKey
 import com.faltenreich.diaguard.localization.Localization
 import com.faltenreich.diaguard.localization.NumberFormatter
 import diaguard.shared.generated.resources.Res

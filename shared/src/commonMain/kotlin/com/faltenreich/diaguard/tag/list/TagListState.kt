@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.tag.list
 
-import com.faltenreich.diaguard.tag.Tag
+import com.faltenreich.diaguard.data.tag.Tag
 
 data class TagListState(
     val tags: List<Tag.Local>,

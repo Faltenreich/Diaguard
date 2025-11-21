@@ -1,9 +1,10 @@
 package com.faltenreich.diaguard.food
 
-import com.faltenreich.diaguard.food.api.FoodApi
-import com.faltenreich.diaguard.food.api.openfoodfacts.OpenFoodFactsApi
-import com.faltenreich.diaguard.food.api.openfoodfacts.OpenFoodFactsMapper
-import com.faltenreich.diaguard.food.eaten.FoodEatenRepository
+import com.faltenreich.diaguard.data.food.FoodRepository
+import com.faltenreich.diaguard.data.food.api.FoodApi
+import com.faltenreich.diaguard.data.food.api.openfoodfacts.OpenFoodFactsApi
+import com.faltenreich.diaguard.data.food.api.openfoodfacts.OpenFoodFactsMapper
+import com.faltenreich.diaguard.data.food.eaten.FoodEatenRepository
 import com.faltenreich.diaguard.food.eaten.StoreFoodEatenUseCase
 import com.faltenreich.diaguard.food.eaten.list.FoodEatenListViewModel
 import com.faltenreich.diaguard.food.eaten.list.GetFoodEatenForEntryUseCase

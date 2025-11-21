@@ -6,8 +6,8 @@ import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.persistence.sqldelight.SqlDelightApi
 import com.faltenreich.diaguard.persistence.sqldelight.TagQueries
 import com.faltenreich.diaguard.shared.database.sqldelight.mapper.TagSqlDelightMapper
-import com.faltenreich.diaguard.tag.Tag
-import com.faltenreich.diaguard.tag.TagDao
+import com.faltenreich.diaguard.data.tag.Tag
+import com.faltenreich.diaguard.data.tag.TagDao
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 

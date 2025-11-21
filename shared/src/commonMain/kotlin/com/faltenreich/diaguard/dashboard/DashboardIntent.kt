@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.dashboard
 
-import com.faltenreich.diaguard.entry.Entry
+import com.faltenreich.diaguard.data.entry.Entry
 
 sealed interface DashboardIntent {
 

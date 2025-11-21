@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.log
 
 import androidx.compose.foundation.lazy.LazyListItemInfo
 import com.faltenreich.diaguard.datetime.Date
-import com.faltenreich.diaguard.entry.Entry
+import com.faltenreich.diaguard.data.entry.Entry
 import com.faltenreich.diaguard.entry.list.EntryListItemState
 import com.faltenreich.diaguard.log.list.item.LogItemState
 

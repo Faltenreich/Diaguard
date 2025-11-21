@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.shared.database.sqldelight.mapper
 
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
-import com.faltenreich.diaguard.entry.Entry
+import com.faltenreich.diaguard.data.entry.Entry
 
 class EntrySqlDelightMapper(
     private val dateTimeFactory: DateTimeFactory,

@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.measurement.property.form
 
-import com.faltenreich.diaguard.measurement.property.MeasurementProperty
-import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
+import com.faltenreich.diaguard.data.measurement.property.MeasurementProperty
+import com.faltenreich.diaguard.data.measurement.unit.MeasurementUnit
 
 data class MeasurementPropertyFormState(
     val property: MeasurementProperty,

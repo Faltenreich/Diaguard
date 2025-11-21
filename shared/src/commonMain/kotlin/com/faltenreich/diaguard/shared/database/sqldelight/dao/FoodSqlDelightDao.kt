@@ -6,8 +6,8 @@ import com.faltenreich.diaguard.persistence.sqldelight.FoodQueries
 import com.faltenreich.diaguard.persistence.sqldelight.SqlDelightApi
 import com.faltenreich.diaguard.persistence.sqldelight.SqlDelightExtensions.toSqlLiteLong
 import com.faltenreich.diaguard.datetime.DateTime
-import com.faltenreich.diaguard.food.Food
-import com.faltenreich.diaguard.food.FoodDao
+import com.faltenreich.diaguard.data.food.Food
+import com.faltenreich.diaguard.data.food.FoodDao
 import com.faltenreich.diaguard.view.paging.PagingPage
 import com.faltenreich.diaguard.shared.database.sqldelight.mapper.FoodSqlDelightMapper
 import kotlinx.coroutines.CoroutineDispatcher

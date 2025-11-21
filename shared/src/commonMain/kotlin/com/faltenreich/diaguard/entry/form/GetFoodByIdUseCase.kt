@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.entry.form
 
-import com.faltenreich.diaguard.food.Food
-import com.faltenreich.diaguard.food.FoodRepository
+import com.faltenreich.diaguard.data.food.Food
+import com.faltenreich.diaguard.data.food.FoodRepository
 
 class GetFoodByIdUseCase(
     private val foodRepository: FoodRepository,

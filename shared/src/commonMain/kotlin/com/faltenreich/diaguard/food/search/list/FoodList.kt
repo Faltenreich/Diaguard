@@ -9,7 +9,7 @@ import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.faltenreich.diaguard.food.Food
+import com.faltenreich.diaguard.data.food.Food
 import com.faltenreich.diaguard.view.Divider
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import kotlinx.coroutines.flow.flowOf

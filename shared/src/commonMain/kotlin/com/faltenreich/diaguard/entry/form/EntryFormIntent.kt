@@ -3,9 +3,9 @@ package com.faltenreich.diaguard.entry.form
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.Time
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementPropertyInputState
-import com.faltenreich.diaguard.food.Food
+import com.faltenreich.diaguard.data.food.Food
 import com.faltenreich.diaguard.food.eaten.FoodEatenInputState
-import com.faltenreich.diaguard.tag.Tag
+import com.faltenreich.diaguard.data.tag.Tag
 import kotlin.time.Duration
 
 sealed interface EntryFormIntent {

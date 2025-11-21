@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.measurement.category.list
 
-import com.faltenreich.diaguard.measurement.category.MeasurementCategory
+import com.faltenreich.diaguard.data.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.measurement.category.form.MeasurementCategoryFormScreen
 import com.faltenreich.diaguard.measurement.category.usecase.GetMeasurementCategoriesUseCase
 import com.faltenreich.diaguard.measurement.category.usecase.StoreMeasurementCategoryUseCase

@@ -1,12 +1,12 @@
 package com.faltenreich.diaguard.shared.database.sqldelight.mapper
 
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
-import com.faltenreich.diaguard.measurement.property.aggregationstyle.MeasurementAggregationStyle
-import com.faltenreich.diaguard.measurement.property.MeasurementProperty
-import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
-import com.faltenreich.diaguard.measurement.unit.suggestion.MeasurementUnitSuggestion
-import com.faltenreich.diaguard.measurement.property.range.MeasurementValueRange
-import com.faltenreich.diaguard.shared.database.DatabaseKey
+import com.faltenreich.diaguard.data.measurement.property.MeasurementAggregationStyle
+import com.faltenreich.diaguard.data.measurement.property.MeasurementProperty
+import com.faltenreich.diaguard.data.measurement.unit.MeasurementUnit
+import com.faltenreich.diaguard.data.measurement.unit.suggestion.MeasurementUnitSuggestion
+import com.faltenreich.diaguard.data.measurement.property.MeasurementValueRange
+import com.faltenreich.diaguard.data.DatabaseKey
 import com.faltenreich.diaguard.persistence.sqldelight.SqlDelightExtensions.toSqlLiteBoolean
 
 class MeasurementPropertySqlDelightMapper(

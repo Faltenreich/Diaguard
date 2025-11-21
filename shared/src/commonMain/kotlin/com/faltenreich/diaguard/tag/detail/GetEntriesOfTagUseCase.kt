@@ -1,13 +1,13 @@
 package com.faltenreich.diaguard.tag.detail
 
-import com.faltenreich.diaguard.entry.EntryRepository
+import com.faltenreich.diaguard.data.entry.EntryRepository
 import com.faltenreich.diaguard.entry.list.EntryListItemState
 import com.faltenreich.diaguard.entry.list.MapEntryListItemStateUseCase
-import com.faltenreich.diaguard.entry.tag.EntryTagRepository
-import com.faltenreich.diaguard.food.eaten.FoodEatenRepository
-import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
+import com.faltenreich.diaguard.data.entry.tag.EntryTagRepository
+import com.faltenreich.diaguard.data.food.eaten.FoodEatenRepository
+import com.faltenreich.diaguard.data.measurement.value.MeasurementValueRepository
 import com.faltenreich.diaguard.view.paging.PagingPage
-import com.faltenreich.diaguard.tag.Tag
+import com.faltenreich.diaguard.data.tag.Tag
 
 class GetEntriesOfTagUseCase(
     private val entryRepository: EntryRepository,

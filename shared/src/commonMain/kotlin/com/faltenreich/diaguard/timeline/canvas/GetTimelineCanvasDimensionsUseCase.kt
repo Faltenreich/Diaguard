@@ -3,7 +3,7 @@ package com.faltenreich.diaguard.timeline.canvas
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
-import com.faltenreich.diaguard.measurement.property.MeasurementProperty
+import com.faltenreich.diaguard.data.measurement.property.MeasurementProperty
 
 class GetTimelineCanvasDimensionsUseCase {
 

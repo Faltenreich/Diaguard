@@ -1,8 +1,8 @@
 package com.faltenreich.diaguard.startup.legacy.query.measurement
 
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
-import com.faltenreich.diaguard.measurement.value.MeasurementValue
-import com.faltenreich.diaguard.shared.database.DatabaseKey
+import com.faltenreich.diaguard.data.measurement.value.MeasurementValue
+import com.faltenreich.diaguard.data.DatabaseKey
 import com.faltenreich.diaguard.persistence.sqlite.SqliteDatabase
 import com.faltenreich.diaguard.persistence.sqlite.getDouble
 import com.faltenreich.diaguard.persistence.sqlite.getLong

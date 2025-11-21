@@ -4,7 +4,7 @@ import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.persistence.sqlite.SqliteDatabase
 import com.faltenreich.diaguard.persistence.sqlite.getLong
 import com.faltenreich.diaguard.persistence.sqlite.getString
-import com.faltenreich.diaguard.tag.Tag
+import com.faltenreich.diaguard.data.tag.Tag
 
 class TagLegacyQueries(
     private val database: SqliteDatabase,

@@ -2,14 +2,14 @@ package com.faltenreich.diaguard.measurement.property.form
 
 import com.faltenreich.diaguard.measurement.category.usecase.StoreMeasurementCategoryUseCase
 import com.faltenreich.diaguard.measurement.category.usecase.GetMeasurementCategoryByIdUseCase
-import com.faltenreich.diaguard.measurement.property.MeasurementProperty
-import com.faltenreich.diaguard.measurement.property.aggregationstyle.MeasurementAggregationStyle
-import com.faltenreich.diaguard.measurement.property.range.MeasurementValueRange
+import com.faltenreich.diaguard.data.measurement.property.MeasurementProperty
+import com.faltenreich.diaguard.data.measurement.property.MeasurementAggregationStyle
+import com.faltenreich.diaguard.data.measurement.property.MeasurementValueRange
 import com.faltenreich.diaguard.measurement.property.usecase.DeleteMeasurementPropertyUseCase
 import com.faltenreich.diaguard.measurement.property.usecase.GetMaximumSortIndexOfMeasurementPropertyUseCase
 import com.faltenreich.diaguard.measurement.property.usecase.GetMeasurementPropertyBdIdUseCase
 import com.faltenreich.diaguard.measurement.property.usecase.StoreMeasurementPropertyUseCase
-import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
+import com.faltenreich.diaguard.data.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitListMode
 import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitListScreen
 import com.faltenreich.diaguard.measurement.unit.usecase.GetMeasurementUnitSuggestionsUseCase

@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.startup.legacy.query
 
-import com.faltenreich.diaguard.measurement.value.MeasurementValue
+import com.faltenreich.diaguard.data.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.startup.legacy.query.measurement.ActivityLegacyQueries
 import com.faltenreich.diaguard.startup.legacy.query.measurement.BloodPressureLegacyQueries
 import com.faltenreich.diaguard.startup.legacy.query.measurement.BloodSugarLegacyQueries

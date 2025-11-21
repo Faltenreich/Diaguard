@@ -3,7 +3,7 @@ package com.faltenreich.diaguard.timeline
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import com.faltenreich.diaguard.datetime.Date
-import com.faltenreich.diaguard.entry.Entry
+import com.faltenreich.diaguard.data.entry.Entry
 import com.faltenreich.diaguard.entry.list.EntryListItemState
 
 sealed interface TimelineIntent {

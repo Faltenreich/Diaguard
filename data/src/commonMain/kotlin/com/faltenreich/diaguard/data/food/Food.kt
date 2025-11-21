@@ -1,0 +1,143 @@
+package com.faltenreich.diaguard.data.food
+
+import com.faltenreich.diaguard.datetime.DateTime
+import com.faltenreich.diaguard.network.RemoteEntity
+import com.faltenreich.diaguard.data.DatabaseEntity
+
+/**
+ * Entity representing something that can be eaten or drunk
+ */
+sealed interface Food {
+
+    val name: String
+    val brand: String?
+    val ingredients: String?
+    val labels: String?
+    val carbohydrates: Double
+    val energy: Double?
+    val fat: Double?
+    val fatSaturated: Double?
+    val fiber: Double?
+    val proteins: Double?
+    val salt: Double?
+    val sodium: Double?
+    val sugar: Double?
+
+    data class Seed(
+        override val name: String,
+        override val brand: String?,
+        override val ingredients: String?,
+        override val labels: String?,
+        override val carbohydrates: Double,
+        override val energy: Double?,
+        override val fat: Double?,
+        override val fatSaturated: Double?,
+        override val fiber: Double?,
+        override val proteins: Double?,
+        override val salt: Double?,
+        override val sodium: Double?,
+        override val sugar: Double?,
+    ) : Food
+
+    data class Legacy(
+        val id: Long,
+        val createdAt: DateTime,
+        val updatedAt: DateTime,
+        override val uuid: String?,
+        override val name: String,
+        override val brand: String?,
+        override val ingredients: String?,
+        override val labels: String?,
+        override val carbohydrates: Double,
+        override val energy: Double?,
+        override val fat: Double?,
+        override val fatSaturated: Double?,
+        override val fiber: Double?,
+        override val proteins: Double?,
+        override val salt: Double?,
+        override val sodium: Double?,
+        override val sugar: Double?,
+    ) : Food, RemoteEntity
+
+    data class Input(
+        val name: String,
+        val brand: String,
+        val ingredients: String,
+        val labels: String,
+        val carbohydrates: String,
+        val energy: String,
+        val fat: String,
+        val fatSaturated: String,
+        val fiber: String,
+        val proteins: String,
+        val salt: String,
+        val sodium: String,
+        val sugar: String,
+    )
+
+    data class User(
+        override val name: String,
+        override val brand: String?,
+        override val ingredients: String?,
+        override val labels: String?,
+        override val carbohydrates: Double,
+        override val energy: Double?,
+        override val fat: Double?,
+        override val fatSaturated: Double?,
+        override val fiber: Double?,
+        override val proteins: Double?,
+        override val salt: Double?,
+        override val sodium: Double?,
+        override val sugar: Double?,
+    ) : Food
+
+    data class Remote(
+        override val uuid: String?,
+        override val name: String,
+        override val brand: String?,
+        override val ingredients: String?,
+        override val labels: String?,
+        override val carbohydrates: Double,
+        override val energy: Double?,
+        override val fat: Double?,
+        override val fatSaturated: Double?,
+        override val fiber: Double?,
+        override val proteins: Double?,
+        override val salt: Double?,
+        override val sodium: Double?,
+        override val sugar: Double?,
+    ) : Food, RemoteEntity
+
+    data class Local(
+        override val id: Long,
+        override val createdAt: DateTime,
+        override val updatedAt: DateTime,
+        override val uuid: String?,
+        override val name: String,
+        override val brand: String?,
+        override val ingredients: String?,
+        override val labels: String?,
+        override val carbohydrates: Double,
+        override val energy: Double?,
+        override val fat: Double?,
+        override val fatSaturated: Double?,
+        override val fiber: Double?,
+        override val proteins: Double?,
+        override val salt: Double?,
+        override val sodium: Double?,
+        override val sugar: Double?,
+    ) : Food, DatabaseEntity, RemoteEntity
+
+    data class Localized(
+        val local: Local,
+        val carbohydrates: String,
+        val energy: String?,
+        val fat: String?,
+        val fatSaturated: String?,
+        val fiber: String?,
+        val proteins: String?,
+        val salt: String?,
+        val sodium: String?,
+        val sugar: String?,
+    )
+}

@@ -8,11 +8,11 @@ import com.faltenreich.diaguard.TestSuite
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.entry.form.EntryFormScreen
 import com.faltenreich.diaguard.entry.search.EntrySearchScreen
-import com.faltenreich.diaguard.measurement.category.MeasurementCategoryRepository
-import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
+import com.faltenreich.diaguard.data.measurement.category.MeasurementCategoryRepository
+import com.faltenreich.diaguard.data.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.navigation.NavigationEvent
-import com.faltenreich.diaguard.shared.database.DatabaseKey
+import com.faltenreich.diaguard.data.DatabaseKey
 import com.faltenreich.diaguard.timeline.canvas.chart.TimelineChartState
 import com.faltenreich.diaguard.timeline.canvas.table.TimelineTableState
 import kotlinx.coroutines.flow.first

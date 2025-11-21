@@ -1,7 +1,8 @@
 package com.faltenreich.diaguard.food.search
 
-import com.faltenreich.diaguard.food.Food
-import com.faltenreich.diaguard.food.FoodRepository
+import com.faltenreich.diaguard.data.food.Food
+import com.faltenreich.diaguard.data.food.FoodRepository
+import com.faltenreich.diaguard.data.food.search.FoodSearchParams
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesPreference
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.view.paging.PagingPage

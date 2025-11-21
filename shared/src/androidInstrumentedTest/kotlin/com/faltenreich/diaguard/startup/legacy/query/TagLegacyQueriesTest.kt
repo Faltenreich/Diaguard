@@ -6,7 +6,7 @@ import com.faltenreich.diaguard.datetime.kotlinx.KotlinxDateTimeFactory
 import com.faltenreich.diaguard.persistence.sqlite.SqliteDatabase
 import com.faltenreich.diaguard.localization.ComposeLocalization
 import com.faltenreich.diaguard.shared.test.FileFactory
-import com.faltenreich.diaguard.tag.Tag
+import com.faltenreich.diaguard.data.tag.Tag
 import org.junit.Assert
 import org.junit.Test
 

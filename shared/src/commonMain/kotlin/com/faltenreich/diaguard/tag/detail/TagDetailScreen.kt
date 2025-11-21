@@ -9,7 +9,7 @@ import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 import com.faltenreich.diaguard.navigation.screen.Screen
 import com.faltenreich.diaguard.view.FloatingActionButton
-import com.faltenreich.diaguard.tag.Tag
+import com.faltenreich.diaguard.data.tag.Tag
 import diaguard.core.view.generated.resources.ic_check
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.ic_delete

@@ -1,6 +1,8 @@
 package com.faltenreich.diaguard.food.eaten
 
-import com.faltenreich.diaguard.entry.Entry
+import com.faltenreich.diaguard.data.entry.Entry
+import com.faltenreich.diaguard.data.food.eaten.FoodEaten
+import com.faltenreich.diaguard.data.food.eaten.FoodEatenRepository
 
 class StoreFoodEatenUseCase(private val repository: FoodEatenRepository) {
 

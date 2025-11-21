@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.tag.detail
 
-import com.faltenreich.diaguard.entry.Entry
+import com.faltenreich.diaguard.data.entry.Entry
 import com.faltenreich.diaguard.entry.list.EntryListItemState
 
 sealed interface TagDetailIntent {

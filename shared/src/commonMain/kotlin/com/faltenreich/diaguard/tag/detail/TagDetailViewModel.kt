@@ -13,7 +13,7 @@ import com.faltenreich.diaguard.architecture.viewmodel.ViewModel
 import com.faltenreich.diaguard.injection.inject
 import com.faltenreich.diaguard.architecture.either.ValidationResult
 import com.faltenreich.diaguard.tag.StoreTagUseCase
-import com.faltenreich.diaguard.tag.Tag
+import com.faltenreich.diaguard.data.tag.Tag
 import com.faltenreich.diaguard.tag.ValidateTagUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine

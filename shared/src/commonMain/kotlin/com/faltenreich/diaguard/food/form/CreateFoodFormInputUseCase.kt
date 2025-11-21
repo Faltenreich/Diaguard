@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.food.form
 
-import com.faltenreich.diaguard.food.Food
+import com.faltenreich.diaguard.data.food.Food
 import com.faltenreich.diaguard.localization.NumberFormatter
 
 class CreateFoodFormInputUseCase(

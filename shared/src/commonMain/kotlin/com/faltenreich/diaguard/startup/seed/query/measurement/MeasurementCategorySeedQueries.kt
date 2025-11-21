@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.startup.seed.query.measurement
 
-import com.faltenreich.diaguard.measurement.category.MeasurementCategory
+import com.faltenreich.diaguard.data.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.startup.seed.query.SeedQueries
 
 class MeasurementCategorySeedQueries(

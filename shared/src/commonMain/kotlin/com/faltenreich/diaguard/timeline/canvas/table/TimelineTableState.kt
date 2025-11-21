@@ -2,9 +2,9 @@ package com.faltenreich.diaguard.timeline.canvas.table
 
 import androidx.compose.ui.geometry.Rect
 import com.faltenreich.diaguard.datetime.DateTime
-import com.faltenreich.diaguard.measurement.category.MeasurementCategory
-import com.faltenreich.diaguard.measurement.property.MeasurementProperty
-import com.faltenreich.diaguard.measurement.value.MeasurementValue
+import com.faltenreich.diaguard.data.measurement.category.MeasurementCategory
+import com.faltenreich.diaguard.data.measurement.property.MeasurementProperty
+import com.faltenreich.diaguard.data.measurement.value.MeasurementValue
 
 data class TimelineTableState(
     val rectangle: Rect,

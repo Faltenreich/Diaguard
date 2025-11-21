@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.measurement.property.form
 
-import com.faltenreich.diaguard.measurement.property.MeasurementProperty
-import com.faltenreich.diaguard.measurement.unit.suggestion.MeasurementUnitSuggestion
+import com.faltenreich.diaguard.data.measurement.property.MeasurementProperty
+import com.faltenreich.diaguard.data.measurement.unit.suggestion.MeasurementUnitSuggestion
 import com.faltenreich.diaguard.localization.Localization
 import com.faltenreich.diaguard.localization.NumberFormatter
 import diaguard.shared.generated.resources.Res

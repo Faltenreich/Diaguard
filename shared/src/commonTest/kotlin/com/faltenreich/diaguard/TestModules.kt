@@ -3,9 +3,9 @@ package com.faltenreich.diaguard
 import com.faltenreich.diaguard.datetime.DateTimeFakeApi
 import com.faltenreich.diaguard.datetime.DateTimePlatformApi
 import com.faltenreich.diaguard.export.pdf.PdfExport
-import com.faltenreich.diaguard.food.api.FoodApi
-import com.faltenreich.diaguard.food.api.openfoodfacts.OpenFoodFactsApi
-import com.faltenreich.diaguard.food.api.openfoodfacts.OpenFoodFactsMapper
+import com.faltenreich.diaguard.data.food.api.FoodApi
+import com.faltenreich.diaguard.data.food.api.openfoodfacts.OpenFoodFactsApi
+import com.faltenreich.diaguard.data.food.api.openfoodfacts.OpenFoodFactsMapper
 import com.faltenreich.diaguard.measurement.value.usecase.StoreMeasurementValueUseCase
 import com.faltenreich.diaguard.config.BuildConfig
 import com.faltenreich.diaguard.shared.config.FakeBuildConfig

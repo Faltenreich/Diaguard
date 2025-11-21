@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.entry.form
 
 import com.faltenreich.diaguard.datetime.format.FormatDateTimeUseCase
-import com.faltenreich.diaguard.entry.Entry
+import com.faltenreich.diaguard.data.entry.Entry
 import com.faltenreich.diaguard.entry.form.datetime.GetDateTimeForEntryUseCase
 import com.faltenreich.diaguard.entry.form.food.GetFoodEatenInputStateUseCase
 import com.faltenreich.diaguard.entry.form.measurement.GetMeasurementCategoryInputStateUseCase
@@ -12,7 +12,7 @@ import com.faltenreich.diaguard.entry.form.reminder.GetReminderLabelUseCase
 import com.faltenreich.diaguard.entry.form.reminder.SetReminderUseCase
 import com.faltenreich.diaguard.entry.form.tag.GetTagSuggestionsUseCase
 import com.faltenreich.diaguard.entry.form.tag.GetTagsOfEntry
-import com.faltenreich.diaguard.food.Food
+import com.faltenreich.diaguard.data.food.Food
 import com.faltenreich.diaguard.food.eaten.FoodEatenInputState
 import com.faltenreich.diaguard.food.search.FoodSearchMode
 import com.faltenreich.diaguard.food.search.FoodSearchScreen
@@ -26,7 +26,7 @@ import com.faltenreich.diaguard.system.permission.Permission
 import com.faltenreich.diaguard.system.permission.PermissionResult
 import com.faltenreich.diaguard.system.permission.RequestPermissionUseCase
 import com.faltenreich.diaguard.architecture.either.ValidationResult
-import com.faltenreich.diaguard.tag.Tag
+import com.faltenreich.diaguard.data.tag.Tag
 import com.faltenreich.diaguard.tag.list.GetTagsUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest

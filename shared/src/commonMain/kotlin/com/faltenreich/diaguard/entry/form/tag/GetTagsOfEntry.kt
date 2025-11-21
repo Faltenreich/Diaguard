@@ -1,9 +1,9 @@
 package com.faltenreich.diaguard.entry.form.tag
 
-import com.faltenreich.diaguard.entry.Entry
-import com.faltenreich.diaguard.entry.tag.EntryTag
-import com.faltenreich.diaguard.entry.tag.EntryTagRepository
-import com.faltenreich.diaguard.tag.Tag
+import com.faltenreich.diaguard.data.entry.Entry
+import com.faltenreich.diaguard.data.entry.tag.EntryTag
+import com.faltenreich.diaguard.data.entry.tag.EntryTagRepository
+import com.faltenreich.diaguard.data.tag.Tag
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

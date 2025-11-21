@@ -2,8 +2,8 @@ package com.faltenreich.diaguard.timeline.canvas.chart
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
-import com.faltenreich.diaguard.measurement.property.MeasurementProperty
-import com.faltenreich.diaguard.measurement.value.MeasurementValue
+import com.faltenreich.diaguard.data.measurement.property.MeasurementProperty
+import com.faltenreich.diaguard.data.measurement.value.MeasurementValue
 
 data class TimelineChartState(
     val chartRectangle: Rect,

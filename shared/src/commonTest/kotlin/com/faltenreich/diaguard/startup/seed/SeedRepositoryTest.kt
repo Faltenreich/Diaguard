@@ -1,8 +1,8 @@
 package com.faltenreich.diaguard.startup.seed
 
 import com.faltenreich.diaguard.TestSuite
-import com.faltenreich.diaguard.measurement.category.MeasurementCategory
-import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
+import com.faltenreich.diaguard.data.measurement.category.MeasurementCategory
+import com.faltenreich.diaguard.data.measurement.unit.MeasurementUnit
 import org.koin.test.inject
 import kotlin.test.Test
 import kotlin.test.assertEquals

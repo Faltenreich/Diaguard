@@ -2,6 +2,8 @@ package com.faltenreich.diaguard.tag
 
 import com.faltenreich.diaguard.TestSuite
 import com.faltenreich.diaguard.architecture.either.ValidationResult
+import com.faltenreich.diaguard.data.tag.Tag
+import com.faltenreich.diaguard.data.tag.TagRepository
 import org.koin.test.inject
 import kotlin.test.Test
 import kotlin.test.assertFalse

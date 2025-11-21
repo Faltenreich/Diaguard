@@ -2,9 +2,9 @@ package com.faltenreich.diaguard.timeline.canvas.table
 
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.DateUnit
-import com.faltenreich.diaguard.measurement.value.MeasurementValue
-import com.faltenreich.diaguard.measurement.value.MeasurementValueRepository
-import com.faltenreich.diaguard.shared.database.DatabaseKey
+import com.faltenreich.diaguard.data.measurement.value.MeasurementValue
+import com.faltenreich.diaguard.data.measurement.value.MeasurementValueRepository
+import com.faltenreich.diaguard.data.DatabaseKey
 import kotlinx.coroutines.flow.Flow
 
 class GetTimelineTableMeasurementValuesUseCase(

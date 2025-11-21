@@ -1,10 +1,10 @@
 package com.faltenreich.diaguard.entry.form
 
 import com.faltenreich.diaguard.datetime.DateTime
-import com.faltenreich.diaguard.entry.Entry
+import com.faltenreich.diaguard.data.entry.Entry
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementCategoryInputState
 import com.faltenreich.diaguard.food.eaten.FoodEatenInputState
-import com.faltenreich.diaguard.tag.Tag
+import com.faltenreich.diaguard.data.tag.Tag
 
 data class EntryFormInput(
     val entry: Entry.Local?,

@@ -3,6 +3,8 @@ package com.faltenreich.diaguard.tag
 import com.faltenreich.diaguard.localization.Localization
 import com.faltenreich.diaguard.architecture.either.ValidationResult
 import com.faltenreich.diaguard.architecture.either.ValidationRule
+import com.faltenreich.diaguard.data.tag.Tag
+import com.faltenreich.diaguard.data.tag.TagRepository
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.name_already_taken
 

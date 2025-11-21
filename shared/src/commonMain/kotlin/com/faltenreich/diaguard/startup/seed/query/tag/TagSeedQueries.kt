@@ -6,7 +6,7 @@ import com.faltenreich.diaguard.persistence.file.FileReader
 import com.faltenreich.diaguard.localization.Localization
 import com.faltenreich.diaguard.localization.LocalizationConstants
 import com.faltenreich.diaguard.serialization.Serialization
-import com.faltenreich.diaguard.tag.Tag
+import com.faltenreich.diaguard.data.tag.Tag
 
 class TagSeedQueries(
     private val fileReader: FileReader,

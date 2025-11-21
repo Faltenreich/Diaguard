@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.startup
 
-import com.faltenreich.diaguard.measurement.category.MeasurementCategoryRepository
+import com.faltenreich.diaguard.data.measurement.category.MeasurementCategoryRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 

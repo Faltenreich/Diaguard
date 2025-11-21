@@ -1,5 +1,8 @@
 package com.faltenreich.diaguard.tag
 
+import com.faltenreich.diaguard.data.tag.Tag
+import com.faltenreich.diaguard.data.tag.TagRepository
+
 class StoreTagUseCase(private val repository: TagRepository) {
 
     operator fun invoke(tag: Tag) {

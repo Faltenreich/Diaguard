@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.shared.database
 
+import com.faltenreich.diaguard.data.DatabaseKey
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

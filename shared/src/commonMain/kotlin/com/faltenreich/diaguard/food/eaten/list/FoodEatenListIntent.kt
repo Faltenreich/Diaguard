@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.food.eaten.list
 
-import com.faltenreich.diaguard.entry.Entry
+import com.faltenreich.diaguard.data.entry.Entry
 
 sealed interface FoodEatenListIntent {
 

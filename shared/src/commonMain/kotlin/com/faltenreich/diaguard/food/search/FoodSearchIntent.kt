@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.food.search
 
-import com.faltenreich.diaguard.food.Food
+import com.faltenreich.diaguard.data.food.Food
 
 sealed interface FoodSearchIntent {
 

@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.tag.detail
 
-import com.faltenreich.diaguard.tag.Tag
-import com.faltenreich.diaguard.tag.TagRepository
+import com.faltenreich.diaguard.data.tag.Tag
+import com.faltenreich.diaguard.data.tag.TagRepository
 
 class DeleteTagUseCase(private val repository: TagRepository) {
 

@@ -26,7 +26,7 @@ import androidx.compose.ui.text.font.FontStyle
 import com.faltenreich.diaguard.view.theme.AppTheme
 import com.faltenreich.diaguard.measurement.property.aggregationstyle.MeasurementAggregationStyleForm
 import com.faltenreich.diaguard.measurement.property.range.MeasurementValueRangeForm
-import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
+import com.faltenreich.diaguard.data.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.view.DeleteDialog
 import com.faltenreich.diaguard.view.Divider
 import com.faltenreich.diaguard.view.FormRow

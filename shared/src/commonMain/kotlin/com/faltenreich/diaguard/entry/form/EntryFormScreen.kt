@@ -5,8 +5,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import com.faltenreich.diaguard.view.theme.AppTheme
 import com.faltenreich.diaguard.datetime.Date
-import com.faltenreich.diaguard.entry.Entry
-import com.faltenreich.diaguard.food.Food
+import com.faltenreich.diaguard.data.entry.Entry
+import com.faltenreich.diaguard.data.food.Food
 import com.faltenreich.diaguard.food.search.FoodSelectionEvent
 import com.faltenreich.diaguard.food.search.FoodSelectionViewModel
 import com.faltenreich.diaguard.injection.sharedViewModel

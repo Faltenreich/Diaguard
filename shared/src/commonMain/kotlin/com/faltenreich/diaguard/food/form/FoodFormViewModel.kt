@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.food.form
 
 import com.faltenreich.diaguard.entry.form.GetFoodByIdUseCase
-import com.faltenreich.diaguard.food.Food
+import com.faltenreich.diaguard.data.food.Food
 import com.faltenreich.diaguard.food.eaten.list.FoodEatenListScreen
 import com.faltenreich.diaguard.food.nutrient.FoodNutrient
 import com.faltenreich.diaguard.food.nutrient.FoodNutrientData

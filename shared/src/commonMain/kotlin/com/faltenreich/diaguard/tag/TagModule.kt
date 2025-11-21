@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.tag
 
+import com.faltenreich.diaguard.data.tag.TagRepository
 import com.faltenreich.diaguard.tag.detail.DeleteTagUseCase
 import com.faltenreich.diaguard.tag.detail.GetEntriesOfTagUseCase
 import com.faltenreich.diaguard.tag.detail.GetTagByIdUseCase

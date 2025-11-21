@@ -6,8 +6,8 @@ import app.cash.sqldelight.coroutines.mapToOne
 import com.faltenreich.diaguard.persistence.sqldelight.EntryTagQueries
 import com.faltenreich.diaguard.persistence.sqldelight.SqlDelightApi
 import com.faltenreich.diaguard.datetime.DateTime
-import com.faltenreich.diaguard.entry.tag.EntryTag
-import com.faltenreich.diaguard.entry.tag.EntryTagDao
+import com.faltenreich.diaguard.data.entry.tag.EntryTag
+import com.faltenreich.diaguard.data.entry.tag.EntryTagDao
 import com.faltenreich.diaguard.shared.database.sqldelight.mapper.EntryTagSqlDelightMapper
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow

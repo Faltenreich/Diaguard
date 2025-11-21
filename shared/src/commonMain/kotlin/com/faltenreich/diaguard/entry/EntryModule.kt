@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.entry
 
+import com.faltenreich.diaguard.data.entry.EntryRepository
 import com.faltenreich.diaguard.entry.form.DeleteEntryUseCase
 import com.faltenreich.diaguard.entry.form.EntryFormViewModel
 import com.faltenreich.diaguard.entry.form.GetEntryByIdUseCase
@@ -19,7 +20,7 @@ import com.faltenreich.diaguard.entry.form.validation.ValidEntryFormInputRule
 import com.faltenreich.diaguard.entry.list.MapEntryListItemStateUseCase
 import com.faltenreich.diaguard.entry.search.EntrySearchViewModel
 import com.faltenreich.diaguard.entry.search.SearchEntriesUseCase
-import com.faltenreich.diaguard.entry.tag.EntryTagRepository
+import com.faltenreich.diaguard.data.entry.tag.EntryTagRepository
 import com.faltenreich.diaguard.entry.tag.StoreEntryTagsUseCase
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.viewModel

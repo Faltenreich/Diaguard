@@ -4,10 +4,10 @@ import com.faltenreich.diaguard.startup.seed.query.food.FoodSeedQueries
 import com.faltenreich.diaguard.startup.seed.query.measurement.MeasurementCategorySeedQueries
 import com.faltenreich.diaguard.startup.seed.query.measurement.MeasurementUnitSeedQueries
 import com.faltenreich.diaguard.startup.seed.query.tag.TagSeedQueries
-import com.faltenreich.diaguard.food.Food
-import com.faltenreich.diaguard.measurement.category.MeasurementCategory
-import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
-import com.faltenreich.diaguard.tag.Tag
+import com.faltenreich.diaguard.data.food.Food
+import com.faltenreich.diaguard.data.measurement.category.MeasurementCategory
+import com.faltenreich.diaguard.data.measurement.unit.MeasurementUnit
+import com.faltenreich.diaguard.data.tag.Tag
 
 class SeedBundleDao(
     private val unitQueries: MeasurementUnitSeedQueries,

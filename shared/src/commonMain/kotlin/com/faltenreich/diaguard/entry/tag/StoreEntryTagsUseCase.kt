@@ -1,8 +1,10 @@
 package com.faltenreich.diaguard.entry.tag
 
-import com.faltenreich.diaguard.entry.Entry
-import com.faltenreich.diaguard.tag.Tag
-import com.faltenreich.diaguard.tag.TagRepository
+import com.faltenreich.diaguard.data.entry.Entry
+import com.faltenreich.diaguard.data.entry.tag.EntryTag
+import com.faltenreich.diaguard.data.entry.tag.EntryTagRepository
+import com.faltenreich.diaguard.data.tag.Tag
+import com.faltenreich.diaguard.data.tag.TagRepository
 
 class StoreEntryTagsUseCase(
     private val tagRepository: TagRepository,

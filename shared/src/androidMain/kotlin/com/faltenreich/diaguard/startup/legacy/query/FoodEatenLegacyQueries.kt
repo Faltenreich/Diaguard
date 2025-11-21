@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.startup.legacy.query
 
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
-import com.faltenreich.diaguard.food.eaten.FoodEaten
+import com.faltenreich.diaguard.data.food.eaten.FoodEaten
 import com.faltenreich.diaguard.persistence.sqlite.SqliteDatabase
 import com.faltenreich.diaguard.persistence.sqlite.getDouble
 import com.faltenreich.diaguard.persistence.sqlite.getLong

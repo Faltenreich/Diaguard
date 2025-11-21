@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.food.form
 
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.localization.Localization
-import com.faltenreich.diaguard.shared.validation.ValidationResult
+import com.faltenreich.diaguard.architecture.either.ValidationResult
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.food_form_missing_input
 import kotlinx.coroutines.CoroutineDispatcher

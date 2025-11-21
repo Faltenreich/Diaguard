@@ -11,7 +11,7 @@ import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
 import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import com.faltenreich.diaguard.architecture.viewmodel.ViewModel
 import com.faltenreich.diaguard.injection.inject
-import com.faltenreich.diaguard.shared.validation.ValidationResult
+import com.faltenreich.diaguard.architecture.either.ValidationResult
 import com.faltenreich.diaguard.tag.StoreTagUseCase
 import com.faltenreich.diaguard.tag.Tag
 import com.faltenreich.diaguard.tag.ValidateTagUseCase

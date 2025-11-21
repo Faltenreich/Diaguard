@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.tag
 
 import com.faltenreich.diaguard.TestSuite
-import com.faltenreich.diaguard.shared.validation.ValidationResult
+import com.faltenreich.diaguard.architecture.either.ValidationResult
 import org.koin.test.inject
 import kotlin.test.Test
 import kotlin.test.assertFalse

@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.shared.validation
+package com.faltenreich.diaguard.architecture.either
 
 sealed interface ValidationResult<T> {
 

@@ -25,7 +25,7 @@ import com.faltenreich.diaguard.system.permission.HasPermissionUseCase
 import com.faltenreich.diaguard.system.permission.Permission
 import com.faltenreich.diaguard.system.permission.PermissionResult
 import com.faltenreich.diaguard.system.permission.RequestPermissionUseCase
-import com.faltenreich.diaguard.shared.validation.ValidationResult
+import com.faltenreich.diaguard.architecture.either.ValidationResult
 import com.faltenreich.diaguard.tag.Tag
 import com.faltenreich.diaguard.tag.list.GetTagsUseCase
 import kotlinx.coroutines.flow.MutableStateFlow

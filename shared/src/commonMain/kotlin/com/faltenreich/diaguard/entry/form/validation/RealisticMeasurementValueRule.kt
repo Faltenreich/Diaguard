@@ -4,8 +4,8 @@ import com.faltenreich.diaguard.entry.form.measurement.MeasurementPropertyInputS
 import com.faltenreich.diaguard.measurement.value.MeasurementValueMapper
 import com.faltenreich.diaguard.injection.inject
 import com.faltenreich.diaguard.localization.Localization
-import com.faltenreich.diaguard.shared.validation.ValidationResult
-import com.faltenreich.diaguard.shared.validation.ValidationRule
+import com.faltenreich.diaguard.architecture.either.ValidationResult
+import com.faltenreich.diaguard.architecture.either.ValidationRule
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.entry_form_error_unrealistic_value
 

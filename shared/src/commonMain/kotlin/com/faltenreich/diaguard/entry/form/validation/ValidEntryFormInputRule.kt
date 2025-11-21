@@ -1,8 +1,8 @@
 package com.faltenreich.diaguard.entry.form.validation
 
 import com.faltenreich.diaguard.entry.form.EntryFormInput
-import com.faltenreich.diaguard.shared.validation.ValidationResult
-import com.faltenreich.diaguard.shared.validation.ValidationRule
+import com.faltenreich.diaguard.architecture.either.ValidationResult
+import com.faltenreich.diaguard.architecture.either.ValidationRule
 
 class ValidEntryFormInputRule : ValidationRule<EntryFormInput> {
 

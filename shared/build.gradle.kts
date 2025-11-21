@@ -22,6 +22,7 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
+                implementation(project(":data"))
                 implementation(project(":core:architecture"))
                 implementation(project(":core:config"))
                 implementation(project(":core:datetime"))

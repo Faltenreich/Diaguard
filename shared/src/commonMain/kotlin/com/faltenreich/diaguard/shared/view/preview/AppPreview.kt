@@ -10,17 +10,17 @@ import com.faltenreich.diaguard.view.theme.AppTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 /**
- * Convenience Composable that supports theming and dependency injection
+ * Convenience Composable that supports theming and fake data
  */
 @Composable
 inline fun AppPreview(
     modifier: Modifier = Modifier,
     showBackground: Boolean = true,
     isDarkColorScheme: Boolean = false,
-    crossinline content: @Composable PreviewScope.() -> Unit,
+    crossinline content: @Composable AppPreviewScope.() -> Unit,
 ) {
     AppTheme(isDarkColorScheme = isDarkColorScheme) {
-        with(PreviewScope()) {
+        with(AppPreviewScope()) {
             val backgroundColor =
                 if (showBackground) AppTheme.colors.scheme.background
                 else Color.Transparent

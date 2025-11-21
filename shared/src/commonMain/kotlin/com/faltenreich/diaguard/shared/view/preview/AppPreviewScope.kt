@@ -16,7 +16,7 @@ import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.tag.Tag
 import kotlin.time.Clock
 
-class PreviewScope {
+class AppPreviewScope {
 
     fun now() = KotlinxDateTime(millis = Clock.System.now().toEpochMilliseconds())
 

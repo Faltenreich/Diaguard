@@ -19,7 +19,7 @@ import com.faltenreich.diaguard.preference.decimal.DecimalPlacesPreference
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.architecture.ViewModel
 import com.faltenreich.diaguard.injection.inject
-import com.faltenreich.diaguard.shared.result.Result
+import com.faltenreich.diaguard.architecture.Result
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flowOf

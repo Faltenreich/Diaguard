@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.measurement.property.usecase
 
 import com.faltenreich.diaguard.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.property.MeasurementPropertyRepository
-import com.faltenreich.diaguard.shared.result.Result
+import com.faltenreich.diaguard.architecture.Result
 
 class StoreMeasurementPropertyUseCase(private val repository: MeasurementPropertyRepository) {
 

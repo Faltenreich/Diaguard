@@ -22,6 +22,16 @@ class ComposableMustHavePreviewRuleTest {
     }
 
     @Test
+    fun `should succeed for file without Composable`() {
+        val code = """
+            class SomeClass
+        """.trimIndent()
+
+        val findings = ComposableMustHavePreviewRule().compileAndLint(code)
+        assertEquals(0, findings.size)
+    }
+
+    @Test
     fun `should fail for file with Composable but without Preview`() {
         val code = """
             @Composable

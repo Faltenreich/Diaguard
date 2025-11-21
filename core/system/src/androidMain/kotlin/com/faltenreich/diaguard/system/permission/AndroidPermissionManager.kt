@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.permission
+package com.faltenreich.diaguard.system.permission
 
 import android.content.Intent
 import android.content.pm.PackageManager

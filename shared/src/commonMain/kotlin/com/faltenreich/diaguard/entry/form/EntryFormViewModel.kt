@@ -21,10 +21,10 @@ import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import com.faltenreich.diaguard.architecture.ViewModel
 import com.faltenreich.diaguard.injection.inject
 import com.faltenreich.diaguard.logging.Logger
-import com.faltenreich.diaguard.permission.HasPermissionUseCase
-import com.faltenreich.diaguard.permission.Permission
-import com.faltenreich.diaguard.permission.PermissionResult
-import com.faltenreich.diaguard.permission.RequestPermissionUseCase
+import com.faltenreich.diaguard.system.permission.HasPermissionUseCase
+import com.faltenreich.diaguard.system.permission.Permission
+import com.faltenreich.diaguard.system.permission.PermissionResult
+import com.faltenreich.diaguard.system.permission.RequestPermissionUseCase
 import com.faltenreich.diaguard.shared.validation.ValidationResult
 import com.faltenreich.diaguard.tag.Tag
 import com.faltenreich.diaguard.tag.list.GetTagsUseCase

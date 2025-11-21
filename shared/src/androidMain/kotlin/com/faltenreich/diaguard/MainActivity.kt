@@ -7,7 +7,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.faltenreich.diaguard.permission.AndroidPermissionManager
+import com.faltenreich.diaguard.system.permission.AndroidPermissionManager
 import com.faltenreich.diaguard.shared.notification.Shortcut
 import com.faltenreich.diaguard.shared.notification.forAction
 import org.koin.android.ext.android.inject

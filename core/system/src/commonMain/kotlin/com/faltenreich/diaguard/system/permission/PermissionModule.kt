@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.permission
+package com.faltenreich.diaguard.system.permission
 
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.factoryOf

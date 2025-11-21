@@ -31,9 +31,9 @@ include(
     ":core:logging",
     ":core:datetime",
     ":core:network",
-    ":core:permission",
     ":core:persistence",
     ":core:quality",
     ":core:serialization",
+    ":core:system",
     ":core:view",
 )

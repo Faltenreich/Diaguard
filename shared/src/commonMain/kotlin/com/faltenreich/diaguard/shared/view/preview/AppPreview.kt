@@ -7,10 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.faltenreich.diaguard.view.theme.AppTheme
-import com.faltenreich.diaguard.appModule
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import org.koin.compose.KoinApplication
-import org.koin.compose.koinInject
 
 /**
  * Convenience Composable that supports theming and dependency injection
@@ -22,15 +19,13 @@ inline fun AppPreview(
     isDarkColorScheme: Boolean = false,
     crossinline content: @Composable PreviewScope.() -> Unit,
 ) {
-    KoinApplication(application = { modules(appModule() + previewModule()) }) {
-        AppTheme(isDarkColorScheme = isDarkColorScheme) {
-            with(koinInject<PreviewScope>()) {
-                val backgroundColor =
-                    if (showBackground) AppTheme.colors.scheme.background
-                    else Color.Transparent
-                Box(modifier = modifier.background(backgroundColor)) {
-                    content()
-                }
+    AppTheme(isDarkColorScheme = isDarkColorScheme) {
+        with(PreviewScope()) {
+            val backgroundColor =
+                if (showBackground) AppTheme.colors.scheme.background
+                else Color.Transparent
+            Box(modifier = modifier.background(backgroundColor)) {
+                content()
             }
         }
     }

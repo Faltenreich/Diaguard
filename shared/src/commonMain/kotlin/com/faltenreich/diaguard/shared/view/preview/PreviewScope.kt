@@ -1,7 +1,9 @@
 package com.faltenreich.diaguard.shared.view.preview
 
+import com.faltenreich.diaguard.datetime.DateProgression
+import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.DayOfWeek
-import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
+import com.faltenreich.diaguard.datetime.kotlinx.KotlinxDateTime
 import com.faltenreich.diaguard.entry.Entry
 import com.faltenreich.diaguard.food.Food
 import com.faltenreich.diaguard.food.eaten.FoodEaten
@@ -12,11 +14,22 @@ import com.faltenreich.diaguard.measurement.property.range.MeasurementValueRange
 import com.faltenreich.diaguard.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.tag.Tag
-import kotlin.toString
+import kotlin.time.Clock
 
-class PreviewScope(
-    dateTimeFactory: DateTimeFactory,
-) : DateTimeFactory by dateTimeFactory {
+class PreviewScope {
+
+    fun now() = KotlinxDateTime(millis = Clock.System.now().toEpochMilliseconds())
+
+    fun today() = now().date
+
+    fun week() = today().let { today ->
+        DateProgression(
+            start = today
+                .minus(1, DateUnit.WEEK)
+                .plus(1, DateUnit.DAY),
+            endInclusive = today,
+        )
+    }
 
     fun entry() = Entry.Local(
         id = 0L,

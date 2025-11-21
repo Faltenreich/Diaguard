@@ -7,7 +7,7 @@ import com.faltenreich.diaguard.preference.overview.OverviewPreferenceListViewMo
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.preference.store.PreferenceStore
 import com.faltenreich.diaguard.preference.store.SetPreferenceUseCase
-import com.faltenreich.diaguard.shared.config.GetAppVersionUseCase
+import com.faltenreich.diaguard.preference.version.GetAppVersionUseCase
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.module.dsl.viewModelOf

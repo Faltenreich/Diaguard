@@ -1,5 +1,6 @@
-package com.faltenreich.diaguard.shared.config
+package com.faltenreich.diaguard.preference.version
 
+import com.faltenreich.diaguard.shared.config.BuildConfig
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 

@@ -10,7 +10,7 @@ import com.faltenreich.diaguard.preference.screen.StartScreenPreference
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.preference.store.SetPreferenceUseCase
 import com.faltenreich.diaguard.architecture.ViewModel
-import com.faltenreich.diaguard.shared.config.GetAppVersionUseCase
+import com.faltenreich.diaguard.preference.version.GetAppVersionUseCase
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 

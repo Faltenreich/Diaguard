@@ -24,8 +24,8 @@ rootProject.name = "diaguard"
 include(
     ":androidApp",
     ":shared",
-    ":config:detekt",
     ":core:architecture",
+    ":core:config:detekt",
     ":core:injection",
     ":core:localization",
     ":core:logging",

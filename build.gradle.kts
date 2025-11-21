@@ -26,7 +26,7 @@ allprojects {
 
     detekt {
         buildUponDefaultConfig = true
-        config.setFrom("$rootDir/config/detekt/detekt.yml")
+        config.setFrom("$rootDir/core/config/detekt/detekt.yml")
     }
 
     kover {
@@ -54,7 +54,7 @@ allprojects {
 
     dependencies {
         detektPlugins(rootProject.libs.detekt.compose)
-        detektPlugins(project(":config:detekt"))
+        detektPlugins(project(":core:config:detekt"))
     }
 }
 

@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.preference.food
 
-import com.faltenreich.diaguard.navigation.system.OpenUrlUseCase
+import com.faltenreich.diaguard.system.web.OpenUrlUseCase
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.preference.store.SetPreferenceUseCase
 import com.faltenreich.diaguard.architecture.ViewModel

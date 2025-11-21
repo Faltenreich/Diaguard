@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.preference.license
 
 import com.faltenreich.diaguard.architecture.ViewModel
-import com.faltenreich.diaguard.network.UrlOpener
+import com.faltenreich.diaguard.system.web.UrlOpener
 import kotlinx.coroutines.flow.emptyFlow
 
 class LicenseListViewModel(

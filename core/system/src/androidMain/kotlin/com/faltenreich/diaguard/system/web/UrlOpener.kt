@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.network
+package com.faltenreich.diaguard.system.web
 
 import android.content.Context
 import android.content.Intent

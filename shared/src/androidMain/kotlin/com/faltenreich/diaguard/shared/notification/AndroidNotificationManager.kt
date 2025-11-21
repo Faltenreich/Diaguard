@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.shared.notification
 
+import android.app.Activity
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -9,12 +10,14 @@ import android.content.Intent
 import android.media.RingtoneManager
 import android.os.Build
 import androidx.core.app.NotificationCompat
-import com.faltenreich.diaguard.MainActivity
 import com.faltenreich.diaguard.R
 import com.faltenreich.diaguard.logging.Logger
 import kotlin.time.Duration.Companion.seconds
 
-class AndroidNotificationManager(private val context: Context) {
+class AndroidNotificationManager(
+    private val context: Context,
+    private val activity: Activity,
+) {
 
     private val systemService = context.getSystemService(Context.NOTIFICATION_SERVICE)
         as NotificationManager
@@ -40,7 +43,7 @@ class AndroidNotificationManager(private val context: Context) {
             .setVibrate(longArrayOf(1.seconds.inWholeMilliseconds))
 
         // Open entry form when clicked on
-        val intent = Intent(context, MainActivity::class.java).apply {
+        val intent = Intent(context, activity::class.java).apply {
             action = Shortcut.CREATE_ENTRY.action
         }
         val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

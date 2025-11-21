@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.architecture
+package com.faltenreich.diaguard.architecture.either
 
 sealed interface Result<out Data, out Error> {
 

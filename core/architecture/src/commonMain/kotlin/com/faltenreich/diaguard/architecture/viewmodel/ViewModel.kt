@@ -1,8 +1,9 @@
-package com.faltenreich.diaguard.architecture
+package com.faltenreich.diaguard.architecture.viewmodel
 
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.faltenreich.diaguard.architecture.flow.collectAsStateWithLifecycle
 import com.faltenreich.diaguard.injection.inject
 import com.faltenreich.diaguard.logging.Logger
 import kotlinx.coroutines.CoroutineDispatcher

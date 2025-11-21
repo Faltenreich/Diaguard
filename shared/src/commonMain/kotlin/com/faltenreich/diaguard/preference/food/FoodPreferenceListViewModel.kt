@@ -3,7 +3,7 @@ package com.faltenreich.diaguard.preference.food
 import com.faltenreich.diaguard.system.web.OpenUrlUseCase
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.preference.store.SetPreferenceUseCase
-import com.faltenreich.diaguard.architecture.ViewModel
+import com.faltenreich.diaguard.architecture.viewmodel.ViewModel
 import kotlinx.coroutines.flow.combine
 
 class FoodPreferenceListViewModel(

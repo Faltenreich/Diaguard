@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.measurement.unit.list
 
-import com.faltenreich.diaguard.architecture.ViewModel
+import com.faltenreich.diaguard.architecture.viewmodel.ViewModel
 import kotlinx.coroutines.flow.emptyFlow
 
 class MeasurementUnitSelectionViewModel : ViewModel<Unit, Unit, MeasurementUnitSelectionEvent>() {

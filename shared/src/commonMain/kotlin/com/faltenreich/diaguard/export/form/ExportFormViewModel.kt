@@ -8,7 +8,7 @@ import com.faltenreich.diaguard.export.ExportType
 import com.faltenreich.diaguard.export.ExportUseCase
 import com.faltenreich.diaguard.export.pdf.PdfLayout
 import com.faltenreich.diaguard.measurement.category.usecase.GetActiveMeasurementCategoriesUseCase
-import com.faltenreich.diaguard.architecture.ViewModel
+import com.faltenreich.diaguard.architecture.viewmodel.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine

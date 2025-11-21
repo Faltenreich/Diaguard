@@ -25,7 +25,7 @@ include(
     ":androidApp",
     ":shared",
     ":core:architecture",
-    ":core:quality",
+    ":core:config",
     ":core:injection",
     ":core:localization",
     ":core:logging",
@@ -33,6 +33,7 @@ include(
     ":core:network",
     ":core:permission",
     ":core:persistence",
+    ":core:quality",
     ":core:serialization",
     ":core:view",
 )

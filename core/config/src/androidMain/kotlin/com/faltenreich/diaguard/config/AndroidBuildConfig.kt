@@ -1,10 +1,10 @@
-package com.faltenreich.diaguard.shared.config
+package com.faltenreich.diaguard.config
 
 import android.content.Context
 import android.content.pm.PackageInfo
 import androidx.core.content.pm.PackageInfoCompat
 
-class AndroidBuildConfig(private val context: Context) : BuildConfig {
+internal class AndroidBuildConfig(private val context: Context) : BuildConfig {
 
     private fun getPackageInfo(): PackageInfo {
         @Suppress("DEPRECATION")

@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.shared.config
+package com.faltenreich.diaguard.config
 
 interface BuildConfig {
 

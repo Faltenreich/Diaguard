@@ -1,5 +1,7 @@
 package com.faltenreich.diaguard.shared.config
 
+import com.faltenreich.diaguard.config.BuildConfig
+
 class FakeBuildConfig : BuildConfig {
 
     override fun getPackageName(): String = "com.faltenreich.diaguard"

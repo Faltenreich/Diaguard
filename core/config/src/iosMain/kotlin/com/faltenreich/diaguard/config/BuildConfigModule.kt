@@ -1,8 +1,8 @@
-package com.faltenreich.diaguard.shared.config
+package com.faltenreich.diaguard.config
 
 import org.koin.core.module.Module
 import org.koin.dsl.module
 
-actual fun configModule(): Module = module {
+internal actual fun buildConfigModule(): Module = module {
     factory<BuildConfig> { TODO("Not yet implemented") }
 }

@@ -23,6 +23,7 @@ kotlin {
         commonMain {
             dependencies {
                 implementation(project(":core:architecture"))
+                implementation(project(":core:config"))
                 implementation(project(":core:datetime"))
                 implementation(project(":core:injection"))
                 implementation(project(":core:localization"))

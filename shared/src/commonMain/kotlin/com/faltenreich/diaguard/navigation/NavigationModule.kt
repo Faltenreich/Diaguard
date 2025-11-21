@@ -5,7 +5,6 @@ import com.faltenreich.diaguard.navigation.screen.GetBottomAppBarStyleUseCase
 import com.faltenreich.diaguard.navigation.screen.GetTopAppBarStyleUseCase
 import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
 import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
-import com.faltenreich.diaguard.navigation.system.OpenNotificationSettingsUseCase
 import com.faltenreich.diaguard.navigation.system.OpenUrlUseCase
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.singleOf
@@ -21,7 +20,6 @@ fun navigationModule() = module {
     factoryOf(::PushScreenUseCase)
     factoryOf(::PopScreenUseCase)
 
-    factoryOf(::OpenNotificationSettingsUseCase)
     factoryOf(::OpenUrlUseCase)
     factoryOf(::ShowSnackbarUseCase)
 }

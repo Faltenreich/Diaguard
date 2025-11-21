@@ -21,7 +21,7 @@ import com.faltenreich.diaguard.shared.notification.AlarmManager
 import com.faltenreich.diaguard.shared.notification.FakeAlarmManager
 import com.faltenreich.diaguard.serialization.Serialization
 import com.faltenreich.diaguard.shared.system.FakeSystemSettings
-import com.faltenreich.diaguard.shared.system.SystemSettings
+import com.faltenreich.diaguard.system.settings.SystemSettings
 import com.faltenreich.diaguard.view.FakeWindowController
 import com.faltenreich.diaguard.view.window.WindowController
 import com.faltenreich.diaguard.startup.legacy.FakeLegacyDao

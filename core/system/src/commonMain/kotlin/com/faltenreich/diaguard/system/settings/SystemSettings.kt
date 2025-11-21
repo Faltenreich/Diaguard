@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.shared.system
+package com.faltenreich.diaguard.system.settings
 
 interface SystemSettings {
 

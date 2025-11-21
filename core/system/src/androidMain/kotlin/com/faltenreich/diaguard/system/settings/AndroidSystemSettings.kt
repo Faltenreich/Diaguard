@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.shared.system
+package com.faltenreich.diaguard.system.settings
 
 import android.content.Context
 import android.content.Intent
@@ -6,7 +6,7 @@ import android.net.Uri
 import android.os.Build
 import android.provider.Settings
 
-class AndroidSystemSettings(private val context: Context) : SystemSettings {
+internal class AndroidSystemSettings(private val context: Context) : SystemSettings {
 
     private fun getIntentForAppSettings(): Intent {
         return Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)

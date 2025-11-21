@@ -1,6 +1,4 @@
-package com.faltenreich.diaguard.navigation.system
-
-import com.faltenreich.diaguard.shared.system.SystemSettings
+package com.faltenreich.diaguard.system.settings
 
 class OpenNotificationSettingsUseCase(private val systemSettings: SystemSettings) {
 

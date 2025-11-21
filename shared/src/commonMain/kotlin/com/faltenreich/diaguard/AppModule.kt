@@ -21,11 +21,10 @@ import com.faltenreich.diaguard.persistence.keyvalue.keyValueStoreModule
 import com.faltenreich.diaguard.logging.loggerModule
 import com.faltenreich.diaguard.network.networkModule
 import com.faltenreich.diaguard.shared.notification.notificationModule
-import com.faltenreich.diaguard.system.permission.permissionModule
-import com.faltenreich.diaguard.shared.system.systemSettingsModule
 import com.faltenreich.diaguard.startup.HasDataUseCase
 import com.faltenreich.diaguard.startup.startupModule
 import com.faltenreich.diaguard.statistic.statisticModule
+import com.faltenreich.diaguard.system.systemModule
 import com.faltenreich.diaguard.tag.tagModule
 import com.faltenreich.diaguard.timeline.timelineModule
 import com.faltenreich.diaguard.view.window.windowModule
@@ -49,9 +48,8 @@ fun appModule() = module {
         loggerModule(),
         networkModule(),
         notificationModule(),
-        permissionModule(),
         serializationModule(),
-        systemSettingsModule(),
+        systemModule(),
         windowModule(),
         // Feature
         backupModule(),

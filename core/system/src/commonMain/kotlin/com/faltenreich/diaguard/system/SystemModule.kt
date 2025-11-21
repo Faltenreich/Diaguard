@@ -3,7 +3,6 @@ package com.faltenreich.diaguard.system
 import com.faltenreich.diaguard.system.permission.HasPermissionUseCase
 import com.faltenreich.diaguard.system.permission.RequestPermissionUseCase
 import com.faltenreich.diaguard.system.settings.OpenNotificationSettingsUseCase
-import com.faltenreich.diaguard.system.web.UrlOpener
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.module
@@ -15,8 +14,6 @@ fun systemModule() = module {
     factoryOf(::RequestPermissionUseCase)
 
     factoryOf(::OpenNotificationSettingsUseCase)
-
-    factoryOf(::UrlOpener)
 }
 
 internal expect fun systemPlatformModule(): Module

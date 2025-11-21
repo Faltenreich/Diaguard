@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.system.web
 
-expect class UrlOpener constructor() {
+interface UrlOpener {
 
     fun open(url: String)
 }

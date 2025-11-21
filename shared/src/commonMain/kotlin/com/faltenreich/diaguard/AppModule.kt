@@ -1,6 +1,8 @@
 package com.faltenreich.diaguard
 
+import com.faltenreich.diaguard.architecture.coroutineModule
 import com.faltenreich.diaguard.backup.backupModule
+import com.faltenreich.diaguard.config.configModule
 import com.faltenreich.diaguard.dashboard.dashboardModule
 import com.faltenreich.diaguard.datetime.dateTimeModule
 import com.faltenreich.diaguard.entry.entryModule
@@ -8,19 +10,16 @@ import com.faltenreich.diaguard.export.exportModule
 import com.faltenreich.diaguard.food.foodModule
 import com.faltenreich.diaguard.localization.localizationModule
 import com.faltenreich.diaguard.log.logModule
+import com.faltenreich.diaguard.logging.loggerModule
 import com.faltenreich.diaguard.main.mainModule
 import com.faltenreich.diaguard.measurement.measurementModule
 import com.faltenreich.diaguard.navigation.navigationModule
-import com.faltenreich.diaguard.preference.preferenceModule
-import com.faltenreich.diaguard.serialization.serializationModule
-import com.faltenreich.diaguard.architecture.coroutineModule
-import com.faltenreich.diaguard.config.configModule
-import com.faltenreich.diaguard.shared.database.databaseModule
+import com.faltenreich.diaguard.network.networkModule
 import com.faltenreich.diaguard.persistence.file.fileModule
 import com.faltenreich.diaguard.persistence.keyvalue.keyValueStoreModule
-import com.faltenreich.diaguard.logging.loggerModule
-import com.faltenreich.diaguard.network.networkModule
-import com.faltenreich.diaguard.shared.notification.notificationModule
+import com.faltenreich.diaguard.preference.preferenceModule
+import com.faltenreich.diaguard.serialization.serializationModule
+import com.faltenreich.diaguard.shared.database.databaseModule
 import com.faltenreich.diaguard.startup.HasDataUseCase
 import com.faltenreich.diaguard.startup.startupModule
 import com.faltenreich.diaguard.statistic.statisticModule
@@ -47,7 +46,6 @@ fun appModule() = module {
         localizationModule(),
         loggerModule(),
         networkModule(),
-        notificationModule(),
         serializationModule(),
         systemModule(),
         windowModule(),

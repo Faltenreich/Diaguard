@@ -7,6 +7,7 @@ kotlin {
         commonMain {
             dependencies {
                 implementation(project(":core:injection"))
+                implementation(project(":core:logging"))
             }
         }
     }

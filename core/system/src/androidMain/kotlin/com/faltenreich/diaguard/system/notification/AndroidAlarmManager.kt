@@ -1,5 +1,6 @@
-package com.faltenreich.diaguard.shared.notification
+package com.faltenreich.diaguard.system.notification
 
+import android.app.AlarmManager.RTC_WAKEUP
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
@@ -25,7 +26,7 @@ class AndroidAlarmManager(private val context: Context) : AlarmManager {
 
     override fun setAlarm(id: Long, delay: Duration) {
         val pendingIntent = getPendingIntent(id) ?: return
-        val type = android.app.AlarmManager.RTC_WAKEUP
+        val type = RTC_WAKEUP
         val triggerAtMillis = System.currentTimeMillis() + delay.inWholeMilliseconds
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

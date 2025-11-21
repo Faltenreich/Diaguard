@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.shared.notification
+package com.faltenreich.diaguard.system.notification
 
 import android.content.BroadcastReceiver
 import android.content.Context

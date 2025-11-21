@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.shared.notification
 
+import com.faltenreich.diaguard.system.notification.AlarmManager
 import kotlin.time.Duration
 
 class FakeAlarmManager : AlarmManager {

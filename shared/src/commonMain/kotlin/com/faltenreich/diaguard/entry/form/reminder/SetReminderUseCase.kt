@@ -4,7 +4,7 @@ import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.persistence.keyvalue.KeyValueStore
 import com.faltenreich.diaguard.persistence.keyvalue.write
 import com.faltenreich.diaguard.localization.Localization
-import com.faltenreich.diaguard.shared.notification.AlarmManager
+import com.faltenreich.diaguard.system.notification.AlarmManager
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.preference_alarm_start
 import kotlin.time.Duration

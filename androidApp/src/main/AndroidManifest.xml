@@ -27,7 +27,7 @@
                 android:resource="@xml/shortcuts" />
         </activity>
 
-        <receiver android:name=".shared.notification.AlarmBroadcastReceiver" />
+        <receiver android:name=".system.notification.AlarmBroadcastReceiver" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

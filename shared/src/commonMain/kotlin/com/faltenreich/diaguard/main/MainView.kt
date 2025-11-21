@@ -47,13 +47,13 @@ import com.faltenreich.diaguard.preference.color.isDark
 import com.faltenreich.diaguard.preference.food.FoodPreferenceListScreen
 import com.faltenreich.diaguard.preference.license.LicenseListScreen
 import com.faltenreich.diaguard.preference.overview.OverviewPreferenceListScreen
-import com.faltenreich.diaguard.shared.notification.Shortcut
 import com.faltenreich.diaguard.statistic.StatisticScreen
+import com.faltenreich.diaguard.system.notification.Shortcut
 import com.faltenreich.diaguard.tag.detail.TagDetailScreen
 import com.faltenreich.diaguard.tag.list.TagListScreen
 import com.faltenreich.diaguard.timeline.TimelineScreen
-import diaguard.shared.generated.resources.Res
 import diaguard.core.view.generated.resources.ic_arrow_back
+import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.navigate_back
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -115,7 +115,9 @@ fun MainView(
                         if (navController.previousBackStackEntry != null) {
                             IconButton(onClick = { viewModel.dispatchIntent(MainIntent.PopScreen) }) {
                                 Icon(
-                                    painter = painterResource(diaguard.core.view.generated.resources.Res.drawable.ic_arrow_back),
+                                    painter = painterResource(
+                                        diaguard.core.view.generated.resources.Res.drawable.ic_arrow_back,
+                                    ),
                                     contentDescription = stringResource(Res.string.navigate_back),
                                 )
                             }

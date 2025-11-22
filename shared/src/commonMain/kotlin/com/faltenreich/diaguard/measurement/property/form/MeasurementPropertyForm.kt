@@ -23,10 +23,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontStyle
-import com.faltenreich.diaguard.view.theme.AppTheme
+import com.faltenreich.diaguard.data.measurement.property.MeasurementAggregationStyle
+import com.faltenreich.diaguard.data.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.measurement.property.aggregationstyle.MeasurementAggregationStyleForm
 import com.faltenreich.diaguard.measurement.property.range.MeasurementValueRangeForm
-import com.faltenreich.diaguard.data.measurement.unit.MeasurementUnit
+import com.faltenreich.diaguard.shared.view.preview.AppPreview
 import com.faltenreich.diaguard.view.DeleteDialog
 import com.faltenreich.diaguard.view.Divider
 import com.faltenreich.diaguard.view.FormRow
@@ -34,10 +35,12 @@ import com.faltenreich.diaguard.view.NoticeBar
 import com.faltenreich.diaguard.view.NoticeBarStyle
 import com.faltenreich.diaguard.view.TextDivider
 import com.faltenreich.diaguard.view.TextInput
-import com.faltenreich.diaguard.shared.view.preview.AppPreview
+import com.faltenreich.diaguard.view.theme.AppTheme
 import diaguard.core.view.generated.resources.ic_check
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.aggregation_style
+import diaguard.shared.generated.resources.aggregation_style_average
+import diaguard.shared.generated.resources.aggregation_style_cumulative
 import diaguard.shared.generated.resources.aggregation_style_description
 import diaguard.shared.generated.resources.delete_error_pre_defined
 import diaguard.shared.generated.resources.delete_title
@@ -113,7 +116,14 @@ fun MeasurementPropertyForm(
                         style = AppTheme.typography.bodySmall,
                     )
                 }
-                Text(stringResource(state.property.aggregationStyle.labelResource))
+                Text(
+                    stringResource(
+                        when (state.property.aggregationStyle) {
+                            MeasurementAggregationStyle.CUMULATIVE -> Res.string.aggregation_style_cumulative
+                            MeasurementAggregationStyle.AVERAGE -> Res.string.aggregation_style_average
+                        }
+                    )
+                )
             }
 
             Divider()

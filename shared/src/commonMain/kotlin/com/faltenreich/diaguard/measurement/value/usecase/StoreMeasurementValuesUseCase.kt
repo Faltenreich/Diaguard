@@ -3,7 +3,7 @@ package com.faltenreich.diaguard.measurement.value.usecase
 import com.faltenreich.diaguard.data.entry.Entry
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementCategoryInputState
 import com.faltenreich.diaguard.data.measurement.value.MeasurementValue
-import com.faltenreich.diaguard.data.measurement.value.MeasurementValueMapper
+import com.faltenreich.diaguard.measurement.value.MeasurementValueMapper
 import com.faltenreich.diaguard.data.measurement.value.MeasurementValueRepository
 
 class StoreMeasurementValuesUseCase(

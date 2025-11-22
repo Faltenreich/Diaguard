@@ -11,8 +11,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
 import com.faltenreich.diaguard.data.measurement.property.MeasurementAggregationStyle
-import com.faltenreich.diaguard.view.theme.AppTheme
 import com.faltenreich.diaguard.shared.view.preview.AppPreview
+import com.faltenreich.diaguard.view.theme.AppTheme
+import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.aggregation_style_average
+import diaguard.shared.generated.resources.aggregation_style_average_description
+import diaguard.shared.generated.resources.aggregation_style_cumulative
+import diaguard.shared.generated.resources.aggregation_style_cumulative_description
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -37,9 +42,21 @@ fun MeasurementAggregationStyleListItem(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Column(modifier = Modifier.weight(1f)) {
-            Text(stringResource(aggregationStyle.labelResource))
             Text(
-                text = stringResource(aggregationStyle.descriptionResource),
+                stringResource(
+                    when (aggregationStyle) {
+                        MeasurementAggregationStyle.CUMULATIVE -> Res.string.aggregation_style_cumulative
+                        MeasurementAggregationStyle.AVERAGE -> Res.string.aggregation_style_average
+                    }
+                )
+            )
+            Text(
+                text = stringResource(
+                    when (aggregationStyle) {
+                        MeasurementAggregationStyle.CUMULATIVE -> Res.string.aggregation_style_cumulative_description
+                        MeasurementAggregationStyle.AVERAGE -> Res.string.aggregation_style_average_description
+                    }
+                ),
                 style = AppTheme.typography.bodySmall,
             )
         }

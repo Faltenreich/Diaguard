@@ -26,7 +26,7 @@ import com.faltenreich.diaguard.measurement.unit.usecase.GetMeasurementUnitSugge
 import com.faltenreich.diaguard.measurement.unit.usecase.GetMeasurementUnitsUseCase
 import com.faltenreich.diaguard.measurement.unit.usecase.StoreMeasurementUnitUseCase
 import com.faltenreich.diaguard.measurement.unit.usecase.ValidateMeasurementUnitUseCase
-import com.faltenreich.diaguard.data.measurement.value.MeasurementValueMapper
+import com.faltenreich.diaguard.measurement.value.MeasurementValueMapper
 import com.faltenreich.diaguard.data.measurement.value.MeasurementValueRepository
 import com.faltenreich.diaguard.measurement.value.usecase.GetMeasurementValueTintUseCase
 import com.faltenreich.diaguard.measurement.value.usecase.StoreMeasurementValuesUseCase

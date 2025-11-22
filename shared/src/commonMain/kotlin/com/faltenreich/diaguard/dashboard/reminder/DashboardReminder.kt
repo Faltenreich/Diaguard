@@ -17,7 +17,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.view.theme.AppTheme
-import com.faltenreich.diaguard.view.ResourceIcon
+import com.faltenreich.diaguard.view.image.ResourceIcon
 import com.faltenreich.diaguard.data.preview.AppPreview
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.cancel

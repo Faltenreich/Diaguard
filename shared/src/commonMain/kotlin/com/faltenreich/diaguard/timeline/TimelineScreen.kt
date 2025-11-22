@@ -7,8 +7,8 @@ import com.faltenreich.diaguard.injection.viewModel
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarItem
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.screen.Screen
-import com.faltenreich.diaguard.view.TooltipFloatingActionButton
-import com.faltenreich.diaguard.view.rememberAnimatable
+import com.faltenreich.diaguard.view.button.TooltipFloatingActionButton
+import com.faltenreich.diaguard.view.animation.rememberAnimatable
 import diaguard.core.view.generated.resources.ic_add
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.date_picker_open

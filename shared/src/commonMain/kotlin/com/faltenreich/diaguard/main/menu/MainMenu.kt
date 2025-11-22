@@ -13,7 +13,7 @@ import com.faltenreich.diaguard.log.LogScreen
 import com.faltenreich.diaguard.navigation.screen.Screen
 import com.faltenreich.diaguard.preference.overview.OverviewPreferenceListScreen
 import com.faltenreich.diaguard.preference.screen.StartScreen
-import com.faltenreich.diaguard.view.Divider
+import com.faltenreich.diaguard.view.divider.Divider
 import com.faltenreich.diaguard.data.preview.AppPreview
 import com.faltenreich.diaguard.statistic.StatisticScreen
 import com.faltenreich.diaguard.timeline.TimelineScreen

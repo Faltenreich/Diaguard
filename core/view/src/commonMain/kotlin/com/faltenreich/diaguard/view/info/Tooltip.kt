@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.view
+package com.faltenreich.diaguard.view.info
 
 import androidx.compose.material3.PlainTooltip
 import androidx.compose.material3.Text

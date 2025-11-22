@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.view
+package com.faltenreich.diaguard.view.input
 
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text

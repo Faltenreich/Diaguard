@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.view
+package com.faltenreich.diaguard.view.canvas
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Path

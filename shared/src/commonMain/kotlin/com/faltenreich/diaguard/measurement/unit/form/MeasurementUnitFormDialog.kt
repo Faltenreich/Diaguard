@@ -12,7 +12,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.data.measurement.unit.MeasurementUnit
-import com.faltenreich.diaguard.view.TextInput
+import com.faltenreich.diaguard.view.input.TextInput
 import com.faltenreich.diaguard.data.preview.AppPreview
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.abbreviation

@@ -9,10 +9,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalFocusManager
-import com.faltenreich.diaguard.view.ClearButton
-import com.faltenreich.diaguard.view.SearchField
+import com.faltenreich.diaguard.view.button.ClearButton
+import com.faltenreich.diaguard.view.input.SearchField
 import com.faltenreich.diaguard.data.preview.AppPreview
-import com.faltenreich.diaguard.view.rememberFocusRequester
+import com.faltenreich.diaguard.view.layout.rememberFocusRequester
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.entry_search_prompt
 import diaguard.shared.generated.resources.ic_search

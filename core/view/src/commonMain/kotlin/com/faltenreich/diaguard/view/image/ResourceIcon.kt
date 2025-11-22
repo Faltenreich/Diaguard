@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.view
+package com.faltenreich.diaguard.view.image
 
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon

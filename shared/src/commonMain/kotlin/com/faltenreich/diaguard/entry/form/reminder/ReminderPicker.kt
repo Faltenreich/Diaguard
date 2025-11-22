@@ -27,7 +27,7 @@ import androidx.compose.ui.text.withStyle
 import com.faltenreich.diaguard.view.theme.AppTheme
 import com.faltenreich.diaguard.injection.inject
 import com.faltenreich.diaguard.localization.NumberFormatter
-import com.faltenreich.diaguard.view.ResourceIcon
+import com.faltenreich.diaguard.view.image.ResourceIcon
 import com.faltenreich.diaguard.data.preview.AppPreview
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.hours_abbreviation_short

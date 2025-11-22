@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.view
+package com.faltenreich.diaguard.view.divider
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth

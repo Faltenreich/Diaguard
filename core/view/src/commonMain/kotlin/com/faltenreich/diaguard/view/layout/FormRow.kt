@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.view
+package com.faltenreich.diaguard.view.layout
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -9,6 +9,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.faltenreich.diaguard.view.image.ResourceIcon
 import com.faltenreich.diaguard.view.theme.AppTheme
 import diaguard.core.view.generated.resources.Res
 import diaguard.core.view.generated.resources.ic_note

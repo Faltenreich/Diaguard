@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.view
+package com.faltenreich.diaguard.view.overlay
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement

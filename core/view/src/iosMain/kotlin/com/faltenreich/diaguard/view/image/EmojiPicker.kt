@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.view.emoji
+package com.faltenreich.diaguard.view.image
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier

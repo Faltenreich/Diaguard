@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.view.emoji
+package com.faltenreich.diaguard.view.image
 
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.compose.foundation.layout.fillMaxSize

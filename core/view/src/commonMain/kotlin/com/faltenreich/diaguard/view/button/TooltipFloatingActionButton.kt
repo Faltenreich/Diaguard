@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.view
+package com.faltenreich.diaguard.view.button
 
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.material3.FloatingActionButton
@@ -13,6 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.painter.Painter
 import com.faltenreich.diaguard.view.theme.AppTheme
+import com.faltenreich.diaguard.view.info.Tooltip
 import diaguard.core.view.generated.resources.Res
 import diaguard.core.view.generated.resources.ic_add
 import kotlinx.coroutines.launch

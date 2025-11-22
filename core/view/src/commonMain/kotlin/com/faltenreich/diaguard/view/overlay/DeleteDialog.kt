@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.view
+package com.faltenreich.diaguard.view.overlay
 
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text

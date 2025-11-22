@@ -14,7 +14,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
-import com.faltenreich.diaguard.view.TextInput
+import com.faltenreich.diaguard.view.input.TextInput
 import com.faltenreich.diaguard.data.preview.AppPreview
 import com.faltenreich.diaguard.data.tag.Tag
 import diaguard.shared.generated.resources.Res

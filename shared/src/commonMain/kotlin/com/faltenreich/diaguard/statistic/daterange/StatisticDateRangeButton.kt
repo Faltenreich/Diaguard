@@ -10,9 +10,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
-import com.faltenreich.diaguard.view.DropdownTextMenu
-import com.faltenreich.diaguard.view.FormRow
-import com.faltenreich.diaguard.view.ResourceIcon
+import com.faltenreich.diaguard.view.overlay.DropdownTextMenu
+import com.faltenreich.diaguard.view.layout.FormRow
+import com.faltenreich.diaguard.view.image.ResourceIcon
 import com.faltenreich.diaguard.data.preview.AppPreview
 import com.faltenreich.diaguard.statistic.StatisticIntent
 import diaguard.shared.generated.resources.Res

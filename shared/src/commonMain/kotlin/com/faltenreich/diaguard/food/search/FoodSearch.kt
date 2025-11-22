@@ -16,7 +16,7 @@ import com.faltenreich.diaguard.food.search.list.FoodList
 import com.faltenreich.diaguard.food.search.list.FoodListEmpty
 import com.faltenreich.diaguard.food.search.list.FoodListSkeleton
 import com.faltenreich.diaguard.view.lifecycle.LifecycleState
-import com.faltenreich.diaguard.view.PullToRefresh
+import com.faltenreich.diaguard.view.layout.PullToRefresh
 import com.faltenreich.diaguard.data.preview.AppPreview
 import com.faltenreich.diaguard.view.lifecycle.rememberLifecycleState
 import kotlinx.coroutines.flow.flowOf

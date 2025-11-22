@@ -6,8 +6,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.faltenreich.diaguard.view.Divider
-import com.faltenreich.diaguard.view.TextDivider
+import com.faltenreich.diaguard.view.divider.Divider
+import com.faltenreich.diaguard.view.divider.TextDivider
 import com.faltenreich.diaguard.data.preview.AppPreview
 import com.faltenreich.diaguard.statistic.average.StatisticAverage
 import com.faltenreich.diaguard.statistic.category.StatisticCategory

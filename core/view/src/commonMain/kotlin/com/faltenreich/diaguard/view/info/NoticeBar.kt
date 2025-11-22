@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.view
+package com.faltenreich.diaguard.view.info
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInVertically

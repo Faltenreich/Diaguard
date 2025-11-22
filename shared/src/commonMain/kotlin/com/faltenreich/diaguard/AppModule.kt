@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard
 
-import com.faltenreich.diaguard.architecture.coroutineModule
+import com.faltenreich.diaguard.architecture.architectureModule
 import com.faltenreich.diaguard.backup.backupModule
 import com.faltenreich.diaguard.config.configModule
 import com.faltenreich.diaguard.dashboard.dashboardModule
@@ -11,7 +11,7 @@ import com.faltenreich.diaguard.export.exportModule
 import com.faltenreich.diaguard.food.foodModule
 import com.faltenreich.diaguard.localization.localizationModule
 import com.faltenreich.diaguard.log.logModule
-import com.faltenreich.diaguard.logging.loggerModule
+import com.faltenreich.diaguard.logging.loggingModule
 import com.faltenreich.diaguard.main.mainModule
 import com.faltenreich.diaguard.measurement.measurementModule
 import com.faltenreich.diaguard.navigation.navigationModule
@@ -24,7 +24,7 @@ import com.faltenreich.diaguard.statistic.statisticModule
 import com.faltenreich.diaguard.system.systemModule
 import com.faltenreich.diaguard.tag.tagModule
 import com.faltenreich.diaguard.timeline.timelineModule
-import com.faltenreich.diaguard.view.window.windowModule
+import com.faltenreich.diaguard.view.viewModule
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
@@ -39,16 +39,16 @@ fun appModule() = module {
 
 private fun coreModule() = module {
     includes(
-        coroutineModule(),
+        architectureModule(),
         configModule(),
         dateTimeModule(),
         localizationModule(),
-        loggerModule(),
+        loggingModule(),
         networkModule(),
         persistenceModule(inMemory = false),
         serializationModule(),
         systemModule(),
-        windowModule(),
+        viewModule(),
     )
 }
 

@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.shared.database
+package com.faltenreich.diaguard.data
 
 import com.faltenreich.diaguard.data.entry.EntryDao
 import com.faltenreich.diaguard.data.entry.EntrySqlDelightDao
@@ -30,20 +30,11 @@ import com.faltenreich.diaguard.data.measurement.value.MeasurementValueSqlDeligh
 import com.faltenreich.diaguard.data.tag.TagDao
 import com.faltenreich.diaguard.data.tag.TagSqlDelightDao
 import com.faltenreich.diaguard.data.tag.TagSqlDelightMapper
-import com.faltenreich.diaguard.persistence.sqldelight.SqlDelightDatabase
-import com.faltenreich.diaguard.persistence.sqldelight.sqlDelightModule
-import com.faltenreich.diaguard.persistence.sqlite.sqliteModule
 import org.koin.core.module.dsl.factoryOf
-import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
-fun databaseModule() = module {
-    includes(sqliteModule())
-    includes(sqlDelightModule(inMemory = false))
-
-    singleOf(::SqlDelightDatabase)
-
+fun dataModule() = module {
     factoryOf(::EntrySqlDelightMapper)
     factoryOf(::EntrySqlDelightDao) bind EntryDao::class
 

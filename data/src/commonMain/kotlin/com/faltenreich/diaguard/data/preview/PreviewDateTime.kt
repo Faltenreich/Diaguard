@@ -7,6 +7,7 @@ import com.faltenreich.diaguard.datetime.TimeUnit
 import com.faltenreich.diaguard.serialization.ObjectInputStream
 import com.faltenreich.diaguard.serialization.ObjectOutputStream
 import kotlin.time.Duration
+import kotlin.time.Duration.Companion.days
 
 class PreviewDateTime(
     override val date: Date = PreviewDate(),
@@ -14,16 +15,16 @@ class PreviewDateTime(
 ) : DateTime {
 
     override val millisSince1970: Long
-        get() = TODO("Not yet implemented")
+        get() = 1
     override val epochMilliseconds: Long
-        get() = TODO("Not yet implemented")
+        get() = 1
     override val isoString: String
-        get() = TODO("Not yet implemented")
+        get() = toString()
 
     override fun until(
         other: DateTime,
         unit: TimeUnit
-    ): Duration = TODO("Not yet implemented")
+    ): Duration = 1.days
 
     override fun copy(
         year: Int,

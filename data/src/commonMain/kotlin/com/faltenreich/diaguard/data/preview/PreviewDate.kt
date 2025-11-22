@@ -17,23 +17,23 @@ class PreviewDate(
     override val dayOfWeek: DayOfWeek
         get() = DayOfWeek.MONDAY
 
-    override fun atTime(time: Time): DateTime = TODO("Not yet implemented")
+    override fun atTime(time: Time): DateTime = PreviewDateTime(date = this)
 
-    override fun atStartOfDay(): DateTime = TODO("Not yet implemented")
+    override fun atStartOfDay(): DateTime = PreviewDateTime(date = this)
 
-    override fun atEndOfDay(): DateTime = TODO("Not yet implemented")
+    override fun atEndOfDay(): DateTime = PreviewDateTime(date = this)
 
     override fun minus(
         value: Int,
         unit: DateUnit
-    ): Date = TODO("Not yet implemented")
+    ): Date = this
 
     override fun plus(
         value: Int,
         unit: DateUnit
-    ): Date = TODO("Not yet implemented")
+    ): Date = this
 
-    override fun daysBetween(date: Date): Int = TODO("Not yet implemented")
+    override fun daysBetween(date: Date): Int = 1
 
     override fun copy(
         year: Int,

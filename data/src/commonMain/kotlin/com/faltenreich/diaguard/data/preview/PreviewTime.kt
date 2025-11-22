@@ -14,7 +14,7 @@ class PreviewTime(
     override val nanosOfMilli: Int = 0,
 ) : Time {
 
-    override fun atDate(date: Date): DateTime = TODO("Not yet implemented")
+    override fun atDate(date: Date): DateTime = PreviewDateTime(date = date, time = this)
 
     override fun copy(
         hourOfDay: Int,

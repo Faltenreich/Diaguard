@@ -12,6 +12,7 @@ fun startupModule() = module {
         legacyModule(),
     )
 
+    factoryOf(::HasDataUseCase)
     factoryOf(::MigrateDataUseCase)
 
     viewModelOf(::StartupViewModel)

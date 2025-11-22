@@ -19,26 +19,28 @@ import com.faltenreich.diaguard.network.networkModule
 import com.faltenreich.diaguard.persistence.persistenceModule
 import com.faltenreich.diaguard.preference.preferenceModule
 import com.faltenreich.diaguard.serialization.serializationModule
-import com.faltenreich.diaguard.startup.HasDataUseCase
 import com.faltenreich.diaguard.startup.startupModule
 import com.faltenreich.diaguard.statistic.statisticModule
 import com.faltenreich.diaguard.system.systemModule
 import com.faltenreich.diaguard.tag.tagModule
 import com.faltenreich.diaguard.timeline.timelineModule
 import com.faltenreich.diaguard.view.window.windowModule
-import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
 fun appModule() = module {
-    factoryOf(::HasDataUseCase)
-    viewModelOf(::AppViewModel)
-
     includes(
-        // Core
+        coreModule(),
+        dataModule(),
+        featureModule(),
+    )
+    viewModelOf(::AppViewModel)
+}
+
+private fun coreModule() = module {
+    includes(
         coroutineModule(),
         configModule(),
-        dataModule(),
         dateTimeModule(),
         localizationModule(),
         loggerModule(),
@@ -47,7 +49,11 @@ fun appModule() = module {
         serializationModule(),
         systemModule(),
         windowModule(),
-        // Feature
+    )
+}
+
+private fun featureModule() = module {
+    includes(
         backupModule(),
         dashboardModule(),
         entryModule(),

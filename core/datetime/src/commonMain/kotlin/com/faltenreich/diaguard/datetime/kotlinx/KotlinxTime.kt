@@ -8,7 +8,7 @@ import com.faltenreich.diaguard.datetime.Time
 import com.faltenreich.diaguard.datetime.DateTimeConstants
 import kotlinx.datetime.LocalTime
 
-class KotlinxTime(private var delegate: LocalTime) : Time {
+internal class KotlinxTime(private var delegate: LocalTime) : Time {
 
     override val hourOfDay: Int get() = delegate.hour
     override val minuteOfHour: Int get() = delegate.minute

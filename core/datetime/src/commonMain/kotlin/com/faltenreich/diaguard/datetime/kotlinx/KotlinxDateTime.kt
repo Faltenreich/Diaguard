@@ -16,7 +16,7 @@ import kotlin.time.Clock
 import kotlin.time.Duration
 import kotlin.time.Instant
 
-class KotlinxDateTime(private var delegate: LocalDateTime) : DateTime {
+internal class KotlinxDateTime(private var delegate: LocalDateTime) : DateTime {
 
     override val date: Date get() = KotlinxDate(delegate.date)
     override val time: Time get() = KotlinxTime(delegate.time)

@@ -3,8 +3,8 @@ package com.faltenreich.diaguard.data.measurement.unit.suggestion
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
 import com.faltenreich.diaguard.data.SqlDelightDao
-import com.faltenreich.diaguard.data.sqldelight.MeasurementUnitSuggestionQueries
-import com.faltenreich.diaguard.data.sqldelight.SqlDelightApi
+import com.faltenreich.diaguard.data.MeasurementUnitSuggestionQueries
+import com.faltenreich.diaguard.data.SqlDelightApi
 import com.faltenreich.diaguard.datetime.DateTime
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow

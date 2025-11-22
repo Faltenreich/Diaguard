@@ -1,7 +1,6 @@
 package com.faltenreich.diaguard.data
 
 import app.cash.sqldelight.Transacter
-import com.faltenreich.diaguard.data.sqldelight.SqlDelightApi
 import com.faltenreich.diaguard.injection.inject
 import com.faltenreich.diaguard.persistence.sqldelight.SqlDelightDriverFactory
 

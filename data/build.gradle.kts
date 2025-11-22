@@ -36,7 +36,7 @@ sqldelight {
     databases {
         create("SqlDelightApi") {
             val appNamespace: String by rootProject.extra
-            packageName.set("$appNamespace.data.sqldelight")
+            packageName.set("$appNamespace.data")
         }
     }
 }

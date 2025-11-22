@@ -2,14 +2,12 @@ package com.faltenreich.diaguard.data
 
 import app.cash.sqldelight.Transacter
 import com.faltenreich.diaguard.injection.inject
-import com.faltenreich.diaguard.persistence.sqldelight.SqlDelightDriverFactory
 
 interface SqlDelightDao<SqlDelightQueries: Transacter> {
 
     val queries: SqlDelightQueries
-        get() = getQueries(
-            SqlDelightApi.Companion(inject<SqlDelightDriverFactory>().createDriver(SqlDelightApi.Schema))
-        )
+        // TODO: Remove hard coupled injection while keeping singleton SqlDelightApi
+        get() = getQueries(inject<SqlDelightDatabase>().api)
 
     fun getQueries(api: SqlDelightApi): SqlDelightQueries
 

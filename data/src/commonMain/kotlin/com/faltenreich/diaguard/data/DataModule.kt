@@ -44,10 +44,13 @@ import com.faltenreich.diaguard.data.tag.TagRepository
 import com.faltenreich.diaguard.data.tag.TagSqlDelightDao
 import com.faltenreich.diaguard.data.tag.TagSqlDelightMapper
 import org.koin.core.module.dsl.factoryOf
+import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
 fun dataModule() = module {
+    singleOf(::SqlDelightDatabase)
+
     factoryOf(::EntrySqlDelightMapper)
     factoryOf(::EntrySqlDelightDao) bind EntryDao::class
     factoryOf(::EntryRepository)

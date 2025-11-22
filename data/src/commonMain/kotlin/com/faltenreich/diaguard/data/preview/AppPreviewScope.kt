@@ -13,12 +13,10 @@ import com.faltenreich.diaguard.data.tag.Tag
 import com.faltenreich.diaguard.datetime.DateProgression
 import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.DayOfWeek
-import com.faltenreich.diaguard.datetime.kotlinx.KotlinxDateTime
-import kotlin.time.Clock
 
 class AppPreviewScope {
 
-    fun now() = KotlinxDateTime(millis = Clock.System.now().toEpochMilliseconds())
+    fun now() = PreviewDateTime()
 
     fun today() = now().date
 

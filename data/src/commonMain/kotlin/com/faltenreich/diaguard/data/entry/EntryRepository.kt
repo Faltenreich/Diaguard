@@ -5,7 +5,7 @@ import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.view.paging.PagingPage
 import kotlinx.coroutines.flow.Flow
 
-class EntryRepository(
+class EntryRepository internal constructor(
     private val dao: EntryDao,
     private val dateTimeFactory: DateTimeFactory,
 ) {
@@ -49,10 +49,6 @@ class EntryRepository(
 
     fun getAll(): Flow<List<Entry.Local>> {
         return dao.getAll()
-    }
-
-    fun countAll(): Flow<Long> {
-        return dao.countAll()
     }
 
     fun update(entry: Entry.Local) = with(entry) {

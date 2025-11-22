@@ -3,7 +3,7 @@ package com.faltenreich.diaguard.data.measurement.unit.suggestion
 import com.faltenreich.diaguard.datetime.DateTime
 import kotlinx.coroutines.flow.Flow
 
-interface MeasurementUnitSuggestionDao {
+internal interface MeasurementUnitSuggestionDao {
 
     fun create(
         createdAt: DateTime,

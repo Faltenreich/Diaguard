@@ -5,7 +5,7 @@ import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.data.DatabaseKey
 import kotlinx.coroutines.flow.Flow
 
-class MeasurementValueRepository(
+class MeasurementValueRepository internal constructor(
     private val dao: MeasurementValueDao,
     private val dateTimeFactory: DateTimeFactory,
 ) {

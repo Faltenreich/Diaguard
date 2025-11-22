@@ -4,7 +4,7 @@ import com.faltenreich.diaguard.data.entry.EntrySqlDelightMapper
 import com.faltenreich.diaguard.data.measurement.property.MeasurementPropertySqlDelightMapper
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 
-class MeasurementValueSqlDelightMapper(
+internal class MeasurementValueSqlDelightMapper(
     private val dateTimeFactory: DateTimeFactory,
     private val propertyMapper: MeasurementPropertySqlDelightMapper,
     private val entryMapper: EntrySqlDelightMapper,

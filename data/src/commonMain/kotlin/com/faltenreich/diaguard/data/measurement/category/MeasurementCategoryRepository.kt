@@ -1,10 +1,10 @@
 package com.faltenreich.diaguard.data.measurement.category
 
-import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.data.DatabaseKey
+import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import kotlinx.coroutines.flow.Flow
 
-class MeasurementCategoryRepository(
+class MeasurementCategoryRepository internal constructor(
     private val dao: MeasurementCategoryDao,
     private val dateTimeFactory: DateTimeFactory,
 ) {
@@ -43,10 +43,6 @@ class MeasurementCategoryRepository(
 
     fun observeByKey(key: DatabaseKey.MeasurementCategory): Flow<MeasurementCategory.Local?> {
         return dao.observeByKey(key.key)
-    }
-
-    fun observeBloodSugar(): Flow<MeasurementCategory.Local?> {
-        return observeByKey(DatabaseKey.MeasurementCategory.BLOOD_SUGAR)
     }
 
     fun observeActive(): Flow<List<MeasurementCategory.Local>> {

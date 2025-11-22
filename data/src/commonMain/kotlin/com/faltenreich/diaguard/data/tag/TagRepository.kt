@@ -3,7 +3,7 @@ package com.faltenreich.diaguard.data.tag
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import kotlinx.coroutines.flow.Flow
 
-class TagRepository(
+class TagRepository internal constructor(
     private val dao: TagDao,
     private val dateTimeFactory: DateTimeFactory,
 ) {

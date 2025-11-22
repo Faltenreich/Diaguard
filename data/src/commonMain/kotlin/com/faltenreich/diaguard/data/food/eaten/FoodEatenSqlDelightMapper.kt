@@ -4,7 +4,7 @@ import com.faltenreich.diaguard.data.entry.EntrySqlDelightMapper
 import com.faltenreich.diaguard.data.food.FoodSqlDelightMapper
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 
-class FoodEatenSqlDelightMapper(
+internal class FoodEatenSqlDelightMapper(
     private val dateTimeFactory: DateTimeFactory,
     private val foodMapper: FoodSqlDelightMapper,
     private val entryMapper: EntrySqlDelightMapper,

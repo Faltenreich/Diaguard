@@ -38,9 +38,6 @@ LIMIT :limit OFFSET :offset;
 getAll:
 SELECT * FROM Entry ORDER BY dateTime DESC;
 
-countAll:
-SELECT COUNT(*) FROM Entry;
-
 update:
 UPDATE Entry SET updatedAt = ?, dateTime = ?, note = ? WHERE id = ?;
 

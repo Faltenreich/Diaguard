@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.data.food
 
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 
-class FoodSqlDelightMapper(
+internal class FoodSqlDelightMapper(
     private val dateTimeFactory: DateTimeFactory,
 ) {
 

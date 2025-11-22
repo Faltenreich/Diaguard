@@ -4,7 +4,7 @@ import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.view.paging.PagingPage
 import kotlinx.coroutines.flow.Flow
 
-interface EntryDao {
+internal interface EntryDao {
 
     fun create(
         createdAt: DateTime,
@@ -29,8 +29,6 @@ interface EntryDao {
     fun getByTagId(tagId: Long, page: PagingPage): List<Entry.Local>
 
     fun getAll(): Flow<List<Entry.Local>>
-
-    fun countAll(): Flow<Long>
 
     fun update(
         id: Long,

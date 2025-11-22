@@ -3,7 +3,7 @@ package com.faltenreich.diaguard.data.entry.tag
 import com.faltenreich.diaguard.datetime.DateTime
 import kotlinx.coroutines.flow.Flow
 
-interface EntryTagDao {
+internal interface EntryTagDao {
 
     fun create(
         createdAt: DateTime,

@@ -4,7 +4,7 @@ import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.data.DatabaseKey
 import com.faltenreich.diaguard.persistence.sqldelight.SqlDelightExtensions.toSqlLiteBoolean
 
-class MeasurementCategorySqlDelightMapper(
+internal class MeasurementCategorySqlDelightMapper(
     private val dateTimeFactory: DateTimeFactory,
 ) {
 

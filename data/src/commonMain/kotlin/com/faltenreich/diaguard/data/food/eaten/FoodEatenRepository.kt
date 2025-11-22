@@ -3,7 +3,7 @@ package com.faltenreich.diaguard.data.food.eaten
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import kotlinx.coroutines.flow.Flow
 
-class FoodEatenRepository(
+class FoodEatenRepository internal constructor(
     private val dao: FoodEatenDao,
     private val dateTimeFactory: DateTimeFactory,
 ) {

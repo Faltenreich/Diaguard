@@ -3,7 +3,7 @@ package com.faltenreich.diaguard.data.food.eaten
 import com.faltenreich.diaguard.datetime.DateTime
 import kotlinx.coroutines.flow.Flow
 
-interface FoodEatenDao {
+internal interface FoodEatenDao {
 
     fun create(
         createdAt: DateTime,

@@ -9,7 +9,7 @@ import com.faltenreich.diaguard.persistence.sqldelight.SqlDelightDao
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 
-class MeasurementUnitSuggestionSqlDelightDao(
+internal class MeasurementUnitSuggestionSqlDelightDao(
     private val dispatcher: CoroutineDispatcher,
     private val mapper: MeasurementUnitSuggestionSqlDelightMapper,
 ) : MeasurementUnitSuggestionDao, SqlDelightDao<MeasurementUnitSuggestionQueries> {

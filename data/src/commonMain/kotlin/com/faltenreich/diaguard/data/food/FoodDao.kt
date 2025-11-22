@@ -4,7 +4,7 @@ import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.view.paging.PagingPage
 import kotlinx.coroutines.flow.Flow
 
-interface FoodDao {
+internal interface FoodDao {
 
     fun transaction(transact: () -> Unit)
 

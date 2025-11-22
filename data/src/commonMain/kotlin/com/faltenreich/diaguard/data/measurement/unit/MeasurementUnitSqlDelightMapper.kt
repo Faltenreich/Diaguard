@@ -3,7 +3,7 @@ package com.faltenreich.diaguard.data.measurement.unit
 import com.faltenreich.diaguard.data.DatabaseKey
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 
-class MeasurementUnitSqlDelightMapper(
+internal class MeasurementUnitSqlDelightMapper(
     private val dateTimeFactory: DateTimeFactory,
 ) {
 

@@ -13,7 +13,7 @@ import com.faltenreich.diaguard.persistence.sqldelight.SqlDelightExtensions.toSq
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 
-class MeasurementCategorySqlDelightDao(
+internal class MeasurementCategorySqlDelightDao(
     private val dispatcher: CoroutineDispatcher,
     private val mapper: MeasurementCategorySqlDelightMapper,
 ) : MeasurementCategoryDao, SqlDelightDao<MeasurementCategoryQueries> {

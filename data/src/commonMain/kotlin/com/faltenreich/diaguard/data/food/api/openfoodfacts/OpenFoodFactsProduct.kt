@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonElement
 
 @Serializable
-data class OpenFoodFactsProduct(
+internal data class OpenFoodFactsProduct(
     // Workaround: Sometimes a Number, sometimes a String
     @SerialName(IDENTIFIER) val identifier: JsonElement?,
     @SerialName(LANGUAGE_CODE) val languageCode: String?,

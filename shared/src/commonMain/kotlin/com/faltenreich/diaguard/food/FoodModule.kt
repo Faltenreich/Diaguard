@@ -1,10 +1,5 @@
 package com.faltenreich.diaguard.food
 
-import com.faltenreich.diaguard.data.food.FoodRepository
-import com.faltenreich.diaguard.data.food.api.FoodApi
-import com.faltenreich.diaguard.data.food.api.openfoodfacts.OpenFoodFactsApi
-import com.faltenreich.diaguard.data.food.api.openfoodfacts.OpenFoodFactsMapper
-import com.faltenreich.diaguard.data.food.eaten.FoodEatenRepository
 import com.faltenreich.diaguard.food.eaten.StoreFoodEatenUseCase
 import com.faltenreich.diaguard.food.eaten.list.FoodEatenListViewModel
 import com.faltenreich.diaguard.food.eaten.list.GetFoodEatenForEntryUseCase
@@ -21,16 +16,9 @@ import com.faltenreich.diaguard.food.search.SearchFoodUseCase
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.viewModel
 import org.koin.core.module.dsl.viewModelOf
-import org.koin.dsl.bind
 import org.koin.dsl.module
 
 fun foodModule() = module {
-    factoryOf(::OpenFoodFactsMapper)
-
-    factoryOf(::OpenFoodFactsApi) bind FoodApi::class
-    factoryOf(::FoodRepository)
-    factoryOf(::FoodEatenRepository)
-
     factoryOf(::CreateFoodFormInputUseCase)
     factoryOf(::ValidateFoodInputUseCase)
     factoryOf(::StoreFoodUseCase)

@@ -10,7 +10,7 @@ import com.faltenreich.diaguard.persistence.sqldelight.SqlDelightDao
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 
-class EntryTagSqlDelightDao(
+internal class EntryTagSqlDelightDao(
     private val dispatcher: CoroutineDispatcher,
     private val mapper: EntryTagSqlDelightMapper,
 ) : EntryTagDao, SqlDelightDao<EntryTagQueries> {

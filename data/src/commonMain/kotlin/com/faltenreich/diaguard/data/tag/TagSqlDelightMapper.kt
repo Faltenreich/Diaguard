@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.data.tag
 
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 
-class TagSqlDelightMapper(
+internal class TagSqlDelightMapper(
     private val dateTimeFactory: DateTimeFactory,
 ) {
 

@@ -4,7 +4,7 @@ import com.faltenreich.diaguard.data.entry.EntrySqlDelightMapper
 import com.faltenreich.diaguard.data.tag.TagSqlDelightMapper
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 
-class EntryTagSqlDelightMapper(
+internal class EntryTagSqlDelightMapper(
     private val dateTimeFactory: DateTimeFactory,
     private val entryMapper: EntrySqlDelightMapper,
     private val tagMapper: TagSqlDelightMapper,

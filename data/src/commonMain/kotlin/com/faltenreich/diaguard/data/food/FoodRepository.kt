@@ -7,7 +7,7 @@ import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.view.paging.PagingPage
 import kotlinx.coroutines.flow.Flow
 
-class FoodRepository(
+class FoodRepository internal constructor(
     private val dao: FoodDao,
     private val api: FoodApi,
     private val dateTimeFactory: DateTimeFactory,

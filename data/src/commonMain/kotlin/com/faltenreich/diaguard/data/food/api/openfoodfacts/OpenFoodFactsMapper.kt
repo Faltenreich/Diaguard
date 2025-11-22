@@ -5,7 +5,7 @@ import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.logging.Logger
 import kotlinx.serialization.json.jsonPrimitive
 
-class OpenFoodFactsMapper(
+internal class OpenFoodFactsMapper(
     private val dateTimeFactory: DateTimeFactory
 ) {
 

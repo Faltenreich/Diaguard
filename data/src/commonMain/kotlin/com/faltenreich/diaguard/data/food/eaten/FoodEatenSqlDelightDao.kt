@@ -9,7 +9,7 @@ import com.faltenreich.diaguard.persistence.sqldelight.SqlDelightDao
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 
-class FoodEatenSqlDelightDao(
+internal class FoodEatenSqlDelightDao(
     private val dispatcher: CoroutineDispatcher,
     private val mapper: FoodEatenSqlDelightMapper,
 ) : FoodEatenDao, SqlDelightDao<FoodEatenQueries> {

@@ -3,7 +3,7 @@ package com.faltenreich.diaguard.data.measurement.unit
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import kotlinx.coroutines.flow.Flow
 
-class MeasurementUnitRepository(
+class MeasurementUnitRepository internal constructor(
     private val dao: MeasurementUnitDao,
     private val dateTimeFactory: DateTimeFactory,
 ) {

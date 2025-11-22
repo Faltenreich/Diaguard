@@ -16,7 +16,7 @@ internal class SqlDelightDiskDriverFactory(private val context: Context) : SqlDe
             schema = schema,
             context = context,
             name = DATABASE_FILE_NAME,
-            callback = object : AndroidSqliteDriver.Callback(SqlDelightApi.Schema) {
+            callback = object : AndroidSqliteDriver.Callback(schema) {
                 override fun onOpen(db: SupportSQLiteDatabase) {
                     db.setForeignKeyConstraintsEnabled(true)
                 }

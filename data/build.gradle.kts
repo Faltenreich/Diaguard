@@ -2,6 +2,7 @@ plugins {
     id("multiplatform-convention")
     alias(libs.plugins.compose)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.sqldelight)
 }
 
 kotlin {
@@ -9,6 +10,7 @@ kotlin {
         commonMain {
             dependencies {
                 implementation(project(":core:datetime"))
+                implementation(project(":core:injection"))
                 implementation(project(":core:localization"))
                 implementation(project(":core:logging"))
                 implementation(project(":core:network"))
@@ -26,6 +28,15 @@ kotlin {
             languageSettings {
                 optIn("kotlin.time.ExperimentalTime")
             }
+        }
+    }
+}
+
+sqldelight {
+    databases {
+        create("SqlDelightApi") {
+            val appNamespace: String by rootProject.extra
+            packageName.set("$appNamespace.data.sqldelight")
         }
     }
 }

@@ -2,10 +2,10 @@ package com.faltenreich.diaguard.data.food
 
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
+import com.faltenreich.diaguard.data.SqlDelightDao
+import com.faltenreich.diaguard.data.sqldelight.FoodQueries
+import com.faltenreich.diaguard.data.sqldelight.SqlDelightApi
 import com.faltenreich.diaguard.datetime.DateTime
-import com.faltenreich.diaguard.persistence.sqldelight.FoodQueries
-import com.faltenreich.diaguard.persistence.sqldelight.SqlDelightApi
-import com.faltenreich.diaguard.persistence.sqldelight.SqlDelightDao
 import com.faltenreich.diaguard.persistence.sqldelight.SqlDelightExtensions.toSqlLiteLong
 import com.faltenreich.diaguard.view.paging.PagingPage
 import kotlinx.coroutines.CoroutineDispatcher

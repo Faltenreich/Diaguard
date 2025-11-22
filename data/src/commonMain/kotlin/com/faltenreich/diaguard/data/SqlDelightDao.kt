@@ -1,13 +1,15 @@
-package com.faltenreich.diaguard.persistence.sqldelight
+package com.faltenreich.diaguard.data
 
 import app.cash.sqldelight.Transacter
+import com.faltenreich.diaguard.data.sqldelight.SqlDelightApi
 import com.faltenreich.diaguard.injection.inject
+import com.faltenreich.diaguard.persistence.sqldelight.SqlDelightDriverFactory
 
 interface SqlDelightDao<SqlDelightQueries: Transacter> {
 
     val queries: SqlDelightQueries
         get() = getQueries(
-            SqlDelightApi(inject<SqlDelightDriverFactory>().createDriver(SqlDelightApi.Schema))
+            SqlDelightApi.Companion(inject<SqlDelightDriverFactory>().createDriver(SqlDelightApi.Schema))
         )
 
     fun getQueries(api: SqlDelightApi): SqlDelightQueries

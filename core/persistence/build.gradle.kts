@@ -1,6 +1,5 @@
 plugins {
     id("multiplatform-convention")
-    alias(libs.plugins.sqldelight)
 }
 
 kotlin {
@@ -32,15 +31,6 @@ kotlin {
                 implementation(libs.kotlinx.coroutines.test)
                 implementation(libs.turbine)
             }
-        }
-    }
-}
-
-sqldelight {
-    databases {
-        create("SqlDelightApi") {
-            val appNamespace: String by rootProject.extra
-            packageName.set("$appNamespace.persistence.sqldelight")
         }
     }
 }

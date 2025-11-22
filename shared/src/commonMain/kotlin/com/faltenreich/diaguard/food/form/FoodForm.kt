@@ -25,7 +25,7 @@ import com.faltenreich.diaguard.view.info.NoticeBarStyle
 import com.faltenreich.diaguard.view.image.ResourceIcon
 import com.faltenreich.diaguard.view.divider.TextDivider
 import com.faltenreich.diaguard.view.input.TextInput
-import com.faltenreich.diaguard.data.preview.AppPreview
+import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.brand
 import diaguard.shared.generated.resources.ic_brand
@@ -146,7 +146,7 @@ fun FoodForm(
 
 @Preview
 @Composable
-private fun Preview() = AppPreview {
+private fun Preview() = PreviewScaffold {
     val food = food()
     FoodForm(
         state = FoodFormState(

@@ -27,7 +27,7 @@ import com.faltenreich.diaguard.data.measurement.property.MeasurementAggregation
 import com.faltenreich.diaguard.data.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.measurement.property.aggregationstyle.MeasurementAggregationStyleForm
 import com.faltenreich.diaguard.measurement.property.range.MeasurementValueRangeForm
-import com.faltenreich.diaguard.data.preview.AppPreview
+import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import com.faltenreich.diaguard.view.overlay.DeleteDialog
 import com.faltenreich.diaguard.view.divider.Divider
 import com.faltenreich.diaguard.view.layout.FormRow
@@ -261,7 +261,7 @@ private fun Dialog(
 
 @Preview
 @Composable
-private fun Preview() = AppPreview {
+private fun Preview() = PreviewScaffold {
     MeasurementPropertyForm(
         state = MeasurementPropertyFormState(
             property = property(),

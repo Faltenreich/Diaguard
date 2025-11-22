@@ -18,7 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.view.theme.AppTheme
 import com.faltenreich.diaguard.view.image.ResourceIcon
-import com.faltenreich.diaguard.data.preview.AppPreview
+import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.cancel
 import diaguard.shared.generated.resources.delete
@@ -87,7 +87,7 @@ fun DashboardReminder(
 
 @Preview
 @Composable
-private fun Preview() = AppPreview {
+private fun Preview() = PreviewScaffold {
     DashboardReminder(
         state = DashboardReminderState(
             text = "Reminder in 5 minutes"

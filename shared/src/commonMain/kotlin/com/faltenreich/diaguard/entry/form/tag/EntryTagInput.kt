@@ -15,7 +15,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import com.faltenreich.diaguard.view.input.TextInput
-import com.faltenreich.diaguard.data.preview.AppPreview
+import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import com.faltenreich.diaguard.data.tag.Tag
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.tag
@@ -77,7 +77,7 @@ fun EntryTagInput(
 
 @Preview
 @Composable
-private fun Preview() = AppPreview {
+private fun Preview() = PreviewScaffold {
     EntryTagInput(
         input = "Input",
         onInputChange = {},

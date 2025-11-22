@@ -17,7 +17,7 @@ import com.faltenreich.diaguard.food.search.list.FoodListEmpty
 import com.faltenreich.diaguard.food.search.list.FoodListSkeleton
 import com.faltenreich.diaguard.view.lifecycle.LifecycleState
 import com.faltenreich.diaguard.view.layout.PullToRefresh
-import com.faltenreich.diaguard.data.preview.AppPreview
+import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import com.faltenreich.diaguard.view.lifecycle.rememberLifecycleState
 import kotlinx.coroutines.flow.flowOf
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -76,7 +76,7 @@ fun FoodSearch(
 
 @Preview
 @Composable
-private fun Preview() = AppPreview {
+private fun Preview() = PreviewScaffold {
     FoodSearch(
         state = FoodSearchState(
             query = "Query",

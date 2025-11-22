@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
 import com.faltenreich.diaguard.view.theme.AppTheme
-import com.faltenreich.diaguard.data.preview.AppPreview
+import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.hba1c_estimated
 import diaguard.shared.generated.resources.hba1c_estimated_description
@@ -47,6 +47,6 @@ fun DashboardHbA1cEstimatedInfo(modifier: Modifier = Modifier) {
 
 @Preview()
 @Composable
-private fun PreviewLatest() = AppPreview {
+private fun PreviewLatest() = PreviewScaffold {
     DashboardHbA1cEstimatedInfo()
 }

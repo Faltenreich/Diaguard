@@ -11,7 +11,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalFocusManager
 import com.faltenreich.diaguard.view.button.ClearButton
 import com.faltenreich.diaguard.view.input.SearchField
-import com.faltenreich.diaguard.data.preview.AppPreview
+import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import com.faltenreich.diaguard.view.layout.rememberFocusRequester
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.entry_search_prompt
@@ -61,7 +61,7 @@ fun EntrySearchField(
 
 @Preview
 @Composable
-private fun Preview() = AppPreview {
+private fun Preview() = PreviewScaffold {
     EntrySearchField(
         query = "",
         onQueryChange = {},

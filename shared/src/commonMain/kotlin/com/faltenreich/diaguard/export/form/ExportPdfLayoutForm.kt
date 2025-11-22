@@ -20,7 +20,7 @@ import com.faltenreich.diaguard.view.layout.FormRow
 import com.faltenreich.diaguard.view.image.ResourceIcon
 import com.faltenreich.diaguard.view.checkbox.TextCheckbox
 import com.faltenreich.diaguard.view.divider.TextDivider
-import com.faltenreich.diaguard.data.preview.AppPreview
+import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.calendar_week
 import diaguard.shared.generated.resources.date_of_export
@@ -118,7 +118,7 @@ fun ExportPdfLayoutForm(
 
 @Preview
 @Composable
-private fun Preview() = AppPreview {
+private fun Preview() = PreviewScaffold {
     ExportPdfLayoutForm(
         state = ExportFormState(
             date = ExportFormState.Date(

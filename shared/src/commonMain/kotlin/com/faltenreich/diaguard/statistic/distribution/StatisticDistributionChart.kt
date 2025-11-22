@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.toSize
 import com.faltenreich.diaguard.view.theme.AppTheme
 import com.faltenreich.diaguard.measurement.value.MeasurementValueTint
-import com.faltenreich.diaguard.data.preview.AppPreview
+import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import kotlin.math.PI
 import kotlin.math.cos
@@ -104,7 +104,7 @@ private fun DrawScope.drawValue(
 
 @Preview
 @Composable
-private fun Preview() = AppPreview {
+private fun Preview() = PreviewScaffold {
     StatisticDistributionChart(
         state = StatisticDistributionState(
             property = property(),

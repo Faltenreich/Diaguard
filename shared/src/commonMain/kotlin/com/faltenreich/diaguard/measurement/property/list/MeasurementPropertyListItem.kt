@@ -9,7 +9,7 @@ import com.faltenreich.diaguard.view.theme.AppTheme
 import com.faltenreich.diaguard.data.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.view.layout.FormRow
 import com.faltenreich.diaguard.view.image.ResourceIcon
-import com.faltenreich.diaguard.data.preview.AppPreview
+import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.ic_arrow_down
 import diaguard.shared.generated.resources.ic_arrow_up
@@ -49,7 +49,7 @@ fun MeasurementPropertyListItem(
 
 @Preview
 @Composable
-private fun Preview() = AppPreview {
+private fun Preview() = PreviewScaffold {
     MeasurementPropertyListItem(
         property = property(),
         onArrowUp = {},

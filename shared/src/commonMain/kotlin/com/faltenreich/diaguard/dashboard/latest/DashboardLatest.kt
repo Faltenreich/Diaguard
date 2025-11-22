@@ -13,7 +13,7 @@ import com.faltenreich.diaguard.view.theme.AppTheme
 import com.faltenreich.diaguard.data.entry.Entry
 import com.faltenreich.diaguard.data.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.measurement.value.MeasurementValueTint
-import com.faltenreich.diaguard.data.preview.AppPreview
+import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.entry_first_description
 import diaguard.shared.generated.resources.placeholder
@@ -66,7 +66,7 @@ fun DashboardLatest(
 @Preview
 @Composable
 private fun Preview() {
-    AppPreview {
+    PreviewScaffold {
         DashboardLatest(
             state = DashboardLatestState.Value(
                 entry = entry(),

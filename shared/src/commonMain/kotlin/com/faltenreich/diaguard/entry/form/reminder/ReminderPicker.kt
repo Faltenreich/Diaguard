@@ -28,7 +28,7 @@ import com.faltenreich.diaguard.view.theme.AppTheme
 import com.faltenreich.diaguard.injection.inject
 import com.faltenreich.diaguard.localization.NumberFormatter
 import com.faltenreich.diaguard.view.image.ResourceIcon
-import com.faltenreich.diaguard.data.preview.AppPreview
+import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.hours_abbreviation_short
 import diaguard.shared.generated.resources.ic_backspace
@@ -170,7 +170,7 @@ private fun Button(
 
 @Preview
 @Composable
-private fun Preview() = AppPreview {
+private fun Preview() = PreviewScaffold {
     ReminderPicker(
         duration = 1.hours + 2.minutes + 3.seconds,
         onChange = {},

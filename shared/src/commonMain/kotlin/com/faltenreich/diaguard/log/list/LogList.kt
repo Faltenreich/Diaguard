@@ -12,7 +12,7 @@ import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.faltenreich.diaguard.data.preview.AppPreview
+import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import com.faltenreich.diaguard.entry.list.EntryListItemState
 import com.faltenreich.diaguard.log.LogIntent
 import com.faltenreich.diaguard.log.list.item.LogDayState
@@ -97,7 +97,7 @@ fun LogList(
 
 @Preview
 @Composable
-private fun Preview() = AppPreview {
+private fun Preview() = PreviewScaffold {
     val dateTime = now()
     val date = dateTime.date
     val dayState = LogDayState(

@@ -10,7 +10,7 @@ import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.faltenreich.diaguard.entry.list.EntryList
 import com.faltenreich.diaguard.entry.list.EntryListItemState
-import com.faltenreich.diaguard.data.preview.AppPreview
+import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.entry_search_empty
 import diaguard.shared.generated.resources.entry_search_placeholder
@@ -59,7 +59,7 @@ fun EntrySearch(
 
 @Preview
 @Composable
-private fun Preview() = AppPreview {
+private fun Preview() = PreviewScaffold {
     EntrySearch(
         state = EntrySearchState(
             query = "Query",

@@ -11,7 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.faltenreich.diaguard.data.preview.AppPreview
+import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import com.faltenreich.diaguard.view.theme.AppTheme
 import com.faltenreich.diaguard.view.layout.WizardStepListItem
 import com.faltenreich.diaguard.view.layout.WizardStepState
@@ -111,7 +111,7 @@ fun ReadBackupForm(
 
 @Preview
 @Composable
-private fun Preview() = AppPreview {
+private fun Preview() = PreviewScaffold {
     ReadBackupForm(
         // TODO: Add missing states when PreviewParameter is working
         state = ReadBackupFormState.Idle,

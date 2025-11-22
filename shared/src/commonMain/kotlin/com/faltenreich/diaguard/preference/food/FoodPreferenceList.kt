@@ -10,7 +10,7 @@ import com.faltenreich.diaguard.preference.list.item.PreferenceCategoryListItem
 import com.faltenreich.diaguard.preference.list.item.PreferenceCheckBoxListItem
 import com.faltenreich.diaguard.view.info.NoticeBar
 import com.faltenreich.diaguard.view.info.NoticeBarStyle
-import com.faltenreich.diaguard.data.preview.AppPreview
+import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.food_branded
 import diaguard.shared.generated.resources.food_branded_show
@@ -109,7 +109,7 @@ fun FoodPreferenceList(
 
 @Preview
 @Composable
-private fun Preview() = AppPreview {
+private fun Preview() = PreviewScaffold {
     FoodPreferenceList(
         state = FoodPreferenceListState(
             showCustomFood = true,

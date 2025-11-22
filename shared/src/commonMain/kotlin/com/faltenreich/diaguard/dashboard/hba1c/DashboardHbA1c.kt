@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.view.theme.AppTheme
 import com.faltenreich.diaguard.data.entry.Entry
 import com.faltenreich.diaguard.data.measurement.value.MeasurementValue
-import com.faltenreich.diaguard.data.preview.AppPreview
+import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.hba1c
 import diaguard.shared.generated.resources.hba1c_estimated
@@ -78,7 +78,7 @@ fun DashboardHbA1c(
 @Preview
 @Composable
 private fun Preview() {
-    AppPreview {
+    PreviewScaffold {
         DashboardHbA1c(
             state = DashboardHbA1cState.Estimated(
                 value = MeasurementValue.Localized(
@@ -92,7 +92,7 @@ private fun Preview() {
 
 @Preview
 @Composable
-private fun PreviewLatest() = AppPreview {
+private fun PreviewLatest() = PreviewScaffold {
     DashboardHbA1c(
         state = DashboardHbA1cState.Latest(
             entry = entry(),

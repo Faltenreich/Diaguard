@@ -14,7 +14,7 @@ import com.faltenreich.diaguard.datetime.DateProgression
 import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.DayOfWeek
 
-class AppPreviewScope {
+class PreviewScope {
 
     fun now() = PreviewDateTime()
 

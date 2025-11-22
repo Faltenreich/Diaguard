@@ -25,7 +25,7 @@ import com.faltenreich.diaguard.dashboard.reminder.DashboardReminderState
 import com.faltenreich.diaguard.dashboard.today.DashboardToday
 import com.faltenreich.diaguard.dashboard.today.DashboardTodayState
 import com.faltenreich.diaguard.dashboard.trend.DashboardTrend
-import com.faltenreich.diaguard.data.preview.AppPreview
+import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import com.faltenreich.diaguard.statistic.trend.StatisticTrendState
 import com.faltenreich.diaguard.statistic.trend.StatisticTrendState.Interval
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -98,7 +98,7 @@ fun Dashboard(
 
 @Preview
 @Composable
-private fun Preview() = AppPreview {
+private fun Preview() = PreviewScaffold {
     Dashboard(
         state = DashboardState(
             latest = DashboardLatestState.None,

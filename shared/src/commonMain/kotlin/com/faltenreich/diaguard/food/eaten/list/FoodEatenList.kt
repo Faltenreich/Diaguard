@@ -11,7 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.data.food.eaten.FoodEaten
 import com.faltenreich.diaguard.view.divider.Divider
-import com.faltenreich.diaguard.data.preview.AppPreview
+import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.no_entries
 import org.jetbrains.compose.resources.stringResource
@@ -49,7 +49,7 @@ fun FoodEatenList(
 
 @Preview
 @Composable
-private fun EmptyPreview() = AppPreview {
+private fun EmptyPreview() = PreviewScaffold {
     FoodEatenList(
         state = FoodEatenListState.Empty,
         onIntent = {},
@@ -58,7 +58,7 @@ private fun EmptyPreview() = AppPreview {
 
 @Preview
 @Composable
-private fun NonEmptyPreview() = AppPreview {
+private fun NonEmptyPreview() = PreviewScaffold {
     FoodEatenList(
         state = FoodEatenListState.NonEmpty(
             results = listOf(

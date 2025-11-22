@@ -13,14 +13,14 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
  * Convenience Composable that supports theming and fake data
  */
 @Composable
-inline fun AppPreview(
+inline fun PreviewScaffold(
     modifier: Modifier = Modifier,
     showBackground: Boolean = true,
     isDarkColorScheme: Boolean = false,
-    crossinline content: @Composable AppPreviewScope.() -> Unit,
+    crossinline content: @Composable PreviewScope.() -> Unit,
 ) {
     AppTheme(isDarkColorScheme = isDarkColorScheme) {
-        with(AppPreviewScope()) {
+        with(PreviewScope()) {
             val backgroundColor =
                 if (showBackground) AppTheme.colors.scheme.background
                 else Color.Transparent
@@ -34,7 +34,7 @@ inline fun AppPreview(
 @Preview
 @Composable
 private fun Preview() {
-    AppPreview {
+    PreviewScaffold {
         Text("AppPreview")
     }
 }

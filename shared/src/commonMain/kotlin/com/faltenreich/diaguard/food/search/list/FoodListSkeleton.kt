@@ -14,7 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.faltenreich.diaguard.data.preview.AppPreview
+import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import com.faltenreich.diaguard.view.divider.Divider
 import com.faltenreich.diaguard.view.layout.skeleton
 import com.faltenreich.diaguard.view.theme.AppTheme
@@ -55,6 +55,6 @@ fun FoodListSkeleton(modifier: Modifier = Modifier) {
 
 @Preview
 @Composable
-private fun Preview() = AppPreview {
+private fun Preview() = PreviewScaffold {
     FoodListSkeleton()
 }

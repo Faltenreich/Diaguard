@@ -30,7 +30,7 @@ import com.faltenreich.diaguard.view.image.EmojiPicker
 import com.faltenreich.diaguard.view.layout.FormRow
 import com.faltenreich.diaguard.view.checkbox.TextCheckbox
 import com.faltenreich.diaguard.view.input.TextInput
-import com.faltenreich.diaguard.data.preview.AppPreview
+import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.delete_error_pre_defined
 import diaguard.shared.generated.resources.delete_title
@@ -171,7 +171,7 @@ fun MeasurementCategoryForm(
 
 @Preview
 @Composable
-private fun Preview() = AppPreview {
+private fun Preview() = PreviewScaffold {
     val category = category()
     MeasurementCategoryForm(
         state = MeasurementCategoryFormState(

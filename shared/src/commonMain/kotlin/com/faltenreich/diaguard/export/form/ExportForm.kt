@@ -25,7 +25,7 @@ import com.faltenreich.diaguard.view.layout.FormRow
 import com.faltenreich.diaguard.view.image.ResourceIcon
 import com.faltenreich.diaguard.view.checkbox.TextCheckbox
 import com.faltenreich.diaguard.view.divider.TextDivider
-import com.faltenreich.diaguard.data.preview.AppPreview
+import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import diaguard.core.view.generated.resources.ic_note
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.data
@@ -188,7 +188,7 @@ fun ExportForm(
 
 @Preview
 @Composable
-private fun Preview() = AppPreview {
+private fun Preview() = PreviewScaffold {
     ExportForm(
         state = ExportFormState(
             date = ExportFormState.Date(

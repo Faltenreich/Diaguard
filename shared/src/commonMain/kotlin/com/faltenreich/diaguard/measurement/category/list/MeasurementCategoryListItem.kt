@@ -10,7 +10,7 @@ import com.faltenreich.diaguard.data.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.measurement.category.icon.MeasurementCategoryIcon
 import com.faltenreich.diaguard.view.layout.FormRow
 import com.faltenreich.diaguard.view.image.ResourceIcon
-import com.faltenreich.diaguard.data.preview.AppPreview
+import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.ic_arrow_down
 import diaguard.shared.generated.resources.ic_arrow_up
@@ -54,7 +54,7 @@ fun MeasurementCategoryListItem(
 
 @Preview
 @Composable
-private fun Preview() = AppPreview {
+private fun Preview() = PreviewScaffold {
     MeasurementCategoryListItem(
         category = category(),
         onIntent = {},

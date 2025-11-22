@@ -12,7 +12,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import com.faltenreich.diaguard.entry.form.EntryFormIntent
 import com.faltenreich.diaguard.view.input.TextInput
-import com.faltenreich.diaguard.data.preview.AppPreview
+import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -46,7 +46,7 @@ fun MeasurementPropertyInput(
 
 @Preview
 @Composable
-private fun Preview() = AppPreview {
+private fun Preview() = PreviewScaffold {
     MeasurementPropertyInput(
         state = MeasurementPropertyInputState(
             property = property(),

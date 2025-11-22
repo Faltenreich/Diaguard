@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.view.divider.Divider
 import com.faltenreich.diaguard.view.layout.FormRow
-import com.faltenreich.diaguard.data.preview.AppPreview
+import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.entries_per_day
 import diaguard.shared.generated.resources.measurement_value
@@ -44,7 +44,7 @@ fun StatisticAverage(
 
 @Preview
 @Composable
-private fun Preview() = AppPreview {
+private fun Preview() = PreviewScaffold {
     StatisticAverage(
         state = StatisticAverageState(
             property = property(),

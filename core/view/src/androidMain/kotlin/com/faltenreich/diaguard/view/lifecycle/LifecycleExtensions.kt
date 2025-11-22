@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.view
+package com.faltenreich.diaguard.view.lifecycle
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState

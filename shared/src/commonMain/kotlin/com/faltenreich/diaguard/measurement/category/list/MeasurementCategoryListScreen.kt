@@ -6,7 +6,7 @@ import com.faltenreich.diaguard.injection.viewModel
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 import com.faltenreich.diaguard.navigation.screen.Screen
-import com.faltenreich.diaguard.view.FloatingActionButton
+import com.faltenreich.diaguard.view.TooltipFloatingActionButton
 import diaguard.core.view.generated.resources.ic_add
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.measurement_categories
@@ -30,7 +30,7 @@ data object MeasurementCategoryListScreen : Screen {
         val viewModel = viewModel<MeasurementCategoryListViewModel>()
         return BottomAppBarStyle.Visible(
             floatingActionButton = {
-                FloatingActionButton(
+                TooltipFloatingActionButton(
                     painter = painterResource(diaguard.core.view.generated.resources.Res.drawable.ic_add),
                     contentDescription = stringResource(Res.string.measurement_category_new),
                     onClick = { viewModel.dispatchIntent(MeasurementCategoryListIntent.OpenFormDialog) },

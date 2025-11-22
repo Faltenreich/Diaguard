@@ -18,6 +18,7 @@ fun Tooltip(
 ) {
     TooltipBox(
         positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
+        // FIXME: java.lang.NoSuchMethodError: No static method PlainTooltip (on Windows only?)
         tooltip = { PlainTooltip { Text(text) } },
         state = state,
         modifier = modifier,

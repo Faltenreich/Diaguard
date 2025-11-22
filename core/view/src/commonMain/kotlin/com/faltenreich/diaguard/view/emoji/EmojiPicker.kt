@@ -1,6 +1,6 @@
 @file:JvmName("EmojiPickerCommon")
 
-package com.faltenreich.diaguard.view
+package com.faltenreich.diaguard.view.emoji
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier

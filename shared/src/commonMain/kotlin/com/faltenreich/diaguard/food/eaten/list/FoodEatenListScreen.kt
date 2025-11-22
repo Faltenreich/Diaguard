@@ -10,7 +10,7 @@ import com.faltenreich.diaguard.injection.viewModel
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 import com.faltenreich.diaguard.navigation.screen.Screen
-import com.faltenreich.diaguard.view.FloatingActionButton
+import com.faltenreich.diaguard.view.TooltipFloatingActionButton
 import diaguard.core.view.generated.resources.ic_add
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.entry_new_description
@@ -44,7 +44,7 @@ data class FoodEatenListScreen(private val foodId: Long) : Screen {
         val viewModel = viewModel<FoodEatenListViewModel> { parametersOf(foodId) }
         return BottomAppBarStyle.Visible(
             floatingActionButton = {
-                FloatingActionButton(
+                TooltipFloatingActionButton(
                     painter = painterResource(diaguard.core.view.generated.resources.Res.drawable.ic_add),
                     contentDescription = stringResource(Res.string.entry_new_description),
                     onClick = { viewModel.dispatchIntent(FoodEatenListIntent.CreateEntry) },

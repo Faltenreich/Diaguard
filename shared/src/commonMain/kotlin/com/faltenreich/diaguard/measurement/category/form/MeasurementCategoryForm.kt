@@ -26,7 +26,7 @@ import com.faltenreich.diaguard.preference.color.ColorScheme
 import com.faltenreich.diaguard.preference.color.isDark
 import com.faltenreich.diaguard.view.DeleteDialog
 import com.faltenreich.diaguard.view.Divider
-import com.faltenreich.diaguard.view.EmojiPicker
+import com.faltenreich.diaguard.view.emoji.EmojiPicker
 import com.faltenreich.diaguard.view.FormRow
 import com.faltenreich.diaguard.view.TextCheckbox
 import com.faltenreich.diaguard.view.TextInput

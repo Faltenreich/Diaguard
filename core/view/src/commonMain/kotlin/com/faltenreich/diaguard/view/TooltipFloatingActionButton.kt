@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.view
 
 import androidx.compose.foundation.combinedClickable
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.FloatingActionButtonElevation
 import androidx.compose.material3.Icon
@@ -19,7 +20,7 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-fun FloatingActionButton(
+fun TooltipFloatingActionButton(
     painter: Painter,
     contentDescription: String,
     onClick: () -> Unit,
@@ -37,7 +38,7 @@ fun FloatingActionButton(
         state = tooltipState,
         modifier = modifier,
     ) {
-        androidx.compose.material3.FloatingActionButton(
+        FloatingActionButton(
             onClick = onClick,
             modifier = Modifier.combinedClickable(
                 onClick = onClick,
@@ -59,7 +60,7 @@ fun FloatingActionButton(
 @Preview
 @Composable
 private fun Preview() {
-    FloatingActionButton(
+    TooltipFloatingActionButton(
         painter = painterResource(Res.drawable.ic_add),
         contentDescription = "",
         onClick = {},

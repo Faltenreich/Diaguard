@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import kotlin.reflect.KClass
 
-class SharedPreferences(context: Context) : KeyValueStore {
+internal class SharedPreferences(context: Context) : KeyValueStore {
 
     private val defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 

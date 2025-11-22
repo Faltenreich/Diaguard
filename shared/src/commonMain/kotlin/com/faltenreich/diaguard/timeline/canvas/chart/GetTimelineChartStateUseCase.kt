@@ -3,9 +3,10 @@ package com.faltenreich.diaguard.timeline.canvas.chart
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
-import com.faltenreich.diaguard.datetime.DateTimeConstants
 import com.faltenreich.diaguard.data.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.data.measurement.value.MeasurementValue
+import com.faltenreich.diaguard.datetime.DateTimeConstants
+import com.faltenreich.diaguard.datetime.TimeUnit
 import com.faltenreich.diaguard.measurement.value.MeasurementValueMapper
 import com.faltenreich.diaguard.timeline.canvas.TimelineCanvasDimensions
 import com.faltenreich.diaguard.timeline.canvas.time.TimelineTimeState
@@ -46,7 +47,7 @@ class GetTimelineChartStateUseCase(private val mapValue: MeasurementValueMapper)
             val widthPerDay = dimensions.chart.size.width
             val widthPerHour = widthPerDay / stepCount
             val widthPerMinute = widthPerHour / DateTimeConstants.MINUTES_PER_HOUR
-            val offsetInMinutes = time.initialDateTime.minutesUntil(dateTime)
+            val offsetInMinutes = time.initialDateTime.until(dateTime, TimeUnit.MINUTE).inWholeMinutes
             val offsetOfDateTime = (offsetInMinutes / xAxisStep) * widthPerMinute
             value to dimensions.chart.topLeft.x + dimensions.scroll + offsetOfDateTime
         }

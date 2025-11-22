@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.shared.datetime
 
 import com.faltenreich.diaguard.TestSuite
+import com.faltenreich.diaguard.datetime.TimeUnit
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import org.koin.test.inject
 import kotlin.test.Test
@@ -13,6 +14,6 @@ class DateTimeTest : TestSuite {
     @Test
     fun `minutes until is zero if same date`() {
         val dateTime = dateTimeFactory.dateTime(0)
-        assertEquals(0, dateTime.minutesUntil(dateTime))
+        assertEquals(0, dateTime.until(dateTime, TimeUnit.MINUTE).inWholeMinutes)
     }
 }

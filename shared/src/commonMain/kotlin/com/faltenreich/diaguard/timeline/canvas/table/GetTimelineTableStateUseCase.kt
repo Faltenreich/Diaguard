@@ -3,11 +3,12 @@ package com.faltenreich.diaguard.timeline.canvas.table
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
-import com.faltenreich.diaguard.datetime.DateTimeConstants
 import com.faltenreich.diaguard.data.measurement.category.MeasurementCategory
-import com.faltenreich.diaguard.data.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.data.measurement.property.MeasurementAggregationStyle
+import com.faltenreich.diaguard.data.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.data.measurement.value.MeasurementValue
+import com.faltenreich.diaguard.datetime.DateTimeConstants
+import com.faltenreich.diaguard.datetime.TimeUnit
 import com.faltenreich.diaguard.measurement.value.MeasurementValueMapper
 import com.faltenreich.diaguard.timeline.canvas.TimelineCanvasDimensions
 import com.faltenreich.diaguard.timeline.canvas.time.TimelineTimeState
@@ -93,7 +94,7 @@ class GetTimelineTableStateUseCase(
                                         widthPerHour / DateTimeConstants.MINUTES_PER_HOUR
 
                                     val offsetInMinutes =
-                                        time.initialDateTime.minutesUntil(dateTime)
+                                        time.initialDateTime.until(dateTime, TimeUnit.MINUTE).inWholeMinutes
                                     val offsetOfDateTime =
                                         (offsetInMinutes / time.hourProgression.step) *
                                             widthPerMinute

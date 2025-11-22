@@ -32,9 +32,6 @@ interface DateTime : Serializable, Comparable<DateTime> {
      */
     val isoString: String
 
-    @Deprecated("Use until instead")
-    fun minutesUntil(other: DateTime): Long
-
     fun until(other: DateTime, unit: TimeUnit): Duration
 
     //region Any

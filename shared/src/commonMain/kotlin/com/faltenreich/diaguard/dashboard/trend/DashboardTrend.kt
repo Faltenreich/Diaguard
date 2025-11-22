@@ -8,11 +8,11 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.faltenreich.diaguard.view.theme.AppTheme
 import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import com.faltenreich.diaguard.statistic.trend.StatisticTrendChart
 import com.faltenreich.diaguard.statistic.trend.StatisticTrendState
 import com.faltenreich.diaguard.statistic.trend.StatisticTrendState.Interval
+import com.faltenreich.diaguard.view.theme.AppTheme
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.trend
 import org.jetbrains.compose.resources.stringResource
@@ -50,13 +50,15 @@ fun DashboardTrend(
 private fun Preview() = PreviewScaffold {
     DashboardTrend(
         state = StatisticTrendState(
-            intervals = week().map { date ->
-                Interval(
-                    dateRange = date .. date,
-                    label = date.dayOfWeek.localized(),
-                    average = null,
-                )
-            },
+            intervals = listOf(
+                today().let { date ->
+                    Interval(
+                        dateRange = date .. date,
+                        label = date.dayOfWeek.localized(),
+                        average = null,
+                    )
+                }
+            ),
             targetValue = 120.0,
             maximumValue = 200.0,
         ),

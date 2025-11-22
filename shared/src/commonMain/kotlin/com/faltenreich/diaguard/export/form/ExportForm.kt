@@ -15,17 +15,18 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
+import com.faltenreich.diaguard.data.preview.PreviewScaffold
+import com.faltenreich.diaguard.datetime.DateRange
 import com.faltenreich.diaguard.datetime.picker.DateRangePickerDialog
 import com.faltenreich.diaguard.export.ExportType
 import com.faltenreich.diaguard.export.pdf.PdfLayout
 import com.faltenreich.diaguard.measurement.category.icon.MeasurementCategoryIcon
-import com.faltenreich.diaguard.view.divider.Divider
-import com.faltenreich.diaguard.view.overlay.DropdownTextMenu
-import com.faltenreich.diaguard.view.layout.FormRow
-import com.faltenreich.diaguard.view.image.ResourceIcon
 import com.faltenreich.diaguard.view.checkbox.TextCheckbox
+import com.faltenreich.diaguard.view.divider.Divider
 import com.faltenreich.diaguard.view.divider.TextDivider
-import com.faltenreich.diaguard.data.preview.PreviewScaffold
+import com.faltenreich.diaguard.view.image.ResourceIcon
+import com.faltenreich.diaguard.view.layout.FormRow
+import com.faltenreich.diaguard.view.overlay.DropdownTextMenu
 import diaguard.core.view.generated.resources.ic_note
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.data
@@ -192,7 +193,7 @@ private fun Preview() = PreviewScaffold {
     ExportForm(
         state = ExportFormState(
             date = ExportFormState.Date(
-                dateRange = week().toDateRange(),
+                dateRange = today().let { today -> DateRange(today, today) },
                 dateRangeLocalized = "DateRange",
                 includeCalendarWeek = true,
                 includeDateOfExport = true,

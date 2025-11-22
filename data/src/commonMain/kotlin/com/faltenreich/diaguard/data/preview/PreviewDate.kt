@@ -15,7 +15,7 @@ class PreviewDate(
 ) : Date {
 
     override val dayOfWeek: DayOfWeek
-        get() = TODO("Not yet implemented")
+        get() = DayOfWeek.MONDAY
 
     override fun atTime(time: Time): DateTime = TODO("Not yet implemented")
 

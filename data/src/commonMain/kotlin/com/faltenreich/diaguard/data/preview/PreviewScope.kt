@@ -10,8 +10,6 @@ import com.faltenreich.diaguard.data.measurement.property.MeasurementValueRange
 import com.faltenreich.diaguard.data.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.data.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.data.tag.Tag
-import com.faltenreich.diaguard.datetime.DateProgression
-import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.DayOfWeek
 
 class PreviewScope {
@@ -19,15 +17,6 @@ class PreviewScope {
     fun now() = PreviewDateTime()
 
     fun today() = now().date
-
-    fun week() = today().let { today ->
-        DateProgression(
-            start = today
-                .minus(1, DateUnit.WEEK)
-                .plus(1, DateUnit.DAY),
-            endInclusive = today,
-        )
-    }
 
     fun entry() = Entry.Local(
         id = 0L,

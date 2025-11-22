@@ -1,16 +1,14 @@
-package com.faltenreich.diaguard.shared.database.sqldelight.dao
+package com.faltenreich.diaguard.data.entry
 
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
 import app.cash.sqldelight.coroutines.mapToOne
 import app.cash.sqldelight.coroutines.mapToOneOrNull
+import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.persistence.sqldelight.EntryQueries
 import com.faltenreich.diaguard.persistence.sqldelight.SqlDelightApi
-import com.faltenreich.diaguard.datetime.DateTime
-import com.faltenreich.diaguard.data.entry.Entry
-import com.faltenreich.diaguard.data.entry.EntryDao
+import com.faltenreich.diaguard.persistence.sqldelight.SqlDelightDao
 import com.faltenreich.diaguard.view.paging.PagingPage
-import com.faltenreich.diaguard.shared.database.sqldelight.mapper.EntrySqlDelightMapper
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 

@@ -14,6 +14,7 @@ kotlin {
                 implementation(project(":core:serialization"))
                 implementation(project(":core:view"))
                 implementation(libs.kotlinx.serialization.json)
+                implementation(libs.sqldelight.coroutines)
             }
         }
     }

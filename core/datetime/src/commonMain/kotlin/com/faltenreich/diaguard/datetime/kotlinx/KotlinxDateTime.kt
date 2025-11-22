@@ -1,13 +1,12 @@
 package com.faltenreich.diaguard.datetime.kotlinx
 
-import com.faltenreich.diaguard.serialization.ObjectInputStream
-import com.faltenreich.diaguard.serialization.ObjectOutputStream
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.datetime.DateTimeConstants
 import com.faltenreich.diaguard.datetime.Time
 import com.faltenreich.diaguard.datetime.TimeUnit
-import kotlinx.datetime.DateTimeUnit
+import com.faltenreich.diaguard.serialization.ObjectInputStream
+import com.faltenreich.diaguard.serialization.ObjectOutputStream
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
@@ -53,15 +52,6 @@ class KotlinxDateTime(private var delegate: LocalDateTime) : DateTime {
     constructor(millis: Long) : this(
         Instant.fromEpochMilliseconds(millis).toLocalDateTime(TimeZone.currentSystemDefault())
     )
-
-    @Deprecated("Use until instead")
-    override fun minutesUntil(other: DateTime): Long {
-        val timeZone = TimeZone.currentSystemDefault()
-        val instant = delegate.toInstant(timeZone)
-        val otherLocalDateTime = KotlinxDateTime(other.millisSince1970).delegate
-        val otherInstant = otherLocalDateTime.toInstant(timeZone)
-        return instant.until(otherInstant, DateTimeUnit.MINUTE)
-    }
 
     override fun until(other: DateTime, unit: TimeUnit): Duration {
         val timeZone = TimeZone.currentSystemDefault()

@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.shared.database.sqldelight.dao
+package com.faltenreich.diaguard.data.measurement.property
 
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
@@ -7,12 +7,8 @@ import com.faltenreich.diaguard.persistence.sqldelight.MeasurementPropertyQuerie
 import com.faltenreich.diaguard.persistence.sqldelight.SqlDelightApi
 import com.faltenreich.diaguard.persistence.sqldelight.SqlDelightExtensions.toSqlLiteLong
 import com.faltenreich.diaguard.datetime.DateTime
-import com.faltenreich.diaguard.data.measurement.property.MeasurementProperty
-import com.faltenreich.diaguard.data.measurement.property.MeasurementPropertyDao
-import com.faltenreich.diaguard.data.measurement.property.MeasurementAggregationStyle
-import com.faltenreich.diaguard.data.measurement.property.MeasurementValueRange
 import com.faltenreich.diaguard.data.DatabaseKey
-import com.faltenreich.diaguard.shared.database.sqldelight.mapper.MeasurementPropertySqlDelightMapper
+import com.faltenreich.diaguard.persistence.sqldelight.SqlDelightDao
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 

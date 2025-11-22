@@ -1,9 +1,7 @@
-package com.faltenreich.diaguard.shared.database.sqldelight.dao
+package com.faltenreich.diaguard.persistence.sqldelight
 
 import app.cash.sqldelight.Transacter
 import com.faltenreich.diaguard.injection.inject
-import com.faltenreich.diaguard.persistence.sqldelight.SqlDelightApi
-import com.faltenreich.diaguard.persistence.sqldelight.SqlDelightDatabase
 
 interface SqlDelightDao<SqlDelightQueries: Transacter> {
 

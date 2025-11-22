@@ -1,7 +1,6 @@
-package com.faltenreich.diaguard.shared.database.sqldelight.mapper
+package com.faltenreich.diaguard.data.measurement.category
 
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
-import com.faltenreich.diaguard.data.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.data.DatabaseKey
 import com.faltenreich.diaguard.persistence.sqldelight.SqlDelightExtensions.toSqlLiteBoolean
 

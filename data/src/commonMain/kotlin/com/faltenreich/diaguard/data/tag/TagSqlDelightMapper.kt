@@ -1,9 +1,8 @@
-package com.faltenreich.diaguard.shared.database.sqldelight.mapper
+package com.faltenreich.diaguard.data.tag
 
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
-import com.faltenreich.diaguard.data.entry.Entry
 
-class EntrySqlDelightMapper(
+class TagSqlDelightMapper(
     private val dateTimeFactory: DateTimeFactory,
 ) {
 
@@ -11,15 +10,13 @@ class EntrySqlDelightMapper(
         id: Long,
         createdAt: String,
         updatedAt: String,
-        dateTime: String,
-        note: String?,
-    ): Entry.Local {
-        return Entry.Local(
+        name: String,
+    ): Tag.Local {
+        return Tag.Local(
             id = id,
             createdAt = dateTimeFactory.dateTime(isoString = createdAt),
             updatedAt = dateTimeFactory.dateTime(isoString = updatedAt),
-            dateTime = dateTimeFactory.dateTime(isoString = dateTime),
-            note = note,
+            name = name,
         )
     }
 }

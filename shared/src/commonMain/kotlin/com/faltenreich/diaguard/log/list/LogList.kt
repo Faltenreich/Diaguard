@@ -23,7 +23,7 @@ import com.faltenreich.diaguard.log.list.item.LogItemState
 import com.faltenreich.diaguard.log.list.item.LogLoadingIndicator
 import com.faltenreich.diaguard.log.list.item.LogMonth
 import com.faltenreich.diaguard.view.Skeleton
-import com.faltenreich.diaguard.shared.view.preview.AppPreview
+import com.faltenreich.diaguard.data.preview.AppPreview
 import kotlinx.coroutines.flow.flowOf
 import org.jetbrains.compose.ui.tooling.preview.Preview
 

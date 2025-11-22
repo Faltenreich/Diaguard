@@ -5,7 +5,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.faltenreich.diaguard.shared.view.preview.AppPreview
+import com.faltenreich.diaguard.data.preview.AppPreview
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.cancel
 import diaguard.shared.generated.resources.permission_grant

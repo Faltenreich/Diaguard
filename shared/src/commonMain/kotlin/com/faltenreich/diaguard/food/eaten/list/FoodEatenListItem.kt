@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.data.food.eaten.FoodEaten
 import com.faltenreich.diaguard.view.FormRow
-import com.faltenreich.diaguard.shared.view.preview.AppPreview
+import com.faltenreich.diaguard.data.preview.AppPreview
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable

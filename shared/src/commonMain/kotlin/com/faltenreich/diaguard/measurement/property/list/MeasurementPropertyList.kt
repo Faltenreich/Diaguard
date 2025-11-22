@@ -18,7 +18,7 @@ import com.faltenreich.diaguard.data.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.view.Divider
 import com.faltenreich.diaguard.view.ResourceIcon
 import com.faltenreich.diaguard.view.TextDivider
-import com.faltenreich.diaguard.shared.view.preview.AppPreview
+import com.faltenreich.diaguard.data.preview.AppPreview
 import diaguard.core.view.generated.resources.ic_add
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.measurement_properties

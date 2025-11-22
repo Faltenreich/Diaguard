@@ -13,7 +13,7 @@ import androidx.compose.ui.semantics.Role
 import com.faltenreich.diaguard.measurement.category.icon.MeasurementCategoryIcon
 import com.faltenreich.diaguard.view.DropdownTextMenu
 import com.faltenreich.diaguard.view.FormRow
-import com.faltenreich.diaguard.shared.view.preview.AppPreview
+import com.faltenreich.diaguard.data.preview.AppPreview
 import com.faltenreich.diaguard.statistic.StatisticIntent
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.date_range_picker_open

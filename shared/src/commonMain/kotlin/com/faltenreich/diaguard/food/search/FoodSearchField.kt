@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import com.faltenreich.diaguard.view.ClearButton
 import com.faltenreich.diaguard.view.SearchField
-import com.faltenreich.diaguard.shared.view.preview.AppPreview
+import com.faltenreich.diaguard.data.preview.AppPreview
 import diaguard.core.view.generated.resources.ic_arrow_back
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.food_search_prompt

@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.shared.view.preview
+package com.faltenreich.diaguard.data.preview
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

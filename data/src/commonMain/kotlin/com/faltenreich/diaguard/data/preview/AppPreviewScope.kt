@@ -1,19 +1,19 @@
-package com.faltenreich.diaguard.shared.view.preview
+package com.faltenreich.diaguard.data.preview
 
-import com.faltenreich.diaguard.datetime.DateProgression
-import com.faltenreich.diaguard.datetime.DateUnit
-import com.faltenreich.diaguard.datetime.DayOfWeek
-import com.faltenreich.diaguard.datetime.kotlinx.KotlinxDateTime
 import com.faltenreich.diaguard.data.entry.Entry
 import com.faltenreich.diaguard.data.food.Food
 import com.faltenreich.diaguard.data.food.eaten.FoodEaten
 import com.faltenreich.diaguard.data.measurement.category.MeasurementCategory
-import com.faltenreich.diaguard.data.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.data.measurement.property.MeasurementAggregationStyle
+import com.faltenreich.diaguard.data.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.data.measurement.property.MeasurementValueRange
 import com.faltenreich.diaguard.data.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.data.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.data.tag.Tag
+import com.faltenreich.diaguard.datetime.DateProgression
+import com.faltenreich.diaguard.datetime.DateUnit
+import com.faltenreich.diaguard.datetime.DayOfWeek
+import com.faltenreich.diaguard.datetime.kotlinx.KotlinxDateTime
 import kotlin.time.Clock
 
 class AppPreviewScope {

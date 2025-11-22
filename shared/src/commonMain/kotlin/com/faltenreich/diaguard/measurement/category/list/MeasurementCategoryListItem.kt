@@ -10,7 +10,7 @@ import com.faltenreich.diaguard.data.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.measurement.category.icon.MeasurementCategoryIcon
 import com.faltenreich.diaguard.view.FormRow
 import com.faltenreich.diaguard.view.ResourceIcon
-import com.faltenreich.diaguard.shared.view.preview.AppPreview
+import com.faltenreich.diaguard.data.preview.AppPreview
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.ic_arrow_down
 import diaguard.shared.generated.resources.ic_arrow_up

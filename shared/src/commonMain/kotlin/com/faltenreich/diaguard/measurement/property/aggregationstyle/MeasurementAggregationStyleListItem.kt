@@ -11,7 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
 import com.faltenreich.diaguard.data.measurement.property.MeasurementAggregationStyle
-import com.faltenreich.diaguard.shared.view.preview.AppPreview
+import com.faltenreich.diaguard.data.preview.AppPreview
 import com.faltenreich.diaguard.view.theme.AppTheme
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.aggregation_style_average

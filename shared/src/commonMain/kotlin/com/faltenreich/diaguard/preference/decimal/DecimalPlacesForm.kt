@@ -16,7 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.view.theme.AppTheme
 import com.faltenreich.diaguard.preference.overview.OverviewPreferenceListState
-import com.faltenreich.diaguard.shared.view.preview.AppPreview
+import com.faltenreich.diaguard.data.preview.AppPreview
 import diaguard.core.view.generated.resources.ic_add
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.decimal_places

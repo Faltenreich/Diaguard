@@ -11,7 +11,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalFocusManager
 import com.faltenreich.diaguard.view.ClearButton
 import com.faltenreich.diaguard.view.SearchField
-import com.faltenreich.diaguard.shared.view.preview.AppPreview
+import com.faltenreich.diaguard.data.preview.AppPreview
 import com.faltenreich.diaguard.view.rememberFocusRequester
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.entry_search_prompt

@@ -30,7 +30,7 @@ import com.faltenreich.diaguard.view.EmojiPicker
 import com.faltenreich.diaguard.view.FormRow
 import com.faltenreich.diaguard.view.TextCheckbox
 import com.faltenreich.diaguard.view.TextInput
-import com.faltenreich.diaguard.shared.view.preview.AppPreview
+import com.faltenreich.diaguard.data.preview.AppPreview
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.delete_error_pre_defined
 import diaguard.shared.generated.resources.delete_title

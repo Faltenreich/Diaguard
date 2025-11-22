@@ -25,7 +25,7 @@ import com.faltenreich.diaguard.view.NoticeBarStyle
 import com.faltenreich.diaguard.view.ResourceIcon
 import com.faltenreich.diaguard.view.TextDivider
 import com.faltenreich.diaguard.view.TextInput
-import com.faltenreich.diaguard.shared.view.preview.AppPreview
+import com.faltenreich.diaguard.data.preview.AppPreview
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.brand
 import diaguard.shared.generated.resources.ic_brand

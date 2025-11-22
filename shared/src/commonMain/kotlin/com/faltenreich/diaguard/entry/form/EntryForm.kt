@@ -41,7 +41,7 @@ import com.faltenreich.diaguard.view.Divider
 import com.faltenreich.diaguard.view.FormRow
 import com.faltenreich.diaguard.view.ResourceIcon
 import com.faltenreich.diaguard.view.TextInput
-import com.faltenreich.diaguard.shared.view.preview.AppPreview
+import com.faltenreich.diaguard.data.preview.AppPreview
 import diaguard.core.view.generated.resources.ic_clear
 import diaguard.core.view.generated.resources.ic_note
 import diaguard.shared.generated.resources.Res

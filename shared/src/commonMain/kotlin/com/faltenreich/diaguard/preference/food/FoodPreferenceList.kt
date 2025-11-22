@@ -10,7 +10,7 @@ import com.faltenreich.diaguard.preference.list.item.PreferenceCategoryListItem
 import com.faltenreich.diaguard.preference.list.item.PreferenceCheckBoxListItem
 import com.faltenreich.diaguard.view.NoticeBar
 import com.faltenreich.diaguard.view.NoticeBarStyle
-import com.faltenreich.diaguard.shared.view.preview.AppPreview
+import com.faltenreich.diaguard.data.preview.AppPreview
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.food_branded
 import diaguard.shared.generated.resources.food_branded_show

@@ -23,7 +23,7 @@ import com.faltenreich.diaguard.preference.list.item.PreferenceActionListItem
 import com.faltenreich.diaguard.preference.list.item.PreferenceCategoryListItem
 import com.faltenreich.diaguard.preference.screen.StartScreen
 import com.faltenreich.diaguard.preference.screen.StartScreenForm
-import com.faltenreich.diaguard.shared.view.preview.AppPreview
+import com.faltenreich.diaguard.data.preview.AppPreview
 import com.faltenreich.diaguard.tag.list.TagListScreen
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.about

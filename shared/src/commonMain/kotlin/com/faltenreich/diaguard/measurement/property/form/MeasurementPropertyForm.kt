@@ -27,7 +27,7 @@ import com.faltenreich.diaguard.data.measurement.property.MeasurementAggregation
 import com.faltenreich.diaguard.data.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.measurement.property.aggregationstyle.MeasurementAggregationStyleForm
 import com.faltenreich.diaguard.measurement.property.range.MeasurementValueRangeForm
-import com.faltenreich.diaguard.shared.view.preview.AppPreview
+import com.faltenreich.diaguard.data.preview.AppPreview
 import com.faltenreich.diaguard.view.DeleteDialog
 import com.faltenreich.diaguard.view.Divider
 import com.faltenreich.diaguard.view.FormRow

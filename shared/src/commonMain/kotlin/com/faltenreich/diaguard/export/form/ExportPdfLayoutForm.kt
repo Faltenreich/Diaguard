@@ -20,7 +20,7 @@ import com.faltenreich.diaguard.view.FormRow
 import com.faltenreich.diaguard.view.ResourceIcon
 import com.faltenreich.diaguard.view.TextCheckbox
 import com.faltenreich.diaguard.view.TextDivider
-import com.faltenreich.diaguard.shared.view.preview.AppPreview
+import com.faltenreich.diaguard.data.preview.AppPreview
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.calendar_week
 import diaguard.shared.generated.resources.date_of_export

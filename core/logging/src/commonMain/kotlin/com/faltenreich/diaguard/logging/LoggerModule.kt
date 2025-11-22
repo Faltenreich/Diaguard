@@ -1,7 +1,9 @@
 package com.faltenreich.diaguard.logging
 
+import org.koin.core.module.dsl.singleOf
+import org.koin.dsl.bind
 import org.koin.dsl.module
 
-fun loggerModule() = module {
-    single<Logger> { PlatformLogger() }
+fun loggingModule() = module {
+    singleOf(::PlatformLogger) bind Logger::class
 }

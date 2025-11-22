@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.navigation.bar.bottom
 
 import androidx.compose.runtime.Composable
 import com.faltenreich.diaguard.view.theme.AppTheme
-import com.faltenreich.diaguard.shared.view.preview.AppPreview
+import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.ic_menu
 import diaguard.shared.generated.resources.menu_open
@@ -37,7 +37,7 @@ fun BottomAppBar(
 
 @Preview
 @Composable
-private fun Preview() = AppPreview {
+private fun Preview() = PreviewScaffold {
     BottomAppBar(
         style = BottomAppBarStyle.Visible(
             actions = {},

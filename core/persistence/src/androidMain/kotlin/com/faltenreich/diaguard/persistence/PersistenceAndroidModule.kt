@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.persistence
 
 import com.faltenreich.diaguard.persistence.keyvalue.DataStore
+import com.faltenreich.diaguard.persistence.keyvalue.FakeKeyValueStore
 import com.faltenreich.diaguard.persistence.keyvalue.KeyValueStore
 import com.faltenreich.diaguard.persistence.keyvalue.SharedPreferences
 import com.faltenreich.diaguard.persistence.sqldelight.SqlDelightDiskDriverFactory
@@ -11,14 +12,15 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.named
-import org.koin.core.module.dsl.singleOf
-import org.koin.dsl.bind
 import org.koin.dsl.module
 
 const val KEY_VALUE_STORE_LEGACY = "KEY_VALUE_STORE_LEGACY"
 
 internal actual fun persistencePlatformModule(inMemory: Boolean) = module {
-    singleOf(::DataStore) bind KeyValueStore::class
+    single {
+        if (inMemory) FakeKeyValueStore()
+        else DataStore(androidContext())
+    }
     factoryOf(::SharedPreferences) {
         named(KEY_VALUE_STORE_LEGACY)
         bind<KeyValueStore>()

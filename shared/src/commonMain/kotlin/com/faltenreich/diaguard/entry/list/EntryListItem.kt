@@ -31,7 +31,7 @@ import com.faltenreich.diaguard.view.theme.AppTheme
 import com.faltenreich.diaguard.entry.form.tag.EntryTagList
 import com.faltenreich.diaguard.data.entry.tag.EntryTag
 import com.faltenreich.diaguard.measurement.category.icon.MeasurementCategoryIcon
-import com.faltenreich.diaguard.shared.view.preview.AppPreview
+import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import com.faltenreich.diaguard.data.tag.Tag
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.undo
@@ -192,7 +192,7 @@ private fun FoodEaten(state: EntryListItemState) {
 
 @Preview
 @Composable
-private fun Preview() = AppPreview {
+private fun Preview() = PreviewScaffold {
     EntryListItem(
         state = EntryListItemState(
             entry = entry(),

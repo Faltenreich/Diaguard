@@ -8,6 +8,7 @@ import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.datetime.format.FormatDateTimeUseCase
 import com.faltenreich.diaguard.datetime.kotlinx.KotlinxDateTimeFactory
 import com.faltenreich.diaguard.datetime.kotlinx.KotlinxDateTimeFormatter
+import org.koin.core.module.Module
 import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
@@ -21,3 +22,5 @@ fun dateTimeModule() = module {
     factoryOf(::FormatDateTimeUseCase)
     factoryOf(::GetTodayUseCase)
 }
+
+expect fun dateTimePlatformModule(): Module

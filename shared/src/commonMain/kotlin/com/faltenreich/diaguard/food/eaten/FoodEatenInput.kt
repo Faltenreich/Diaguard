@@ -11,8 +11,8 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import com.faltenreich.diaguard.view.theme.AppTheme
 import com.faltenreich.diaguard.entry.form.EntryFormIntent
-import com.faltenreich.diaguard.view.TextInput
-import com.faltenreich.diaguard.shared.view.preview.AppPreview
+import com.faltenreich.diaguard.view.input.TextInput
+import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.food_delete
 import diaguard.shared.generated.resources.grams_abbreviation
@@ -54,7 +54,7 @@ fun FoodEatenInput(
 
 @Preview
 @Composable
-private fun Preview() = AppPreview {
+private fun Preview() = PreviewScaffold {
     FoodEatenInput(
         state = FoodEatenInputState(
             food = food(),

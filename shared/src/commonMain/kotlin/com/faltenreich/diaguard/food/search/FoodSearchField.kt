@@ -8,9 +8,9 @@ import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
-import com.faltenreich.diaguard.view.ClearButton
-import com.faltenreich.diaguard.view.SearchField
-import com.faltenreich.diaguard.shared.view.preview.AppPreview
+import com.faltenreich.diaguard.view.button.ClearButton
+import com.faltenreich.diaguard.view.input.SearchField
+import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import diaguard.core.view.generated.resources.ic_arrow_back
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.food_search_prompt
@@ -59,7 +59,7 @@ fun FoodSearchField(
 
 @Preview
 @Composable
-private fun Preview() = AppPreview {
+private fun Preview() = PreviewScaffold {
     FoodSearchField(
         query = "Query",
         onQueryChange = {},

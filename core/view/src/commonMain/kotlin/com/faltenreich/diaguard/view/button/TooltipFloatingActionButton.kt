@@ -1,0 +1,69 @@
+package com.faltenreich.diaguard.view.button
+
+import androidx.compose.foundation.combinedClickable
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.FloatingActionButtonDefaults
+import androidx.compose.material3.FloatingActionButtonElevation
+import androidx.compose.material3.Icon
+import androidx.compose.material3.rememberTooltipState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.painter.Painter
+import com.faltenreich.diaguard.view.theme.AppTheme
+import com.faltenreich.diaguard.view.info.Tooltip
+import diaguard.core.view.generated.resources.Res
+import diaguard.core.view.generated.resources.ic_add
+import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
+
+@Composable
+fun TooltipFloatingActionButton(
+    painter: Painter,
+    contentDescription: String,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    shape: Shape = AppTheme.shapes.large,
+    containerColor: Color = AppTheme.colors.scheme.onPrimary,
+    contentColor: Color = AppTheme.colors.scheme.primary,
+    elevation: FloatingActionButtonElevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+) {
+    val scope = rememberCoroutineScope()
+    val tooltipState = rememberTooltipState()
+
+    Tooltip(
+        text = contentDescription,
+        state = tooltipState,
+        modifier = modifier,
+    ) {
+        FloatingActionButton(
+            onClick = onClick,
+            modifier = Modifier.combinedClickable(
+                onClick = onClick,
+                onLongClick = { scope.launch { tooltipState.show() } },
+            ),
+            shape = shape,
+            containerColor = containerColor,
+            contentColor = contentColor,
+            elevation = elevation,
+        ) {
+            Icon(
+                painter = painter,
+                contentDescription = contentDescription,
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun Preview() {
+    TooltipFloatingActionButton(
+        painter = painterResource(Res.drawable.ic_add),
+        contentDescription = "",
+        onClick = {},
+    )
+}

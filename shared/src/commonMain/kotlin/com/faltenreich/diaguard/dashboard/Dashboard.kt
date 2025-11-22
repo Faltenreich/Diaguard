@@ -13,7 +13,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import com.faltenreich.diaguard.view.theme.AppTheme
 import com.faltenreich.diaguard.dashboard.average.DashboardAverage
 import com.faltenreich.diaguard.dashboard.average.DashboardAverageState
 import com.faltenreich.diaguard.dashboard.hba1c.DashboardHbA1c
@@ -25,9 +24,10 @@ import com.faltenreich.diaguard.dashboard.reminder.DashboardReminderState
 import com.faltenreich.diaguard.dashboard.today.DashboardToday
 import com.faltenreich.diaguard.dashboard.today.DashboardTodayState
 import com.faltenreich.diaguard.dashboard.trend.DashboardTrend
-import com.faltenreich.diaguard.shared.view.preview.AppPreview
+import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import com.faltenreich.diaguard.statistic.trend.StatisticTrendState
 import com.faltenreich.diaguard.statistic.trend.StatisticTrendState.Interval
+import com.faltenreich.diaguard.view.theme.AppTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -98,7 +98,7 @@ fun Dashboard(
 
 @Preview
 @Composable
-private fun Preview() = AppPreview {
+private fun Preview() = PreviewScaffold {
     Dashboard(
         state = DashboardState(
             latest = DashboardLatestState.None,
@@ -117,13 +117,15 @@ private fun Preview() = AppPreview {
             ),
             hbA1c = DashboardHbA1cState.Unknown,
             trend = StatisticTrendState(
-                intervals = week().map { date ->
-                    Interval(
-                        dateRange = date .. date,
-                        label = date.dayOfWeek.localized(),
-                        average = null,
-                    )
-                },
+                intervals = listOf(
+                    today().let { date ->
+                        Interval(
+                            dateRange = date .. date,
+                            label = date.dayOfWeek.localized(),
+                            average = null,
+                        )
+                    }
+                ),
                 targetValue = 120.0,
                 maximumValue = 200.0,
             ),

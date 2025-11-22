@@ -12,9 +12,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
-import com.faltenreich.diaguard.view.FormRow
-import com.faltenreich.diaguard.view.TextInput
-import com.faltenreich.diaguard.shared.view.preview.AppPreview
+import com.faltenreich.diaguard.view.layout.FormRow
+import com.faltenreich.diaguard.view.input.TextInput
+import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -46,7 +46,7 @@ fun FoodNutrientListItem(
 
 @Preview
 @Composable
-private fun Preview() = AppPreview {
+private fun Preview() = PreviewScaffold {
     FoodNutrientListItem(
         data = FoodNutrientData(
             nutrient = FoodNutrient.CARBOHYDRATES,

@@ -10,7 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.view.theme.AppTheme
-import com.faltenreich.diaguard.shared.view.preview.AppPreview
+import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.start_screen
 import org.jetbrains.compose.resources.stringResource
@@ -49,7 +49,7 @@ fun StartScreenForm(
 
 @Preview
 @Composable
-private fun Preview() = AppPreview {
+private fun Preview() = PreviewScaffold {
     StartScreenForm(
         state = StartScreen.DASHBOARD,
         onChange = {},

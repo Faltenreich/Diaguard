@@ -17,9 +17,9 @@ import com.faltenreich.diaguard.entry.form.EntryFormIntent
 import com.faltenreich.diaguard.food.eaten.FoodEatenInput
 import com.faltenreich.diaguard.food.eaten.FoodEatenInputState
 import com.faltenreich.diaguard.measurement.category.icon.MeasurementCategoryIcon
-import com.faltenreich.diaguard.view.Divider
-import com.faltenreich.diaguard.view.ResourceIcon
-import com.faltenreich.diaguard.shared.view.preview.AppPreview
+import com.faltenreich.diaguard.view.divider.Divider
+import com.faltenreich.diaguard.view.image.ResourceIcon
+import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.food_add
 import diaguard.shared.generated.resources.ic_search
@@ -105,7 +105,7 @@ fun MeasurementCategoryInput(
 
 @Preview
 @Composable
-private fun Preview() = AppPreview {
+private fun Preview() = PreviewScaffold {
     MeasurementCategoryInput(
         state = MeasurementCategoryInputState(
             category = category(),

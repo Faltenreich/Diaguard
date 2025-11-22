@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard
 
-import com.faltenreich.diaguard.architecture.coroutineModule
+import com.faltenreich.diaguard.architecture.architectureModule
 import com.faltenreich.diaguard.backup.backupModule
 import com.faltenreich.diaguard.config.configModule
 import com.faltenreich.diaguard.dashboard.dashboardModule
@@ -11,7 +11,7 @@ import com.faltenreich.diaguard.export.exportModule
 import com.faltenreich.diaguard.food.foodModule
 import com.faltenreich.diaguard.localization.localizationModule
 import com.faltenreich.diaguard.log.logModule
-import com.faltenreich.diaguard.logging.loggerModule
+import com.faltenreich.diaguard.logging.loggingModule
 import com.faltenreich.diaguard.main.mainModule
 import com.faltenreich.diaguard.measurement.measurementModule
 import com.faltenreich.diaguard.navigation.navigationModule
@@ -19,35 +19,41 @@ import com.faltenreich.diaguard.network.networkModule
 import com.faltenreich.diaguard.persistence.persistenceModule
 import com.faltenreich.diaguard.preference.preferenceModule
 import com.faltenreich.diaguard.serialization.serializationModule
-import com.faltenreich.diaguard.startup.HasDataUseCase
 import com.faltenreich.diaguard.startup.startupModule
 import com.faltenreich.diaguard.statistic.statisticModule
 import com.faltenreich.diaguard.system.systemModule
 import com.faltenreich.diaguard.tag.tagModule
 import com.faltenreich.diaguard.timeline.timelineModule
-import com.faltenreich.diaguard.view.window.windowModule
-import org.koin.core.module.dsl.factoryOf
+import com.faltenreich.diaguard.view.viewModule
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
 fun appModule() = module {
-    factoryOf(::HasDataUseCase)
-    viewModelOf(::AppViewModel)
-
     includes(
-        // Core
-        coroutineModule(),
-        configModule(),
+        coreModule(),
         dataModule(),
+        featureModule(),
+    )
+    viewModelOf(::AppViewModel)
+}
+
+private fun coreModule() = module {
+    includes(
+        architectureModule(),
+        configModule(),
         dateTimeModule(),
         localizationModule(),
-        loggerModule(),
+        loggingModule(),
         networkModule(),
         persistenceModule(inMemory = false),
         serializationModule(),
         systemModule(),
-        windowModule(),
-        // Feature
+        viewModule(),
+    )
+}
+
+private fun featureModule() = module {
+    includes(
         backupModule(),
         dashboardModule(),
         entryModule(),

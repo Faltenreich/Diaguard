@@ -17,15 +17,15 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import com.faltenreich.diaguard.food.nutrient.FoodNutrientListItem
-import com.faltenreich.diaguard.view.DeleteDialog
-import com.faltenreich.diaguard.view.Divider
-import com.faltenreich.diaguard.view.FormRow
-import com.faltenreich.diaguard.view.NoticeBar
-import com.faltenreich.diaguard.view.NoticeBarStyle
-import com.faltenreich.diaguard.view.ResourceIcon
-import com.faltenreich.diaguard.view.TextDivider
-import com.faltenreich.diaguard.view.TextInput
-import com.faltenreich.diaguard.shared.view.preview.AppPreview
+import com.faltenreich.diaguard.view.overlay.DeleteDialog
+import com.faltenreich.diaguard.view.divider.Divider
+import com.faltenreich.diaguard.view.layout.FormRow
+import com.faltenreich.diaguard.view.info.NoticeBar
+import com.faltenreich.diaguard.view.info.NoticeBarStyle
+import com.faltenreich.diaguard.view.image.ResourceIcon
+import com.faltenreich.diaguard.view.divider.TextDivider
+import com.faltenreich.diaguard.view.input.TextInput
+import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.brand
 import diaguard.shared.generated.resources.ic_brand
@@ -146,7 +146,7 @@ fun FoodForm(
 
 @Preview
 @Composable
-private fun Preview() = AppPreview {
+private fun Preview() = PreviewScaffold {
     val food = food()
     FoodForm(
         state = FoodFormState(

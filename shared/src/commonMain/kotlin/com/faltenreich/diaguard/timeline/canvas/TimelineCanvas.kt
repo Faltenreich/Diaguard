@@ -30,8 +30,8 @@ import androidx.compose.ui.unit.toSize
 import com.faltenreich.diaguard.view.theme.AppTheme
 import com.faltenreich.diaguard.view.theme.LocalDimensions
 import com.faltenreich.diaguard.view.theme.color.LocalColors
-import com.faltenreich.diaguard.shared.view.preview.AppPreview
-import com.faltenreich.diaguard.view.rememberAnimatable
+import com.faltenreich.diaguard.data.preview.PreviewScaffold
+import com.faltenreich.diaguard.view.animation.rememberAnimatable
 import com.faltenreich.diaguard.timeline.TimelineConfig
 import com.faltenreich.diaguard.timeline.TimelineIntent
 import com.faltenreich.diaguard.timeline.TimelineState
@@ -147,7 +147,7 @@ fun TimelineCanvas(
 
 @Preview
 @Composable
-private fun Preview() = AppPreview {
+private fun Preview() = PreviewScaffold {
     val date = today()
     TimelineCanvas(
         state = TimelineState(

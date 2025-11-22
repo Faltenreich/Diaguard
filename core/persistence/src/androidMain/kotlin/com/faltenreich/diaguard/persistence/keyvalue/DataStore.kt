@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlin.reflect.KClass
 
-class DataStore(private val context: Context) : KeyValueStore {
+internal class DataStore(private val context: Context) : KeyValueStore {
 
     private val Context.preferencesDataStore by preferencesDataStore(name = STORE_NAME)
 

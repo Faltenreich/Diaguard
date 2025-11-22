@@ -15,7 +15,7 @@ import kotlinx.datetime.DayOfWeek as KotlinxDayOfWeek
 // Workaround for 'when' is exhaustive so 'else' is redundant here.
 //  https://youtrack.jetbrains.com/issue/KT-72745/KMP-false-positive-when-expression-must-be-exhaustive-with-expect-actual-sealed-classes
 @Suppress("REDUNDANT_ELSE_IN_WHEN", "KotlinRedundantDiagnosticSuppress")
-fun KotlinxDayOfWeek.toDomain(): DayOfWeek {
+internal fun KotlinxDayOfWeek.toDomain(): DayOfWeek {
     return when (this) {
         KotlinxDayOfWeek.MONDAY -> DayOfWeek.MONDAY
         KotlinxDayOfWeek.TUESDAY -> DayOfWeek.TUESDAY
@@ -28,7 +28,7 @@ fun KotlinxDayOfWeek.toDomain(): DayOfWeek {
     }
 }
 
-fun DayOfWeek.fromDomain(): KotlinxDayOfWeek {
+internal fun DayOfWeek.fromDomain(): KotlinxDayOfWeek {
     return when (this) {
         DayOfWeek.MONDAY -> KotlinxDayOfWeek.MONDAY
         DayOfWeek.TUESDAY -> KotlinxDayOfWeek.TUESDAY
@@ -40,7 +40,7 @@ fun DayOfWeek.fromDomain(): KotlinxDayOfWeek {
     }
 }
 
-fun DateUnit.fromDomain(): DateTimeUnit.DateBased {
+internal fun DateUnit.fromDomain(): DateTimeUnit.DateBased {
     return when (this) {
         DateUnit.DAY -> DateTimeUnit.DAY
         DateUnit.WEEK -> DateTimeUnit.WEEK
@@ -51,7 +51,7 @@ fun DateUnit.fromDomain(): DateTimeUnit.DateBased {
     }
 }
 
-fun TimeUnit.fromDomain(): DateTimeUnit.TimeBased {
+internal fun TimeUnit.fromDomain(): DateTimeUnit.TimeBased {
     return when (this) {
         TimeUnit.NANOSECOND -> DateTimeUnit.NANOSECOND
         TimeUnit.MILLISECOND -> DateTimeUnit.MILLISECOND
@@ -61,7 +61,7 @@ fun TimeUnit.fromDomain(): DateTimeUnit.TimeBased {
     }
 }
 
-fun Long.toDuration(unit: TimeUnit): Duration {
+internal fun Long.toDuration(unit: TimeUnit): Duration {
     return when (unit) {
         TimeUnit.NANOSECOND -> nanoseconds
         TimeUnit.MILLISECOND -> milliseconds

@@ -14,7 +14,7 @@ import kotlin.time.Clock
 import kotlin.time.Duration.Companion.seconds
 import kotlin.time.Instant
 
-class KotlinxDateTimeFactory(
+internal class KotlinxDateTimeFactory(
     private val dateTimePlatformApi: DateTimePlatformApi,
 ) : DateTimeFactory {
 

@@ -9,7 +9,7 @@ import com.faltenreich.diaguard.network.NetworkRequest
 import com.faltenreich.diaguard.serialization.Serialization
 import com.faltenreich.diaguard.view.paging.PagingPage
 
-internal class OpenFoodFactsApi(
+class OpenFoodFactsApi(
     private val client: NetworkClient,
     private val localization: Localization,
     private val serialization: Serialization,

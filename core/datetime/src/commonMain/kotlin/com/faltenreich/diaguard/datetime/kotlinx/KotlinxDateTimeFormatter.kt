@@ -19,7 +19,7 @@ import diaguard.core.datetime.generated.resources.date_time_ago_moments
 import kotlinx.datetime.LocalTime
 import kotlinx.datetime.format.char
 
-class KotlinxDateTimeFormatter(
+internal class KotlinxDateTimeFormatter(
     private val localization: Localization,
     private val numberFormatter: NumberFormatter,
     private val dateTimePlatformApi: DateTimePlatformApi,

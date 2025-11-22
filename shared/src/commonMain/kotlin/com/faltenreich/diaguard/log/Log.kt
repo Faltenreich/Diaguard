@@ -26,9 +26,9 @@ import com.faltenreich.diaguard.log.list.item.LogDay
 import com.faltenreich.diaguard.log.list.item.LogDayState
 import com.faltenreich.diaguard.log.list.item.LogDayStickyInfo
 import com.faltenreich.diaguard.log.list.item.LogDayStyle
-import com.faltenreich.diaguard.view.LifecycleState
-import com.faltenreich.diaguard.shared.view.preview.AppPreview
-import com.faltenreich.diaguard.view.rememberLifecycleState
+import com.faltenreich.diaguard.view.lifecycle.LifecycleState
+import com.faltenreich.diaguard.data.preview.PreviewScaffold
+import com.faltenreich.diaguard.view.lifecycle.rememberLifecycleState
 import kotlinx.coroutines.flow.flowOf
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -105,7 +105,7 @@ fun Log(
 
 @Preview
 @Composable
-private fun Preview() = AppPreview {
+private fun Preview() = PreviewScaffold {
     Log(
         state = LogState(
             monthLocalized = "",

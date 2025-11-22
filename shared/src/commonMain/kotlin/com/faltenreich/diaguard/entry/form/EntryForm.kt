@@ -36,12 +36,12 @@ import com.faltenreich.diaguard.entry.form.reminder.ReminderPermissionDialog
 import com.faltenreich.diaguard.entry.form.reminder.ReminderPickerDialog
 import com.faltenreich.diaguard.entry.form.tag.EntryTagInput
 import com.faltenreich.diaguard.entry.form.tag.EntryTagList
-import com.faltenreich.diaguard.view.DeleteDialog
-import com.faltenreich.diaguard.view.Divider
-import com.faltenreich.diaguard.view.FormRow
-import com.faltenreich.diaguard.view.ResourceIcon
-import com.faltenreich.diaguard.view.TextInput
-import com.faltenreich.diaguard.shared.view.preview.AppPreview
+import com.faltenreich.diaguard.view.overlay.DeleteDialog
+import com.faltenreich.diaguard.view.divider.Divider
+import com.faltenreich.diaguard.view.layout.FormRow
+import com.faltenreich.diaguard.view.image.ResourceIcon
+import com.faltenreich.diaguard.view.input.TextInput
+import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import diaguard.core.view.generated.resources.ic_clear
 import diaguard.core.view.generated.resources.ic_note
 import diaguard.shared.generated.resources.Res
@@ -245,7 +245,7 @@ fun EntryForm(
 
 @Preview
 @Composable
-private fun Preview() = AppPreview {
+private fun Preview() = PreviewScaffold {
     val dateTime = now()
     EntryForm(
         state = EntryFormState(

@@ -5,7 +5,7 @@ import kotlinx.coroutines.Dispatchers
 import org.koin.dsl.module
 import kotlin.coroutines.CoroutineContext
 
-fun coroutineModule() = module {
+fun architectureModule() = module {
     single<CoroutineContext> { Dispatchers.Default }
     single<CoroutineDispatcher> { Dispatchers.Default }
 }

@@ -24,13 +24,13 @@ import com.faltenreich.diaguard.measurement.category.icon.MeasurementCategoryIco
 import com.faltenreich.diaguard.measurement.property.list.MeasurementPropertyList
 import com.faltenreich.diaguard.preference.color.ColorScheme
 import com.faltenreich.diaguard.preference.color.isDark
-import com.faltenreich.diaguard.view.DeleteDialog
-import com.faltenreich.diaguard.view.Divider
-import com.faltenreich.diaguard.view.EmojiPicker
-import com.faltenreich.diaguard.view.FormRow
-import com.faltenreich.diaguard.view.TextCheckbox
-import com.faltenreich.diaguard.view.TextInput
-import com.faltenreich.diaguard.shared.view.preview.AppPreview
+import com.faltenreich.diaguard.view.overlay.DeleteDialog
+import com.faltenreich.diaguard.view.divider.Divider
+import com.faltenreich.diaguard.view.image.EmojiPicker
+import com.faltenreich.diaguard.view.layout.FormRow
+import com.faltenreich.diaguard.view.checkbox.TextCheckbox
+import com.faltenreich.diaguard.view.input.TextInput
+import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.delete_error_pre_defined
 import diaguard.shared.generated.resources.delete_title
@@ -171,7 +171,7 @@ fun MeasurementCategoryForm(
 
 @Preview
 @Composable
-private fun Preview() = AppPreview {
+private fun Preview() = PreviewScaffold {
     val category = category()
     MeasurementCategoryForm(
         state = MeasurementCategoryFormState(

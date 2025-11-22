@@ -15,7 +15,7 @@ import kotlinx.datetime.minus
 import kotlinx.datetime.number
 import kotlinx.datetime.plus
 
-class KotlinxDate(private var delegate: LocalDate) : Date {
+internal class KotlinxDate(private var delegate: LocalDate) : Date {
 
     override val year: Int get() = delegate.year
     override val monthNumber: Int get() = delegate.month.number

@@ -15,7 +15,7 @@ import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarItem
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 import com.faltenreich.diaguard.navigation.screen.Screen
-import com.faltenreich.diaguard.view.FloatingActionButton
+import com.faltenreich.diaguard.view.button.TooltipFloatingActionButton
 import diaguard.core.view.generated.resources.ic_check
 import diaguard.core.view.generated.resources.ic_clear
 import diaguard.shared.generated.resources.Res
@@ -74,7 +74,7 @@ data class EntryFormScreen(
                 )
             },
             floatingActionButton = {
-                FloatingActionButton(
+                TooltipFloatingActionButton(
                     painter = painterResource(
                         if (hasError) diaguard.core.view.generated.resources.Res.drawable.ic_clear
                         else diaguard.core.view.generated.resources.Res.drawable.ic_check

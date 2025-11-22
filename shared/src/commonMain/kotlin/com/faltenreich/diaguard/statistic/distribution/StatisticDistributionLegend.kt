@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.view.theme.AppTheme
 import com.faltenreich.diaguard.measurement.value.MeasurementValueTint
-import com.faltenreich.diaguard.shared.view.preview.AppPreview
+import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -23,6 +23,6 @@ fun StatisticDistributionLegend(modifier: Modifier = Modifier) {
 
 @Preview
 @Composable
-private fun Preview() = AppPreview {
+private fun Preview() = PreviewScaffold {
     StatisticDistributionLegend()
 }

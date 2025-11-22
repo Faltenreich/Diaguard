@@ -27,14 +27,14 @@ import com.faltenreich.diaguard.data.measurement.property.MeasurementAggregation
 import com.faltenreich.diaguard.data.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.measurement.property.aggregationstyle.MeasurementAggregationStyleForm
 import com.faltenreich.diaguard.measurement.property.range.MeasurementValueRangeForm
-import com.faltenreich.diaguard.shared.view.preview.AppPreview
-import com.faltenreich.diaguard.view.DeleteDialog
-import com.faltenreich.diaguard.view.Divider
-import com.faltenreich.diaguard.view.FormRow
-import com.faltenreich.diaguard.view.NoticeBar
-import com.faltenreich.diaguard.view.NoticeBarStyle
-import com.faltenreich.diaguard.view.TextDivider
-import com.faltenreich.diaguard.view.TextInput
+import com.faltenreich.diaguard.data.preview.PreviewScaffold
+import com.faltenreich.diaguard.view.overlay.DeleteDialog
+import com.faltenreich.diaguard.view.divider.Divider
+import com.faltenreich.diaguard.view.layout.FormRow
+import com.faltenreich.diaguard.view.info.NoticeBar
+import com.faltenreich.diaguard.view.info.NoticeBarStyle
+import com.faltenreich.diaguard.view.divider.TextDivider
+import com.faltenreich.diaguard.view.input.TextInput
 import com.faltenreich.diaguard.view.theme.AppTheme
 import diaguard.core.view.generated.resources.ic_check
 import diaguard.shared.generated.resources.Res
@@ -261,7 +261,7 @@ private fun Dialog(
 
 @Preview
 @Composable
-private fun Preview() = AppPreview {
+private fun Preview() = PreviewScaffold {
     MeasurementPropertyForm(
         state = MeasurementPropertyFormState(
             property = property(),

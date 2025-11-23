@@ -15,7 +15,7 @@ plugins {
 val appNamespace by extra("com.faltenreich.diaguard")
 val appVersionCode by extra(66)
 val appVersionName by extra("4.0.0")
-val appMinSdk by extra(21)
+val appMinSdk by extra(23)
 val appTargetSdk by extra(36)
 val appCompileSdk by extra(36)
 val javaVersion by extra(21)

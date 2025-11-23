@@ -2,8 +2,6 @@ package com.faltenreich.diaguard.data.tag
 
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
-import com.faltenreich.diaguard.data.SqlDelightDao
-import com.faltenreich.diaguard.data.SqlDelightApi
 import com.faltenreich.diaguard.data.TagQueries
 import com.faltenreich.diaguard.datetime.DateTime
 import kotlinx.coroutines.CoroutineDispatcher
@@ -11,12 +9,9 @@ import kotlinx.coroutines.flow.Flow
 
 internal class TagSqlDelightDao(
     private val dispatcher: CoroutineDispatcher,
+    private val queries: TagQueries,
     private val mapper: TagSqlDelightMapper,
-) : TagDao, SqlDelightDao<TagQueries> {
-
-    override fun getQueries(api: SqlDelightApi): TagQueries {
-        return api.tagQueries
-    }
+) : TagDao {
 
     override fun create(
         createdAt: DateTime,

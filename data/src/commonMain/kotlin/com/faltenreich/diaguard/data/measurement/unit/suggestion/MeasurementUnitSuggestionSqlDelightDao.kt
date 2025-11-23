@@ -2,21 +2,16 @@ package com.faltenreich.diaguard.data.measurement.unit.suggestion
 
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
-import com.faltenreich.diaguard.data.SqlDelightDao
 import com.faltenreich.diaguard.data.MeasurementUnitSuggestionQueries
-import com.faltenreich.diaguard.data.SqlDelightApi
 import com.faltenreich.diaguard.datetime.DateTime
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 
 internal class MeasurementUnitSuggestionSqlDelightDao(
     private val dispatcher: CoroutineDispatcher,
+    private val queries: MeasurementUnitSuggestionQueries,
     private val mapper: MeasurementUnitSuggestionSqlDelightMapper,
-) : MeasurementUnitSuggestionDao, SqlDelightDao<MeasurementUnitSuggestionQueries> {
-
-    override fun getQueries(api: SqlDelightApi): MeasurementUnitSuggestionQueries {
-        return api.measurementUnitSuggestionQueries
-    }
+) : MeasurementUnitSuggestionDao {
 
     override fun create(
         createdAt: DateTime,

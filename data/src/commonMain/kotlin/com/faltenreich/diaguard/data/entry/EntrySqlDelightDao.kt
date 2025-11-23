@@ -3,22 +3,17 @@ package com.faltenreich.diaguard.data.entry
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
 import app.cash.sqldelight.coroutines.mapToOneOrNull
-import com.faltenreich.diaguard.datetime.DateTime
-import com.faltenreich.diaguard.data.SqlDelightDao
 import com.faltenreich.diaguard.data.EntryQueries
-import com.faltenreich.diaguard.data.SqlDelightApi
+import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.view.paging.PagingPage
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 
 internal class EntrySqlDelightDao(
     private val dispatcher: CoroutineDispatcher,
+    private val queries: EntryQueries,
     private val mapper: EntrySqlDelightMapper,
-) : EntryDao, SqlDelightDao<EntryQueries> {
-
-    override fun getQueries(api: SqlDelightApi): EntryQueries {
-        return api.entryQueries
-    }
+) : EntryDao {
 
     override fun getLastId(): Long? {
         return queries.getLastId().executeAsOneOrNull()

@@ -3,21 +3,16 @@ package com.faltenreich.diaguard.data.entry.tag
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
 import app.cash.sqldelight.coroutines.mapToOne
-import com.faltenreich.diaguard.data.SqlDelightDao
 import com.faltenreich.diaguard.data.EntryTagQueries
-import com.faltenreich.diaguard.data.SqlDelightApi
 import com.faltenreich.diaguard.datetime.DateTime
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 
 internal class EntryTagSqlDelightDao(
     private val dispatcher: CoroutineDispatcher,
+    private val queries: EntryTagQueries,
     private val mapper: EntryTagSqlDelightMapper,
-) : EntryTagDao, SqlDelightDao<EntryTagQueries> {
-
-    override fun getQueries(api: SqlDelightApi): EntryTagQueries {
-        return api.entryTagQueries
-    }
+) : EntryTagDao {
 
     override fun create(
         createdAt: DateTime,

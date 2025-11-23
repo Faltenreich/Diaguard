@@ -4,9 +4,7 @@ import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
 import app.cash.sqldelight.coroutines.mapToOneOrNull
 import com.faltenreich.diaguard.data.DatabaseKey
-import com.faltenreich.diaguard.data.SqlDelightDao
 import com.faltenreich.diaguard.data.MeasurementPropertyQueries
-import com.faltenreich.diaguard.data.SqlDelightApi
 import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.persistence.sqldelight.SqlDelightExtensions.toSqlLiteLong
 import kotlinx.coroutines.CoroutineDispatcher
@@ -14,12 +12,9 @@ import kotlinx.coroutines.flow.Flow
 
 internal class MeasurementPropertySqlDelightDao(
     private val dispatcher: CoroutineDispatcher,
+    private val queries: MeasurementPropertyQueries,
     private val mapper: MeasurementPropertySqlDelightMapper,
-) : MeasurementPropertyDao, SqlDelightDao<MeasurementPropertyQueries> {
-
-    override fun getQueries(api: SqlDelightApi): MeasurementPropertyQueries {
-        return api.measurementPropertyQueries
-    }
+) : MeasurementPropertyDao {
 
     override fun create(
         createdAt: DateTime,

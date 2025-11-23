@@ -51,45 +51,55 @@ import org.koin.dsl.module
 fun dataModule() = module {
     singleOf(::SqlDelightDatabase)
 
-    factoryOf(::EntrySqlDelightMapper)
+    factory<EntryQueries> { get<SqlDelightDatabase>().api.entryQueries }
     factoryOf(::EntrySqlDelightDao) bind EntryDao::class
+    factoryOf(::EntrySqlDelightMapper)
     factoryOf(::EntryRepository)
 
-    factoryOf(::MeasurementCategorySqlDelightMapper)
+    factory<MeasurementCategoryQueries> { get<SqlDelightDatabase>().api.measurementCategoryQueries }
     factoryOf(::MeasurementCategorySqlDelightDao) bind MeasurementCategoryDao::class
+    factoryOf(::MeasurementCategorySqlDelightMapper)
     factoryOf(::MeasurementCategoryRepository)
 
-    factoryOf(::MeasurementPropertySqlDelightMapper)
+    factory<MeasurementPropertyQueries> { get<SqlDelightDatabase>().api.measurementPropertyQueries }
     factoryOf(::MeasurementPropertySqlDelightDao) bind MeasurementPropertyDao::class
+    factoryOf(::MeasurementPropertySqlDelightMapper)
     factoryOf(::MeasurementPropertyRepository)
 
-    factoryOf(::MeasurementUnitSqlDelightMapper)
+    factory<MeasurementUnitQueries> { get<SqlDelightDatabase>().api.measurementUnitQueries }
     factoryOf(::MeasurementUnitSqlDelightDao) bind MeasurementUnitDao::class
+    factoryOf(::MeasurementUnitSqlDelightMapper)
     factoryOf(::MeasurementUnitRepository)
 
-    factoryOf(::MeasurementUnitSuggestionSqlDelightMapper)
+    factory<MeasurementUnitSuggestionQueries> { get<SqlDelightDatabase>().api.measurementUnitSuggestionQueries }
     factoryOf(::MeasurementUnitSuggestionSqlDelightDao) bind MeasurementUnitSuggestionDao::class
+    factoryOf(::MeasurementUnitSuggestionSqlDelightMapper)
     factoryOf(::MeasurementUnitSuggestionRepository)
 
-    factoryOf(::MeasurementValueSqlDelightMapper)
+    factory<MeasurementValueQueries> { get<SqlDelightDatabase>().api.measurementValueQueries }
     factoryOf(::MeasurementValueSqlDelightDao) bind MeasurementValueDao::class
+    factoryOf(::MeasurementValueSqlDelightMapper)
     factoryOf(::MeasurementValueRepository)
 
     factoryOf(::OpenFoodFactsMapper)
     factoryOf(::OpenFoodFactsApi) bind FoodApi::class
-    factoryOf(::FoodSqlDelightMapper)
+    factory<FoodQueries> { get<SqlDelightDatabase>().api.foodQueries }
     factoryOf(::FoodSqlDelightDao) bind FoodDao::class
+    factoryOf(::FoodSqlDelightMapper)
     factoryOf(::FoodRepository)
 
-    factoryOf(::FoodEatenSqlDelightMapper)
+    factory<FoodEatenQueries> { get<SqlDelightDatabase>().api.foodEatenQueries }
     factoryOf(::FoodEatenSqlDelightDao) bind FoodEatenDao::class
+    factoryOf(::FoodEatenSqlDelightMapper)
     factoryOf(::FoodEatenRepository)
 
-    factoryOf(::TagSqlDelightMapper)
+    factory<TagQueries> { get<SqlDelightDatabase>().api.tagQueries }
     factoryOf(::TagSqlDelightDao) bind TagDao::class
+    factoryOf(::TagSqlDelightMapper)
     factoryOf(::TagRepository)
 
-    factoryOf(::EntryTagSqlDelightMapper)
+    factory<EntryTagQueries> { get<SqlDelightDatabase>().api.entryTagQueries }
     factoryOf(::EntryTagSqlDelightDao) bind EntryTagDao::class
+    factoryOf(::EntryTagSqlDelightMapper)
     factoryOf(::EntryTagRepository)
 }

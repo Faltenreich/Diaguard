@@ -2,9 +2,7 @@ package com.faltenreich.diaguard.data.food
 
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
-import com.faltenreich.diaguard.data.SqlDelightDao
 import com.faltenreich.diaguard.data.FoodQueries
-import com.faltenreich.diaguard.data.SqlDelightApi
 import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.persistence.sqldelight.SqlDelightExtensions.toSqlLiteLong
 import com.faltenreich.diaguard.view.paging.PagingPage
@@ -13,11 +11,12 @@ import kotlinx.coroutines.flow.Flow
 
 internal class FoodSqlDelightDao(
     private val dispatcher: CoroutineDispatcher,
+    private val queries: FoodQueries,
     private val mapper: FoodSqlDelightMapper,
-) : FoodDao, SqlDelightDao<FoodQueries> {
+) : FoodDao {
 
-    override fun getQueries(api: SqlDelightApi): FoodQueries {
-        return api.foodQueries
+    override fun transaction(transact: () -> Unit) {
+        return
     }
 
     override fun create(

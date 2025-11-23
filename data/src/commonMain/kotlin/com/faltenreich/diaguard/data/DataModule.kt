@@ -43,62 +43,68 @@ import com.faltenreich.diaguard.data.tag.TagDao
 import com.faltenreich.diaguard.data.tag.TagRepository
 import com.faltenreich.diaguard.data.tag.TagSqlDelightDao
 import com.faltenreich.diaguard.data.tag.TagSqlDelightMapper
+import com.faltenreich.diaguard.persistence.sqldelight.SqlDelightDriverFactory
 import org.koin.core.module.dsl.factoryOf
-import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
 fun dataModule() = module {
-    singleOf(::SqlDelightDatabase)
+    // Requires Singleton to support synchronous CRUD operations
+    single<SqlDelightApi> {
+        val driverFactory = get<SqlDelightDriverFactory>()
+        val schema = SqlDelightApi.Schema
+        val driver = driverFactory.createDriver(schema)
+        SqlDelightApi(driver)
+    }
 
-    factory<EntryQueries> { get<SqlDelightDatabase>().api.entryQueries }
+    factory<EntryQueries> { get<SqlDelightApi>().entryQueries }
     factoryOf(::EntrySqlDelightDao) bind EntryDao::class
     factoryOf(::EntrySqlDelightMapper)
     factoryOf(::EntryRepository)
 
-    factory<MeasurementCategoryQueries> { get<SqlDelightDatabase>().api.measurementCategoryQueries }
+    factory<MeasurementCategoryQueries> { get<SqlDelightApi>().measurementCategoryQueries }
     factoryOf(::MeasurementCategorySqlDelightDao) bind MeasurementCategoryDao::class
     factoryOf(::MeasurementCategorySqlDelightMapper)
     factoryOf(::MeasurementCategoryRepository)
 
-    factory<MeasurementPropertyQueries> { get<SqlDelightDatabase>().api.measurementPropertyQueries }
+    factory<MeasurementPropertyQueries> { get<SqlDelightApi>().measurementPropertyQueries }
     factoryOf(::MeasurementPropertySqlDelightDao) bind MeasurementPropertyDao::class
     factoryOf(::MeasurementPropertySqlDelightMapper)
     factoryOf(::MeasurementPropertyRepository)
 
-    factory<MeasurementUnitQueries> { get<SqlDelightDatabase>().api.measurementUnitQueries }
+    factory<MeasurementUnitQueries> { get<SqlDelightApi>().measurementUnitQueries }
     factoryOf(::MeasurementUnitSqlDelightDao) bind MeasurementUnitDao::class
     factoryOf(::MeasurementUnitSqlDelightMapper)
     factoryOf(::MeasurementUnitRepository)
 
-    factory<MeasurementUnitSuggestionQueries> { get<SqlDelightDatabase>().api.measurementUnitSuggestionQueries }
+    factory<MeasurementUnitSuggestionQueries> { get<SqlDelightApi>().measurementUnitSuggestionQueries }
     factoryOf(::MeasurementUnitSuggestionSqlDelightDao) bind MeasurementUnitSuggestionDao::class
     factoryOf(::MeasurementUnitSuggestionSqlDelightMapper)
     factoryOf(::MeasurementUnitSuggestionRepository)
 
-    factory<MeasurementValueQueries> { get<SqlDelightDatabase>().api.measurementValueQueries }
+    factory<MeasurementValueQueries> { get<SqlDelightApi>().measurementValueQueries }
     factoryOf(::MeasurementValueSqlDelightDao) bind MeasurementValueDao::class
     factoryOf(::MeasurementValueSqlDelightMapper)
     factoryOf(::MeasurementValueRepository)
 
     factoryOf(::OpenFoodFactsMapper)
     factoryOf(::OpenFoodFactsApi) bind FoodApi::class
-    factory<FoodQueries> { get<SqlDelightDatabase>().api.foodQueries }
+    factory<FoodQueries> { get<SqlDelightApi>().foodQueries }
     factoryOf(::FoodSqlDelightDao) bind FoodDao::class
     factoryOf(::FoodSqlDelightMapper)
     factoryOf(::FoodRepository)
 
-    factory<FoodEatenQueries> { get<SqlDelightDatabase>().api.foodEatenQueries }
+    factory<FoodEatenQueries> { get<SqlDelightApi>().foodEatenQueries }
     factoryOf(::FoodEatenSqlDelightDao) bind FoodEatenDao::class
     factoryOf(::FoodEatenSqlDelightMapper)
     factoryOf(::FoodEatenRepository)
 
-    factory<TagQueries> { get<SqlDelightDatabase>().api.tagQueries }
+    factory<TagQueries> { get<SqlDelightApi>().tagQueries }
     factoryOf(::TagSqlDelightDao) bind TagDao::class
     factoryOf(::TagSqlDelightMapper)
     factoryOf(::TagRepository)
 
-    factory<EntryTagQueries> { get<SqlDelightDatabase>().api.entryTagQueries }
+    factory<EntryTagQueries> { get<SqlDelightApi>().entryTagQueries }
     factoryOf(::EntryTagSqlDelightDao) bind EntryTagDao::class
     factoryOf(::EntryTagSqlDelightMapper)
     factoryOf(::EntryTagRepository)

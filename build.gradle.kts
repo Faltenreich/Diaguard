@@ -21,13 +21,7 @@ val appCompileSdk by extra(36)
 val javaVersion by extra(21)
 
 allprojects {
-    apply(plugin = "io.gitlab.arturbosch.detekt")
     apply(plugin = "org.jetbrains.kotlinx.kover")
-
-    detekt {
-        buildUponDefaultConfig = true
-        config.setFrom("$rootDir/core/quality/detekt.yml")
-    }
 
     kover {
         reports {
@@ -42,20 +36,6 @@ allprojects {
         }
     }
 
-    tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
-        exclude {
-            it.file.relativeTo(projectDir).startsWith(project.layout.buildDirectory.asFile.get().relativeTo(projectDir))
-        }
-        reports {
-            html.required.set(true)
-            xml.required.set(true)
-        }
-    }
-
-    dependencies {
-        "detektPlugins"(project(":core:quality"))
-        detektPlugins(rootProject.libs.detekt.compose)
-    }
 }
 
 tasks.register("clean", Delete::class) {

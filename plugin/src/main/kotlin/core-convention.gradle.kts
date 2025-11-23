@@ -1,39 +1,25 @@
 val libs = extensions.getByType<org.gradle.accessors.dm.LibrariesForLibs>()
 
 plugins {
-    kotlin("multiplatform")
+    id("io.gitlab.arturbosch.detekt")
 }
 
-kotlin {
-    sourceSets {
-        commonMain {
-            dependencies {
-                implementation(project.dependencies.platform(libs.koin.bom))
-                implementation(libs.koin.core)
-                implementation(libs.koin.compose)
-                implementation(libs.koin.compose.viewmodel)
-                implementation(libs.koin.viewmodel)
-            }
-        }
-        commonTest {
-            dependencies {
-                implementation(kotlin("test"))
-                implementation(project.dependencies.platform(libs.koin.bom))
-                implementation(libs.koin.test)
-                implementation(libs.kotlinx.coroutines.test)
-                implementation(libs.turbine)
-            }
-        }
-    }
+detekt {
+    buildUponDefaultConfig = true
+    config.setFrom("$rootDir/core/quality/detekt.yml")
+}
 
-    targets.configureEach {
-        compilations.configureEach {
-            compileTaskProvider.get().compilerOptions {
-                freeCompilerArgs.add("-Xexpect-actual-classes")
-            }
-        }
+tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
+    exclude {
+        it.file.relativeTo(projectDir).startsWith(project.layout.buildDirectory.asFile.get().relativeTo(projectDir))
     }
+    reports {
+        html.required.set(true)
+        xml.required.set(true)
+    }
+}
 
-    val javaVersion: Int by rootProject.extra
-    jvmToolchain(javaVersion)
+dependencies {
+    detektPlugins(project(":core:quality"))
+    detektPlugins(libs.detekt.compose)
 }

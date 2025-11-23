@@ -6,7 +6,7 @@ import app.cash.sqldelight.coroutines.mapToOneOrNull
 import com.faltenreich.diaguard.data.DatabaseKey
 import com.faltenreich.diaguard.data.MeasurementPropertyQueries
 import com.faltenreich.diaguard.datetime.DateTime
-import com.faltenreich.diaguard.persistence.sqldelight.SqlDelightExtensions.toSqlLiteLong
+import com.faltenreich.diaguard.data.sqldelight.toSqlLiteLong
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 

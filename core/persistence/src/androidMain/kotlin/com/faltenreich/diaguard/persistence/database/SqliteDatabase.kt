@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.persistence.sqlite
+package com.faltenreich.diaguard.persistence.database
 
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase

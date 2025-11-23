@@ -4,7 +4,7 @@ import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
 import com.faltenreich.diaguard.data.FoodQueries
 import com.faltenreich.diaguard.datetime.DateTime
-import com.faltenreich.diaguard.persistence.sqldelight.SqlDelightExtensions.toSqlLiteLong
+import com.faltenreich.diaguard.data.sqldelight.toSqlLiteLong
 import com.faltenreich.diaguard.view.paging.PagingPage
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow

@@ -1,6 +1,8 @@
 package com.faltenreich.diaguard.persistence.sqlite
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.faltenreich.diaguard.persistence.database.SqliteDatabase
+import com.faltenreich.diaguard.persistence.database.getLong
 import com.faltenreich.diaguard.shared.test.FileFactory
 import org.junit.Assert
 import org.junit.Test

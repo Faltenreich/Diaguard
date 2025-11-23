@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.persistence.sqldelight
+package com.faltenreich.diaguard.persistence.database
 
 import app.cash.sqldelight.db.QueryResult
 import app.cash.sqldelight.db.SqlDriver

@@ -4,10 +4,10 @@ import com.faltenreich.diaguard.persistence.keyvalue.DataStore
 import com.faltenreich.diaguard.persistence.keyvalue.FakeKeyValueStore
 import com.faltenreich.diaguard.persistence.keyvalue.KeyValueStore
 import com.faltenreich.diaguard.persistence.keyvalue.SharedPreferences
-import com.faltenreich.diaguard.persistence.sqldelight.SqlDelightDiskDriverFactory
-import com.faltenreich.diaguard.persistence.sqldelight.SqlDelightDriverFactory
-import com.faltenreich.diaguard.persistence.sqldelight.SqlDelightInMemoryDriverFactory
-import com.faltenreich.diaguard.persistence.sqlite.SqliteDatabase
+import com.faltenreich.diaguard.persistence.database.SqlDelightDiskDriverFactory
+import com.faltenreich.diaguard.persistence.database.SqlDelightDriverFactory
+import com.faltenreich.diaguard.persistence.database.SqlDelightInMemoryDriverFactory
+import com.faltenreich.diaguard.persistence.database.SqliteDatabase
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.factoryOf

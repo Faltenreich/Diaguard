@@ -43,7 +43,7 @@ import com.faltenreich.diaguard.data.tag.TagDao
 import com.faltenreich.diaguard.data.tag.TagRepository
 import com.faltenreich.diaguard.data.tag.TagSqlDelightDao
 import com.faltenreich.diaguard.data.tag.TagSqlDelightMapper
-import com.faltenreich.diaguard.persistence.sqldelight.SqlDelightDriverFactory
+import com.faltenreich.diaguard.persistence.database.SqlDelightDriverFactory
 import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.bind
 import org.koin.dsl.module

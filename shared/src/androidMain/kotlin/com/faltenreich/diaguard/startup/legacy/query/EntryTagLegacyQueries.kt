@@ -2,8 +2,8 @@ package com.faltenreich.diaguard.startup.legacy.query
 
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.data.entry.tag.EntryTag
-import com.faltenreich.diaguard.persistence.sqlite.SqliteDatabase
-import com.faltenreich.diaguard.persistence.sqlite.getLong
+import com.faltenreich.diaguard.persistence.database.SqliteDatabase
+import com.faltenreich.diaguard.persistence.database.getLong
 
 class EntryTagLegacyQueries(
     private val database: SqliteDatabase,

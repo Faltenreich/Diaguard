@@ -20,24 +20,6 @@ val appTargetSdk by extra(36)
 val appCompileSdk by extra(36)
 val javaVersion by extra(21)
 
-allprojects {
-    apply(plugin = "org.jetbrains.kotlinx.kover")
-
-    kover {
-        reports {
-            filters {
-                excludes {
-                    annotatedBy("androidx.compose.runtime.Composable")
-                    classes("*.*ComposableSingletons*")
-                    classes("*Screen*")
-                    classes("diaguard.shared.generated.resources.*")
-                }
-            }
-        }
-    }
-
-}
-
 tasks.register("clean", Delete::class) {
     delete(rootProject.layout.buildDirectory)
 }

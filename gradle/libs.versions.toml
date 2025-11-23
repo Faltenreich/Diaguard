@@ -67,6 +67,7 @@ kotlinx-io = { module = "org.jetbrains.kotlinx:kotlinx-io-core", version.ref = "
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization-json" }
 kotlinx-serialization-csv = { module = "app.softwork:kotlinx-serialization-csv", version.ref = "serialization-csv" }
 kotlinx-serialization-yaml = { module = "net.mamoe.yamlkt:yamlkt", version.ref = "serialization-yaml" }
+kover-plugin = { module = "org.jetbrains.kotlinx:kover-gradle-plugin", version.ref = "kover" }
 ktor-android = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
 ktor-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-contentnegotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }

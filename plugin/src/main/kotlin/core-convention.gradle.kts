@@ -2,6 +2,20 @@ val libs = extensions.getByType<org.gradle.accessors.dm.LibrariesForLibs>()
 
 plugins {
     id("io.gitlab.arturbosch.detekt")
+    id("org.jetbrains.kotlinx.kover")
+}
+
+kover {
+    reports {
+        filters {
+            excludes {
+                annotatedBy("androidx.compose.runtime.Composable")
+                classes("*.*ComposableSingletons*")
+                classes("*Screen*")
+                classes("diaguard.shared.generated.resources.*")
+            }
+        }
+    }
 }
 
 detekt {

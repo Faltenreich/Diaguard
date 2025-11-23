@@ -63,6 +63,7 @@ kotlin {
 }
 
 dependencies {
+    implementation(project(":core:system"))
     implementation(project(":shared"))
 
     implementation(libs.activity.compose)

@@ -60,18 +60,7 @@ kotlin {
         }
         commonTest {
             dependencies {
-                implementation(project(":data"))
-                implementation(project(":core:architecture"))
-                implementation(project(":core:config"))
-                implementation(project(":core:datetime"))
-                implementation(project(":core:injection"))
-                implementation(project(":core:localization"))
-                implementation(project(":core:logging"))
-                implementation(project(":core:network"))
-                implementation(project(":core:persistence"))
-                implementation(project(":core:serialization"))
-                implementation(project(":core:system"))
-                implementation(project(":core:view"))
+                implementation(project(":core:test"))
                 implementation(kotlin("test"))
                 implementation(project.dependencies.platform(libs.koin.bom))
                 implementation(libs.koin.test)

@@ -36,5 +36,6 @@ include(
     ":core:quality",
     ":core:serialization",
     ":core:system",
+    ":core:test",
     ":core:view",
 )

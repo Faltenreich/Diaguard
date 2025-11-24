@@ -49,7 +49,7 @@ fun BottomAppBarItem(
 @Preview
 @Composable
 private fun Preview() = PreviewScaffold {
-    _root_ide_package_.com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarItem(
+    BottomAppBarItem(
         painter = painterResource(Res.drawable.ic_search),
         contentDescription = "",
         onClick = {},

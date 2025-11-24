@@ -10,6 +10,7 @@ import com.faltenreich.diaguard.dashboard.trend.GetDashboardTrendUseCase
 import com.faltenreich.diaguard.entry.form.EntryFormScreen
 import com.faltenreich.diaguard.entry.form.reminder.SetReminderUseCase
 import com.faltenreich.diaguard.entry.search.EntrySearchScreen
+import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import com.faltenreich.diaguard.statistic.StatisticScreen
 import kotlinx.coroutines.flow.combine
 
@@ -20,7 +21,7 @@ class DashboardViewModel(
     getAverage: GetDashboardAverageUseCase,
     getCurrentHbA1c: GetDashboardHbA1cUseCase,
     getTrend: GetDashboardTrendUseCase,
-    private val pushScreen: com.faltenreich.diaguard.navigation.screen.PushScreenUseCase,
+    private val pushScreen: PushScreenUseCase,
     private val setReminder: SetReminderUseCase,
 ) : ViewModel<DashboardState, DashboardIntent, Unit>() {
 

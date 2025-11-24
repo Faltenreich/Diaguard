@@ -9,6 +9,8 @@ import com.faltenreich.diaguard.data.tag.TagRepository
 import com.faltenreich.diaguard.entry.form.EntryFormScreen
 import com.faltenreich.diaguard.entry.search.EntrySearchScreen
 import com.faltenreich.diaguard.measurement.value.usecase.StoreMeasurementValueUseCase
+import com.faltenreich.diaguard.navigation.Navigation
+import com.faltenreich.diaguard.navigation.NavigationEvent
 import com.faltenreich.diaguard.startup.seed.ImportSeedUseCase
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
@@ -24,7 +26,7 @@ class TagDetailViewModelTest : TestSuite() {
 
     private val importSeed: ImportSeedUseCase by inject()
     private val storeValue: StoreMeasurementValueUseCase by inject()
-    private val navigation: com.faltenreich.diaguard.navigation.Navigation by inject()
+    private val navigation: Navigation by inject()
     private val entryRepository: EntryRepository by inject()
     private val tagRepository: TagRepository by inject()
 
@@ -48,7 +50,7 @@ class TagDetailViewModelTest : TestSuite() {
             viewModel.handleIntent(TagDetailIntent.SetName("update"))
             viewModel.handleIntent(TagDetailIntent.UpdateTag)
 
-            assertTrue(awaitItem() is com.faltenreich.diaguard.navigation.NavigationEvent.PopScreen)
+            assertTrue(awaitItem() is NavigationEvent.PopScreen)
         }
     }
 
@@ -57,7 +59,7 @@ class TagDetailViewModelTest : TestSuite() {
         navigation.events.test {
             viewModel.handleIntent(TagDetailIntent.UpdateTag)
 
-            assertTrue(awaitItem() is com.faltenreich.diaguard.navigation.NavigationEvent.PopScreen)
+            assertTrue(awaitItem() is NavigationEvent.PopScreen)
         }
     }
 
@@ -83,7 +85,7 @@ class TagDetailViewModelTest : TestSuite() {
             viewModel.handleIntent(TagDetailIntent.OpenEntry(entry))
 
             val event = awaitItem()
-            assertTrue(event is com.faltenreich.diaguard.navigation.NavigationEvent.PushScreen)
+            assertTrue(event is NavigationEvent.PushScreen)
             assertTrue(event.screen is EntryFormScreen)
         }
     }
@@ -94,7 +96,7 @@ class TagDetailViewModelTest : TestSuite() {
             viewModel.handleIntent(TagDetailIntent.OpenEntrySearch(query = ""))
 
             val event = awaitItem()
-            assertTrue(event is com.faltenreich.diaguard.navigation.NavigationEvent.PushScreen)
+            assertTrue(event is NavigationEvent.PushScreen)
             assertTrue(event.screen is EntrySearchScreen)
         }
     }

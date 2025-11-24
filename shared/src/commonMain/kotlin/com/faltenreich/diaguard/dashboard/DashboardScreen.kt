@@ -3,8 +3,10 @@ package com.faltenreich.diaguard.dashboard
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import com.faltenreich.diaguard.injection.viewModel
+import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarItem
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
+import com.faltenreich.diaguard.navigation.screen.Screen
 import com.faltenreich.diaguard.view.button.TooltipFloatingActionButton
 import diaguard.core.view.generated.resources.ic_add
 import diaguard.feature.navigation.generated.resources.ic_search
@@ -17,7 +19,7 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
 @Serializable
-data object DashboardScreen : com.faltenreich.diaguard.navigation.screen.Screen {
+data object DashboardScreen : Screen {
 
     @Composable
     override fun TopAppBar(): TopAppBarStyle {
@@ -29,9 +31,9 @@ data object DashboardScreen : com.faltenreich.diaguard.navigation.screen.Screen 
     @Composable
     override fun BottomAppBar(): BottomAppBarStyle {
         val viewModel = viewModel<DashboardViewModel>()
-        return _root_ide_package_.com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle.Visible(
+        return BottomAppBarStyle.Visible(
             actions = {
-                _root_ide_package_.com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarItem(
+                BottomAppBarItem(
                     painter = painterResource(diaguard.feature.navigation.generated.resources.Res.drawable.ic_search),
                     contentDescription = stringResource(Res.string.search_open),
                     onClick = { viewModel.dispatchIntent(DashboardIntent.SearchEntries) },

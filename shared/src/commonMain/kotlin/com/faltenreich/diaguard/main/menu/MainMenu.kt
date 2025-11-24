@@ -10,6 +10,7 @@ import com.faltenreich.diaguard.export.form.ExportFormScreen
 import com.faltenreich.diaguard.food.search.FoodSearchMode
 import com.faltenreich.diaguard.food.search.FoodSearchScreen
 import com.faltenreich.diaguard.log.LogScreen
+import com.faltenreich.diaguard.navigation.screen.Screen
 import com.faltenreich.diaguard.preference.overview.OverviewPreferenceListScreen
 import com.faltenreich.diaguard.preference.screen.StartScreen
 import com.faltenreich.diaguard.statistic.StatisticScreen
@@ -27,7 +28,7 @@ import kotlin.reflect.KClass
 @Composable
 fun MainMenu(
     currentDestination: String?,
-    onItemClick: (screen: com.faltenreich.diaguard.navigation.screen.Screen, popHistory: Boolean) -> Unit,
+    onItemClick: (screen: Screen, popHistory: Boolean) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier) {

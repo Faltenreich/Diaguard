@@ -4,6 +4,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import com.faltenreich.diaguard.injection.viewModel
+import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarItem
+import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
+import com.faltenreich.diaguard.navigation.screen.Screen
 import com.faltenreich.diaguard.view.animation.rememberAnimatable
 import com.faltenreich.diaguard.view.button.TooltipFloatingActionButton
 import diaguard.core.view.generated.resources.ic_add
@@ -19,19 +22,19 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
 @Serializable
-data object TimelineScreen : com.faltenreich.diaguard.navigation.screen.Screen {
+data object TimelineScreen : Screen {
 
     @Composable
-    override fun BottomAppBar(): com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle {
+    override fun BottomAppBar(): BottomAppBarStyle {
         val viewModel = viewModel<TimelineViewModel>()
-        return _root_ide_package_.com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle.Visible(
+        return BottomAppBarStyle.Visible(
             actions = {
-                _root_ide_package_.com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarItem(
+                BottomAppBarItem(
                     painter = painterResource(diaguard.feature.navigation.generated.resources.Res.drawable.ic_search),
                     contentDescription = stringResource(Res.string.search_open),
                     onClick = { viewModel.dispatchIntent(TimelineIntent.OpenEntrySearch()) },
                 )
-                _root_ide_package_.com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarItem(
+                BottomAppBarItem(
                     painter = painterResource(Res.drawable.ic_date),
                     contentDescription = stringResource(Res.string.date_picker_open),
                     onClick = { viewModel.dispatchIntent(TimelineIntent.OpenDatePickerDialog) },

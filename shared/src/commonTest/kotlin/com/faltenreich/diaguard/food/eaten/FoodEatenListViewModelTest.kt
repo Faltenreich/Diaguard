@@ -14,6 +14,8 @@ import com.faltenreich.diaguard.food.FoodFactory
 import com.faltenreich.diaguard.food.eaten.list.FoodEatenListIntent
 import com.faltenreich.diaguard.food.eaten.list.FoodEatenListState
 import com.faltenreich.diaguard.food.eaten.list.FoodEatenListViewModel
+import com.faltenreich.diaguard.navigation.Navigation
+import com.faltenreich.diaguard.navigation.NavigationEvent
 import kotlinx.coroutines.test.runTest
 import org.koin.core.component.get
 import org.koin.core.component.inject
@@ -28,7 +30,7 @@ class FoodEatenListViewModelTest : TestSuite() {
     private val foodRepository: FoodRepository by inject()
     private val entryRepository: EntryRepository by inject()
     private val foodEatenRepository: FoodEatenRepository by inject()
-    private val navigation: com.faltenreich.diaguard.navigation.Navigation by inject()
+    private val navigation: Navigation by inject()
     private val dateTimeFactory: DateTimeFactory by inject()
 
     private lateinit var viewModel: FoodEatenListViewModel
@@ -85,7 +87,7 @@ class FoodEatenListViewModelTest : TestSuite() {
             viewModel.handleIntent(FoodEatenListIntent.CreateEntry)
 
             val event = awaitItem()
-            assertTrue(event is com.faltenreich.diaguard.navigation.NavigationEvent.PushScreen)
+            assertTrue(event is NavigationEvent.PushScreen)
             assertTrue(event.screen is EntryFormScreen)
         }
     }
@@ -96,7 +98,7 @@ class FoodEatenListViewModelTest : TestSuite() {
             viewModel.handleIntent(FoodEatenListIntent.OpenEntry(entry))
 
             val event = awaitItem()
-            assertTrue(event is com.faltenreich.diaguard.navigation.NavigationEvent.PushScreen)
+            assertTrue(event is NavigationEvent.PushScreen)
             assertTrue(event.screen is EntryFormScreen)
         }
     }

@@ -3,6 +3,10 @@ package com.faltenreich.diaguard.log
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import com.faltenreich.diaguard.injection.viewModel
+import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarItem
+import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
+import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
+import com.faltenreich.diaguard.navigation.screen.Screen
 import com.faltenreich.diaguard.view.button.TooltipFloatingActionButton
 import diaguard.core.view.generated.resources.ic_add
 import diaguard.feature.navigation.generated.resources.ic_search
@@ -16,28 +20,28 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
 @Serializable
-data object LogScreen : com.faltenreich.diaguard.navigation.screen.Screen {
+data object LogScreen : Screen {
 
     @Composable
-    override fun TopAppBar(): com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle {
+    override fun TopAppBar(): TopAppBarStyle {
         val viewModel = viewModel<LogViewModel>()
         val state = viewModel.collectState()
-        return _root_ide_package_.com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle.CenterAligned {
+        return TopAppBarStyle.CenterAligned {
             Text(state?.monthLocalized ?: "")
         }
     }
 
     @Composable
-    override fun BottomAppBar(): com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle {
+    override fun BottomAppBar(): BottomAppBarStyle {
         val viewModel = viewModel<LogViewModel>()
-        return _root_ide_package_.com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle.Visible(
+        return BottomAppBarStyle.Visible(
             actions = {
-                _root_ide_package_.com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarItem(
+                BottomAppBarItem(
                     painter = painterResource(diaguard.feature.navigation.generated.resources.Res.drawable.ic_search),
                     contentDescription = stringResource(Res.string.search_open),
                     onClick = { viewModel.dispatchIntent(LogIntent.OpenEntrySearch()) },
                 )
-                _root_ide_package_.com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarItem(
+                BottomAppBarItem(
                     painter = painterResource(Res.drawable.ic_date),
                     contentDescription = stringResource(Res.string.date_picker_open),
                     onClick = { viewModel.dispatchIntent(LogIntent.OpenDatePickerDialog) },

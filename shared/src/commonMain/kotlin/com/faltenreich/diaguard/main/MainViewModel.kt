@@ -3,6 +3,11 @@ package com.faltenreich.diaguard.main
 import com.faltenreich.diaguard.architecture.viewmodel.ViewModel
 import com.faltenreich.diaguard.dashboard.DashboardScreen
 import com.faltenreich.diaguard.log.LogScreen
+import com.faltenreich.diaguard.navigation.CollectNavigationEventsUseCase
+import com.faltenreich.diaguard.navigation.screen.GetBottomAppBarStyleUseCase
+import com.faltenreich.diaguard.navigation.screen.GetTopAppBarStyleUseCase
+import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
+import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import com.faltenreich.diaguard.preference.color.ColorSchemePreference
 import com.faltenreich.diaguard.preference.screen.StartScreen
 import com.faltenreich.diaguard.preference.screen.StartScreenPreference
@@ -13,12 +18,12 @@ import kotlinx.coroutines.flow.combine
 
 class MainViewModel(
     getPreference: GetPreferenceUseCase,
-    getTopAppBarStyle: com.faltenreich.diaguard.navigation.screen.GetTopAppBarStyleUseCase,
-    getBottomAppBarStyle: com.faltenreich.diaguard.navigation.screen.GetBottomAppBarStyleUseCase,
+    getTopAppBarStyle: GetTopAppBarStyleUseCase,
+    getBottomAppBarStyle: GetBottomAppBarStyleUseCase,
     private val windowController: WindowController,
-    private val pushScreen: com.faltenreich.diaguard.navigation.screen.PushScreenUseCase,
-    private val popScreen: com.faltenreich.diaguard.navigation.screen.PopScreenUseCase,
-    val collectNavigationEvents: com.faltenreich.diaguard.navigation.CollectNavigationEventsUseCase,
+    private val pushScreen: PushScreenUseCase,
+    private val popScreen: PopScreenUseCase,
+    val collectNavigationEvents: CollectNavigationEventsUseCase,
 ) : ViewModel<MainState, MainIntent, Unit>() {
 
     override val state = combine(

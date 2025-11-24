@@ -9,6 +9,10 @@ import com.faltenreich.diaguard.injection.sharedViewModel
 import com.faltenreich.diaguard.injection.viewModel
 import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitSelectionEvent
 import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitSelectionViewModel
+import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarItem
+import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
+import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
+import com.faltenreich.diaguard.navigation.screen.Screen
 import com.faltenreich.diaguard.view.button.TooltipFloatingActionButton
 import diaguard.core.view.generated.resources.ic_check
 import diaguard.shared.generated.resources.Res
@@ -25,7 +29,7 @@ import org.koin.core.parameter.parametersOf
 data class MeasurementPropertyFormScreen(
     val categoryId: Long,
     val propertyId: Long?,
-) : com.faltenreich.diaguard.navigation.screen.Screen {
+) : Screen {
 
     constructor(category: MeasurementCategory.Local) : this(
         categoryId = category.id,
@@ -38,18 +42,18 @@ data class MeasurementPropertyFormScreen(
     )
 
     @Composable
-    override fun TopAppBar(): com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle {
-        return _root_ide_package_.com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle.CenterAligned {
+    override fun TopAppBar(): TopAppBarStyle {
+        return TopAppBarStyle.CenterAligned {
             Text(stringResource(Res.string.measurement_property))
         }
     }
 
     @Composable
-    override fun BottomAppBar(): com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle {
+    override fun BottomAppBar(): BottomAppBarStyle {
         val viewModel = viewModel<MeasurementPropertyFormViewModel> { parametersOf(categoryId, propertyId) }
-        return _root_ide_package_.com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle.Visible(
+        return BottomAppBarStyle.Visible(
             actions = {
-                _root_ide_package_.com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarItem(
+                BottomAppBarItem(
                     painter = painterResource(Res.drawable.ic_delete),
                     contentDescription = stringResource(Res.string.measurement_property_delete),
                     onClick = {

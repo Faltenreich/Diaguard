@@ -4,6 +4,8 @@ import app.cash.turbine.test
 import com.faltenreich.diaguard.TestSuite
 import com.faltenreich.diaguard.dashboard.DashboardScreen
 import com.faltenreich.diaguard.log.LogScreen
+import com.faltenreich.diaguard.navigation.Navigation
+import com.faltenreich.diaguard.navigation.NavigationEvent
 import com.faltenreich.diaguard.preference.screen.StartScreen
 import com.faltenreich.diaguard.preference.screen.StartScreenPreference
 import com.faltenreich.diaguard.preference.store.SetPreferenceUseCase
@@ -20,7 +22,7 @@ class MainViewModelTest : TestSuite() {
 
     private val importSeed: ImportSeedUseCase by inject()
     private val setPreference: SetPreferenceUseCase by inject()
-    private val navigation: com.faltenreich.diaguard.navigation.Navigation by inject()
+    private val navigation: Navigation by inject()
     private val viewModel: MainViewModel by inject()
 
     @Test
@@ -65,7 +67,7 @@ class MainViewModelTest : TestSuite() {
     fun `closes screen`() = runTest {
         navigation.events.test {
             viewModel.handleIntent(MainIntent.PopScreen)
-            assertTrue(awaitItem() is com.faltenreich.diaguard.navigation.NavigationEvent.PopScreen)
+            assertTrue(awaitItem() is NavigationEvent.PopScreen)
         }
     }
 }

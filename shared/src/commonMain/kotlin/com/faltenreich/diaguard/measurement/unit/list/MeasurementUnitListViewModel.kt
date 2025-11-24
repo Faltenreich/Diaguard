@@ -7,6 +7,7 @@ import com.faltenreich.diaguard.injection.inject
 import com.faltenreich.diaguard.measurement.unit.usecase.GetMeasurementUnitsUseCase
 import com.faltenreich.diaguard.measurement.unit.usecase.StoreMeasurementUnitUseCase
 import com.faltenreich.diaguard.measurement.unit.usecase.ValidateMeasurementUnitUseCase
+import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
@@ -16,7 +17,7 @@ class MeasurementUnitListViewModel(
     getUnits: GetMeasurementUnitsUseCase = inject(),
     private val validateUnit: ValidateMeasurementUnitUseCase = inject(),
     private val storeUnit: StoreMeasurementUnitUseCase = inject(),
-    private val popScreen: com.faltenreich.diaguard.navigation.screen.PopScreenUseCase = inject(),
+    private val popScreen: PopScreenUseCase = inject(),
 ) : ViewModel<MeasurementUnitListState, MeasurementUnitListIntent, Unit>() {
 
     private val formDialog = MutableStateFlow<MeasurementUnitListState.FormDialog?>(null)

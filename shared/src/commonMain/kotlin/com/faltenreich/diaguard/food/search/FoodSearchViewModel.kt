@@ -6,6 +6,8 @@ import com.faltenreich.diaguard.architecture.viewmodel.ViewModel
 import com.faltenreich.diaguard.data.food.search.FoodSearchParams
 import com.faltenreich.diaguard.food.form.FoodFormScreen
 import com.faltenreich.diaguard.injection.inject
+import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
+import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import com.faltenreich.diaguard.preference.food.FoodPreferenceListScreen
 import com.faltenreich.diaguard.preference.food.ShowBrandedFoodPreference
 import com.faltenreich.diaguard.preference.food.ShowCommonFoodPreference
@@ -24,8 +26,8 @@ class FoodSearchViewModel(
     val mode: FoodSearchMode,
     getPreference: GetPreferenceUseCase = inject(),
     private val searchFood: SearchFoodUseCase = inject(),
-    private val pushScreen: com.faltenreich.diaguard.navigation.screen.PushScreenUseCase = inject(),
-    private val popScreen: com.faltenreich.diaguard.navigation.screen.PopScreenUseCase = inject(),
+    private val pushScreen: PushScreenUseCase = inject(),
+    private val popScreen: PopScreenUseCase = inject(),
 ) : ViewModel<FoodSearchState, FoodSearchIntent, Unit>() {
 
     private val _query = MutableStateFlow("")

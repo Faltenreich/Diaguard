@@ -5,6 +5,7 @@ import com.faltenreich.diaguard.data.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.measurement.category.form.MeasurementCategoryFormScreen
 import com.faltenreich.diaguard.measurement.category.usecase.GetMeasurementCategoriesUseCase
 import com.faltenreich.diaguard.measurement.category.usecase.StoreMeasurementCategoryUseCase
+import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.firstOrNull
@@ -13,7 +14,7 @@ import kotlinx.coroutines.flow.update
 class MeasurementCategoryListViewModel(
     getCategories: GetMeasurementCategoriesUseCase,
     private val storeCategory: StoreMeasurementCategoryUseCase,
-    private val pushScreen: com.faltenreich.diaguard.navigation.screen.PushScreenUseCase,
+    private val pushScreen: PushScreenUseCase,
 ) : ViewModel<MeasurementCategoryListState, MeasurementCategoryListIntent, Unit>() {
 
     private val formDialog = MutableStateFlow<MeasurementCategoryListState.FormDialog?>(null)

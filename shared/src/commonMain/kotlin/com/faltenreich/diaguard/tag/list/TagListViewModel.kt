@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.tag.list
 import com.faltenreich.diaguard.architecture.either.ValidationResult
 import com.faltenreich.diaguard.architecture.viewmodel.ViewModel
 import com.faltenreich.diaguard.data.tag.Tag
+import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import com.faltenreich.diaguard.tag.StoreTagUseCase
 import com.faltenreich.diaguard.tag.ValidateTagUseCase
 import com.faltenreich.diaguard.tag.detail.TagDetailScreen
@@ -12,7 +13,7 @@ import kotlinx.coroutines.flow.update
 
 class TagListViewModel(
     getTags: GetTagsUseCase,
-    private val pushScreen: com.faltenreich.diaguard.navigation.screen.PushScreenUseCase,
+    private val pushScreen: PushScreenUseCase,
     private val validateTag: ValidateTagUseCase,
     private val createTag: StoreTagUseCase,
 ) : ViewModel<TagListState, TagListIntent, Unit>() {

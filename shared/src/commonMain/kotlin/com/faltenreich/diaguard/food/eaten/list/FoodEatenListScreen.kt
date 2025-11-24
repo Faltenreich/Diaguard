@@ -6,6 +6,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import com.faltenreich.diaguard.data.food.Food
 import com.faltenreich.diaguard.injection.viewModel
+import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
+import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
+import com.faltenreich.diaguard.navigation.screen.Screen
 import com.faltenreich.diaguard.view.button.TooltipFloatingActionButton
 import com.faltenreich.diaguard.view.theme.AppTheme
 import diaguard.core.view.generated.resources.ic_add
@@ -19,14 +22,14 @@ import org.koin.core.parameter.parametersOf
 
 @Serializable
 data class FoodEatenListScreen(private val foodId: Long) :
-    com.faltenreich.diaguard.navigation.screen.Screen {
+    Screen {
 
     constructor(tag: Food.Local) : this(tag.id)
 
     @Composable
-    override fun TopAppBar(): com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle {
+    override fun TopAppBar(): TopAppBarStyle {
         val viewModel = viewModel<FoodEatenListViewModel> { parametersOf(foodId) }
-        return _root_ide_package_.com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle.CenterAligned {
+        return TopAppBarStyle.CenterAligned {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(stringResource(Res.string.food_eaten))
                 Text(
@@ -38,9 +41,9 @@ data class FoodEatenListScreen(private val foodId: Long) :
     }
 
     @Composable
-    override fun BottomAppBar(): com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle {
+    override fun BottomAppBar(): BottomAppBarStyle {
         val viewModel = viewModel<FoodEatenListViewModel> { parametersOf(foodId) }
-        return _root_ide_package_.com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle.Visible(
+        return BottomAppBarStyle.Visible(
             floatingActionButton = {
                 TooltipFloatingActionButton(
                     painter = painterResource(diaguard.core.view.generated.resources.Res.drawable.ic_add),

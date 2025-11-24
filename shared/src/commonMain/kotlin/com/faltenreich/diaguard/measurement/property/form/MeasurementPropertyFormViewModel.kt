@@ -16,6 +16,8 @@ import com.faltenreich.diaguard.measurement.property.usecase.StoreMeasurementPro
 import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitListMode
 import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitListScreen
 import com.faltenreich.diaguard.measurement.unit.usecase.GetMeasurementUnitSuggestionsUseCase
+import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
+import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesPreference
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -35,8 +37,8 @@ class MeasurementPropertyFormViewModel(
     private val storeProperty: StoreMeasurementPropertyUseCase = inject(),
     private val deleteProperty: DeleteMeasurementPropertyUseCase = inject(),
     private val storeCategory: StoreMeasurementCategoryUseCase = inject(),
-    private val pushScreen: com.faltenreich.diaguard.navigation.screen.PushScreenUseCase = inject(),
-    private val popScreen: com.faltenreich.diaguard.navigation.screen.PopScreenUseCase = inject(),
+    private val pushScreen: PushScreenUseCase = inject(),
+    private val popScreen: PopScreenUseCase = inject(),
 ) : ViewModel<MeasurementPropertyFormState, MeasurementPropertyFormIntent, Unit>() {
 
     private val category = checkNotNull(getCategoryById(categoryId))

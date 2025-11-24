@@ -44,8 +44,8 @@ fun TopAppBar(
 @Preview
 @Composable
 private fun Preview() = PreviewScaffold {
-    _root_ide_package_.com.faltenreich.diaguard.navigation.bar.top.TopAppBar(
-        style = _root_ide_package_.com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle.CenterAligned {
+    TopAppBar(
+        style = TopAppBarStyle.CenterAligned {
             Text(
                 "Title"
             )

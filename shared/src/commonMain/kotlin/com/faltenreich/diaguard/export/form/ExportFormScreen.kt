@@ -3,6 +3,9 @@ package com.faltenreich.diaguard.export.form
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import com.faltenreich.diaguard.injection.viewModel
+import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
+import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
+import com.faltenreich.diaguard.navigation.screen.Screen
 import com.faltenreich.diaguard.view.button.TooltipFloatingActionButton
 import diaguard.core.view.generated.resources.ic_check
 import diaguard.shared.generated.resources.Res
@@ -12,19 +15,19 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
 @Serializable
-data object ExportFormScreen : com.faltenreich.diaguard.navigation.screen.Screen {
+data object ExportFormScreen : Screen {
 
     @Composable
-    override fun TopAppBar(): com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle {
-        return _root_ide_package_.com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle.CenterAligned {
+    override fun TopAppBar(): TopAppBarStyle {
+        return TopAppBarStyle.CenterAligned {
             Text(stringResource(Res.string.export))
         }
     }
 
     @Composable
-    override fun BottomAppBar(): com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle {
+    override fun BottomAppBar(): BottomAppBarStyle {
         val viewModel = viewModel<ExportFormViewModel>()
-        return _root_ide_package_.com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle.Visible(
+        return BottomAppBarStyle.Visible(
             floatingActionButton = {
                 TooltipFloatingActionButton(
                     painter = painterResource(diaguard.core.view.generated.resources.Res.drawable.ic_check),

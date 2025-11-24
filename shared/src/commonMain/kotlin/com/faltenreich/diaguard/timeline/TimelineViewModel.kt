@@ -12,6 +12,7 @@ import com.faltenreich.diaguard.entry.form.StoreEntryUseCase
 import com.faltenreich.diaguard.entry.list.EntryListItemState
 import com.faltenreich.diaguard.entry.search.EntrySearchScreen
 import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormScreen
+import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesPreference
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.timeline.canvas.GetTimelineCanvasDimensionsUseCase
@@ -51,7 +52,7 @@ class TimelineViewModel(
     private val tapCanvas: TapTimelineCanvasUseCase,
     private val deleteEntry: DeleteEntryUseCase,
     private val storeEntry: StoreEntryUseCase,
-    private val pushScreen: com.faltenreich.diaguard.navigation.screen.PushScreenUseCase,
+    private val pushScreen: PushScreenUseCase,
 ) : ViewModel<TimelineState, TimelineIntent, TimelineEvent>() {
 
     private val propertiesForTable = getPropertiesForTable()

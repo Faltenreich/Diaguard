@@ -1,15 +1,16 @@
 package com.faltenreich.diaguard.navigation
 
 import androidx.compose.material3.SnackbarDuration
+import com.faltenreich.diaguard.navigation.screen.Screen
 
 sealed interface NavigationEvent {
 
     data class PushScreen(
-        val screen: com.faltenreich.diaguard.navigation.screen.Screen,
+        val screen: Screen,
         val popHistory: Boolean,
-    ) : com.faltenreich.diaguard.navigation.NavigationEvent
+    ) : NavigationEvent
 
-    data object PopScreen : com.faltenreich.diaguard.navigation.NavigationEvent
+    data object PopScreen : NavigationEvent
 
     data class ShowSnackbar(
         val message: String,
@@ -18,5 +19,5 @@ sealed interface NavigationEvent {
         val duration: SnackbarDuration =
             if (actionLabel == null) SnackbarDuration.Short
             else SnackbarDuration.Indefinite,
-    ) : com.faltenreich.diaguard.navigation.NavigationEvent
+    ) : NavigationEvent
 }

@@ -14,6 +14,7 @@ import com.faltenreich.diaguard.log.list.LogListPagingSource
 import com.faltenreich.diaguard.log.list.item.LogDayState
 import com.faltenreich.diaguard.log.list.item.LogDayStickyInfo
 import com.faltenreich.diaguard.log.list.item.LogDayStyle
+import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
@@ -24,7 +25,7 @@ class LogViewModel(
     private val invalidateDayStickyInfo: InvalidateLogDayStickyInfoUseCase,
     private val deleteEntry: DeleteEntryUseCase,
     private val storeEntry: StoreEntryUseCase,
-    private val pushScreen: com.faltenreich.diaguard.navigation.screen.PushScreenUseCase,
+    private val pushScreen: PushScreenUseCase,
     private val formatDateTimeUseCase: FormatDateTimeUseCase,
 ) : ViewModel<LogState, LogIntent, Unit>() {
 

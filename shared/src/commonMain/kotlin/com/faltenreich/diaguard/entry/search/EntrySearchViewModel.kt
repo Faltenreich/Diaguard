@@ -8,6 +8,7 @@ import com.faltenreich.diaguard.entry.form.EntryFormScreen
 import com.faltenreich.diaguard.entry.form.StoreEntryUseCase
 import com.faltenreich.diaguard.entry.list.EntryListPagingSource
 import com.faltenreich.diaguard.injection.inject
+import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
@@ -17,7 +18,7 @@ class EntrySearchViewModel(
     searchEntries: SearchEntriesUseCase = inject(),
     private val deleteEntry: DeleteEntryUseCase = inject(),
     private val storeEntry: StoreEntryUseCase = inject(),
-    private val pushScreen: com.faltenreich.diaguard.navigation.screen.PushScreenUseCase = inject(),
+    private val pushScreen: PushScreenUseCase = inject(),
 ) : ViewModel<EntrySearchState, EntrySearchIntent, Unit>() {
 
     private val query = MutableStateFlow(initialQuery)

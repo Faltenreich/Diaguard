@@ -14,6 +14,7 @@ import com.faltenreich.diaguard.log.logModule
 import com.faltenreich.diaguard.logging.loggingModule
 import com.faltenreich.diaguard.main.mainModule
 import com.faltenreich.diaguard.measurement.measurementModule
+import com.faltenreich.diaguard.navigation.navigationModule
 import com.faltenreich.diaguard.network.networkModule
 import com.faltenreich.diaguard.persistence.persistenceModule
 import com.faltenreich.diaguard.preference.preferenceModule
@@ -61,7 +62,7 @@ private fun featureModule() = module {
         logModule(),
         mainModule(),
         measurementModule(),
-        _root_ide_package_.com.faltenreich.diaguard.navigation.navigationModule(),
+        navigationModule(),
         preferenceModule(),
         startupModule(),
         statisticModule(),

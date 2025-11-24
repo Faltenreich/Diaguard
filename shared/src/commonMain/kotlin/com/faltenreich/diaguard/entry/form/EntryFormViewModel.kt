@@ -21,6 +21,8 @@ import com.faltenreich.diaguard.food.search.FoodSearchMode
 import com.faltenreich.diaguard.food.search.FoodSearchScreen
 import com.faltenreich.diaguard.injection.inject
 import com.faltenreich.diaguard.logging.Logger
+import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
+import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import com.faltenreich.diaguard.system.permission.HasPermissionUseCase
 import com.faltenreich.diaguard.system.permission.Permission
 import com.faltenreich.diaguard.system.permission.PermissionResult
@@ -46,8 +48,8 @@ class EntryFormViewModel(
     getTagsOfEntry: GetTagsOfEntry = inject(),
     getTagSuggestions: GetTagSuggestionsUseCase = inject(),
     getDateTimeForEntry: GetDateTimeForEntryUseCase = inject(),
-    private val popScreen: com.faltenreich.diaguard.navigation.screen.PopScreenUseCase = inject(),
-    private val pushScreen: com.faltenreich.diaguard.navigation.screen.PushScreenUseCase = inject(),
+    private val popScreen: PopScreenUseCase = inject(),
+    private val pushScreen: PushScreenUseCase = inject(),
     private val validate: ValidateEntryFormInputUseCase = inject(),
     private val storeEntry: StoreEntryUseCase = inject(),
     private val deleteEntry: DeleteEntryUseCase = inject(),

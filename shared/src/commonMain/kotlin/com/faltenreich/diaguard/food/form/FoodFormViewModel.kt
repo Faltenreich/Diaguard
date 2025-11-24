@@ -8,6 +8,8 @@ import com.faltenreich.diaguard.food.eaten.list.FoodEatenListScreen
 import com.faltenreich.diaguard.food.nutrient.FoodNutrient
 import com.faltenreich.diaguard.food.nutrient.FoodNutrientData
 import com.faltenreich.diaguard.injection.inject
+import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
+import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
@@ -22,8 +24,8 @@ class FoodFormViewModel(
     private val validateInput: ValidateFoodInputUseCase = inject(),
     private val storeFood: StoreFoodUseCase = inject(),
     private val deleteFood: DeleteFoodUseCase = inject(),
-    private val pushScreen: com.faltenreich.diaguard.navigation.screen.PushScreenUseCase = inject(),
-    private val popScreen: com.faltenreich.diaguard.navigation.screen.PopScreenUseCase = inject(),
+    private val pushScreen: PushScreenUseCase = inject(),
+    private val popScreen: PopScreenUseCase = inject(),
 ) : ViewModel<FoodFormState, FoodFormIntent, Unit>() {
 
     private val food = foodId?.let(getFoodById::invoke)

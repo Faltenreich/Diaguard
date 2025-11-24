@@ -10,6 +10,9 @@ import com.faltenreich.diaguard.measurement.category.usecase.StoreMeasurementCat
 import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormScreen
 import com.faltenreich.diaguard.measurement.property.usecase.GetMeasurementPropertiesUseCase
 import com.faltenreich.diaguard.measurement.property.usecase.StoreMeasurementPropertyUseCase
+import com.faltenreich.diaguard.navigation.bar.snackbar.ShowSnackbarUseCase
+import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
+import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import com.faltenreich.diaguard.preference.color.ColorSchemePreference
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import diaguard.shared.generated.resources.Res
@@ -26,9 +29,9 @@ class MeasurementCategoryFormViewModel(
     private val storeCategory: StoreMeasurementCategoryUseCase = inject(),
     private val storeProperty: StoreMeasurementPropertyUseCase = inject(),
     private val deleteCategory: DeleteMeasurementCategoryUseCase = inject(),
-    private val pushScreen: com.faltenreich.diaguard.navigation.screen.PushScreenUseCase = inject(),
-    private val popScreen: com.faltenreich.diaguard.navigation.screen.PopScreenUseCase = inject(),
-    private val showSnackbar: com.faltenreich.diaguard.navigation.bar.snackbar.ShowSnackbarUseCase = inject(),
+    private val pushScreen: PushScreenUseCase = inject(),
+    private val popScreen: PopScreenUseCase = inject(),
+    private val showSnackbar: ShowSnackbarUseCase = inject(),
 ) : ViewModel<MeasurementCategoryFormState, MeasurementCategoryFormIntent, Unit>() {
 
     private val category: MeasurementCategory.Local = checkNotNull(getCategoryBdId(categoryId))

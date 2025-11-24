@@ -14,10 +14,11 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.faltenreich.diaguard.injection.inject
+import com.faltenreich.diaguard.navigation.screen.Screen
 import kotlin.jvm.JvmSuppressWildcards
 import kotlin.reflect.KType
 
-inline fun <reified T : com.faltenreich.diaguard.navigation.screen.Screen> NavGraphBuilder.screen(
+inline fun <reified T : Screen> NavGraphBuilder.screen(
     typeMap: Map<KType, NavType<*>> = emptyMap(),
     deepLinks: List<NavDeepLink> = emptyList(),
     noinline enterTransition:
@@ -30,7 +31,7 @@ inline fun <reified T : com.faltenreich.diaguard.navigation.screen.Screen> NavGr
     (AnimatedContentTransitionScope<NavBackStackEntry>.() -> @JvmSuppressWildcards ExitTransition?)? = exitTransition,
     noinline sizeTransform:
     (AnimatedContentTransitionScope<NavBackStackEntry>.() -> @JvmSuppressWildcards SizeTransform?)? = null,
-    navigation: com.faltenreich.diaguard.navigation.Navigation = inject(),
+    navigation: Navigation = inject(),
 ) {
     composable<T>(
         typeMap,
@@ -50,7 +51,7 @@ inline fun <reified T : com.faltenreich.diaguard.navigation.screen.Screen> NavGr
     }
 }
 
-fun NavController.navigate(screen: com.faltenreich.diaguard.navigation.screen.Screen, popHistory: Boolean) {
+fun NavController.navigate(screen: Screen, popHistory: Boolean) {
     navigate(
         route = screen,
         navOptions = NavOptions.Builder()

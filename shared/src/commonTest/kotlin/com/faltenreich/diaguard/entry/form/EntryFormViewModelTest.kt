@@ -12,6 +12,8 @@ import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.food.FoodFactory
 import com.faltenreich.diaguard.food.search.FoodSearchScreen
 import com.faltenreich.diaguard.measurement.value.usecase.StoreMeasurementValueUseCase
+import com.faltenreich.diaguard.navigation.Navigation
+import com.faltenreich.diaguard.navigation.NavigationEvent
 import com.faltenreich.diaguard.startup.seed.ImportSeedUseCase
 import kotlinx.coroutines.test.runTest
 import org.koin.core.parameter.parametersOf
@@ -29,7 +31,7 @@ class EntryFormViewModelTest : TestSuite() {
 
     private val importSeed: ImportSeedUseCase by inject()
     private val storeValue: StoreMeasurementValueUseCase by inject()
-    private val navigation: com.faltenreich.diaguard.navigation.Navigation by inject()
+    private val navigation: Navigation by inject()
     private val entryRepository: EntryTagRepository by inject()
     private val valueRepository: MeasurementValueRepository by inject()
     private val foodRepository: FoodRepository by inject()
@@ -164,7 +166,7 @@ class EntryFormViewModelTest : TestSuite() {
                 expected = 10.0,
                 actual = values.first().value,
             )
-            assertTrue(navigation.awaitItem() is com.faltenreich.diaguard.navigation.NavigationEvent.PopScreen)
+            assertTrue(navigation.awaitItem() is NavigationEvent.PopScreen)
         }
     }
 
@@ -186,7 +188,7 @@ class EntryFormViewModelTest : TestSuite() {
 
         navigation.events.test {
             viewModel.handleIntent(EntryFormIntent.Delete(needsConfirmation = true))
-            assertTrue(awaitItem() is com.faltenreich.diaguard.navigation.NavigationEvent.PopScreen)
+            assertTrue(awaitItem() is NavigationEvent.PopScreen)
         }
     }
 
@@ -198,7 +200,7 @@ class EntryFormViewModelTest : TestSuite() {
             viewModel.handleIntent(EntryFormIntent.SelectFood)
 
             val event = awaitItem()
-            assertTrue(event is com.faltenreich.diaguard.navigation.NavigationEvent.PushScreen)
+            assertTrue(event is NavigationEvent.PushScreen)
             assertTrue(event.screen is FoodSearchScreen)
         }
     }

@@ -12,6 +12,8 @@ import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.entry.form.EntryFormScreen
 import com.faltenreich.diaguard.entry.search.EntrySearchScreen
 import com.faltenreich.diaguard.measurement.value.usecase.StoreMeasurementValueUseCase
+import com.faltenreich.diaguard.navigation.Navigation
+import com.faltenreich.diaguard.navigation.NavigationEvent
 import com.faltenreich.diaguard.startup.seed.ImportSeedUseCase
 import com.faltenreich.diaguard.timeline.canvas.chart.TimelineChartState
 import com.faltenreich.diaguard.timeline.canvas.table.TimelineTableState
@@ -28,7 +30,7 @@ class TimelineViewModelTest : TestSuite() {
     private val importSeed: ImportSeedUseCase by inject()
     private val storeValue: StoreMeasurementValueUseCase by inject()
     private val dateTimeFactory: DateTimeFactory by inject()
-    private val navigation: com.faltenreich.diaguard.navigation.Navigation by inject()
+    private val navigation: Navigation by inject()
     private val categoryRepository: MeasurementCategoryRepository by inject()
     private val propertyRepository: MeasurementPropertyRepository by inject()
 
@@ -325,7 +327,7 @@ class TimelineViewModelTest : TestSuite() {
             viewModel.handleIntent(TimelineIntent.CreateEntry)
 
             val event = awaitItem()
-            assertTrue(event is com.faltenreich.diaguard.navigation.NavigationEvent.PushScreen)
+            assertTrue(event is NavigationEvent.PushScreen)
             assertTrue(event.screen is EntryFormScreen)
         }
     }
@@ -338,7 +340,7 @@ class TimelineViewModelTest : TestSuite() {
             viewModel.handleIntent(TimelineIntent.OpenEntrySearch())
 
             val event = awaitItem()
-            assertTrue(event is com.faltenreich.diaguard.navigation.NavigationEvent.PushScreen)
+            assertTrue(event is NavigationEvent.PushScreen)
             assertTrue(event.screen is EntrySearchScreen)
         }
     }

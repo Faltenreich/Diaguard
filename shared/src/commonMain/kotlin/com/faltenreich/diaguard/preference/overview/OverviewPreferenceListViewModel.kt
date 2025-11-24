@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.preference.overview
 
 import com.faltenreich.diaguard.architecture.viewmodel.ViewModel
+import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import com.faltenreich.diaguard.preference.color.ColorSchemePreference
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesPreference
 import com.faltenreich.diaguard.preference.decimal.IllustrateDecimalPlacesUseCase
@@ -18,7 +19,7 @@ class OverviewPreferenceListViewModel(
     getAppVersion: GetAppVersionUseCase,
     private val illustrateDecimalPlaces: IllustrateDecimalPlacesUseCase,
     private val setPreference: SetPreferenceUseCase,
-    private val pushScreen: com.faltenreich.diaguard.navigation.screen.PushScreenUseCase,
+    private val pushScreen: PushScreenUseCase,
     private val openUrl: OpenUrlUseCase,
     private val openNotificationSettings: OpenNotificationSettingsUseCase,
 ) : ViewModel<OverviewPreferenceListState, OverviewPreferenceListIntent, Unit>() {

@@ -14,7 +14,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun TopAppBar(
-    style: com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle,
+    style: TopAppBarStyle,
     navigationIcon: @Composable () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -25,8 +25,8 @@ fun TopAppBar(
             .fillMaxWidth(),
     ) {
         when (style) {
-            is com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle.Hidden -> Unit
-            is com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle.CenterAligned -> CenterAlignedTopAppBar(
+            is TopAppBarStyle.Hidden -> Unit
+            is TopAppBarStyle.CenterAligned -> CenterAlignedTopAppBar(
                 title = { style.content() },
                 navigationIcon = navigationIcon,
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -36,7 +36,7 @@ fun TopAppBar(
                     actionIconContentColor = AppTheme.colors.scheme.onPrimary,
                 ),
             )
-            is com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle.Custom -> style.content()
+            is TopAppBarStyle.Custom -> style.content()
         }
     }
 }

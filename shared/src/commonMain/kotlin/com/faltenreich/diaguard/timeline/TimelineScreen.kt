@@ -7,11 +7,11 @@ import com.faltenreich.diaguard.injection.viewModel
 import com.faltenreich.diaguard.view.animation.rememberAnimatable
 import com.faltenreich.diaguard.view.button.TooltipFloatingActionButton
 import diaguard.core.view.generated.resources.ic_add
+import diaguard.feature.navigation.generated.resources.ic_search
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.date_picker_open
 import diaguard.shared.generated.resources.entry_new_description
 import diaguard.shared.generated.resources.ic_date
-import diaguard.shared.generated.resources.ic_search
 import diaguard.shared.generated.resources.search_open
 import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
@@ -27,7 +27,7 @@ data object TimelineScreen : com.faltenreich.diaguard.navigation.screen.Screen {
         return _root_ide_package_.com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle.Visible(
             actions = {
                 _root_ide_package_.com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarItem(
-                    painter = painterResource(Res.drawable.ic_search),
+                    painter = painterResource(diaguard.feature.navigation.generated.resources.Res.drawable.ic_search),
                     contentDescription = stringResource(Res.string.search_open),
                     onClick = { viewModel.dispatchIntent(TimelineIntent.OpenEntrySearch()) },
                 )

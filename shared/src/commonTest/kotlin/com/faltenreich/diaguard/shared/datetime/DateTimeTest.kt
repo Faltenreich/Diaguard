@@ -7,7 +7,7 @@ import org.koin.test.inject
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class DateTimeTest : TestSuite {
+class DateTimeTest : TestSuite() {
 
     private val dateTimeFactory: DateTimeFactory by inject()
 

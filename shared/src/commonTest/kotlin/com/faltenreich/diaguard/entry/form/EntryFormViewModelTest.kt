@@ -27,7 +27,7 @@ import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
-class EntryFormViewModelTest : TestSuite {
+class EntryFormViewModelTest : TestSuite() {
 
     private val importSeed: ImportSeedUseCase by inject()
     private val storeValue: StoreMeasurementValueUseCase by inject()

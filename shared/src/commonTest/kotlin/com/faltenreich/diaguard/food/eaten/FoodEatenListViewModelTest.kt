@@ -2,15 +2,15 @@ package com.faltenreich.diaguard.food.eaten
 
 import app.cash.turbine.test
 import com.faltenreich.diaguard.TestSuite
-import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.data.entry.Entry
 import com.faltenreich.diaguard.data.entry.EntryRepository
-import com.faltenreich.diaguard.entry.form.EntryFormScreen
 import com.faltenreich.diaguard.data.food.Food
-import com.faltenreich.diaguard.food.FoodFactory
 import com.faltenreich.diaguard.data.food.FoodRepository
 import com.faltenreich.diaguard.data.food.eaten.FoodEaten
 import com.faltenreich.diaguard.data.food.eaten.FoodEatenRepository
+import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
+import com.faltenreich.diaguard.entry.form.EntryFormScreen
+import com.faltenreich.diaguard.food.FoodFactory
 import com.faltenreich.diaguard.food.eaten.list.FoodEatenListIntent
 import com.faltenreich.diaguard.food.eaten.list.FoodEatenListState
 import com.faltenreich.diaguard.food.eaten.list.FoodEatenListViewModel
@@ -25,7 +25,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-class FoodEatenListViewModelTest : TestSuite {
+class FoodEatenListViewModelTest : TestSuite() {
 
     private val foodRepository: FoodRepository by inject()
     private val entryRepository: EntryRepository by inject()

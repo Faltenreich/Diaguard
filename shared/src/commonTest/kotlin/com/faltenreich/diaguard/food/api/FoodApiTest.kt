@@ -8,7 +8,7 @@ import org.koin.test.inject
 import kotlin.test.Test
 import kotlin.test.assertTrue
 
-class FoodApiTest : TestSuite {
+class FoodApiTest : TestSuite() {
 
     private val api: FoodApi by inject()
 

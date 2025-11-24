@@ -15,7 +15,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-class MeasurementCategoryListViewModelTest : TestSuite {
+class MeasurementCategoryListViewModelTest : TestSuite() {
 
     private val importSeed: ImportSeedUseCase by inject()
     private val navigation: Navigation by inject()

@@ -18,7 +18,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
-class MeasurementCategoryFormDialogDialogViewModelTest : TestSuite {
+class MeasurementCategoryFormDialogDialogViewModelTest : TestSuite() {
 
     private val importSeed: ImportSeedUseCase by inject()
     private val navigation: Navigation by inject()

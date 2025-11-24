@@ -2,9 +2,9 @@ package com.faltenreich.diaguard.log
 
 import app.cash.turbine.test
 import com.faltenreich.diaguard.TestSuite
-import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.data.entry.Entry
 import com.faltenreich.diaguard.data.entry.EntryRepository
+import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.entry.form.EntryFormScreen
 import com.faltenreich.diaguard.entry.search.EntrySearchScreen
 import com.faltenreich.diaguard.navigation.Navigation
@@ -15,7 +15,7 @@ import kotlin.test.Test
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
-class LogViewModelTest : TestSuite {
+class LogViewModelTest : TestSuite() {
 
     private val viewModel: LogViewModel by inject()
     private val navigation: Navigation by inject()

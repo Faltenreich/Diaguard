@@ -11,7 +11,7 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class StatisticViewModelTest : TestSuite {
+class StatisticViewModelTest : TestSuite() {
 
     private val importSeed: ImportSeedUseCase by inject()
     private val viewModel: StatisticViewModel by inject()

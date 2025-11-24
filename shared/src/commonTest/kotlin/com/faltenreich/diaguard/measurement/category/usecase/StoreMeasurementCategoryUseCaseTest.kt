@@ -8,7 +8,7 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class StoreMeasurementCategoryUseCaseTest : TestSuite {
+class StoreMeasurementCategoryUseCaseTest : TestSuite() {
 
     private val importSeed: ImportSeedUseCase by inject()
     private val storeCategory: StoreMeasurementCategoryUseCase by inject()

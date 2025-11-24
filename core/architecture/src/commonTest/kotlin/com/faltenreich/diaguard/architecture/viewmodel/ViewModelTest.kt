@@ -8,7 +8,7 @@ import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class ViewModelTest : TestSuite {
+class ViewModelTest : TestSuite() {
 
     private lateinit var viewModel: TestViewModel
 

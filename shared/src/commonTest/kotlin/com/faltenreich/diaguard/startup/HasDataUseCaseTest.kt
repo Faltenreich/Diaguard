@@ -9,7 +9,7 @@ import kotlin.test.Test
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-class HasDataUseCaseTest : TestSuite {
+class HasDataUseCaseTest : TestSuite() {
 
     private val importSeed: ImportSeedUseCase by inject()
     private val hasData: HasDataUseCase by inject()

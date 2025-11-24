@@ -18,7 +18,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-class MainViewModelTest : TestSuite {
+class MainViewModelTest : TestSuite() {
 
     private val importSeed: ImportSeedUseCase by inject()
     private val setPreference: SetPreferenceUseCase by inject()

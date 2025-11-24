@@ -22,7 +22,7 @@ import kotlin.test.Test
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
-class TagDetailViewModelTest : TestSuite {
+class TagDetailViewModelTest : TestSuite() {
 
     private val importSeed: ImportSeedUseCase by inject()
     private val storeValue: StoreMeasurementValueUseCase by inject()

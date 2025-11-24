@@ -4,7 +4,7 @@ import com.faltenreich.diaguard.TestSuite
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class DayOfWeekTest : TestSuite {
+class DayOfWeekTest : TestSuite() {
 
     @Test
     fun `previous day of Monday is Sunday`() {

@@ -7,7 +7,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-class DateTest : TestSuite {
+class DateTest : TestSuite() {
 
     private val dateTimeFactory: DateTimeFactory by inject()
 

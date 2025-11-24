@@ -7,7 +7,7 @@ import org.koin.test.inject
 import kotlin.test.Test
 import kotlin.test.assertTrue
 
-class AppViewModelTest : TestSuite {
+class AppViewModelTest : TestSuite() {
 
     private val viewModel: AppViewModel by inject()
     private val importSeed: ImportSeedUseCase by inject()

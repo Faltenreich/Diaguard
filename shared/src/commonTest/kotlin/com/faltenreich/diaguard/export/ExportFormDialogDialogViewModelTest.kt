@@ -18,7 +18,7 @@ import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-class ExportFormDialogDialogViewModelTest : TestSuite {
+class ExportFormDialogDialogViewModelTest : TestSuite() {
 
     private val importSeed: ImportSeedUseCase by inject()
     private val dateTimeFactory: DateTimeFactory by inject()

@@ -8,7 +8,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-class SeedRepositoryTest : TestSuite {
+class SeedRepositoryTest : TestSuite() {
 
     private val seedRepository: SeedRepository by inject()
 

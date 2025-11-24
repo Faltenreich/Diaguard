@@ -25,7 +25,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-class TimelineViewModelTest : TestSuite {
+class TimelineViewModelTest : TestSuite() {
 
     private val importSeed: ImportSeedUseCase by inject()
     private val storeValue: StoreMeasurementValueUseCase by inject()

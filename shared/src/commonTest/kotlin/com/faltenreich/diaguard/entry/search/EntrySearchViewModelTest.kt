@@ -2,9 +2,9 @@ package com.faltenreich.diaguard.entry.search
 
 import app.cash.turbine.test
 import com.faltenreich.diaguard.TestSuite
-import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.data.entry.Entry
 import com.faltenreich.diaguard.data.entry.EntryRepository
+import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.entry.form.EntryFormScreen
 import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.navigation.NavigationEvent
@@ -15,7 +15,7 @@ import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertTrue
 
-class EntrySearchViewModelTest : TestSuite {
+class EntrySearchViewModelTest : TestSuite() {
 
     private val navigation: Navigation by inject()
     private val entryRepository: EntryRepository by inject()

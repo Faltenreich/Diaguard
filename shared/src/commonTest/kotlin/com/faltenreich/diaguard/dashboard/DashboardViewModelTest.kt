@@ -15,7 +15,7 @@ import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
-class DashboardViewModelTest : TestSuite {
+class DashboardViewModelTest : TestSuite() {
 
     private val viewModel: DashboardViewModel by inject()
     private val importSeed: ImportSeedUseCase by inject()

@@ -10,7 +10,7 @@ import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
-class UniqueTagRuleTest : TestSuite {
+class UniqueTagRuleTest : TestSuite() {
 
     private val rule: UniqueTagRule by inject()
     private val tagRepository: TagRepository by inject()

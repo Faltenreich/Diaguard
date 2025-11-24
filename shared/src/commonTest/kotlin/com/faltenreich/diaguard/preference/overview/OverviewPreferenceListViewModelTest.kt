@@ -7,7 +7,7 @@ import org.koin.test.inject
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class OverviewPreferenceListViewModelTest : TestSuite {
+class OverviewPreferenceListViewModelTest : TestSuite() {
 
     private val viewModel: OverviewPreferenceListViewModel by inject()
 

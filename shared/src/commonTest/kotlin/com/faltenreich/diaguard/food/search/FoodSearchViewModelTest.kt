@@ -2,8 +2,8 @@ package com.faltenreich.diaguard.food.search
 
 import app.cash.turbine.test
 import com.faltenreich.diaguard.TestSuite
-import com.faltenreich.diaguard.food.FoodFactory
 import com.faltenreich.diaguard.data.food.FoodRepository
+import com.faltenreich.diaguard.food.FoodFactory
 import com.faltenreich.diaguard.food.form.FoodFormScreen
 import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.navigation.NavigationEvent
@@ -14,7 +14,7 @@ import org.koin.test.inject
 import kotlin.test.Test
 import kotlin.test.assertTrue
 
-class FoodSearchViewModelTest : TestSuite {
+class FoodSearchViewModelTest : TestSuite() {
 
     private val viewModel: FoodSearchViewModel by inject(parameters = { parametersOf(FoodSearchMode.FIND) })
     private val navigation: Navigation by inject()

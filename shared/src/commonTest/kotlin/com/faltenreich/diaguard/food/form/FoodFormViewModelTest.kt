@@ -4,8 +4,8 @@ import app.cash.turbine.test
 import app.cash.turbine.turbineScope
 import com.faltenreich.diaguard.TestSuite
 import com.faltenreich.diaguard.data.food.Food
-import com.faltenreich.diaguard.food.FoodFactory
 import com.faltenreich.diaguard.data.food.FoodRepository
+import com.faltenreich.diaguard.food.FoodFactory
 import com.faltenreich.diaguard.food.eaten.list.FoodEatenListScreen
 import com.faltenreich.diaguard.food.nutrient.FoodNutrient
 import com.faltenreich.diaguard.food.nutrient.FoodNutrientData
@@ -23,7 +23,7 @@ import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
-class FoodFormViewModelTest : TestSuite {
+class FoodFormViewModelTest : TestSuite() {
 
     private val navigation: Navigation by inject()
     private val foodRepository: FoodRepository by inject()

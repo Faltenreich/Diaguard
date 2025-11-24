@@ -18,7 +18,7 @@ import org.koin.test.mock.declare
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class DateTimeFormatterTest : TestSuite {
+class DateTimeFormatterTest : TestSuite() {
 
     private val dateTimeFactory: DateTimeFactory by inject()
     private val dateTimeFormatter: DateTimeFormatter by inject()

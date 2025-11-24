@@ -6,7 +6,7 @@ import com.faltenreich.diaguard.test.assertContentEquals
 import org.koin.test.inject
 import kotlin.test.Test
 
-class TagSeedQueriesTest : TestSuite {
+class TagSeedQueriesTest : TestSuite() {
 
     private val queries: TagSeedQueries by inject()
 

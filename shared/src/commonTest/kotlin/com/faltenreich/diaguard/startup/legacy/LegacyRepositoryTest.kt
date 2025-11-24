@@ -6,7 +6,7 @@ import org.koin.test.inject
 import kotlin.test.Test
 import kotlin.test.assertTrue
 
-class LegacyRepositoryTest : TestSuite {
+class LegacyRepositoryTest : TestSuite() {
 
     private val repository: LegacyRepository by inject()
 

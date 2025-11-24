@@ -2,10 +2,10 @@ package com.faltenreich.diaguard.tag.list
 
 import app.cash.turbine.test
 import com.faltenreich.diaguard.TestSuite
-import com.faltenreich.diaguard.navigation.Navigation
-import com.faltenreich.diaguard.navigation.NavigationEvent
 import com.faltenreich.diaguard.data.tag.Tag
 import com.faltenreich.diaguard.data.tag.TagRepository
+import com.faltenreich.diaguard.navigation.Navigation
+import com.faltenreich.diaguard.navigation.NavigationEvent
 import com.faltenreich.diaguard.tag.detail.TagDetailScreen
 import kotlinx.coroutines.test.runTest
 import org.koin.test.inject
@@ -16,7 +16,7 @@ import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
-class TagListViewModelTest : TestSuite {
+class TagListViewModelTest : TestSuite() {
 
     private val viewModel: TagListViewModel by inject()
     private val navigation: Navigation by inject()

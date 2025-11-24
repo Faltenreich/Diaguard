@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.statistisc
 
 import app.cash.turbine.test
 import com.faltenreich.diaguard.TestSuite
+import com.faltenreich.diaguard.startup.seed.ImportSeedUseCase
 import com.faltenreich.diaguard.statistic.StatisticIntent
 import com.faltenreich.diaguard.statistic.StatisticViewModel
 import kotlinx.coroutines.test.runTest
@@ -12,6 +13,7 @@ import kotlin.test.assertEquals
 
 class StatisticViewModelTest : TestSuite {
 
+    private val importSeed: ImportSeedUseCase by inject()
     private val viewModel: StatisticViewModel by inject()
 
     @BeforeTest

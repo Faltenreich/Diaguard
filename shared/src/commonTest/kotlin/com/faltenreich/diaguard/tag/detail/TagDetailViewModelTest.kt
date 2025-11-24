@@ -2,14 +2,16 @@ package com.faltenreich.diaguard.tag.detail
 
 import app.cash.turbine.test
 import com.faltenreich.diaguard.TestSuite
-import com.faltenreich.diaguard.data.entry.EntryRepository
-import com.faltenreich.diaguard.entry.form.EntryFormScreen
-import com.faltenreich.diaguard.entry.search.EntrySearchScreen
-import com.faltenreich.diaguard.navigation.Navigation
-import com.faltenreich.diaguard.navigation.NavigationEvent
 import com.faltenreich.diaguard.data.DatabaseKey
+import com.faltenreich.diaguard.data.entry.EntryRepository
 import com.faltenreich.diaguard.data.tag.Tag
 import com.faltenreich.diaguard.data.tag.TagRepository
+import com.faltenreich.diaguard.entry.form.EntryFormScreen
+import com.faltenreich.diaguard.entry.search.EntrySearchScreen
+import com.faltenreich.diaguard.measurement.value.usecase.StoreMeasurementValueUseCase
+import com.faltenreich.diaguard.navigation.Navigation
+import com.faltenreich.diaguard.navigation.NavigationEvent
+import com.faltenreich.diaguard.startup.seed.ImportSeedUseCase
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.koin.core.parameter.parametersOf
@@ -22,6 +24,8 @@ import kotlin.test.assertTrue
 
 class TagDetailViewModelTest : TestSuite {
 
+    private val importSeed: ImportSeedUseCase by inject()
+    private val storeValue: StoreMeasurementValueUseCase by inject()
     private val navigation: Navigation by inject()
     private val entryRepository: EntryRepository by inject()
     private val tagRepository: TagRepository by inject()

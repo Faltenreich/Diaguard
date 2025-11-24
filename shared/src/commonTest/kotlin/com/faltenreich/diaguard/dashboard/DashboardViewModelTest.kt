@@ -4,6 +4,8 @@ import app.cash.turbine.test
 import com.faltenreich.diaguard.TestSuite
 import com.faltenreich.diaguard.dashboard.hba1c.DashboardHbA1cState
 import com.faltenreich.diaguard.data.DatabaseKey
+import com.faltenreich.diaguard.measurement.value.usecase.StoreMeasurementValueUseCase
+import com.faltenreich.diaguard.startup.seed.ImportSeedUseCase
 import kotlinx.coroutines.test.runTest
 import org.koin.test.inject
 import kotlin.test.Ignore
@@ -16,6 +18,8 @@ import kotlin.test.assertTrue
 class DashboardViewModelTest : TestSuite {
 
     private val viewModel: DashboardViewModel by inject()
+    private val importSeed: ImportSeedUseCase by inject()
+    private val storeValue: StoreMeasurementValueUseCase by inject()
 
     // FIXME: Never completes
     @Ignore

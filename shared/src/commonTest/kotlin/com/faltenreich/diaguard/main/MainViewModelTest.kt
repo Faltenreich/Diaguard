@@ -10,6 +10,7 @@ import com.faltenreich.diaguard.preference.screen.StartScreen
 import com.faltenreich.diaguard.preference.screen.StartScreenPreference
 import com.faltenreich.diaguard.preference.store.SetPreferenceUseCase
 import com.faltenreich.diaguard.preference.version.VersionCodePreference
+import com.faltenreich.diaguard.startup.seed.ImportSeedUseCase
 import com.faltenreich.diaguard.timeline.TimelineScreen
 import kotlinx.coroutines.test.runTest
 import org.koin.test.inject
@@ -19,9 +20,10 @@ import kotlin.test.assertTrue
 
 class MainViewModelTest : TestSuite {
 
-    private val viewModel: MainViewModel by inject()
+    private val importSeed: ImportSeedUseCase by inject()
     private val setPreference: SetPreferenceUseCase by inject()
     private val navigation: Navigation by inject()
+    private val viewModel: MainViewModel by inject()
 
     @Test
     fun `shows dashboard as start screen by default`() = runTest {

@@ -2,12 +2,13 @@ package com.faltenreich.diaguard.export
 
 import app.cash.turbine.test
 import com.faltenreich.diaguard.TestSuite
+import com.faltenreich.diaguard.data.measurement.category.MeasurementCategoryRepository
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.export.form.ExportFormIntent
 import com.faltenreich.diaguard.export.form.ExportFormState
 import com.faltenreich.diaguard.export.form.ExportFormViewModel
 import com.faltenreich.diaguard.export.pdf.PdfLayout
-import com.faltenreich.diaguard.data.measurement.category.MeasurementCategoryRepository
+import com.faltenreich.diaguard.startup.seed.ImportSeedUseCase
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.koin.test.inject
@@ -19,9 +20,11 @@ import kotlin.test.assertTrue
 
 class ExportFormDialogDialogViewModelTest : TestSuite {
 
-    private val viewModel: ExportFormViewModel by inject()
+    private val importSeed: ImportSeedUseCase by inject()
     private val dateTimeFactory: DateTimeFactory by inject()
     private val categoryRepository: MeasurementCategoryRepository by inject()
+
+    private val viewModel: ExportFormViewModel by inject()
 
     @BeforeTest
     override fun beforeTest() {

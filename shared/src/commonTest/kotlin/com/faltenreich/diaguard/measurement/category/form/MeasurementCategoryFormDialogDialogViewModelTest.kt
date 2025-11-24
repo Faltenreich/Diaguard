@@ -6,6 +6,7 @@ import com.faltenreich.diaguard.data.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.data.measurement.category.MeasurementCategoryRepository
 import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.navigation.NavigationEvent
+import com.faltenreich.diaguard.startup.seed.ImportSeedUseCase
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.koin.core.parameter.parametersOf
@@ -19,6 +20,7 @@ import kotlin.test.assertTrue
 
 class MeasurementCategoryFormDialogDialogViewModelTest : TestSuite {
 
+    private val importSeed: ImportSeedUseCase by inject()
     private val navigation: Navigation by inject()
     private val categoryRepository: MeasurementCategoryRepository by inject()
 

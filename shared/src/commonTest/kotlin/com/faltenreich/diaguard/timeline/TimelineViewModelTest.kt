@@ -5,14 +5,16 @@ import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
 import app.cash.turbine.test
 import com.faltenreich.diaguard.TestSuite
+import com.faltenreich.diaguard.data.DatabaseKey
+import com.faltenreich.diaguard.data.measurement.category.MeasurementCategoryRepository
+import com.faltenreich.diaguard.data.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.entry.form.EntryFormScreen
 import com.faltenreich.diaguard.entry.search.EntrySearchScreen
-import com.faltenreich.diaguard.data.measurement.category.MeasurementCategoryRepository
-import com.faltenreich.diaguard.data.measurement.property.MeasurementPropertyRepository
+import com.faltenreich.diaguard.measurement.value.usecase.StoreMeasurementValueUseCase
 import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.navigation.NavigationEvent
-import com.faltenreich.diaguard.data.DatabaseKey
+import com.faltenreich.diaguard.startup.seed.ImportSeedUseCase
 import com.faltenreich.diaguard.timeline.canvas.chart.TimelineChartState
 import com.faltenreich.diaguard.timeline.canvas.table.TimelineTableState
 import kotlinx.coroutines.flow.first
@@ -25,7 +27,8 @@ import kotlin.test.assertTrue
 
 class TimelineViewModelTest : TestSuite {
 
-    private val viewModel: TimelineViewModel by inject()
+    private val importSeed: ImportSeedUseCase by inject()
+    private val storeValue: StoreMeasurementValueUseCase by inject()
     private val dateTimeFactory: DateTimeFactory by inject()
     private val navigation: Navigation by inject()
     private val categoryRepository: MeasurementCategoryRepository by inject()
@@ -34,6 +37,8 @@ class TimelineViewModelTest : TestSuite {
     private val canvasSize = Size(width = 100f, height = 100f)
     private val tableRowHeight = 10f
     private val statusBarHeight = 10
+
+    private val viewModel: TimelineViewModel by inject()
 
     @BeforeTest
     override fun beforeTest() {

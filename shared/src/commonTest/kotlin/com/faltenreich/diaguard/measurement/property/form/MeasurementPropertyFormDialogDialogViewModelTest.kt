@@ -5,6 +5,7 @@ import com.faltenreich.diaguard.TestSuite
 import com.faltenreich.diaguard.data.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.navigation.NavigationEvent
+import com.faltenreich.diaguard.startup.seed.ImportSeedUseCase
 import kotlinx.coroutines.test.runTest
 import org.koin.core.parameter.parametersOf
 import org.koin.test.get
@@ -18,6 +19,7 @@ import kotlin.test.assertTrue
 
 class MeasurementPropertyFormDialogDialogViewModelTest : TestSuite {
 
+    private val importSeed: ImportSeedUseCase by inject()
     private val navigation: Navigation by inject()
     private val propertyRepository: MeasurementPropertyRepository by inject()
 

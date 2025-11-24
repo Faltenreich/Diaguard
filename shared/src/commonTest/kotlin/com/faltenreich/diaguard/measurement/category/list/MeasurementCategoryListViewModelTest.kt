@@ -3,10 +3,11 @@ package com.faltenreich.diaguard.measurement.category.list
 import app.cash.turbine.test
 import app.cash.turbine.turbineScope
 import com.faltenreich.diaguard.TestSuite
+import com.faltenreich.diaguard.data.DatabaseKey
 import com.faltenreich.diaguard.measurement.category.form.MeasurementCategoryFormScreen
 import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.navigation.NavigationEvent
-import com.faltenreich.diaguard.data.DatabaseKey
+import com.faltenreich.diaguard.startup.seed.ImportSeedUseCase
 import kotlinx.coroutines.test.runTest
 import org.koin.test.inject
 import kotlin.test.BeforeTest
@@ -16,8 +17,9 @@ import kotlin.test.assertTrue
 
 class MeasurementCategoryListViewModelTest : TestSuite {
 
-    private val viewModel: MeasurementCategoryListViewModel by inject()
+    private val importSeed: ImportSeedUseCase by inject()
     private val navigation: Navigation by inject()
+    private val viewModel: MeasurementCategoryListViewModel by inject()
 
     @BeforeTest
     override fun beforeTest() {

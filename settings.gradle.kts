@@ -24,7 +24,9 @@ rootProject.name = "diaguard"
 include(
     ":androidApp",
     ":shared",
+    
     ":data",
+
     ":core:architecture",
     ":core:config",
     ":core:injection",
@@ -38,4 +40,6 @@ include(
     ":core:system",
     ":core:test",
     ":core:view",
+
+    ":feature:navigation",
 )

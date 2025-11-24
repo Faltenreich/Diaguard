@@ -15,6 +15,7 @@ dependencies {
 
     implementation(libs.android.plugin)
     implementation(libs.compose.plugin)
+    implementation(libs.compose.compiler.plugin)
     implementation(libs.detekt.plugin)
     implementation(libs.kotlin.plugin)
     implementation(libs.kover.plugin)

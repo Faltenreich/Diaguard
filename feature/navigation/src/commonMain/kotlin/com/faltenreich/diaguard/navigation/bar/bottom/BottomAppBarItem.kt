@@ -8,8 +8,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
-import com.faltenreich.diaguard.view.info.Tooltip
 import com.faltenreich.diaguard.data.preview.PreviewScaffold
+import com.faltenreich.diaguard.view.info.Tooltip
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.ic_search
 import kotlinx.coroutines.launch
@@ -49,7 +49,7 @@ fun BottomAppBarItem(
 @Preview
 @Composable
 private fun Preview() = PreviewScaffold {
-    BottomAppBarItem(
+    _root_ide_package_.com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarItem(
         painter = painterResource(Res.drawable.ic_search),
         contentDescription = "",
         onClick = {},

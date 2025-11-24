@@ -7,9 +7,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import com.faltenreich.diaguard.injection.viewModel
-import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
-import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
-import com.faltenreich.diaguard.navigation.screen.Screen
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.entry_search
 import kotlinx.serialization.Serializable
@@ -17,19 +14,20 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.core.parameter.parametersOf
 
 @Serializable
-data class EntrySearchScreen(private val query: String = "") : Screen {
+data class EntrySearchScreen(private val query: String = "") :
+    com.faltenreich.diaguard.navigation.screen.Screen {
 
     @Composable
-    override fun TopAppBar(): TopAppBarStyle {
-        return TopAppBarStyle.CenterAligned {
+    override fun TopAppBar(): com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle {
+        return _root_ide_package_.com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle.CenterAligned {
             Text(stringResource(Res.string.entry_search))
         }
     }
 
     @Composable
-    override fun BottomAppBar(): BottomAppBarStyle {
+    override fun BottomAppBar(): com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle {
         val viewModel = viewModel<EntrySearchViewModel>(parameters = { parametersOf(query) })
-        return BottomAppBarStyle.Visible(
+        return _root_ide_package_.com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle.Visible(
             actions = {
                 // FIXME: Not synchronized with EntrySearch, e.g. onTagClick
                 var query by remember { mutableStateOf(query) }

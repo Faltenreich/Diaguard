@@ -2,18 +2,16 @@ package com.faltenreich.diaguard.tag.detail
 
 import androidx.paging.Pager
 import androidx.paging.cachedIn
+import com.faltenreich.diaguard.architecture.either.ValidationResult
+import com.faltenreich.diaguard.architecture.viewmodel.ViewModel
+import com.faltenreich.diaguard.data.tag.Tag
 import com.faltenreich.diaguard.entry.form.DeleteEntryUseCase
 import com.faltenreich.diaguard.entry.form.EntryFormScreen
 import com.faltenreich.diaguard.entry.form.StoreEntryUseCase
 import com.faltenreich.diaguard.entry.list.EntryListPagingSource
 import com.faltenreich.diaguard.entry.search.EntrySearchScreen
-import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
-import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
-import com.faltenreich.diaguard.architecture.viewmodel.ViewModel
 import com.faltenreich.diaguard.injection.inject
-import com.faltenreich.diaguard.architecture.either.ValidationResult
 import com.faltenreich.diaguard.tag.StoreTagUseCase
-import com.faltenreich.diaguard.data.tag.Tag
 import com.faltenreich.diaguard.tag.ValidateTagUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
@@ -28,8 +26,8 @@ class TagDetailViewModel(
     private val deleteTag: DeleteTagUseCase = inject(),
     private val deleteEntry: DeleteEntryUseCase = inject(),
     private val storeEntry: StoreEntryUseCase = inject(),
-    private val pushScreen: PushScreenUseCase = inject(),
-    private val popScreen: PopScreenUseCase = inject(),
+    private val pushScreen: com.faltenreich.diaguard.navigation.screen.PushScreenUseCase = inject(),
+    private val popScreen: com.faltenreich.diaguard.navigation.screen.PopScreenUseCase = inject(),
 ) : ViewModel<TagDetailState, TagDetailIntent, Unit>() {
 
     private val tag: Tag.Local = checkNotNull(getTagById(tagId))

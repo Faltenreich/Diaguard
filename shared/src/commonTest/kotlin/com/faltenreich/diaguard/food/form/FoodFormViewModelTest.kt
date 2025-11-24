@@ -9,8 +9,6 @@ import com.faltenreich.diaguard.food.FoodFactory
 import com.faltenreich.diaguard.food.eaten.list.FoodEatenListScreen
 import com.faltenreich.diaguard.food.nutrient.FoodNutrient
 import com.faltenreich.diaguard.food.nutrient.FoodNutrientData
-import com.faltenreich.diaguard.navigation.Navigation
-import com.faltenreich.diaguard.navigation.NavigationEvent
 import kotlinx.coroutines.test.runTest
 import org.koin.core.parameter.parametersOf
 import org.koin.test.get
@@ -25,7 +23,7 @@ import kotlin.test.assertTrue
 
 class FoodFormViewModelTest : TestSuite() {
 
-    private val navigation: Navigation by inject()
+    private val navigation: com.faltenreich.diaguard.navigation.Navigation by inject()
     private val foodRepository: FoodRepository by inject()
 
     private lateinit var viewModel: FoodFormViewModel
@@ -192,7 +190,7 @@ class FoodFormViewModelTest : TestSuite() {
             viewModel.handleIntent(FoodFormIntent.OpenFoodEaten(food))
 
             val event = awaitItem()
-            assertTrue(event is NavigationEvent.PushScreen)
+            assertTrue(event is com.faltenreich.diaguard.navigation.NavigationEvent.PushScreen)
             assertTrue(event.screen is FoodEatenListScreen)
         }
     }
@@ -211,7 +209,7 @@ class FoodFormViewModelTest : TestSuite() {
             viewModel.handleIntent(FoodFormIntent.Submit)
 
             state.cancelAndConsumeRemainingEvents()
-            assertTrue(events.awaitItem() is NavigationEvent.PopScreen)
+            assertTrue(events.awaitItem() is com.faltenreich.diaguard.navigation.NavigationEvent.PopScreen)
             assertEquals(
                 expected = name,
                 actual = foodRepository.getById(food.id)?.name,
@@ -248,7 +246,7 @@ class FoodFormViewModelTest : TestSuite() {
             viewModel.handleIntent(FoodFormIntent.Delete(needsConfirmation = false))
 
             val event = awaitItem()
-            assertTrue(event is NavigationEvent.PopScreen)
+            assertTrue(event is com.faltenreich.diaguard.navigation.NavigationEvent.PopScreen)
             assertNull(foodRepository.getById(food.id))
         }
     }
@@ -276,7 +274,7 @@ class FoodFormViewModelTest : TestSuite() {
             viewModel.handleIntent(FoodFormIntent.Delete(needsConfirmation = false))
 
             val event = awaitItem()
-            assertTrue(event is NavigationEvent.PopScreen)
+            assertTrue(event is com.faltenreich.diaguard.navigation.NavigationEvent.PopScreen)
         }
     }
 }

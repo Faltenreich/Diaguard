@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.timeline
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
+import com.faltenreich.diaguard.architecture.viewmodel.ViewModel
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.factory.GetTodayUseCase
@@ -11,10 +12,8 @@ import com.faltenreich.diaguard.entry.form.StoreEntryUseCase
 import com.faltenreich.diaguard.entry.list.EntryListItemState
 import com.faltenreich.diaguard.entry.search.EntrySearchScreen
 import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormScreen
-import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesPreference
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
-import com.faltenreich.diaguard.architecture.viewmodel.ViewModel
 import com.faltenreich.diaguard.timeline.canvas.GetTimelineCanvasDimensionsUseCase
 import com.faltenreich.diaguard.timeline.canvas.TapTimelineCanvasResult
 import com.faltenreich.diaguard.timeline.canvas.TapTimelineCanvasUseCase
@@ -52,7 +51,7 @@ class TimelineViewModel(
     private val tapCanvas: TapTimelineCanvasUseCase,
     private val deleteEntry: DeleteEntryUseCase,
     private val storeEntry: StoreEntryUseCase,
-    private val pushScreen: PushScreenUseCase,
+    private val pushScreen: com.faltenreich.diaguard.navigation.screen.PushScreenUseCase,
 ) : ViewModel<TimelineState, TimelineIntent, TimelineEvent>() {
 
     private val propertiesForTable = getPropertiesForTable()

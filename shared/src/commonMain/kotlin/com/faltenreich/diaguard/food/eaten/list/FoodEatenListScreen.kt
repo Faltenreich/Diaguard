@@ -4,13 +4,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
-import com.faltenreich.diaguard.view.theme.AppTheme
 import com.faltenreich.diaguard.data.food.Food
 import com.faltenreich.diaguard.injection.viewModel
-import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
-import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
-import com.faltenreich.diaguard.navigation.screen.Screen
 import com.faltenreich.diaguard.view.button.TooltipFloatingActionButton
+import com.faltenreich.diaguard.view.theme.AppTheme
 import diaguard.core.view.generated.resources.ic_add
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.entry_new_description
@@ -21,14 +18,15 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.core.parameter.parametersOf
 
 @Serializable
-data class FoodEatenListScreen(private val foodId: Long) : Screen {
+data class FoodEatenListScreen(private val foodId: Long) :
+    com.faltenreich.diaguard.navigation.screen.Screen {
 
     constructor(tag: Food.Local) : this(tag.id)
 
     @Composable
-    override fun TopAppBar(): TopAppBarStyle {
+    override fun TopAppBar(): com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle {
         val viewModel = viewModel<FoodEatenListViewModel> { parametersOf(foodId) }
-        return TopAppBarStyle.CenterAligned {
+        return _root_ide_package_.com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle.CenterAligned {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(stringResource(Res.string.food_eaten))
                 Text(
@@ -40,9 +38,9 @@ data class FoodEatenListScreen(private val foodId: Long) : Screen {
     }
 
     @Composable
-    override fun BottomAppBar(): BottomAppBarStyle {
+    override fun BottomAppBar(): com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle {
         val viewModel = viewModel<FoodEatenListViewModel> { parametersOf(foodId) }
-        return BottomAppBarStyle.Visible(
+        return _root_ide_package_.com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle.Visible(
             floatingActionButton = {
                 TooltipFloatingActionButton(
                     painter = painterResource(diaguard.core.view.generated.resources.Res.drawable.ic_add),

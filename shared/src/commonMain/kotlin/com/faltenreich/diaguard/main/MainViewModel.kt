@@ -1,29 +1,24 @@
 package com.faltenreich.diaguard.main
 
+import com.faltenreich.diaguard.architecture.viewmodel.ViewModel
 import com.faltenreich.diaguard.dashboard.DashboardScreen
 import com.faltenreich.diaguard.log.LogScreen
-import com.faltenreich.diaguard.navigation.CollectNavigationEventsUseCase
-import com.faltenreich.diaguard.navigation.screen.GetBottomAppBarStyleUseCase
-import com.faltenreich.diaguard.navigation.screen.GetTopAppBarStyleUseCase
-import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
-import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import com.faltenreich.diaguard.preference.color.ColorSchemePreference
 import com.faltenreich.diaguard.preference.screen.StartScreen
 import com.faltenreich.diaguard.preference.screen.StartScreenPreference
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
-import com.faltenreich.diaguard.architecture.viewmodel.ViewModel
-import com.faltenreich.diaguard.view.window.WindowController
 import com.faltenreich.diaguard.timeline.TimelineScreen
+import com.faltenreich.diaguard.view.window.WindowController
 import kotlinx.coroutines.flow.combine
 
 class MainViewModel(
     getPreference: GetPreferenceUseCase,
-    getTopAppBarStyle: GetTopAppBarStyleUseCase,
-    getBottomAppBarStyle: GetBottomAppBarStyleUseCase,
+    getTopAppBarStyle: com.faltenreich.diaguard.navigation.screen.GetTopAppBarStyleUseCase,
+    getBottomAppBarStyle: com.faltenreich.diaguard.navigation.screen.GetBottomAppBarStyleUseCase,
     private val windowController: WindowController,
-    private val pushScreen: PushScreenUseCase,
-    private val popScreen: PopScreenUseCase,
-    val collectNavigationEvents: CollectNavigationEventsUseCase,
+    private val pushScreen: com.faltenreich.diaguard.navigation.screen.PushScreenUseCase,
+    private val popScreen: com.faltenreich.diaguard.navigation.screen.PopScreenUseCase,
+    val collectNavigationEvents: com.faltenreich.diaguard.navigation.CollectNavigationEventsUseCase,
 ) : ViewModel<MainState, MainIntent, Unit>() {
 
     override val state = combine(

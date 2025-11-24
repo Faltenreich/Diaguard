@@ -1,15 +1,13 @@
 package com.faltenreich.diaguard.food.form
 
-import com.faltenreich.diaguard.entry.form.GetFoodByIdUseCase
+import com.faltenreich.diaguard.architecture.either.ValidationResult
+import com.faltenreich.diaguard.architecture.viewmodel.ViewModel
 import com.faltenreich.diaguard.data.food.Food
+import com.faltenreich.diaguard.entry.form.GetFoodByIdUseCase
 import com.faltenreich.diaguard.food.eaten.list.FoodEatenListScreen
 import com.faltenreich.diaguard.food.nutrient.FoodNutrient
 import com.faltenreich.diaguard.food.nutrient.FoodNutrientData
-import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
-import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
-import com.faltenreich.diaguard.architecture.viewmodel.ViewModel
 import com.faltenreich.diaguard.injection.inject
-import com.faltenreich.diaguard.architecture.either.ValidationResult
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
@@ -24,8 +22,8 @@ class FoodFormViewModel(
     private val validateInput: ValidateFoodInputUseCase = inject(),
     private val storeFood: StoreFoodUseCase = inject(),
     private val deleteFood: DeleteFoodUseCase = inject(),
-    private val pushScreen: PushScreenUseCase = inject(),
-    private val popScreen: PopScreenUseCase = inject(),
+    private val pushScreen: com.faltenreich.diaguard.navigation.screen.PushScreenUseCase = inject(),
+    private val popScreen: com.faltenreich.diaguard.navigation.screen.PopScreenUseCase = inject(),
 ) : ViewModel<FoodFormState, FoodFormIntent, Unit>() {
 
     private val food = foodId?.let(getFoodById::invoke)

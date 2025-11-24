@@ -1,20 +1,17 @@
 package com.faltenreich.diaguard.measurement.category.form
 
+import com.faltenreich.diaguard.architecture.viewmodel.ViewModel
 import com.faltenreich.diaguard.data.measurement.category.MeasurementCategory
+import com.faltenreich.diaguard.data.measurement.property.MeasurementProperty
+import com.faltenreich.diaguard.injection.inject
 import com.faltenreich.diaguard.measurement.category.usecase.DeleteMeasurementCategoryUseCase
 import com.faltenreich.diaguard.measurement.category.usecase.GetMeasurementCategoryByIdUseCase
 import com.faltenreich.diaguard.measurement.category.usecase.StoreMeasurementCategoryUseCase
-import com.faltenreich.diaguard.data.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormScreen
 import com.faltenreich.diaguard.measurement.property.usecase.GetMeasurementPropertiesUseCase
 import com.faltenreich.diaguard.measurement.property.usecase.StoreMeasurementPropertyUseCase
-import com.faltenreich.diaguard.navigation.bar.snackbar.ShowSnackbarUseCase
-import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
-import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import com.faltenreich.diaguard.preference.color.ColorSchemePreference
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
-import com.faltenreich.diaguard.architecture.viewmodel.ViewModel
-import com.faltenreich.diaguard.injection.inject
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.error_unknown
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -29,9 +26,9 @@ class MeasurementCategoryFormViewModel(
     private val storeCategory: StoreMeasurementCategoryUseCase = inject(),
     private val storeProperty: StoreMeasurementPropertyUseCase = inject(),
     private val deleteCategory: DeleteMeasurementCategoryUseCase = inject(),
-    private val pushScreen: PushScreenUseCase = inject(),
-    private val popScreen: PopScreenUseCase = inject(),
-    private val showSnackbar: ShowSnackbarUseCase = inject(),
+    private val pushScreen: com.faltenreich.diaguard.navigation.screen.PushScreenUseCase = inject(),
+    private val popScreen: com.faltenreich.diaguard.navigation.screen.PopScreenUseCase = inject(),
+    private val showSnackbar: com.faltenreich.diaguard.navigation.bar.snackbar.ShowSnackbarUseCase = inject(),
 ) : ViewModel<MeasurementCategoryFormState, MeasurementCategoryFormIntent, Unit>() {
 
     private val category: MeasurementCategory.Local = checkNotNull(getCategoryBdId(categoryId))

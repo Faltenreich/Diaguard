@@ -1,8 +1,8 @@
 package com.faltenreich.diaguard.navigation.bar.bottom
 
 import androidx.compose.runtime.Composable
-import com.faltenreich.diaguard.view.theme.AppTheme
 import com.faltenreich.diaguard.data.preview.PreviewScaffold
+import com.faltenreich.diaguard.view.theme.AppTheme
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.ic_menu
 import diaguard.shared.generated.resources.menu_open
@@ -13,14 +13,14 @@ import androidx.compose.material3.BottomAppBar as Material3BottomBar
 
 @Composable
 fun BottomAppBar(
-    style: BottomAppBarStyle,
+    style: com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle,
     onMenuClick: () -> Unit,
 ) {
     when (style) {
-        is BottomAppBarStyle.Visible -> {
+        is com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle.Visible -> {
             Material3BottomBar(
                 actions = {
-                    BottomAppBarItem(
+                    _root_ide_package_.com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarItem(
                         painter = painterResource(Res.drawable.ic_menu),
                         contentDescription = stringResource(Res.string.menu_open),
                         onClick = onMenuClick,
@@ -38,8 +38,8 @@ fun BottomAppBar(
 @Preview
 @Composable
 private fun Preview() = PreviewScaffold {
-    BottomAppBar(
-        style = BottomAppBarStyle.Visible(
+    _root_ide_package_.com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBar(
+        style = _root_ide_package_.com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle.Visible(
             actions = {},
             floatingActionButton = {},
         ),

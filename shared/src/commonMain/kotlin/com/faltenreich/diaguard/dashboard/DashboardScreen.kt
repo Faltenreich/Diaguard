@@ -3,10 +3,6 @@ package com.faltenreich.diaguard.dashboard
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import com.faltenreich.diaguard.injection.viewModel
-import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarItem
-import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
-import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
-import com.faltenreich.diaguard.navigation.screen.Screen
 import com.faltenreich.diaguard.view.button.TooltipFloatingActionButton
 import diaguard.core.view.generated.resources.ic_add
 import diaguard.shared.generated.resources.Res
@@ -19,21 +15,21 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
 @Serializable
-data object DashboardScreen : Screen {
+data object DashboardScreen : com.faltenreich.diaguard.navigation.screen.Screen {
 
     @Composable
-    override fun TopAppBar(): TopAppBarStyle {
-        return TopAppBarStyle.CenterAligned {
+    override fun TopAppBar(): com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle {
+        return _root_ide_package_.com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle.CenterAligned {
             Text(stringResource(Res.string.app_name))
         }
     }
 
     @Composable
-    override fun BottomAppBar(): BottomAppBarStyle {
+    override fun BottomAppBar(): com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle {
         val viewModel = viewModel<DashboardViewModel>()
-        return BottomAppBarStyle.Visible(
+        return _root_ide_package_.com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle.Visible(
             actions = {
-                BottomAppBarItem(
+                _root_ide_package_.com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarItem(
                     painter = painterResource(Res.drawable.ic_search),
                     contentDescription = stringResource(Res.string.search_open),
                     onClick = { viewModel.dispatchIntent(DashboardIntent.SearchEntries) },

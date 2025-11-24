@@ -3,19 +3,15 @@ package com.faltenreich.diaguard.entry.form
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import com.faltenreich.diaguard.view.theme.AppTheme
-import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.data.entry.Entry
 import com.faltenreich.diaguard.data.food.Food
+import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.food.search.FoodSelectionEvent
 import com.faltenreich.diaguard.food.search.FoodSelectionViewModel
 import com.faltenreich.diaguard.injection.sharedViewModel
 import com.faltenreich.diaguard.injection.viewModel
-import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarItem
-import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
-import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
-import com.faltenreich.diaguard.navigation.screen.Screen
 import com.faltenreich.diaguard.view.button.TooltipFloatingActionButton
+import com.faltenreich.diaguard.view.theme.AppTheme
 import diaguard.core.view.generated.resources.ic_check
 import diaguard.core.view.generated.resources.ic_clear
 import diaguard.shared.generated.resources.Res
@@ -33,7 +29,7 @@ data class EntryFormScreen(
     private val entryId: Long,
     private val dateTimeIsoString: String?,
     private val foodId: Long,
-) : Screen {
+) : com.faltenreich.diaguard.navigation.screen.Screen {
 
     constructor(
         entry: Entry.Local? = null,
@@ -47,14 +43,14 @@ data class EntryFormScreen(
     )
 
     @Composable
-    override fun TopAppBar(): TopAppBarStyle {
-        return TopAppBarStyle.CenterAligned {
+    override fun TopAppBar(): com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle {
+        return _root_ide_package_.com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle.CenterAligned {
             Text(stringResource(Res.string.entry))
         }
     }
 
     @Composable
-    override fun BottomAppBar(): BottomAppBarStyle {
+    override fun BottomAppBar(): com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle {
         val viewModel = viewModel<EntryFormViewModel>(
             parameters = {
                 parametersOf(
@@ -65,9 +61,9 @@ data class EntryFormScreen(
         )
         val hasError = viewModel.collectState()?.hasError == true
 
-        return BottomAppBarStyle.Visible(
+        return _root_ide_package_.com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle.Visible(
             actions = {
-                BottomAppBarItem(
+                _root_ide_package_.com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarItem(
                     painter = painterResource(Res.drawable.ic_delete),
                     contentDescription = stringResource(Res.string.entry_delete),
                     onClick = { viewModel.dispatchIntent(EntryFormIntent.Delete(needsConfirmation = true)) },

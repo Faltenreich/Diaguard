@@ -7,5 +7,5 @@ sealed interface BottomAppBarStyle {
     data class Visible(
         val actions: @Composable () -> Unit = {},
         val floatingActionButton: @Composable () -> Unit = {},
-    ) : BottomAppBarStyle
+    ) : com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
 }

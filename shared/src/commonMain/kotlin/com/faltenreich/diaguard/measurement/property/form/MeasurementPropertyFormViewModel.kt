@@ -1,25 +1,23 @@
 package com.faltenreich.diaguard.measurement.property.form
 
-import com.faltenreich.diaguard.measurement.category.usecase.StoreMeasurementCategoryUseCase
-import com.faltenreich.diaguard.measurement.category.usecase.GetMeasurementCategoryByIdUseCase
-import com.faltenreich.diaguard.data.measurement.property.MeasurementProperty
+import com.faltenreich.diaguard.architecture.either.Result
+import com.faltenreich.diaguard.architecture.viewmodel.ViewModel
 import com.faltenreich.diaguard.data.measurement.property.MeasurementAggregationStyle
+import com.faltenreich.diaguard.data.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.data.measurement.property.MeasurementValueRange
+import com.faltenreich.diaguard.data.measurement.unit.MeasurementUnit
+import com.faltenreich.diaguard.injection.inject
+import com.faltenreich.diaguard.measurement.category.usecase.GetMeasurementCategoryByIdUseCase
+import com.faltenreich.diaguard.measurement.category.usecase.StoreMeasurementCategoryUseCase
 import com.faltenreich.diaguard.measurement.property.usecase.DeleteMeasurementPropertyUseCase
 import com.faltenreich.diaguard.measurement.property.usecase.GetMaximumSortIndexOfMeasurementPropertyUseCase
 import com.faltenreich.diaguard.measurement.property.usecase.GetMeasurementPropertyBdIdUseCase
 import com.faltenreich.diaguard.measurement.property.usecase.StoreMeasurementPropertyUseCase
-import com.faltenreich.diaguard.data.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitListMode
 import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitListScreen
 import com.faltenreich.diaguard.measurement.unit.usecase.GetMeasurementUnitSuggestionsUseCase
-import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
-import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesPreference
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
-import com.faltenreich.diaguard.architecture.viewmodel.ViewModel
-import com.faltenreich.diaguard.injection.inject
-import com.faltenreich.diaguard.architecture.either.Result
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flowOf
@@ -37,8 +35,8 @@ class MeasurementPropertyFormViewModel(
     private val storeProperty: StoreMeasurementPropertyUseCase = inject(),
     private val deleteProperty: DeleteMeasurementPropertyUseCase = inject(),
     private val storeCategory: StoreMeasurementCategoryUseCase = inject(),
-    private val pushScreen: PushScreenUseCase = inject(),
-    private val popScreen: PopScreenUseCase = inject(),
+    private val pushScreen: com.faltenreich.diaguard.navigation.screen.PushScreenUseCase = inject(),
+    private val popScreen: com.faltenreich.diaguard.navigation.screen.PopScreenUseCase = inject(),
 ) : ViewModel<MeasurementPropertyFormState, MeasurementPropertyFormIntent, Unit>() {
 
     private val category = checkNotNull(getCategoryById(categoryId))

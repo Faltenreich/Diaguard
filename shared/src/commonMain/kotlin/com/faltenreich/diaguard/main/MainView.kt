@@ -37,10 +37,6 @@ import com.faltenreich.diaguard.measurement.category.form.MeasurementCategoryFor
 import com.faltenreich.diaguard.measurement.category.list.MeasurementCategoryListScreen
 import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormScreen
 import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitListScreen
-import com.faltenreich.diaguard.navigation.NavigationEvent
-import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBar
-import com.faltenreich.diaguard.navigation.bar.top.TopAppBar
-import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 import com.faltenreich.diaguard.navigation.navigate
 import com.faltenreich.diaguard.navigation.screen
 import com.faltenreich.diaguard.preference.color.isDark
@@ -74,19 +70,19 @@ fun MainView(
     LaunchedEffect(Unit) {
         viewModel.collectNavigationEvents { event ->
             when (event) {
-                is NavigationEvent.PushScreen -> navController.navigate(
+                is com.faltenreich.diaguard.navigation.NavigationEvent.PushScreen -> navController.navigate(
                     screen = event.screen,
                     popHistory = event.popHistory,
                 )
-                is NavigationEvent.PopScreen -> navController.popBackStack()
-                is NavigationEvent.ShowSnackbar -> snackbarHostState.showSnackbar(event.message)
+                is com.faltenreich.diaguard.navigation.NavigationEvent.PopScreen -> navController.popBackStack()
+                is com.faltenreich.diaguard.navigation.NavigationEvent.ShowSnackbar -> snackbarHostState.showSnackbar(event.message)
             }
         }
     }
 
     val isDarkMode = state.colorScheme.isDark()
     LaunchedEffect(state.topAppBarStyle) {
-        val isAppearanceLightStatusBars = state.topAppBarStyle is TopAppBarStyle.Hidden && !isDarkMode
+        val isAppearanceLightStatusBars = state.topAppBarStyle is com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle.Hidden && !isDarkMode
         viewModel.dispatchIntent(MainIntent.TintStatusBars(isAppearanceLightStatusBars))
     }
 
@@ -109,7 +105,7 @@ fun MainView(
         Scaffold(
             modifier = modifier,
             topBar = {
-                TopAppBar(
+                _root_ide_package_.com.faltenreich.diaguard.navigation.bar.top.TopAppBar(
                     style = state.topAppBarStyle,
                     navigationIcon = {
                         if (navController.previousBackStackEntry != null) {
@@ -161,7 +157,7 @@ fun MainView(
                 }
             },
             bottomBar = {
-                BottomAppBar(
+                _root_ide_package_.com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBar(
                     style = state.bottomAppBarStyle,
                     onMenuClick = { showMenu = true },
                 )

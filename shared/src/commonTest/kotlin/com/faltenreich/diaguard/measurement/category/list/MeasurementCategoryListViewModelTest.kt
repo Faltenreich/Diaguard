@@ -5,8 +5,6 @@ import app.cash.turbine.turbineScope
 import com.faltenreich.diaguard.TestSuite
 import com.faltenreich.diaguard.data.DatabaseKey
 import com.faltenreich.diaguard.measurement.category.form.MeasurementCategoryFormScreen
-import com.faltenreich.diaguard.navigation.Navigation
-import com.faltenreich.diaguard.navigation.NavigationEvent
 import com.faltenreich.diaguard.startup.seed.ImportSeedUseCase
 import kotlinx.coroutines.test.runTest
 import org.koin.test.inject
@@ -18,7 +16,7 @@ import kotlin.test.assertTrue
 class MeasurementCategoryListViewModelTest : TestSuite() {
 
     private val importSeed: ImportSeedUseCase by inject()
-    private val navigation: Navigation by inject()
+    private val navigation: com.faltenreich.diaguard.navigation.Navigation by inject()
     private val viewModel: MeasurementCategoryListViewModel by inject()
 
     @BeforeTest
@@ -84,7 +82,7 @@ class MeasurementCategoryListViewModelTest : TestSuite() {
             viewModel.handleIntent(MeasurementCategoryListIntent.Edit(category))
 
             val event = navigation.awaitItem()
-            assertTrue(event is NavigationEvent.PushScreen)
+            assertTrue(event is com.faltenreich.diaguard.navigation.NavigationEvent.PushScreen)
             assertTrue(event.screen is MeasurementCategoryFormScreen)
         }
     }
@@ -95,7 +93,7 @@ class MeasurementCategoryListViewModelTest : TestSuite() {
             viewModel.handleIntent(MeasurementCategoryListIntent.Create(name = ""))
 
             val event = awaitItem()
-            assertTrue(event is NavigationEvent.PushScreen)
+            assertTrue(event is com.faltenreich.diaguard.navigation.NavigationEvent.PushScreen)
             assertTrue(event.screen is MeasurementCategoryFormScreen)
         }
     }

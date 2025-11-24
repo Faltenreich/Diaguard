@@ -8,13 +8,13 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.faltenreich.diaguard.view.theme.AppTheme
 import com.faltenreich.diaguard.data.preview.PreviewScaffold
+import com.faltenreich.diaguard.view.theme.AppTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun TopAppBar(
-    style: TopAppBarStyle,
+    style: com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle,
     navigationIcon: @Composable () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -25,8 +25,8 @@ fun TopAppBar(
             .fillMaxWidth(),
     ) {
         when (style) {
-            is TopAppBarStyle.Hidden -> Unit
-            is TopAppBarStyle.CenterAligned -> CenterAlignedTopAppBar(
+            is com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle.Hidden -> Unit
+            is com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle.CenterAligned -> CenterAlignedTopAppBar(
                 title = { style.content() },
                 navigationIcon = navigationIcon,
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -36,7 +36,7 @@ fun TopAppBar(
                     actionIconContentColor = AppTheme.colors.scheme.onPrimary,
                 ),
             )
-            is TopAppBarStyle.Custom -> style.content()
+            is com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle.Custom -> style.content()
         }
     }
 }
@@ -44,8 +44,12 @@ fun TopAppBar(
 @Preview
 @Composable
 private fun Preview() = PreviewScaffold {
-    TopAppBar(
-        style = TopAppBarStyle.CenterAligned { Text("Title") },
+    _root_ide_package_.com.faltenreich.diaguard.navigation.bar.top.TopAppBar(
+        style = _root_ide_package_.com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle.CenterAligned {
+            Text(
+                "Title"
+            )
+        },
         navigationIcon = {},
     )
 }

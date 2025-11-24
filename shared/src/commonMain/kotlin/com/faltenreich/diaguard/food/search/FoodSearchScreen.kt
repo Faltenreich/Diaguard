@@ -16,14 +16,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.faltenreich.diaguard.view.theme.AppTheme
 import com.faltenreich.diaguard.injection.sharedViewModel
 import com.faltenreich.diaguard.injection.viewModel
-import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarItem
-import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
-import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
-import com.faltenreich.diaguard.navigation.screen.Screen
 import com.faltenreich.diaguard.view.button.TooltipFloatingActionButton
+import com.faltenreich.diaguard.view.theme.AppTheme
 import diaguard.core.view.generated.resources.ic_add
 import diaguard.core.view.generated.resources.ic_preferences
 import diaguard.shared.generated.resources.Res
@@ -35,19 +31,20 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.core.parameter.parametersOf
 
 @Serializable
-data class FoodSearchScreen(private val modeOrdinal: Int) : Screen {
+data class FoodSearchScreen(private val modeOrdinal: Int) :
+    com.faltenreich.diaguard.navigation.screen.Screen {
 
     constructor(mode: FoodSearchMode) : this(modeOrdinal = mode.ordinal)
 
     @Composable
-    override fun TopAppBar(): TopAppBarStyle {
+    override fun TopAppBar(): com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle {
         val viewModel = viewModel<FoodSearchViewModel>(
             parameters = {
                 parametersOf(FoodSearchMode.entries.first { it.ordinal == modeOrdinal })
             },
         )
         var query by remember { mutableStateOf("") }
-        return TopAppBarStyle.Custom {
+        return _root_ide_package_.com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle.Custom {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -72,15 +69,15 @@ data class FoodSearchScreen(private val modeOrdinal: Int) : Screen {
     }
 
     @Composable
-    override fun BottomAppBar(): BottomAppBarStyle {
+    override fun BottomAppBar(): com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle {
         val viewModel = viewModel<FoodSearchViewModel>(
             parameters = {
                 parametersOf(FoodSearchMode.entries.first { it.ordinal == modeOrdinal })
             },
         )
-        return BottomAppBarStyle.Visible(
+        return _root_ide_package_.com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle.Visible(
             actions = {
-                BottomAppBarItem(
+                _root_ide_package_.com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarItem(
                     painter = painterResource(diaguard.core.view.generated.resources.Res.drawable.ic_preferences),
                     contentDescription = stringResource(Res.string.food_preferences_open),
                     onClick = { viewModel.dispatchIntent(FoodSearchIntent.OpenPreferences) },

@@ -7,8 +7,6 @@ import com.faltenreich.diaguard.data.entry.EntryRepository
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.entry.form.EntryFormScreen
 import com.faltenreich.diaguard.entry.search.EntrySearchScreen
-import com.faltenreich.diaguard.navigation.Navigation
-import com.faltenreich.diaguard.navigation.NavigationEvent
 import kotlinx.coroutines.test.runTest
 import org.koin.core.component.inject
 import kotlin.test.Test
@@ -18,7 +16,7 @@ import kotlin.test.assertTrue
 class LogViewModelTest : TestSuite() {
 
     private val viewModel: LogViewModel by inject()
-    private val navigation: Navigation by inject()
+    private val navigation: com.faltenreich.diaguard.navigation.Navigation by inject()
     private val entryRepository: EntryRepository by inject()
     private val dateTimeFactory: DateTimeFactory by inject()
 
@@ -29,7 +27,7 @@ class LogViewModelTest : TestSuite() {
             viewModel.handleIntent(LogIntent.CreateEntry(date))
 
             val event = awaitItem()
-            assertTrue(event is NavigationEvent.PushScreen)
+            assertTrue(event is com.faltenreich.diaguard.navigation.NavigationEvent.PushScreen)
             assertTrue(event.screen is EntryFormScreen)
         }
     }
@@ -47,7 +45,7 @@ class LogViewModelTest : TestSuite() {
             viewModel.handleIntent(LogIntent.OpenEntry(entry))
 
             val event = awaitItem()
-            assertTrue(event is NavigationEvent.PushScreen)
+            assertTrue(event is com.faltenreich.diaguard.navigation.NavigationEvent.PushScreen)
             assertTrue(event.screen is EntryFormScreen)
         }
     }
@@ -58,7 +56,7 @@ class LogViewModelTest : TestSuite() {
             viewModel.handleIntent(LogIntent.OpenEntrySearch(query = ""))
 
             val event = awaitItem()
-            assertTrue(event is NavigationEvent.PushScreen)
+            assertTrue(event is com.faltenreich.diaguard.navigation.NavigationEvent.PushScreen)
             assertTrue(event.screen is EntrySearchScreen)
         }
     }

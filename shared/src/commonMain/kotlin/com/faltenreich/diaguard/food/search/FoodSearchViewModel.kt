@@ -2,17 +2,15 @@ package com.faltenreich.diaguard.food.search
 
 import androidx.paging.Pager
 import androidx.paging.cachedIn
+import com.faltenreich.diaguard.architecture.viewmodel.ViewModel
+import com.faltenreich.diaguard.data.food.search.FoodSearchParams
 import com.faltenreich.diaguard.food.form.FoodFormScreen
-import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
-import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
+import com.faltenreich.diaguard.injection.inject
 import com.faltenreich.diaguard.preference.food.FoodPreferenceListScreen
 import com.faltenreich.diaguard.preference.food.ShowBrandedFoodPreference
 import com.faltenreich.diaguard.preference.food.ShowCommonFoodPreference
 import com.faltenreich.diaguard.preference.food.ShowCustomFoodPreference
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
-import com.faltenreich.diaguard.architecture.viewmodel.ViewModel
-import com.faltenreich.diaguard.data.food.search.FoodSearchParams
-import com.faltenreich.diaguard.injection.inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
@@ -26,8 +24,8 @@ class FoodSearchViewModel(
     val mode: FoodSearchMode,
     getPreference: GetPreferenceUseCase = inject(),
     private val searchFood: SearchFoodUseCase = inject(),
-    private val pushScreen: PushScreenUseCase = inject(),
-    private val popScreen: PopScreenUseCase = inject(),
+    private val pushScreen: com.faltenreich.diaguard.navigation.screen.PushScreenUseCase = inject(),
+    private val popScreen: com.faltenreich.diaguard.navigation.screen.PopScreenUseCase = inject(),
 ) : ViewModel<FoodSearchState, FoodSearchIntent, Unit>() {
 
     private val _query = MutableStateFlow("")

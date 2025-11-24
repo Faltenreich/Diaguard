@@ -44,7 +44,8 @@ androidx-preferences = { module = "androidx.preference:preference", version.ref 
 androidx-test-runner = { module = "androidx.test:runner", version.ref = "android-test-runner" }
 androidx-test-junit = { module = "androidx.test.ext:junit", version.ref = "android-test-junit" }
 androidx-test-junit-ktx = { module = "androidx.test.ext:junit-ktx", version.ref = "android-test-junit" }
-compose-plugin = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
+compose-plugin = { module = "org.jetbrains.compose:org.jetbrains.compose.gradle.plugin", version.ref = "compose" }
+compose-compiler-plugin = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
 compose-navigation = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "compose-navigation" }
 datastore = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
 detekt-api = { module = "io.gitlab.arturbosch.detekt:detekt-api", version.ref = "detekt" }

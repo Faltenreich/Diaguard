@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.log
 
 import androidx.paging.Pager
 import androidx.paging.cachedIn
+import com.faltenreich.diaguard.architecture.viewmodel.ViewModel
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.factory.GetTodayUseCase
 import com.faltenreich.diaguard.datetime.format.FormatDateTimeUseCase
@@ -13,8 +14,6 @@ import com.faltenreich.diaguard.log.list.LogListPagingSource
 import com.faltenreich.diaguard.log.list.item.LogDayState
 import com.faltenreich.diaguard.log.list.item.LogDayStickyInfo
 import com.faltenreich.diaguard.log.list.item.LogDayStyle
-import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
-import com.faltenreich.diaguard.architecture.viewmodel.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
@@ -25,7 +24,7 @@ class LogViewModel(
     private val invalidateDayStickyInfo: InvalidateLogDayStickyInfoUseCase,
     private val deleteEntry: DeleteEntryUseCase,
     private val storeEntry: StoreEntryUseCase,
-    private val pushScreen: PushScreenUseCase,
+    private val pushScreen: com.faltenreich.diaguard.navigation.screen.PushScreenUseCase,
     private val formatDateTimeUseCase: FormatDateTimeUseCase,
 ) : ViewModel<LogState, LogIntent, Unit>() {
 

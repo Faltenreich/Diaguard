@@ -1,7 +1,11 @@
 package com.faltenreich.diaguard.entry.form
 
-import com.faltenreich.diaguard.datetime.format.FormatDateTimeUseCase
+import com.faltenreich.diaguard.architecture.either.ValidationResult
+import com.faltenreich.diaguard.architecture.viewmodel.ViewModel
 import com.faltenreich.diaguard.data.entry.Entry
+import com.faltenreich.diaguard.data.food.Food
+import com.faltenreich.diaguard.data.tag.Tag
+import com.faltenreich.diaguard.datetime.format.FormatDateTimeUseCase
 import com.faltenreich.diaguard.entry.form.datetime.GetDateTimeForEntryUseCase
 import com.faltenreich.diaguard.entry.form.food.GetFoodEatenInputStateUseCase
 import com.faltenreich.diaguard.entry.form.measurement.GetMeasurementCategoryInputStateUseCase
@@ -12,21 +16,15 @@ import com.faltenreich.diaguard.entry.form.reminder.GetReminderLabelUseCase
 import com.faltenreich.diaguard.entry.form.reminder.SetReminderUseCase
 import com.faltenreich.diaguard.entry.form.tag.GetTagSuggestionsUseCase
 import com.faltenreich.diaguard.entry.form.tag.GetTagsOfEntry
-import com.faltenreich.diaguard.data.food.Food
 import com.faltenreich.diaguard.food.eaten.FoodEatenInputState
 import com.faltenreich.diaguard.food.search.FoodSearchMode
 import com.faltenreich.diaguard.food.search.FoodSearchScreen
-import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
-import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
-import com.faltenreich.diaguard.architecture.viewmodel.ViewModel
 import com.faltenreich.diaguard.injection.inject
 import com.faltenreich.diaguard.logging.Logger
 import com.faltenreich.diaguard.system.permission.HasPermissionUseCase
 import com.faltenreich.diaguard.system.permission.Permission
 import com.faltenreich.diaguard.system.permission.PermissionResult
 import com.faltenreich.diaguard.system.permission.RequestPermissionUseCase
-import com.faltenreich.diaguard.architecture.either.ValidationResult
-import com.faltenreich.diaguard.data.tag.Tag
 import com.faltenreich.diaguard.tag.list.GetTagsUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -48,8 +46,8 @@ class EntryFormViewModel(
     getTagsOfEntry: GetTagsOfEntry = inject(),
     getTagSuggestions: GetTagSuggestionsUseCase = inject(),
     getDateTimeForEntry: GetDateTimeForEntryUseCase = inject(),
-    private val popScreen: PopScreenUseCase = inject(),
-    private val pushScreen: PushScreenUseCase = inject(),
+    private val popScreen: com.faltenreich.diaguard.navigation.screen.PopScreenUseCase = inject(),
+    private val pushScreen: com.faltenreich.diaguard.navigation.screen.PushScreenUseCase = inject(),
     private val validate: ValidateEntryFormInputUseCase = inject(),
     private val storeEntry: StoreEntryUseCase = inject(),
     private val deleteEntry: DeleteEntryUseCase = inject(),

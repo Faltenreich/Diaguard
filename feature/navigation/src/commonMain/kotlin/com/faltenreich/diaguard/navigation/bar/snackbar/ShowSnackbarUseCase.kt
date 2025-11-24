@@ -2,10 +2,12 @@ package com.faltenreich.diaguard.navigation.bar.snackbar
 
 import androidx.compose.material3.SnackbarDuration
 import com.faltenreich.diaguard.localization.Localization
+import com.faltenreich.diaguard.navigation.Navigation
+import com.faltenreich.diaguard.navigation.NavigationEvent
 import org.jetbrains.compose.resources.StringResource
 
 class ShowSnackbarUseCase(
-    private val navigation: com.faltenreich.diaguard.navigation.Navigation,
+    private val navigation: Navigation,
     private val localization: Localization,
 ) {
 
@@ -18,7 +20,7 @@ class ShowSnackbarUseCase(
             else SnackbarDuration.Indefinite,
     ) {
         navigation.postEvent(
-            _root_ide_package_.com.faltenreich.diaguard.navigation.NavigationEvent.ShowSnackbar(
+            NavigationEvent.ShowSnackbar(
                 message = message,
                 actionLabel = actionLabel,
                 withDismissAction = withDismissAction,

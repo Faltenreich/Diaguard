@@ -11,7 +11,11 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
+                implementation(project(":core:datetime"))
                 implementation(project(":core:injection"))
+                implementation(project(":core:localization"))
+                implementation(project(":core:logging"))
+                implementation(project(":core:view"))
                 implementation(project(":data"))
                 implementation(compose.ui)
                 implementation(compose.components.resources)

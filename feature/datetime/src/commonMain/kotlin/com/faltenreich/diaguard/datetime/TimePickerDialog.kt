@@ -1,15 +1,11 @@
-package com.faltenreich.diaguard.datetime.picker
+package com.faltenreich.diaguard.datetime
 
-import androidx.compose.material3.DatePicker
-import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.rememberDatePickerState
+import androidx.compose.material3.TimePicker
+import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.faltenreich.diaguard.datetime.Date
-import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
-import com.faltenreich.diaguard.injection.inject
 import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import diaguard.feature.datetime.generated.resources.Res
 import diaguard.feature.datetime.generated.resources.cancel
@@ -18,25 +14,26 @@ import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-fun DatePickerDialog(
-    date: Date,
+fun TimePickerDialog(
+    time: Time,
     onDismissRequest: () -> Unit,
-    onConfirmRequest: (Date) -> Unit,
+    onConfirmRequest: (Time) -> Unit,
     modifier: Modifier = Modifier,
-    dateTimeFactory: DateTimeFactory = inject<DateTimeFactory>(),
 ) {
-    val state = rememberDatePickerState(
-        initialSelectedDateMillis = date.atStartOfDay().epochMilliseconds,
+    val state = rememberTimePickerState(
+        initialHour = time.hourOfDay,
+        initialMinute = time.minuteOfHour,
     )
-    DatePickerDialog(
+    TimePickerPlatformDialog(
         onDismissRequest = onDismissRequest,
         confirmButton = {
             TextButton(
                 onClick = {
-                    when (val update = state.selectedDateMillis?.let(dateTimeFactory::dateTimeFromEpoch)?.date) {
-                        null -> onDismissRequest()
-                        else -> onConfirmRequest(update)
-                    }
+                    val update = time.copy(
+                        hourOfDay = state.hour,
+                        minuteOfHour = state.minute,
+                    )
+                    onConfirmRequest(update)
                 },
             ) {
                 Text(stringResource(Res.string.ok))
@@ -49,15 +46,15 @@ fun DatePickerDialog(
             }
         },
     ) {
-        DatePicker(state = state)
+        TimePicker(state = state)
     }
 }
 
 @Preview
 @Composable
 private fun Preview() = PreviewScaffold {
-    DatePickerDialog(
-        date = today(),
+    TimePickerDialog(
+        time = now().time,
         onDismissRequest = {},
         onConfirmRequest = {},
     )

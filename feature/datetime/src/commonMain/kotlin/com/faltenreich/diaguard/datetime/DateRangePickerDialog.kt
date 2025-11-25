@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.datetime.picker
+package com.faltenreich.diaguard.datetime
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
@@ -15,7 +15,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.faltenreich.diaguard.data.preview.PreviewScaffold
-import com.faltenreich.diaguard.datetime.DateRange
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.injection.inject
 import diaguard.feature.datetime.generated.resources.Res

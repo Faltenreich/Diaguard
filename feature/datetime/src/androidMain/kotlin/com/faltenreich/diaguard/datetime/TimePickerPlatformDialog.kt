@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.datetime.picker
+package com.faltenreich.diaguard.datetime
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column

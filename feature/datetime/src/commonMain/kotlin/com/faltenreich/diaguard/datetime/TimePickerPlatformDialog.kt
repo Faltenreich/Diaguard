@@ -1,6 +1,6 @@
 @file:JvmName("TimePickerPlatformDialogCommon")
 
-package com.faltenreich.diaguard.datetime.picker
+package com.faltenreich.diaguard.datetime
 
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.material3.Text

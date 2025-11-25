@@ -3,9 +3,9 @@ package com.faltenreich.diaguard.main
 import com.faltenreich.diaguard.architecture.viewmodel.ViewModel
 import com.faltenreich.diaguard.dashboard.DashboardScreen
 import com.faltenreich.diaguard.log.LogScreen
-import com.faltenreich.diaguard.navigation.CollectNavigationEventsUseCase
-import com.faltenreich.diaguard.navigation.screen.GetBottomAppBarStyleUseCase
-import com.faltenreich.diaguard.navigation.screen.GetTopAppBarStyleUseCase
+import com.faltenreich.diaguard.navigation.screen.CollectNavigationEventsUseCase
+import com.faltenreich.diaguard.navigation.bar.bottom.GetBottomAppBarStyleUseCase
+import com.faltenreich.diaguard.navigation.bar.top.GetTopAppBarStyleUseCase
 import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
 import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import com.faltenreich.diaguard.preference.color.ColorSchemePreference

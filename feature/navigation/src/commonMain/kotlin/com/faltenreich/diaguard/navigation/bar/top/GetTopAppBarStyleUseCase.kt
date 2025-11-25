@@ -1,7 +1,6 @@
-package com.faltenreich.diaguard.navigation.screen
+package com.faltenreich.diaguard.navigation.bar.top
 
 import com.faltenreich.diaguard.navigation.Navigation
-import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 import kotlinx.coroutines.flow.Flow
 
 class GetTopAppBarStyleUseCase(private val navigation: Navigation) {

@@ -1,5 +1,7 @@
-package com.faltenreich.diaguard.navigation
+package com.faltenreich.diaguard.navigation.screen
 
+import com.faltenreich.diaguard.navigation.Navigation
+import com.faltenreich.diaguard.navigation.NavigationEvent
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.SharedFlow
 

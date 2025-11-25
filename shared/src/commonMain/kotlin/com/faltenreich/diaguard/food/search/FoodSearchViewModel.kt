@@ -11,7 +11,7 @@ import com.faltenreich.diaguard.navigation.screen.NavigateToUseCase
 import com.faltenreich.diaguard.preference.food.ShowBrandedFoodPreference
 import com.faltenreich.diaguard.preference.food.ShowCommonFoodPreference
 import com.faltenreich.diaguard.preference.food.ShowCustomFoodPreference
-import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
+import com.faltenreich.diaguard.preference.GetPreferenceUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce

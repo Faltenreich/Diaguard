@@ -11,7 +11,7 @@ import com.faltenreich.diaguard.navigation.screen.NavigateToUseCase
 import com.faltenreich.diaguard.preference.color.ColorSchemePreference
 import com.faltenreich.diaguard.preference.screen.StartScreen
 import com.faltenreich.diaguard.preference.screen.StartScreenPreference
-import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
+import com.faltenreich.diaguard.preference.GetPreferenceUseCase
 import com.faltenreich.diaguard.timeline.TimelineScreen
 import com.faltenreich.diaguard.view.window.WindowController
 import kotlinx.coroutines.flow.combine

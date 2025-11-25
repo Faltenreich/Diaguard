@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.preference.store
+package com.faltenreich.diaguard.preference
 
 import com.faltenreich.diaguard.data.preference.Preference
 import com.faltenreich.diaguard.data.preference.PreferenceRepository

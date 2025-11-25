@@ -8,7 +8,7 @@ import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.navigation.NavigationEvent
 import com.faltenreich.diaguard.preference.screen.StartScreen
 import com.faltenreich.diaguard.preference.screen.StartScreenPreference
-import com.faltenreich.diaguard.preference.store.SetPreferenceUseCase
+import com.faltenreich.diaguard.preference.SetPreferenceUseCase
 import com.faltenreich.diaguard.preference.version.VersionCodePreference
 import com.faltenreich.diaguard.startup.seed.ImportSeedUseCase
 import com.faltenreich.diaguard.timeline.TimelineScreen

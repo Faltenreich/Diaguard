@@ -6,8 +6,8 @@ import com.faltenreich.diaguard.preference.color.ColorSchemePreference
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesPreference
 import com.faltenreich.diaguard.preference.decimal.IllustrateDecimalPlacesUseCase
 import com.faltenreich.diaguard.preference.screen.StartScreenPreference
-import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
-import com.faltenreich.diaguard.preference.store.SetPreferenceUseCase
+import com.faltenreich.diaguard.preference.GetPreferenceUseCase
+import com.faltenreich.diaguard.preference.SetPreferenceUseCase
 import com.faltenreich.diaguard.preference.version.GetAppVersionUseCase
 import com.faltenreich.diaguard.system.settings.OpenNotificationSettingsUseCase
 import com.faltenreich.diaguard.system.web.OpenUrlUseCase

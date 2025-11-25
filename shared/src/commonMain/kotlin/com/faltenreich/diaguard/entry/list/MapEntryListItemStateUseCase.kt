@@ -9,7 +9,7 @@ import com.faltenreich.diaguard.data.food.eaten.FoodEatenRepository
 import com.faltenreich.diaguard.measurement.value.MeasurementValueMapper
 import com.faltenreich.diaguard.data.measurement.value.MeasurementValueRepository
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesPreference
-import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
+import com.faltenreich.diaguard.preference.GetPreferenceUseCase
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.grams_abbreviation
 import kotlinx.coroutines.flow.firstOrNull

@@ -7,14 +7,13 @@ import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.factory.GetTodayUseCase
 import com.faltenreich.diaguard.datetime.format.FormatDateTimeUseCase
 import com.faltenreich.diaguard.entry.form.DeleteEntryUseCase
-import com.faltenreich.diaguard.entry.form.EntryFormScreen
 import com.faltenreich.diaguard.entry.form.StoreEntryUseCase
-import com.faltenreich.diaguard.entry.search.EntrySearchScreen
 import com.faltenreich.diaguard.log.list.LogListPagingSource
 import com.faltenreich.diaguard.log.list.item.LogDayState
 import com.faltenreich.diaguard.log.list.item.LogDayStickyInfo
 import com.faltenreich.diaguard.log.list.item.LogDayStyle
-import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
+import com.faltenreich.diaguard.navigation.NavigationTarget
+import com.faltenreich.diaguard.navigation.screen.NavigateToUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
@@ -25,7 +24,7 @@ class LogViewModel(
     private val invalidateDayStickyInfo: InvalidateLogDayStickyInfoUseCase,
     private val deleteEntry: DeleteEntryUseCase,
     private val storeEntry: StoreEntryUseCase,
-    private val pushScreen: PushScreenUseCase,
+    private val navigateTo: NavigateToUseCase,
     private val formatDateTimeUseCase: FormatDateTimeUseCase,
 ) : ViewModel<LogState, LogIntent, Unit>() {
 
@@ -75,14 +74,14 @@ class LogViewModel(
                         nextItems = nextItems,
                     )
                 }
-                is LogIntent.CreateEntry -> pushScreen(EntryFormScreen(date = date))
-                is LogIntent.OpenEntry -> pushScreen(EntryFormScreen(entry = entry))
+                is LogIntent.CreateEntry -> navigateTo(NavigationTarget.EntryForm(dateTimeIsoString = date?.atStartOfDay()?.isoString))
+                is LogIntent.OpenEntry -> navigateTo(NavigationTarget.EntryForm(entryId = entry.id))
                 is LogIntent.DeleteEntry -> deleteEntry(entry)
                 is LogIntent.RestoreEntry -> {
                     storeEntry(entry)
                     pagingSource.invalidate()
                 }
-                is LogIntent.OpenEntrySearch -> pushScreen(EntrySearchScreen(query))
+                is LogIntent.OpenEntrySearch -> navigateTo(NavigationTarget.EntrySearch(query))
                 is LogIntent.OpenDatePickerDialog ->
                     datePickerDialog.update { LogState.DatePickerDialog(currentDate.value) }
                 is LogIntent.CloseDatePickerDialog -> datePickerDialog.update { null }

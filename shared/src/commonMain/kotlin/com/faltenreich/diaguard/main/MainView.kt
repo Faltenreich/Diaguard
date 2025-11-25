@@ -94,6 +94,15 @@ fun MainView(
                         is NavigationTarget.ReadBackupForm -> ReadBackupFormScreen
                         is NavigationTarget.TagList -> TagListScreen
                         is NavigationTarget.WriteBackupForm -> WriteBackupFormScreen
+                        is NavigationTarget.EntryForm -> TODO()
+                        is NavigationTarget.EntrySearch -> TODO()
+                        is NavigationTarget.FoodEatenList -> TODO()
+                        is NavigationTarget.FoodForm -> TODO()
+                        is NavigationTarget.FoodSearch -> TODO()
+                        is NavigationTarget.MeasurementCategoryForm -> TODO()
+                        is NavigationTarget.MeasurementPropertyForm -> TODO()
+                        NavigationTarget.Statistic -> TODO()
+                        is NavigationTarget.TagDetail -> TODO()
                     },
                     popHistory = event.popHistory,
                 )

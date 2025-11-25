@@ -2,10 +2,10 @@ package com.faltenreich.diaguard.measurement.category.list
 
 import com.faltenreich.diaguard.architecture.viewmodel.ViewModel
 import com.faltenreich.diaguard.data.measurement.category.MeasurementCategory
-import com.faltenreich.diaguard.measurement.category.form.MeasurementCategoryFormScreen
 import com.faltenreich.diaguard.measurement.category.usecase.GetMeasurementCategoriesUseCase
 import com.faltenreich.diaguard.measurement.category.usecase.StoreMeasurementCategoryUseCase
-import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
+import com.faltenreich.diaguard.navigation.NavigationTarget
+import com.faltenreich.diaguard.navigation.screen.NavigateToUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.firstOrNull
@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.update
 class MeasurementCategoryListViewModel(
     getCategories: GetMeasurementCategoriesUseCase,
     private val storeCategory: StoreMeasurementCategoryUseCase,
-    private val pushScreen: PushScreenUseCase,
+    private val navigateTo: NavigateToUseCase,
 ) : ViewModel<MeasurementCategoryListState, MeasurementCategoryListIntent, Unit>() {
 
     private val formDialog = MutableStateFlow<MeasurementCategoryListState.FormDialog?>(null)
@@ -61,7 +61,7 @@ class MeasurementCategoryListViewModel(
     }
 
     private suspend fun editCategory(category: MeasurementCategory.Local) {
-        pushScreen(MeasurementCategoryFormScreen(category))
+        navigateTo(NavigationTarget.MeasurementCategoryForm(categoryId = category.id))
     }
 
     private suspend fun createCategory(intent: MeasurementCategoryListIntent.Create) {

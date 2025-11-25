@@ -7,12 +7,12 @@ import com.faltenreich.diaguard.injection.inject
 import com.faltenreich.diaguard.measurement.category.usecase.DeleteMeasurementCategoryUseCase
 import com.faltenreich.diaguard.measurement.category.usecase.GetMeasurementCategoryByIdUseCase
 import com.faltenreich.diaguard.measurement.category.usecase.StoreMeasurementCategoryUseCase
-import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormScreen
 import com.faltenreich.diaguard.measurement.property.usecase.GetMeasurementPropertiesUseCase
 import com.faltenreich.diaguard.measurement.property.usecase.StoreMeasurementPropertyUseCase
+import com.faltenreich.diaguard.navigation.NavigationTarget
 import com.faltenreich.diaguard.navigation.bar.snackbar.ShowSnackbarUseCase
+import com.faltenreich.diaguard.navigation.screen.NavigateToUseCase
 import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
-import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import com.faltenreich.diaguard.preference.color.ColorSchemePreference
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import diaguard.shared.generated.resources.Res
@@ -29,7 +29,7 @@ class MeasurementCategoryFormViewModel(
     private val storeCategory: StoreMeasurementCategoryUseCase = inject(),
     private val storeProperty: StoreMeasurementPropertyUseCase = inject(),
     private val deleteCategory: DeleteMeasurementCategoryUseCase = inject(),
-    private val pushScreen: PushScreenUseCase = inject(),
+    private val navigateTo: NavigateToUseCase = inject(),
     private val popScreen: PopScreenUseCase = inject(),
     private val showSnackbar: ShowSnackbarUseCase = inject(),
 ) : ViewModel<MeasurementCategoryFormState, MeasurementCategoryFormIntent, Unit>() {
@@ -69,7 +69,7 @@ class MeasurementCategoryFormViewModel(
             is MeasurementCategoryFormIntent.EditProperty ->
                 editProperty(intent.property)
             is MeasurementCategoryFormIntent.AddProperty ->
-                pushScreen(MeasurementPropertyFormScreen(category))
+                navigateTo(NavigationTarget.MeasurementPropertyForm(categoryId = category.id))
             is MeasurementCategoryFormIntent.Store ->
                 updateCategory()
             is MeasurementCategoryFormIntent.Delete ->
@@ -116,7 +116,12 @@ class MeasurementCategoryFormViewModel(
     }
 
     private suspend fun editProperty(property: MeasurementProperty.Local) {
-        pushScreen(MeasurementPropertyFormScreen(property))
+        navigateTo(
+            NavigationTarget.MeasurementPropertyForm(
+                categoryId = property.category.id,
+                propertyId = property.id,
+            ),
+        )
     }
 
     // TODO: Validate

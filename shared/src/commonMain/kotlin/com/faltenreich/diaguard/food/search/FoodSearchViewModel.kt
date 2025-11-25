@@ -4,11 +4,10 @@ import androidx.paging.Pager
 import androidx.paging.cachedIn
 import com.faltenreich.diaguard.architecture.viewmodel.ViewModel
 import com.faltenreich.diaguard.data.food.search.FoodSearchParams
-import com.faltenreich.diaguard.food.form.FoodFormScreen
 import com.faltenreich.diaguard.injection.inject
+import com.faltenreich.diaguard.navigation.NavigationTarget
+import com.faltenreich.diaguard.navigation.screen.NavigateToUseCase
 import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
-import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
-import com.faltenreich.diaguard.preference.food.FoodPreferenceListScreen
 import com.faltenreich.diaguard.preference.food.ShowBrandedFoodPreference
 import com.faltenreich.diaguard.preference.food.ShowCommonFoodPreference
 import com.faltenreich.diaguard.preference.food.ShowCustomFoodPreference
@@ -26,7 +25,7 @@ class FoodSearchViewModel(
     val mode: FoodSearchMode,
     getPreference: GetPreferenceUseCase = inject(),
     private val searchFood: SearchFoodUseCase = inject(),
-    private val pushScreen: PushScreenUseCase = inject(),
+    private val navigateTo: NavigateToUseCase = inject(),
     private val popScreen: PopScreenUseCase = inject(),
 ) : ViewModel<FoodSearchState, FoodSearchIntent, Unit>() {
 
@@ -64,9 +63,9 @@ class FoodSearchViewModel(
         when (intent) {
             is FoodSearchIntent.SetQuery -> _query.update { intent.query }
             is FoodSearchIntent.Close -> popScreen()
-            is FoodSearchIntent.Create -> pushScreen(FoodFormScreen())
-            is FoodSearchIntent.OpenFood -> pushScreen(FoodFormScreen(intent.food))
-            is FoodSearchIntent.OpenPreferences -> pushScreen(FoodPreferenceListScreen)
+            is FoodSearchIntent.Create -> navigateTo(NavigationTarget.FoodForm())
+            is FoodSearchIntent.OpenFood -> navigateTo(NavigationTarget.FoodForm(foodId = intent.food.id))
+            is FoodSearchIntent.OpenPreferences -> navigateTo(NavigationTarget.FoodPreferenceList)
         }
     }
 }

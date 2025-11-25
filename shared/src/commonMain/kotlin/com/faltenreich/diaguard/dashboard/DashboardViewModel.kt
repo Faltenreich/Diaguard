@@ -7,11 +7,9 @@ import com.faltenreich.diaguard.dashboard.latest.GetDashboardLatestUseCase
 import com.faltenreich.diaguard.dashboard.reminder.GetDashboardReminderUseCase
 import com.faltenreich.diaguard.dashboard.today.GetDashboardTodayUseCase
 import com.faltenreich.diaguard.dashboard.trend.GetDashboardTrendUseCase
-import com.faltenreich.diaguard.entry.form.EntryFormScreen
 import com.faltenreich.diaguard.entry.form.reminder.SetReminderUseCase
-import com.faltenreich.diaguard.entry.search.EntrySearchScreen
-import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
-import com.faltenreich.diaguard.statistic.StatisticScreen
+import com.faltenreich.diaguard.navigation.NavigationTarget
+import com.faltenreich.diaguard.navigation.screen.NavigateToUseCase
 import kotlinx.coroutines.flow.combine
 
 class DashboardViewModel(
@@ -21,7 +19,7 @@ class DashboardViewModel(
     getAverage: GetDashboardAverageUseCase,
     getCurrentHbA1c: GetDashboardHbA1cUseCase,
     getTrend: GetDashboardTrendUseCase,
-    private val pushScreen: PushScreenUseCase,
+    private val navigateTo: NavigateToUseCase,
     private val setReminder: SetReminderUseCase,
 ) : ViewModel<DashboardState, DashboardIntent, Unit>() {
 
@@ -37,10 +35,10 @@ class DashboardViewModel(
 
     override suspend fun handleIntent(intent: DashboardIntent) {
         when (intent) {
-            is DashboardIntent.CreateEntry -> pushScreen(EntryFormScreen())
-            is DashboardIntent.EditEntry -> pushScreen(EntryFormScreen(entry = intent.entry))
-            is DashboardIntent.OpenStatistic -> pushScreen(StatisticScreen)
-            is DashboardIntent.SearchEntries -> pushScreen(EntrySearchScreen())
+            is DashboardIntent.CreateEntry -> navigateTo(NavigationTarget.EntryForm())
+            is DashboardIntent.EditEntry -> navigateTo(NavigationTarget.EntryForm(entryId = intent.entry.id))
+            is DashboardIntent.OpenStatistic -> navigateTo(NavigationTarget.Statistic)
+            is DashboardIntent.SearchEntries -> navigateTo(NavigationTarget.EntrySearch())
             is DashboardIntent.DeleteReminder -> setReminder(null)
         }
     }

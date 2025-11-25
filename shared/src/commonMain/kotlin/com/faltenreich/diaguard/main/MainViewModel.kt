@@ -3,11 +3,11 @@ package com.faltenreich.diaguard.main
 import com.faltenreich.diaguard.architecture.viewmodel.ViewModel
 import com.faltenreich.diaguard.dashboard.DashboardScreen
 import com.faltenreich.diaguard.log.LogScreen
-import com.faltenreich.diaguard.navigation.screen.CollectNavigationEventsUseCase
 import com.faltenreich.diaguard.navigation.bar.bottom.GetBottomAppBarStyleUseCase
 import com.faltenreich.diaguard.navigation.bar.top.GetTopAppBarStyleUseCase
+import com.faltenreich.diaguard.navigation.screen.CollectNavigationEventsUseCase
+import com.faltenreich.diaguard.navigation.screen.NavigateToUseCase
 import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
-import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import com.faltenreich.diaguard.preference.color.ColorSchemePreference
 import com.faltenreich.diaguard.preference.screen.StartScreen
 import com.faltenreich.diaguard.preference.screen.StartScreenPreference
@@ -21,7 +21,7 @@ class MainViewModel(
     getTopAppBarStyle: GetTopAppBarStyleUseCase,
     getBottomAppBarStyle: GetBottomAppBarStyleUseCase,
     private val windowController: WindowController,
-    private val pushScreen: PushScreenUseCase,
+    private val navigateTo: NavigateToUseCase,
     private val popScreen: PopScreenUseCase,
     val collectNavigationEvents: CollectNavigationEventsUseCase,
 ) : ViewModel<MainState, MainIntent, Unit>() {
@@ -48,7 +48,7 @@ class MainViewModel(
         when (this) {
             is MainIntent.TintStatusBars ->
                 windowController.setIsAppearanceLightStatusBars(isAppearanceLightStatusBars)
-            is MainIntent.PushScreen -> pushScreen(screen, popHistory)
+            is MainIntent.NavigateTo -> navigateTo(target, popHistory)
             is MainIntent.PopScreen -> popScreen()
         }
     }

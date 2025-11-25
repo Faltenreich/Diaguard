@@ -4,12 +4,12 @@ import com.faltenreich.diaguard.architecture.either.ValidationResult
 import com.faltenreich.diaguard.architecture.viewmodel.ViewModel
 import com.faltenreich.diaguard.data.food.Food
 import com.faltenreich.diaguard.entry.form.GetFoodByIdUseCase
-import com.faltenreich.diaguard.food.eaten.list.FoodEatenListScreen
 import com.faltenreich.diaguard.food.nutrient.FoodNutrient
 import com.faltenreich.diaguard.food.nutrient.FoodNutrientData
 import com.faltenreich.diaguard.injection.inject
+import com.faltenreich.diaguard.navigation.NavigationTarget
+import com.faltenreich.diaguard.navigation.screen.NavigateToUseCase
 import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
-import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
@@ -24,7 +24,7 @@ class FoodFormViewModel(
     private val validateInput: ValidateFoodInputUseCase = inject(),
     private val storeFood: StoreFoodUseCase = inject(),
     private val deleteFood: DeleteFoodUseCase = inject(),
-    private val pushScreen: PushScreenUseCase = inject(),
+    private val navigateTo: NavigateToUseCase = inject(),
     private val popScreen: PopScreenUseCase = inject(),
 ) : ViewModel<FoodFormState, FoodFormIntent, Unit>() {
 
@@ -54,7 +54,7 @@ class FoodFormViewModel(
         when (intent) {
             is FoodFormIntent.SetInput -> input.update { intent.input }
             is FoodFormIntent.SetNutrient -> setNutrient(intent.data)
-            is FoodFormIntent.OpenFoodEaten -> pushScreen(FoodEatenListScreen(intent.food))
+            is FoodFormIntent.OpenFoodEaten -> navigateTo(NavigationTarget.FoodEatenList(foodId = intent.food.id))
             is FoodFormIntent.Submit -> submit()
             is FoodFormIntent.Delete -> delete(intent.needsConfirmation)
             is FoodFormIntent.CloseDeleteDialog -> deleteDialog.update { null }

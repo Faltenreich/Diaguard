@@ -7,12 +7,10 @@ import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.factory.GetTodayUseCase
 import com.faltenreich.diaguard.entry.form.DeleteEntryUseCase
-import com.faltenreich.diaguard.entry.form.EntryFormScreen
 import com.faltenreich.diaguard.entry.form.StoreEntryUseCase
 import com.faltenreich.diaguard.entry.list.EntryListItemState
-import com.faltenreich.diaguard.entry.search.EntrySearchScreen
-import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormScreen
-import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
+import com.faltenreich.diaguard.navigation.NavigationTarget
+import com.faltenreich.diaguard.navigation.screen.NavigateToUseCase
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesPreference
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import com.faltenreich.diaguard.timeline.canvas.GetTimelineCanvasDimensionsUseCase
@@ -52,7 +50,7 @@ class TimelineViewModel(
     private val tapCanvas: TapTimelineCanvasUseCase,
     private val deleteEntry: DeleteEntryUseCase,
     private val storeEntry: StoreEntryUseCase,
-    private val pushScreen: PushScreenUseCase,
+    private val navigateTo: NavigateToUseCase,
 ) : ViewModel<TimelineState, TimelineIntent, TimelineEvent>() {
 
     private val propertiesForTable = getPropertiesForTable()
@@ -127,8 +125,8 @@ class TimelineViewModel(
             is TimelineIntent.OpenDatePickerDialog ->
                 datePickerDialog.update { TimelineDateState.DatePickerDialog(currentDate.value) }
             is TimelineIntent.CloseDatePickerDialog -> datePickerDialog.update { null }
-            is TimelineIntent.CreateEntry -> pushScreen(EntryFormScreen())
-            is TimelineIntent.OpenEntry -> pushScreen(EntryFormScreen(intent.entry))
+            is TimelineIntent.CreateEntry -> navigateTo(NavigationTarget.EntryForm())
+            is TimelineIntent.OpenEntry -> navigateTo(NavigationTarget.EntryForm(entryId = intent.entry.id))
             is TimelineIntent.DeleteEntry -> deleteEntry(intent.entry)
             is TimelineIntent.RestoreEntry -> {
                 storeEntry(intent.entry)
@@ -138,7 +136,7 @@ class TimelineViewModel(
                 TimelineState.EntryListBottomSheet(intent.entries)
             }
             is TimelineIntent.DismissEntryListBottomSheet -> valueBottomSheet.update { null }
-            is TimelineIntent.OpenEntrySearch -> pushScreen(EntrySearchScreen())
+            is TimelineIntent.OpenEntrySearch -> navigateTo(NavigationTarget.EntrySearch())
         }
     }
 
@@ -148,7 +146,12 @@ class TimelineViewModel(
     ) {
         val canvas = canvas.firstOrNull() ?: return
         when (val result = tapCanvas(position, touchAreaSize, canvas)) {
-            is TapTimelineCanvasResult.Icon -> pushScreen(MeasurementPropertyFormScreen(result.property))
+            is TapTimelineCanvasResult.Icon -> navigateTo(
+                NavigationTarget.MeasurementPropertyForm(
+                        categoryId = result.property.category.id,
+                        propertyId = result.property.id,
+                    ),
+                )
             is TapTimelineCanvasResult.Chart -> openEntryOrList(result.entries)
             is TapTimelineCanvasResult.Table -> openEntryOrList(result.entries)
             is TapTimelineCanvasResult.None -> Unit
@@ -157,7 +160,7 @@ class TimelineViewModel(
 
     private suspend fun openEntryOrList(entries: List<EntryListItemState>) {
         if (entries.size == 1) {
-            pushScreen(EntryFormScreen(entries.first().entry))
+            navigateTo(NavigationTarget.EntryForm(entryId = entries.first().entry.id))
         } else {
             dispatchIntent(TimelineIntent.OpenEntryListBottomSheet(entries))
         }

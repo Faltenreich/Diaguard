@@ -3,19 +3,19 @@ package com.faltenreich.diaguard.tag.list
 import com.faltenreich.diaguard.architecture.either.ValidationResult
 import com.faltenreich.diaguard.architecture.viewmodel.ViewModel
 import com.faltenreich.diaguard.data.tag.Tag
-import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
+import com.faltenreich.diaguard.navigation.NavigationTarget
+import com.faltenreich.diaguard.navigation.screen.NavigateToUseCase
 import com.faltenreich.diaguard.tag.StoreTagUseCase
 import com.faltenreich.diaguard.tag.ValidateTagUseCase
-import com.faltenreich.diaguard.tag.detail.TagDetailScreen
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 
 class TagListViewModel(
     getTags: GetTagsUseCase,
-    private val pushScreen: PushScreenUseCase,
     private val validateTag: ValidateTagUseCase,
     private val createTag: StoreTagUseCase,
+    private val navigateTo: NavigateToUseCase,
 ) : ViewModel<TagListState, TagListIntent, Unit>() {
 
     private val tags = getTags()
@@ -30,7 +30,7 @@ class TagListViewModel(
         when (this) {
             is TagListIntent.OpenFormDialog -> formDialog.update { TagListState.FormDialog() }
             is TagListIntent.CloseFormDialog -> formDialog.update { null }
-            is TagListIntent.OpenTag -> pushScreen(TagDetailScreen(tag))
+            is TagListIntent.OpenTag -> navigateTo(NavigationTarget.TagDetail(tagId = tag.id))
             is TagListIntent.StoreTag -> createTagIfValid(this)
         }
     }

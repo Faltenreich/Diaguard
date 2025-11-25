@@ -2,7 +2,6 @@ package com.faltenreich.diaguard.measurement.category.form
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import com.faltenreich.diaguard.data.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.injection.viewModel
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarItem
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
@@ -21,10 +20,7 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.core.parameter.parametersOf
 
 @Serializable
-data class MeasurementCategoryFormScreen(val categoryId: Long) :
-    Screen {
-
-    constructor(category: MeasurementCategory.Local) : this(categoryId = category.id)
+data class MeasurementCategoryFormScreen(private val categoryId: Long) : Screen {
 
     @Composable
     override fun TopAppBar(): TopAppBarStyle {

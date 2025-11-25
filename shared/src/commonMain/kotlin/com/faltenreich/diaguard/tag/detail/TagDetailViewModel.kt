@@ -6,13 +6,12 @@ import com.faltenreich.diaguard.architecture.either.ValidationResult
 import com.faltenreich.diaguard.architecture.viewmodel.ViewModel
 import com.faltenreich.diaguard.data.tag.Tag
 import com.faltenreich.diaguard.entry.form.DeleteEntryUseCase
-import com.faltenreich.diaguard.entry.form.EntryFormScreen
 import com.faltenreich.diaguard.entry.form.StoreEntryUseCase
 import com.faltenreich.diaguard.entry.list.EntryListPagingSource
-import com.faltenreich.diaguard.entry.search.EntrySearchScreen
 import com.faltenreich.diaguard.injection.inject
+import com.faltenreich.diaguard.navigation.NavigationTarget
+import com.faltenreich.diaguard.navigation.screen.NavigateToUseCase
 import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
-import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import com.faltenreich.diaguard.tag.StoreTagUseCase
 import com.faltenreich.diaguard.tag.ValidateTagUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,7 +27,7 @@ class TagDetailViewModel(
     private val deleteTag: DeleteTagUseCase = inject(),
     private val deleteEntry: DeleteEntryUseCase = inject(),
     private val storeEntry: StoreEntryUseCase = inject(),
-    private val pushScreen: PushScreenUseCase = inject(),
+    private val navigateTo: NavigateToUseCase = inject(),
     private val popScreen: PopScreenUseCase = inject(),
 ) : ViewModel<TagDetailState, TagDetailIntent, Unit>() {
 
@@ -63,13 +62,13 @@ class TagDetailViewModel(
             is TagDetailIntent.OpenDeleteDialog -> deleteDialog.update { TagDetailState.DeleteDialog }
             is TagDetailIntent.CloseDeleteDialog -> deleteDialog.update { null }
             is TagDetailIntent.DeleteTag -> deleteTag()
-            is TagDetailIntent.OpenEntry -> pushScreen(EntryFormScreen(intent.entry))
+            is TagDetailIntent.OpenEntry -> navigateTo(NavigationTarget.EntryForm(entryId = intent.entry.id))
             is TagDetailIntent.DeleteEntry -> deleteEntry(intent.entry)
             is TagDetailIntent.RestoreEntry -> {
                 storeEntry(intent.entry)
                 pagingSource.invalidate()
             }
-            is TagDetailIntent.OpenEntrySearch -> pushScreen(EntrySearchScreen(intent.query))
+            is TagDetailIntent.OpenEntrySearch -> navigateTo(NavigationTarget.EntrySearch(intent.query))
         }
     }
 

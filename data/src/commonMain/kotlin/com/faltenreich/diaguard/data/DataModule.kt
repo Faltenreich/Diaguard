@@ -39,6 +39,8 @@ import com.faltenreich.diaguard.data.measurement.value.MeasurementValueDao
 import com.faltenreich.diaguard.data.measurement.value.MeasurementValueRepository
 import com.faltenreich.diaguard.data.measurement.value.MeasurementValueSqlDelightDao
 import com.faltenreich.diaguard.data.measurement.value.MeasurementValueSqlDelightMapper
+import com.faltenreich.diaguard.data.preference.PreferenceDao
+import com.faltenreich.diaguard.data.preference.PreferenceRepository
 import com.faltenreich.diaguard.data.tag.TagDao
 import com.faltenreich.diaguard.data.tag.TagRepository
 import com.faltenreich.diaguard.data.tag.TagSqlDelightDao
@@ -108,4 +110,7 @@ fun dataModule() = module {
     factoryOf(::EntryTagSqlDelightDao) bind EntryTagDao::class
     factoryOf(::EntryTagSqlDelightMapper)
     factoryOf(::EntryTagRepository)
+
+    factoryOf(::PreferenceDao)
+    factoryOf(::PreferenceRepository)
 }

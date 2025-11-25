@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.preference.screen
+package com.faltenreich.diaguard.preference.startscreen
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -10,8 +10,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.data.preference.startscreen.StartScreen
-import com.faltenreich.diaguard.view.theme.AppTheme
 import com.faltenreich.diaguard.data.preview.PreviewScaffold
+import com.faltenreich.diaguard.view.theme.AppTheme
 import diaguard.feature.preference.generated.resources.Res
 import diaguard.feature.preference.generated.resources.start_screen
 import org.jetbrains.compose.resources.stringResource

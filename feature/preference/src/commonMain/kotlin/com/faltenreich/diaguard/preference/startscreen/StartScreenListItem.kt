@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.preference.screen
+package com.faltenreich.diaguard.preference.startscreen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row

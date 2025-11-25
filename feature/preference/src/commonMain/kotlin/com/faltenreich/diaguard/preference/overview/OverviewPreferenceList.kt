@@ -14,10 +14,10 @@ import com.faltenreich.diaguard.data.preference.startscreen.StartScreen
 import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import com.faltenreich.diaguard.navigation.NavigationTarget
 import com.faltenreich.diaguard.preference.color.ColorSchemeForm
-import com.faltenreich.diaguard.preference.decimal.DecimalPlacesForm
+import com.faltenreich.diaguard.preference.decimalplaces.DecimalPlacesForm
 import com.faltenreich.diaguard.preference.list.PreferenceActionListItem
 import com.faltenreich.diaguard.preference.list.PreferenceCategoryListItem
-import com.faltenreich.diaguard.preference.screen.StartScreenForm
+import com.faltenreich.diaguard.preference.startscreen.StartScreenForm
 import diaguard.feature.preference.generated.resources.Res
 import diaguard.feature.preference.generated.resources.about
 import diaguard.feature.preference.generated.resources.backup

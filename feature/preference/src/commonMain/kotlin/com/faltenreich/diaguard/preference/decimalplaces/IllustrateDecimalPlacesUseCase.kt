@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.preference.decimal
+package com.faltenreich.diaguard.preference.decimalplaces
 
 import com.faltenreich.diaguard.localization.Localization
 import com.faltenreich.diaguard.localization.NumberFormatter

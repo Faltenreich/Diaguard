@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.preference.decimal
+package com.faltenreich.diaguard.preference.decimalplaces
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

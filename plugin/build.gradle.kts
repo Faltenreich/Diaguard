@@ -18,5 +18,6 @@ dependencies {
     implementation(libs.compose.compiler.plugin)
     implementation(libs.detekt.plugin)
     implementation(libs.kotlin.plugin)
+    implementation(libs.kotlin.serialization.plugin)
     implementation(libs.kover.plugin)
 }

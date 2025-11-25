@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.internal.config.AnalysisFlags.optIn
+
 val libs = extensions.getByType<org.gradle.accessors.dm.LibrariesForLibs>()
 
 plugins {
@@ -5,6 +7,7 @@ plugins {
     id("multiplatform-convention")
     id("org.jetbrains.compose")
     id("org.jetbrains.kotlin.plugin.compose")
+    id("org.jetbrains.kotlin.plugin.serialization")
 }
 
 kotlin {

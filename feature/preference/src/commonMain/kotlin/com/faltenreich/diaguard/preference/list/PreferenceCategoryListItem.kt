@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.preference.list.item
+package com.faltenreich.diaguard.preference.list
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -14,9 +14,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.text.font.FontWeight
-import com.faltenreich.diaguard.view.theme.AppTheme
-import com.faltenreich.diaguard.view.divider.Divider
 import com.faltenreich.diaguard.data.preview.PreviewScaffold
+import com.faltenreich.diaguard.view.divider.Divider
+import com.faltenreich.diaguard.view.theme.AppTheme
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview

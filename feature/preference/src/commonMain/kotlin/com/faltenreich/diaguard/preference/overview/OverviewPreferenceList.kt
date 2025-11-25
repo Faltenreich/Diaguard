@@ -9,11 +9,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import com.faltenreich.diaguard.backup.read.ReadBackupFormScreen
-import com.faltenreich.diaguard.backup.write.WriteBackupFormScreen
-import com.faltenreich.diaguard.measurement.category.list.MeasurementCategoryListScreen
-import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitListMode
-import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitListScreen
+import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import com.faltenreich.diaguard.preference.color.ColorScheme
 import com.faltenreich.diaguard.preference.color.ColorSchemeForm
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesForm
@@ -23,8 +19,6 @@ import com.faltenreich.diaguard.preference.list.item.PreferenceActionListItem
 import com.faltenreich.diaguard.preference.list.item.PreferenceCategoryListItem
 import com.faltenreich.diaguard.preference.screen.StartScreen
 import com.faltenreich.diaguard.preference.screen.StartScreenForm
-import com.faltenreich.diaguard.data.preview.PreviewScaffold
-import com.faltenreich.diaguard.tag.list.TagListScreen
 import diaguard.feature.preference.generated.resources.Res
 import diaguard.feature.preference.generated.resources.about
 import diaguard.feature.preference.generated.resources.backup
@@ -118,11 +112,7 @@ fun OverviewPreferenceList(
             PreferenceActionListItem(
                 title = stringResource(Res.string.measurement_categories),
                 onClick = {
-                    onIntent(
-                        OverviewPreferenceListIntent.PushScreen(
-                            MeasurementCategoryListScreen
-                        )
-                    )
+                    // TODO: onIntent(OverviewPreferenceListIntent.PushScreen(MeasurementCategoryListScreen))
                 },
             )
         }
@@ -130,11 +120,7 @@ fun OverviewPreferenceList(
             PreferenceActionListItem(
                 title = stringResource(Res.string.measurement_units),
                 onClick = {
-                    onIntent(
-                        OverviewPreferenceListIntent.PushScreen(
-                            MeasurementUnitListScreen(mode = MeasurementUnitListMode.STROLL)
-                        )
-                    )
+                    // TODO: onIntent(OverviewPreferenceListIntent.PushScreen(MeasurementUnitListScreen(mode = MeasurementUnitListMode.STROLL)))
                 },
             )
         }
@@ -142,11 +128,7 @@ fun OverviewPreferenceList(
             PreferenceActionListItem(
                 title = stringResource(Res.string.tags),
                 onClick = {
-                    onIntent(
-                        OverviewPreferenceListIntent.PushScreen(
-                            TagListScreen
-                        )
-                    )
+                    // TODO: onIntent(OverviewPreferenceListIntent.PushScreen(TagListScreen))
                 },
             )
         }
@@ -174,11 +156,7 @@ fun OverviewPreferenceList(
                 title = stringResource(Res.string.backup_write),
                 subtitle = stringResource(Res.string.backup_write_description),
                 onClick = {
-                    onIntent(
-                        OverviewPreferenceListIntent.PushScreen(
-                            WriteBackupFormScreen
-                        )
-                    )
+                    // TODO: onIntent(OverviewPreferenceListIntent.PushScreen(WriteBackupFormScreen))
                 },
             )
         }
@@ -187,11 +165,7 @@ fun OverviewPreferenceList(
                 title = stringResource(Res.string.backup_read),
                 subtitle = stringResource(Res.string.backup_read_description),
                 onClick = {
-                    onIntent(
-                        OverviewPreferenceListIntent.PushScreen(
-                            ReadBackupFormScreen
-                        )
-                    )
+                    // TODO: onIntent(OverviewPreferenceListIntent.PushScreen(ReadBackupFormScreen))
                 },
             )
         }

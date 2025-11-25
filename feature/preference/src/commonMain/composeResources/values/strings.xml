@@ -24,7 +24,6 @@
     <string name="food_custom_show">Show custom food</string>
     <string name="food_custom_show_desc">Includes every food that has been added manually by the user</string>
     <string name="food_preferences_none_selected">Food is currently hidden until at least one category is checked.</string>
-    <string name="food_preferences_open">Open food preferences</string>
     <string name="food_source_branded_provider">Open Food Facts</string>
     <string name="food_source_branded_url">http://world.openfoodfacts.org</string>
     <string name="food_source_common_provider">Schweizer Nährwertdatenbank</string>

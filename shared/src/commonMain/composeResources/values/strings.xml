@@ -87,6 +87,7 @@
     <string name="fiber">Fiber</string>
     <string name="food">Food</string>
     <string name="food_add">Add food</string>
+    <string name="food_common">Common food</string>
     <string name="food_delete">Delete food</string>
     <string name="food_eaten">Food eaten</string>
     <string name="food_edit">Edit food</string>
@@ -94,6 +95,7 @@
     <string name="food_info">Info</string>
     <string name="food_input_value_per_100g">%1$s %2$s per 100 g</string>
     <string name="food_new">New food</string>
+    <string name="food_preferences_open">Open food preferences</string>
     <string name="food_search_empty_title">Nothing found</string>
     <string name="food_search_empty_description">Try another query, check your settings or create a new food.</string>
     <string name="food_search_prompt">Search for food&#8230;</string>
@@ -167,6 +169,7 @@
     <string name="pdf">PDF</string>
     <string name="pounds">Pounds</string>
     <string name="pounds_abbreviation">lbs</string>
+    <string name="preferences">Preferences</string>
     <string name="proteins">Proteins</string>
     <string name="pulse">Pulse</string>
     <string name="quarter">Quarter</string>

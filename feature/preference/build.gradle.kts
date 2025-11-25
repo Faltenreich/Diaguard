@@ -1,6 +1,7 @@
 plugins {
     id("feature-convention")
     alias(libs.plugins.aboutlibraries)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 kotlin {

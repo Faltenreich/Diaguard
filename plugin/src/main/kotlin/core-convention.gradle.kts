@@ -5,19 +5,6 @@ plugins {
     id("org.jetbrains.kotlinx.kover")
 }
 
-kover {
-    reports {
-        filters {
-            excludes {
-                annotatedBy("androidx.compose.runtime.Composable")
-                classes("*.*ComposableSingletons*")
-                classes("*Screen*")
-                classes("diaguard.shared.generated.resources.*")
-            }
-        }
-    }
-}
-
 detekt {
     buildUponDefaultConfig = true
     config.setFrom("$rootDir/core/quality/detekt.yml")
@@ -36,4 +23,17 @@ tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
 dependencies {
     detektPlugins(project(":core:quality"))
     detektPlugins(libs.detekt.compose)
+}
+
+kover {
+    reports {
+        filters {
+            excludes {
+                annotatedBy("androidx.compose.runtime.Composable")
+                classes("*.*ComposableSingletons*")
+                classes("*Screen*")
+                classes("diaguard.shared.generated.resources.*")
+            }
+        }
+    }
 }

@@ -1,8 +1,8 @@
-package com.faltenreich.diaguard.preference.decimal
+package com.faltenreich.diaguard.data.preference.decimal
 
 import com.faltenreich.diaguard.data.preference.Preference
-import diaguard.feature.preference.generated.resources.Res
-import diaguard.feature.preference.generated.resources.preference_decimal_places
+import diaguard.data.generated.resources.Res
+import diaguard.data.generated.resources.preference_decimal_places
 
 data object DecimalPlacesPreference : Preference<Int, Int> {
 

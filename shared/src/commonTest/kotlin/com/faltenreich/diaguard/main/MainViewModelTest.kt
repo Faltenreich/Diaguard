@@ -6,10 +6,10 @@ import com.faltenreich.diaguard.dashboard.DashboardScreen
 import com.faltenreich.diaguard.log.LogScreen
 import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.navigation.NavigationEvent
-import com.faltenreich.diaguard.preference.screen.StartScreen
-import com.faltenreich.diaguard.preference.screen.StartScreenPreference
+import com.faltenreich.diaguard.data.preference.startscreen.StartScreen
+import com.faltenreich.diaguard.data.preference.startscreen.StartScreenPreference
 import com.faltenreich.diaguard.preference.SetPreferenceUseCase
-import com.faltenreich.diaguard.preference.version.VersionCodePreference
+import com.faltenreich.diaguard.data.preference.version.VersionCodePreference
 import com.faltenreich.diaguard.startup.seed.ImportSeedUseCase
 import com.faltenreich.diaguard.timeline.TimelineScreen
 import kotlinx.coroutines.test.runTest

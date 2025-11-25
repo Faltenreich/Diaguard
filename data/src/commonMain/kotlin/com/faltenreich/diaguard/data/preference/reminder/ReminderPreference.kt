@@ -1,8 +1,8 @@
-package com.faltenreich.diaguard.preference.reminder
+package com.faltenreich.diaguard.data.preference.reminder
 
 import com.faltenreich.diaguard.data.preference.Preference
-import diaguard.feature.preference.generated.resources.Res
-import diaguard.feature.preference.generated.resources.preference_alarm_start
+import diaguard.data.generated.resources.Res
+import diaguard.data.generated.resources.preference_alarm_start
 
 data object ReminderPreference : Preference<Long, Long> {
 

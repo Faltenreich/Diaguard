@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.startup
 
 import com.faltenreich.diaguard.preference.GetPreferenceUseCase
 import com.faltenreich.diaguard.preference.SetPreferenceUseCase
-import com.faltenreich.diaguard.preference.version.VersionCodePreference
+import com.faltenreich.diaguard.data.preference.version.VersionCodePreference
 import com.faltenreich.diaguard.config.BuildConfig
 import com.faltenreich.diaguard.logging.Logger
 import com.faltenreich.diaguard.startup.legacy.ImportLegacyUseCase

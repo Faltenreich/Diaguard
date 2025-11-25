@@ -1,8 +1,8 @@
-package com.faltenreich.diaguard.preference.version
+package com.faltenreich.diaguard.data.preference.version
 
 import com.faltenreich.diaguard.data.preference.Preference
-import diaguard.feature.preference.generated.resources.Res
-import diaguard.feature.preference.generated.resources.preference_version_code
+import diaguard.data.generated.resources.Res
+import diaguard.data.generated.resources.preference_version_code
 
 data object VersionCodePreference : Preference<Long, Long> {
 

@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.preference.overview
 
 import com.faltenreich.diaguard.data.preference.color.ColorScheme
-import com.faltenreich.diaguard.preference.screen.StartScreen
+import com.faltenreich.diaguard.data.preference.startscreen.StartScreen
 
 data class OverviewPreferenceListState(
     val appVersion: String,

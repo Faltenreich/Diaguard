@@ -11,16 +11,23 @@ import com.faltenreich.diaguard.food.search.FoodSearchScreen
 import com.faltenreich.diaguard.log.LogScreen
 import com.faltenreich.diaguard.navigation.NavigationTarget
 import com.faltenreich.diaguard.preference.overview.OverviewPreferenceListScreen
-import com.faltenreich.diaguard.preference.screen.StartScreen
 import com.faltenreich.diaguard.statistic.StatisticScreen
 import com.faltenreich.diaguard.timeline.TimelineScreen
 import com.faltenreich.diaguard.view.divider.Divider
 import com.faltenreich.diaguard.view.theme.AppTheme
+import diaguard.feature.preference.generated.resources.dashboard
+import diaguard.feature.preference.generated.resources.ic_dashboard
+import diaguard.feature.preference.generated.resources.ic_log
+import diaguard.feature.preference.generated.resources.ic_timeline
+import diaguard.feature.preference.generated.resources.log
+import diaguard.feature.preference.generated.resources.timeline
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.export
 import diaguard.shared.generated.resources.food
 import diaguard.shared.generated.resources.preferences
 import diaguard.shared.generated.resources.statistic
+import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import kotlin.reflect.KClass
 
@@ -32,20 +39,20 @@ fun MainMenu(
 ) {
     Column(modifier = modifier) {
         MainMenuItem(
-            label = StartScreen.DASHBOARD.labelResource,
-            icon = StartScreen.DASHBOARD.iconResource,
+            label = stringResource(diaguard.feature.preference.generated.resources.Res.string.dashboard),
+            icon = painterResource(diaguard.feature.preference.generated.resources.Res.drawable.ic_dashboard),
             isSelected = currentDestination.isSelecting(DashboardScreen::class),
             onClick = { onItemClick(NavigationTarget.Dashboard, true) },
         )
         MainMenuItem(
-            label = StartScreen.TIMELINE.labelResource,
-            icon = StartScreen.TIMELINE.iconResource,
+            label = stringResource(diaguard.feature.preference.generated.resources.Res.string.timeline),
+            icon = painterResource(diaguard.feature.preference.generated.resources.Res.drawable.ic_timeline),
             isSelected = currentDestination.isSelecting(TimelineScreen::class),
             onClick = { onItemClick(NavigationTarget.Timeline, true) },
         )
         MainMenuItem(
-            label = StartScreen.LOG.labelResource,
-            icon = StartScreen.LOG.iconResource,
+            label = stringResource(diaguard.feature.preference.generated.resources.Res.string.log),
+            icon = painterResource(diaguard.feature.preference.generated.resources.Res.drawable.ic_log),
             isSelected = currentDestination.isSelecting(LogScreen::class),
             onClick = { onItemClick(NavigationTarget.Log, true) },
         )
@@ -53,7 +60,7 @@ fun MainMenu(
         Divider(modifier = Modifier.padding(vertical = AppTheme.dimensions.padding.P_2))
 
         MainMenuItem(
-            label = Res.string.food,
+            label = stringResource(Res.string.food),
             icon = null,
             isSelected = currentDestination.isSelecting(FoodSearchScreen::class),
             onClick = { onItemClick(NavigationTarget.FoodSearch(
@@ -61,19 +68,19 @@ fun MainMenu(
             },
         )
         MainMenuItem(
-            label = Res.string.statistic,
+            label = stringResource(Res.string.statistic),
             icon = null,
             isSelected = currentDestination.isSelecting(StatisticScreen::class),
             onClick = { onItemClick(NavigationTarget.Statistic, false) },
         )
         MainMenuItem(
-            label = Res.string.export,
+            label = stringResource(Res.string.export),
             icon = null,
             isSelected = currentDestination.isSelecting(ExportFormScreen::class),
             onClick = { onItemClick(NavigationTarget.ExportForm, false) },
         )
         MainMenuItem(
-            label = Res.string.preferences,
+            label = stringResource(Res.string.preferences),
             icon = null,
             isSelected = currentDestination.isSelecting(OverviewPreferenceListScreen::class),
             onClick = { onItemClick(NavigationTarget.OverviewPreferenceList, false) },
@@ -86,7 +93,7 @@ private fun String?.isSelecting(kClass: KClass<*>): Boolean {
     return this?.contains(className) ?: false
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun Preview() = PreviewScaffold {
     MainMenu(

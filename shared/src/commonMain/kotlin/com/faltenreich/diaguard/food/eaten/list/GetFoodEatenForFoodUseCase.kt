@@ -6,7 +6,7 @@ import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.data.food.Food
 import com.faltenreich.diaguard.data.food.eaten.FoodEaten
 import com.faltenreich.diaguard.data.food.eaten.FoodEatenRepository
-import com.faltenreich.diaguard.preference.decimal.DecimalPlacesPreference
+import com.faltenreich.diaguard.data.preference.decimal.DecimalPlacesPreference
 import com.faltenreich.diaguard.preference.GetPreferenceUseCase
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.grams_abbreviation

@@ -1,8 +1,8 @@
-package com.faltenreich.diaguard.preference.food
+package com.faltenreich.diaguard.data.preference.food
 
 import com.faltenreich.diaguard.data.preference.Preference
-import diaguard.feature.preference.generated.resources.Res
-import diaguard.feature.preference.generated.resources.preference_food_show_custom
+import diaguard.data.generated.resources.Res
+import diaguard.data.generated.resources.preference_food_show_custom
 
 data object ShowCustomFoodPreference :
     Preference<Boolean, Boolean> {

@@ -12,8 +12,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
-import com.faltenreich.diaguard.view.theme.AppTheme
+import com.faltenreich.diaguard.data.preference.startscreen.StartScreen
 import com.faltenreich.diaguard.data.preview.PreviewScaffold
+import com.faltenreich.diaguard.view.theme.AppTheme
+import diaguard.feature.preference.generated.resources.Res
+import diaguard.feature.preference.generated.resources.dashboard
+import diaguard.feature.preference.generated.resources.ic_dashboard
+import diaguard.feature.preference.generated.resources.ic_log
+import diaguard.feature.preference.generated.resources.ic_timeline
+import diaguard.feature.preference.generated.resources.log
+import diaguard.feature.preference.generated.resources.timeline
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -37,12 +45,24 @@ fun StartScreenListItem(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Icon(
-            painter = painterResource(startScreen.iconResource),
+            painter = painterResource(
+                when (startScreen) {
+                    StartScreen.DASHBOARD -> Res.drawable.ic_dashboard
+                    StartScreen.TIMELINE -> Res.drawable.ic_timeline
+                    StartScreen.LOG -> Res.drawable.ic_log
+                }
+            ),
             contentDescription = null,
             modifier = Modifier.size(AppTheme.dimensions.padding.P_4),
         )
         Text(
-            text = stringResource(startScreen.labelResource),
+            text = stringResource(
+                when (startScreen) {
+                    StartScreen.DASHBOARD -> Res.string.dashboard
+                    StartScreen.TIMELINE -> Res.string.timeline
+                    StartScreen.LOG -> Res.string.log
+                }
+            ),
             modifier = Modifier.weight(1f),
         )
         RadioButton(

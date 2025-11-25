@@ -17,7 +17,7 @@ import com.faltenreich.diaguard.measurement.unit.usecase.GetMeasurementUnitSugge
 import com.faltenreich.diaguard.navigation.NavigationTarget
 import com.faltenreich.diaguard.navigation.screen.NavigateBackUseCase
 import com.faltenreich.diaguard.navigation.screen.NavigateToUseCase
-import com.faltenreich.diaguard.preference.decimal.DecimalPlacesPreference
+import com.faltenreich.diaguard.data.preference.decimal.DecimalPlacesPreference
 import com.faltenreich.diaguard.preference.GetPreferenceUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine

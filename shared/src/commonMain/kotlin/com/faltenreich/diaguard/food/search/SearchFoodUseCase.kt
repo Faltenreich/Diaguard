@@ -3,7 +3,7 @@ package com.faltenreich.diaguard.food.search
 import com.faltenreich.diaguard.data.food.Food
 import com.faltenreich.diaguard.data.food.FoodRepository
 import com.faltenreich.diaguard.data.food.search.FoodSearchParams
-import com.faltenreich.diaguard.preference.decimal.DecimalPlacesPreference
+import com.faltenreich.diaguard.data.preference.decimal.DecimalPlacesPreference
 import com.faltenreich.diaguard.preference.GetPreferenceUseCase
 import com.faltenreich.diaguard.view.paging.PagingPage
 import com.faltenreich.diaguard.localization.NumberFormatter

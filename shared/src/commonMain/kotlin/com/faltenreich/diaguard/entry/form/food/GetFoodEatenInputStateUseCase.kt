@@ -7,7 +7,7 @@ import com.faltenreich.diaguard.food.eaten.list.GetFoodEatenForEntryUseCase
 import com.faltenreich.diaguard.data.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.data.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.measurement.value.MeasurementValueMapper
-import com.faltenreich.diaguard.preference.decimal.DecimalPlacesPreference
+import com.faltenreich.diaguard.data.preference.decimal.DecimalPlacesPreference
 import com.faltenreich.diaguard.preference.GetPreferenceUseCase
 import com.faltenreich.diaguard.data.DatabaseKey
 import com.faltenreich.diaguard.localization.Localization

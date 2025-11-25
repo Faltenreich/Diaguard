@@ -3,11 +3,11 @@ package com.faltenreich.diaguard.startup.legacy
 import com.faltenreich.diaguard.data.preference.Preference
 import com.faltenreich.diaguard.logging.Logger
 import com.faltenreich.diaguard.data.preference.color.ColorSchemePreference
-import com.faltenreich.diaguard.preference.decimal.DecimalPlacesPreference
-import com.faltenreich.diaguard.preference.food.ShowBrandedFoodPreference
-import com.faltenreich.diaguard.preference.food.ShowCommonFoodPreference
-import com.faltenreich.diaguard.preference.food.ShowCustomFoodPreference
-import com.faltenreich.diaguard.preference.screen.StartScreenPreference
+import com.faltenreich.diaguard.data.preference.decimal.DecimalPlacesPreference
+import com.faltenreich.diaguard.data.preference.food.ShowBrandedFoodPreference
+import com.faltenreich.diaguard.data.preference.food.ShowCommonFoodPreference
+import com.faltenreich.diaguard.data.preference.food.ShowCustomFoodPreference
+import com.faltenreich.diaguard.data.preference.startscreen.StartScreenPreference
 import com.faltenreich.diaguard.preference.SetPreferenceUseCase
 
 class ImportLegacyPreferencesUseCase(

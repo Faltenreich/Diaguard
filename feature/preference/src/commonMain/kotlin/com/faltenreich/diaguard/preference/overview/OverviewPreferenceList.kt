@@ -10,13 +10,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.data.preference.color.ColorScheme
+import com.faltenreich.diaguard.data.preference.startscreen.StartScreen
 import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import com.faltenreich.diaguard.navigation.NavigationTarget
 import com.faltenreich.diaguard.preference.color.ColorSchemeForm
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesForm
 import com.faltenreich.diaguard.preference.list.PreferenceActionListItem
 import com.faltenreich.diaguard.preference.list.PreferenceCategoryListItem
-import com.faltenreich.diaguard.preference.screen.StartScreen
 import com.faltenreich.diaguard.preference.screen.StartScreenForm
 import diaguard.feature.preference.generated.resources.Res
 import diaguard.feature.preference.generated.resources.about
@@ -30,6 +30,7 @@ import diaguard.feature.preference.generated.resources.color_scheme_dark
 import diaguard.feature.preference.generated.resources.color_scheme_light
 import diaguard.feature.preference.generated.resources.color_scheme_system
 import diaguard.feature.preference.generated.resources.contact
+import diaguard.feature.preference.generated.resources.dashboard
 import diaguard.feature.preference.generated.resources.decimal_places
 import diaguard.feature.preference.generated.resources.facebook
 import diaguard.feature.preference.generated.resources.facebook_url
@@ -43,6 +44,7 @@ import diaguard.feature.preference.generated.resources.ic_contact
 import diaguard.feature.preference.generated.resources.ic_data
 import diaguard.feature.preference.generated.resources.ic_user
 import diaguard.feature.preference.generated.resources.licenses
+import diaguard.feature.preference.generated.resources.log
 import diaguard.feature.preference.generated.resources.mail
 import diaguard.feature.preference.generated.resources.mail_url
 import diaguard.feature.preference.generated.resources.mail_url_short
@@ -59,6 +61,7 @@ import diaguard.feature.preference.generated.resources.tags
 import diaguard.feature.preference.generated.resources.terms_and_conditions
 import diaguard.feature.preference.generated.resources.terms_and_conditions_url
 import diaguard.feature.preference.generated.resources.therapy
+import diaguard.feature.preference.generated.resources.timeline
 import diaguard.feature.preference.generated.resources.version
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -92,7 +95,13 @@ fun OverviewPreferenceList(
         item {
             PreferenceActionListItem(
                 title = stringResource(Res.string.start_screen),
-                subtitle = stringResource(state.startScreen.labelResource),
+                subtitle = stringResource(
+                    when (state.startScreen) {
+                        StartScreen.DASHBOARD -> Res.string.dashboard
+                        StartScreen.TIMELINE -> Res.string.timeline
+                        StartScreen.LOG -> Res.string.log
+                    },
+                ),
                 onClick = { showStartScreenForm = true },
             )
         }

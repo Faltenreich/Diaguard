@@ -14,19 +14,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import com.faltenreich.diaguard.view.theme.AppTheme
-import com.faltenreich.diaguard.preference.screen.StartScreen
+import androidx.compose.ui.graphics.painter.Painter
 import com.faltenreich.diaguard.data.preview.PreviewScaffold
-import org.jetbrains.compose.resources.DrawableResource
-import org.jetbrains.compose.resources.StringResource
-import org.jetbrains.compose.resources.painterResource
-import org.jetbrains.compose.resources.stringResource
+import com.faltenreich.diaguard.view.theme.AppTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun MainMenuItem(
-    label: StringResource,
-    icon: DrawableResource?,
+    label: String,
+    icon: Painter?,
     isSelected: Boolean,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -57,14 +53,14 @@ fun MainMenuItem(
             else AppTheme.colors.scheme.onBackground
         icon?.let {
             Icon(
-                painter = painterResource(icon),
+                painter = icon,
                 contentDescription = null,
                 modifier = Modifier.size(AppTheme.dimensions.padding.P_4),
                 tint = onPrimaryColor,
             )
         } ?: Spacer(modifier = Modifier.size(AppTheme.dimensions.padding.P_4))
         Text(
-            text = stringResource(label),
+            text = label,
             color = onPrimaryColor,
         )
     }
@@ -74,8 +70,8 @@ fun MainMenuItem(
 @Composable
 private fun Preview() = PreviewScaffold {
     MainMenuItem(
-        label = StartScreen.DASHBOARD.labelResource,
-        icon = StartScreen.DASHBOARD.iconResource,
+        label = "Label",
+        icon = null,
         isSelected = true,
         onClick = {},
     )

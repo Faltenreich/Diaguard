@@ -17,3 +17,5 @@ kotlin {
         }
     }
 }
+
+compose.resources.publicResClass = true

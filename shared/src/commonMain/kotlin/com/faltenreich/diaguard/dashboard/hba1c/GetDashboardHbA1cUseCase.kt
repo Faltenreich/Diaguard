@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.dashboard.hba1c
 
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.measurement.value.MeasurementValueMapper
-import com.faltenreich.diaguard.preference.decimal.DecimalPlacesPreference
+import com.faltenreich.diaguard.data.preference.decimal.DecimalPlacesPreference
 import com.faltenreich.diaguard.preference.GetPreferenceUseCase
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine

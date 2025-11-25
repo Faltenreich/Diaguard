@@ -4,6 +4,9 @@ import com.faltenreich.diaguard.system.web.OpenUrlUseCase
 import com.faltenreich.diaguard.preference.GetPreferenceUseCase
 import com.faltenreich.diaguard.preference.SetPreferenceUseCase
 import com.faltenreich.diaguard.architecture.viewmodel.ViewModel
+import com.faltenreich.diaguard.data.preference.food.ShowBrandedFoodPreference
+import com.faltenreich.diaguard.data.preference.food.ShowCommonFoodPreference
+import com.faltenreich.diaguard.data.preference.food.ShowCustomFoodPreference
 import kotlinx.coroutines.flow.combine
 
 class FoodPreferenceListViewModel(

@@ -1,10 +1,10 @@
-package com.faltenreich.diaguard.preference.screen
+package com.faltenreich.diaguard.data.preference.startscreen
 
 import com.faltenreich.diaguard.data.preference.Preference
-import com.faltenreich.diaguard.preference.screen.StartScreen.DASHBOARD
-import com.faltenreich.diaguard.preference.screen.StartScreen.entries
-import diaguard.feature.preference.generated.resources.Res
-import diaguard.feature.preference.generated.resources.preference_start_screen
+import com.faltenreich.diaguard.data.preference.startscreen.StartScreen.DASHBOARD
+import com.faltenreich.diaguard.data.preference.startscreen.StartScreen.entries
+import diaguard.data.generated.resources.Res
+import diaguard.data.generated.resources.preference_start_screen
 
 data object StartScreenPreference :
     Preference<Int, StartScreen> {

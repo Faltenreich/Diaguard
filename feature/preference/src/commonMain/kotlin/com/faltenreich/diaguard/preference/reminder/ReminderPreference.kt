@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.preference.reminder
 
-import com.faltenreich.diaguard.preference.Preference
+import com.faltenreich.diaguard.data.preference.Preference
 import diaguard.feature.preference.generated.resources.Res
 import diaguard.feature.preference.generated.resources.preference_alarm_start
 

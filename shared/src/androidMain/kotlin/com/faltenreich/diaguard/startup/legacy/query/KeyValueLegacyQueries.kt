@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.startup.legacy.query
 
-import com.faltenreich.diaguard.preference.Preference
+import com.faltenreich.diaguard.data.preference.Preference
 import com.faltenreich.diaguard.preference.color.ColorScheme
 import com.faltenreich.diaguard.preference.color.ColorSchemePreference
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesPreference

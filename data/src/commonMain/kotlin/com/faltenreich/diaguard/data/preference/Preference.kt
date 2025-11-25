@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.preference
+package com.faltenreich.diaguard.data.preference
 
 import org.jetbrains.compose.resources.StringResource
 

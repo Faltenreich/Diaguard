@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.preference.store
 
-import com.faltenreich.diaguard.preference.Preference
+import com.faltenreich.diaguard.data.preference.Preference
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map

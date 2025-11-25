@@ -5,7 +5,7 @@ import com.faltenreich.diaguard.data.entry.tag.EntryTag
 import com.faltenreich.diaguard.data.food.Food
 import com.faltenreich.diaguard.data.food.eaten.FoodEaten
 import com.faltenreich.diaguard.data.measurement.value.MeasurementValue
-import com.faltenreich.diaguard.preference.Preference
+import com.faltenreich.diaguard.data.preference.Preference
 import com.faltenreich.diaguard.startup.legacy.query.EntryLegacyQueries
 import com.faltenreich.diaguard.startup.legacy.query.EntryTagLegacyQueries
 import com.faltenreich.diaguard.startup.legacy.query.FoodEatenLegacyQueries

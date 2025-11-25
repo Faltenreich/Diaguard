@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.preference.screen
 
-import com.faltenreich.diaguard.preference.Preference
+import com.faltenreich.diaguard.data.preference.Preference
 import com.faltenreich.diaguard.preference.screen.StartScreen.DASHBOARD
 import com.faltenreich.diaguard.preference.screen.StartScreen.entries
 import diaguard.feature.preference.generated.resources.Res

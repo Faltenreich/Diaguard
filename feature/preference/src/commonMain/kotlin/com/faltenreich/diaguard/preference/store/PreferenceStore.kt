@@ -1,10 +1,10 @@
 package com.faltenreich.diaguard.preference.store
 
-import com.faltenreich.diaguard.preference.Preference
+import com.faltenreich.diaguard.data.preference.Preference
+import com.faltenreich.diaguard.localization.Localization
 import com.faltenreich.diaguard.persistence.keyvalue.KeyValueStore
 import com.faltenreich.diaguard.persistence.keyvalue.read
 import com.faltenreich.diaguard.persistence.keyvalue.write
-import com.faltenreich.diaguard.localization.Localization
 import kotlinx.coroutines.flow.Flow
 
 // TODO: Migrate preferences

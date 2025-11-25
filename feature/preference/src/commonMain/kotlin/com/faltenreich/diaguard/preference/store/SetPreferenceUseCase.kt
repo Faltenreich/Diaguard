@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.preference.store
 
-import com.faltenreich.diaguard.preference.Preference
+import com.faltenreich.diaguard.data.preference.Preference
 
 class SetPreferenceUseCase(
     @PublishedApi internal val preferenceStore: PreferenceStore,

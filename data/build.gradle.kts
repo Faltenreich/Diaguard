@@ -17,6 +17,7 @@ kotlin {
                 implementation(project(":core:persistence"))
                 implementation(project(":core:serialization"))
                 implementation(project(":core:view"))
+                implementation(compose.components.resources)
                 implementation(compose.components.uiToolingPreview)
                 implementation(compose.foundation)
                 implementation(compose.material3)

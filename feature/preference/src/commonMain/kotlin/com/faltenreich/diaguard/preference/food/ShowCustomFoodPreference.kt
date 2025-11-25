@@ -1,0 +1,17 @@
+package com.faltenreich.diaguard.preference.food
+
+import com.faltenreich.diaguard.preference.Preference
+import diaguard.feature.preference.generated.resources.Res
+import diaguard.feature.preference.generated.resources.preference_food_show_custom
+
+data object ShowCustomFoodPreference :
+    Preference<Boolean, Boolean> {
+
+    override val default = true
+
+    override val onRead = { value: Boolean -> value }
+
+    override val onWrite = { value: Boolean -> value }
+
+    override val key = Res.string.preference_food_show_custom
+}

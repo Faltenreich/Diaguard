@@ -4,7 +4,6 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.compose)
     alias(libs.plugins.compose.compiler)
-    alias(libs.plugins.aboutlibraries)
 }
 
 val appNamespace: String by rootProject.extra
@@ -36,8 +35,7 @@ kotlin {
                 implementation(project(":core:view"))
                 implementation(project(":feature:datetime"))
                 implementation(project(":feature:navigation"))
-                implementation(libs.aboutlibraries.core)
-                implementation(libs.aboutlibraries.compose)
+                implementation(project(":feature:preference"))
                 implementation(compose.ui)
                 implementation(compose.components.resources)
                 implementation(compose.foundation)

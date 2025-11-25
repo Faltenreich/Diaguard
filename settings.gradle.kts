@@ -43,4 +43,5 @@ include(
 
     ":feature:datetime",
     ":feature:navigation",
+    ":feature:preference",
 )

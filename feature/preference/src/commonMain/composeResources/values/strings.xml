@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<resources>
+    <string name="color_scheme">Color scheme</string>
+    <string name="color_scheme_light">Light</string>
+    <string name="color_scheme_dark">Dark</string>
+    <string name="color_scheme_system">System default</string>
+    <string name="color_scheme_time_of_day">Based on time of day</string>
+
+    <string name="decimal_places">Decimal places</string>
+    <string name="decimal_places_description">This will set the number of digits for the fractional part of floating point numbers.</string>
+    <string name="decimal_places_illustration">"%1$s" will currently be shown as "%2$s".</string>
+    <string name="decimal_places_update">Set decimal places to %1$d</string>
+
+    <string name="food">Food</string>
+    <string name="food_branded">Branded food</string>
+    <string name="food_branded_show">Search branded food</string>
+    <string name="food_branded_show_desc">Includes thousands of packaged goods that are requested via network (May lead to duplicates, e.g. one product from different manufacturers)</string>
+    <string name="food_common">Common food</string>
+    <string name="food_common_show">Show common food</string>
+    <string name="food_common_show_desc">Includes hundreds of basic edibles bundled with the app</string>
+    <string name="food_create">Create food</string>
+    <string name="food_custom">Custom food</string>
+    <string name="food_custom_show">Show custom food</string>
+    <string name="food_custom_show_desc">Includes every food that has been added manually by the user</string>
+    <string name="food_preferences_none_selected">Food is currently hidden until at least one category is checked.</string>
+    <string name="food_preferences_open">Open food preferences</string>
+    <string name="food_source_branded_provider">Open Food Facts</string>
+    <string name="food_source_branded_url">http://world.openfoodfacts.org</string>
+    <string name="food_source_common_provider">Schweizer Nährwertdatenbank</string>
+    <string name="food_source_common_url">https://www.naehrwertdaten.ch</string>
+    <string name="food_source_powered_by">Powered by</string>
+
+    <string name="facebook">Facebook</string>
+    <string name="facebook_url">http://www.facebook.com/diaguard.de</string>
+    <string name="facebook_url_short">facebook.com/diaguard.de</string>
+    <string name="homepage">Homepage</string>
+    <string name="homepage_url">http://www.diaguard.wordpress.com</string>
+    <string name="homepage_url_short">diaguard.wordpress.com</string>
+    <string name="mail">E-mail</string>
+    <string name="mail_url">mailto:diaguard.de@gmail.com</string>
+    <string name="mail_url_short">diaguard.de@gmail.com</string>
+
+    <string name="about">About</string>
+    <string name="backup">Backup</string>
+    <string name="backup_read">Restore backup</string>
+    <string name="backup_read_description">Restore your data from previous backups</string>
+    <string name="backup_write">Create backup</string>
+    <string name="backup_write_description">Back up and transfer your data to protect yourself from data loss</string>
+    <string name="contact">Contact</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="licenses">Open-source licenses</string>
+    <string name="log">Log</string>
+    <string name="measurement_categories">Categories</string>
+    <string name="measurement_units">Units</string>
+    <string name="preferences">Preferences</string>
+    <string name="privacy_policy">Privacy policy</string>
+    <string name="privacy_policy_url">https://github.com/Faltenreich/Diaguard/tree/master/resource/legal/privacy/PRIVACY_POLICY_EN.md</string>
+    <string name="reminders">Reminders</string>
+    <string name="source_code" translatable="false">Source code</string>
+    <string name="source_code_url" translatable="false">https://github.com/Faltenreich/Diaguard</string>
+    <string name="source_code_url_short" translatable="false">github.com/Faltenreich/Diaguard</string>
+    <string name="start_screen">Start screen</string>
+    <string name="tags">Tags</string>
+    <string name="terms_and_conditions">Terms and conditions</string>
+    <string name="terms_and_conditions_url">https://github.com/Faltenreich/Diaguard/tree/master/resource/legal/terms/TERMS_AND_CONDITIONS_EN.md</string>
+    <string name="therapy">Therapy</string>
+    <string name="timeline">Timeline</string>
+    <string name="version">Version</string>
+
+    <!-- General -->
+    <string name="preference_version_code">versionCode</string>
+    <string name="preference_theme">theme</string>
+    <string name="preference_start_screen">"startscreen"</string>
+
+    <!-- Timeline -->
+    <string name="preference_timeline">timeline</string>
+    <string name="preference_timeline_show_dots">timelineShowDots</string>
+    <string name="preference_timeline_show_lines">timelineShowLines</string>
+
+    <!-- Reminder -->
+    <string name="preference_alarm_start">alarmStartInMillis</string>
+    <string name="preference_alarm_sound">sound</string>
+    <string name="preference_alarm_vibration">vibration</string>
+
+    <!-- Data -->
+    <string name="preference_backup">backup</string>
+    <string name="preference_import">import</string>
+
+    <string name="preference_categories">categories</string>
+
+    <string name="preference_tags">tags</string>
+    <string name="preference_tags_imported">didImportTagsForLanguage</string>
+
+    <string name="preference_food">food</string>
+    <string name="preference_food_imported">didImportCommonFoodForLanguage</string>
+    <string name="preference_food_show_custom">showCustomFood</string>
+    <string name="preference_food_show_common">showCommonFood</string>
+    <string name="preference_food_show_branded">showBrandedFood</string>
+
+    <string name="preference_input_queries">inputQueries</string>
+
+    <string name="preference_cgm">cgm</string>
+    <string name="preference_cgm_xdrip">cgmXDrip</string>
+    <string name="preference_cgm_notification">cgmNotification</string>
+
+    <!-- Export -->
+    <string name="preference_export_pdf_style">exportPdfStyle</string>
+    <string name="preference_include_calendar_week">exportHeader</string>
+    <string name="preference_include_generated_date">exportFooter</string>
+    <string name="preference_include_page_number">includePageNumber</string>
+    <string name="preference_export_notes">export_notes</string>
+    <string name="preference_export_tags">export_tags</string>
+    <string name="preference_export_food">export_food</string>
+    <string name="preference_export_skip_empty_days">skipEmptyDays</string>
+    <string name="preference_export_categories">exportCategories</string>
+    <string name="preference_export_insulin_split">exportInsulinSplit</string>
+
+    <!-- Therapy -->
+    <string name="preference_extrema">extrema</string>
+    <string name="preference_extrema_highlight">targets_highlight</string>
+    <string name="preference_extrema_target">target</string>
+    <string name="preference_extrema_hyperclycemia">hyperclycemia</string>
+    <string name="preference_extrema_hypoclycemia">hypoclycemia</string>
+
+    <string name="preference_uni">unit</string>
+    <string name="preference_unit_bloodsugar">unit_bloodsugar</string>
+    <string name="preference_unit_meal">unit_meal</string>
+    <string name="preference_unit_meal_factor">unit_meal_factor</string>
+    <string name="preference_unit_hba1c">unit_hba1c</string>
+    <string name="preference_unit_weight">unit_weight</string>
+
+
+    <string name="preference_decimal_places">Decimal places</string>
+
+    <string name="preference_factor">factor</string>
+
+    <string name="preference_factor_meal">unit_meal_factor</string>
+    <string name="preference_factor_meal_interval">intervalFactor</string>
+
+    <string name="preference_factor_correction">correction</string>
+    <string name="preference_factor_correction_interval">intervalCorrection</string>
+
+    <string name="preference_factor_basal_rate">basalRate</string>
+    <string name="preference_factor_basal_rate_interval">intervalBasalRate</string>
+</resources>

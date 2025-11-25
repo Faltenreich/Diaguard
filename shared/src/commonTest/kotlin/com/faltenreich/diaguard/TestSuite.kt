@@ -19,14 +19,14 @@ abstract class TestSuite(
 
     @BeforeTest
     @CallSuper
-    fun beforeTest() {
+    open fun beforeTest() {
         startKoin { modules(module) }
         Dispatchers.setMain(dispatcher = get())
     }
 
     @AfterTest
     @CallSuper
-    fun afterTest() {
+    open fun afterTest() {
         stopKoin()
         Dispatchers.resetMain()
     }

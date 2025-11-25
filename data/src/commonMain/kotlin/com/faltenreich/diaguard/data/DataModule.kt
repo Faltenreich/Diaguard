@@ -41,11 +41,28 @@ import com.faltenreich.diaguard.data.measurement.value.MeasurementValueSqlDeligh
 import com.faltenreich.diaguard.data.measurement.value.MeasurementValueSqlDelightMapper
 import com.faltenreich.diaguard.data.preference.PreferenceDao
 import com.faltenreich.diaguard.data.preference.PreferenceRepository
+import com.faltenreich.diaguard.data.seed.SeedBundleDao
+import com.faltenreich.diaguard.data.seed.SeedDao
+import com.faltenreich.diaguard.data.seed.SeedRepository
+import com.faltenreich.diaguard.data.seed.query.food.FoodSeedQueries
+import com.faltenreich.diaguard.data.seed.query.measurement.ActivitySeedQueries
+import com.faltenreich.diaguard.data.seed.query.measurement.BloodPressureSeedQueries
+import com.faltenreich.diaguard.data.seed.query.measurement.BloodSugarSeedQueries
+import com.faltenreich.diaguard.data.seed.query.measurement.HbA1cSeedQueries
+import com.faltenreich.diaguard.data.seed.query.measurement.InsulinSeedQueries
+import com.faltenreich.diaguard.data.seed.query.measurement.MealSeedQueries
+import com.faltenreich.diaguard.data.seed.query.measurement.MeasurementCategorySeedQueries
+import com.faltenreich.diaguard.data.seed.query.measurement.MeasurementUnitSeedQueries
+import com.faltenreich.diaguard.data.seed.query.measurement.OxygenSaturationSeedQueries
+import com.faltenreich.diaguard.data.seed.query.measurement.PulseSeedQueries
+import com.faltenreich.diaguard.data.seed.query.measurement.WeightSeedQueries
+import com.faltenreich.diaguard.data.seed.query.tag.TagSeedQueries
 import com.faltenreich.diaguard.data.tag.TagDao
 import com.faltenreich.diaguard.data.tag.TagRepository
 import com.faltenreich.diaguard.data.tag.TagSqlDelightDao
 import com.faltenreich.diaguard.data.tag.TagSqlDelightMapper
 import com.faltenreich.diaguard.persistence.database.SqlDelightDriverFactory
+import com.faltenreich.diaguard.persistence.file.ResourceFileReader
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.bind
@@ -116,6 +133,46 @@ fun dataModule() = module {
 
     factoryOf(::PreferenceDao)
     factoryOf(::PreferenceRepository)
+
+    factoryOf(::BloodSugarSeedQueries)
+    factoryOf(::InsulinSeedQueries)
+    factoryOf(::MealSeedQueries)
+    factoryOf(::ActivitySeedQueries)
+    factoryOf(::HbA1cSeedQueries)
+    factoryOf(::WeightSeedQueries)
+    factoryOf(::PulseSeedQueries)
+    factoryOf(::BloodPressureSeedQueries)
+    factoryOf(::OxygenSaturationSeedQueries)
+
+    factoryOf(::MeasurementUnitSeedQueries)
+    factoryOf(::MeasurementCategorySeedQueries)
+
+    factory {
+        FoodSeedQueries(
+            fileReader = ResourceFileReader("files/food_common.csv"),
+            serialization = get(),
+            localization = get(),
+        )
+    }
+
+    factory {
+        TagSeedQueries(
+            fileReader = ResourceFileReader("files/tags.csv"),
+            serialization = get(),
+            localization = get(),
+        )
+    }
+
+    factory<SeedDao> {
+        SeedBundleDao(
+            unitQueries = get(),
+            categoryQueries = get(),
+            foodQueries = get(),
+            tagQueries = get(),
+        )
+    }
+
+    factoryOf(::SeedRepository)
 }
 
 expect fun dataPlatformModule(): Module

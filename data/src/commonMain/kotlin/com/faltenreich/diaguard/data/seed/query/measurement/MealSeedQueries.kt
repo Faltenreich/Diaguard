@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.startup.seed.query.measurement
+package com.faltenreich.diaguard.data.seed.query.measurement
 
 import com.faltenreich.diaguard.data.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.data.measurement.property.MeasurementAggregationStyle
@@ -7,28 +7,28 @@ import com.faltenreich.diaguard.data.measurement.unit.suggestion.MeasurementUnit
 import com.faltenreich.diaguard.data.measurement.property.MeasurementValueRange
 import com.faltenreich.diaguard.data.DatabaseKey
 import com.faltenreich.diaguard.localization.Localization
-import diaguard.shared.generated.resources.Res
-import diaguard.shared.generated.resources.activity
+import diaguard.data.generated.resources.Res
+import diaguard.data.generated.resources.meal
 
-class ActivitySeedQueries(
+class MealSeedQueries(
     private val localization: Localization,
 ) {
 
     operator fun invoke(): MeasurementCategory.Seed {
         return MeasurementCategory.Seed(
-            key = DatabaseKey.MeasurementCategory.ACTIVITY,
-            name = localization.getString(Res.string.activity),
-            icon = "\uD83C\uDFC3",
-            sortIndex = 3,
+            key = DatabaseKey.MeasurementCategory.MEAL,
+            name = localization.getString(Res.string.meal),
+            icon = "\uD83C\uDF5E",
+            sortIndex = 2,
             isActive = true,
             properties = listOf(
                 MeasurementProperty.Seed(
-                    key = DatabaseKey.MeasurementProperty.ACTIVITY,
-                    name = localization.getString(Res.string.activity),
+                    key = DatabaseKey.MeasurementProperty.MEAL,
+                    name = localization.getString(Res.string.meal),
                     sortIndex = 0,
                     aggregationStyle = MeasurementAggregationStyle.CUMULATIVE,
                     range = MeasurementValueRange(
-                        minimum = 1.0,
+                        minimum = 0.0,
                         low = null,
                         target = null,
                         high = null,
@@ -38,7 +38,15 @@ class ActivitySeedQueries(
                     unitSuggestions = listOf(
                         MeasurementUnitSuggestion.Seed(
                             factor = MeasurementUnitSuggestion.FACTOR_DEFAULT,
-                            unit = DatabaseKey.MeasurementUnit.MINUTES,
+                            unit = DatabaseKey.MeasurementUnit.CARBOHYDRATES,
+                        ),
+                        MeasurementUnitSuggestion.Seed(
+                            factor = 0.1,
+                            unit = DatabaseKey.MeasurementUnit.CARBOHYDRATE_UNITS,
+                        ),
+                        MeasurementUnitSuggestion.Seed(
+                            factor = 0.0833,
+                            unit = DatabaseKey.MeasurementUnit.BREAD_UNITS,
                         ),
                     ),
                 ),

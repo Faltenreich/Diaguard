@@ -1,7 +1,7 @@
-package com.faltenreich.diaguard.startup.seed.query.tag
+package com.faltenreich.diaguard.data.seed.query.tag
 
 import androidx.compose.ui.text.intl.Locale
-import com.faltenreich.diaguard.startup.seed.query.SeedQueries
+import com.faltenreich.diaguard.data.seed.query.SeedQueries
 import com.faltenreich.diaguard.persistence.file.FileReader
 import com.faltenreich.diaguard.localization.Localization
 import com.faltenreich.diaguard.localization.LocalizationConstants

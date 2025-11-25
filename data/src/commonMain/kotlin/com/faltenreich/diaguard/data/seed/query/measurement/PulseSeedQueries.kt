@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.startup.seed.query.measurement
+package com.faltenreich.diaguard.data.seed.query.measurement
 
 import com.faltenreich.diaguard.data.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.data.measurement.property.MeasurementAggregationStyle
@@ -7,8 +7,8 @@ import com.faltenreich.diaguard.data.measurement.unit.suggestion.MeasurementUnit
 import com.faltenreich.diaguard.data.measurement.property.MeasurementValueRange
 import com.faltenreich.diaguard.data.DatabaseKey
 import com.faltenreich.diaguard.localization.Localization
-import diaguard.shared.generated.resources.Res
-import diaguard.shared.generated.resources.pulse
+import diaguard.data.generated.resources.Res
+import diaguard.data.generated.resources.pulse
 
 class PulseSeedQueries(
     private val localization: Localization,

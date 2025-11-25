@@ -1,51 +1,51 @@
-package com.faltenreich.diaguard.startup.seed.query.measurement
+package com.faltenreich.diaguard.data.seed.query.measurement
 
 import com.faltenreich.diaguard.data.measurement.category.MeasurementCategory
-import com.faltenreich.diaguard.data.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.data.measurement.property.MeasurementAggregationStyle
-import com.faltenreich.diaguard.data.measurement.property.MeasurementValueRange
+import com.faltenreich.diaguard.data.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.data.measurement.unit.suggestion.MeasurementUnitSuggestion
+import com.faltenreich.diaguard.data.measurement.property.MeasurementValueRange
 import com.faltenreich.diaguard.data.DatabaseKey
 import com.faltenreich.diaguard.localization.Localization
-import diaguard.shared.generated.resources.Res
-import diaguard.shared.generated.resources.hba1c
+import diaguard.data.generated.resources.Res
+import diaguard.data.generated.resources.blood_sugar
 
-class HbA1cSeedQueries(
+class BloodSugarSeedQueries(
     private val localization: Localization,
 ) {
 
     operator fun invoke(): MeasurementCategory.Seed {
         return MeasurementCategory.Seed(
-            key = DatabaseKey.MeasurementCategory.HBA1C,
-            name = localization.getString(Res.string.hba1c),
-            icon = "〰\uFE0F",
-            sortIndex = 4,
+            key = DatabaseKey.MeasurementCategory.BLOOD_SUGAR,
+            name = localization.getString(Res.string.blood_sugar),
+            icon = "\uD83E\uDE78",
+            sortIndex = 0,
             isActive = true,
             properties = listOf(
                 MeasurementProperty.Seed(
-                    key = DatabaseKey.MeasurementProperty.HBA1C,
-                    name = localization.getString(Res.string.hba1c),
+                    key = DatabaseKey.MeasurementProperty.BLOOD_SUGAR,
+                    name = localization.getString(Res.string.blood_sugar),
                     sortIndex = 0,
                     aggregationStyle = MeasurementAggregationStyle.AVERAGE,
                     range = MeasurementValueRange(
                         minimum = 1.0,
-                        low = 6.5,
-                        target = 7.0,
-                        high = 7.5,
-                        maximum = 25.0,
+                        low = 60.0,
+                        target = 120.0,
+                        high = 180.0,
+                        maximum = 1000.0,
                         isHighlighted = true,
                     ),
                     unitSuggestions = listOf(
                         MeasurementUnitSuggestion.Seed(
                             factor = MeasurementUnitSuggestion.FACTOR_DEFAULT,
-                            unit = DatabaseKey.MeasurementUnit.PERCENT,
+                            unit = DatabaseKey.MeasurementUnit.MILLIGRAMS_PER_DECILITER,
                         ),
                         MeasurementUnitSuggestion.Seed(
-                            factor = 0.00001,
-                            unit = DatabaseKey.MeasurementUnit.MILLIMOLES_PER_MOLE,
+                            factor = 0.0555,
+                            unit = DatabaseKey.MeasurementUnit.MILLIMOLES_PER_LITER,
                         ),
                     ),
-                ),
+                )
             ),
         )
     }

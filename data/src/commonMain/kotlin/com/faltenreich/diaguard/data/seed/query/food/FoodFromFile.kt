@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.startup.seed.query.food
+package com.faltenreich.diaguard.data.seed.query.food
 
 import kotlinx.serialization.Serializable
 

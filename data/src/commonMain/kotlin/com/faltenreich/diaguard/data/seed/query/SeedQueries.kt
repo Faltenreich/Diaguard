@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.startup.seed.query
+package com.faltenreich.diaguard.data.seed.query
 
 interface SeedQueries<T> {
 

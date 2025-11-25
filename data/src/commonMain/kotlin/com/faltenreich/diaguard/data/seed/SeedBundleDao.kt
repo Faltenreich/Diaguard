@@ -1,9 +1,9 @@
-package com.faltenreich.diaguard.startup.seed
+package com.faltenreich.diaguard.data.seed
 
-import com.faltenreich.diaguard.startup.seed.query.food.FoodSeedQueries
-import com.faltenreich.diaguard.startup.seed.query.measurement.MeasurementCategorySeedQueries
-import com.faltenreich.diaguard.startup.seed.query.measurement.MeasurementUnitSeedQueries
-import com.faltenreich.diaguard.startup.seed.query.tag.TagSeedQueries
+import com.faltenreich.diaguard.data.seed.query.food.FoodSeedQueries
+import com.faltenreich.diaguard.data.seed.query.measurement.MeasurementCategorySeedQueries
+import com.faltenreich.diaguard.data.seed.query.measurement.MeasurementUnitSeedQueries
+import com.faltenreich.diaguard.data.seed.query.tag.TagSeedQueries
 import com.faltenreich.diaguard.data.food.Food
 import com.faltenreich.diaguard.data.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.data.measurement.unit.MeasurementUnit

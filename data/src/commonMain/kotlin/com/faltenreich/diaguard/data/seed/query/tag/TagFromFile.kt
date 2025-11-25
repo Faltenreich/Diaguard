@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.startup.seed.query.tag
+package com.faltenreich.diaguard.data.seed.query.tag
 
 import kotlinx.serialization.Serializable
 

@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.startup.seed
+package com.faltenreich.diaguard.data.seed
 
 import com.faltenreich.diaguard.data.food.Food
 import com.faltenreich.diaguard.data.measurement.category.MeasurementCategory

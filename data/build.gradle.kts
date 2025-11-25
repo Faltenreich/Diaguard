@@ -2,6 +2,7 @@ plugins {
     id("multiplatform-convention")
     alias(libs.plugins.compose)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.sqldelight)
 }
 

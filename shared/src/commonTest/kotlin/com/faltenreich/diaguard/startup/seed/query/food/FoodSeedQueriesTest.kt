@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.startup.seed.query.food
 
 import androidx.compose.ui.text.intl.Locale
+import com.faltenreich.diaguard.data.seed.query.food.FoodSeedQueries
 import com.faltenreich.diaguard.persistence.file.SystemFileReader
 import com.faltenreich.diaguard.shared.localization.FakeLocalization
 import com.faltenreich.diaguard.serialization.Serialization

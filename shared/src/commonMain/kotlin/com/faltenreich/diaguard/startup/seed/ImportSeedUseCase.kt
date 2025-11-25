@@ -6,6 +6,7 @@ import com.faltenreich.diaguard.data.measurement.property.MeasurementPropertyRep
 import com.faltenreich.diaguard.data.measurement.unit.MeasurementUnitRepository
 import com.faltenreich.diaguard.data.measurement.unit.suggestion.MeasurementUnitSuggestion
 import com.faltenreich.diaguard.data.measurement.unit.suggestion.MeasurementUnitSuggestionRepository
+import com.faltenreich.diaguard.data.seed.SeedRepository
 import com.faltenreich.diaguard.logging.Logger
 import com.faltenreich.diaguard.data.tag.TagRepository
 

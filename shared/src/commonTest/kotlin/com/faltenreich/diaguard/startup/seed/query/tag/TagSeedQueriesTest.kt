@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.startup.seed.query.tag
 
 import com.faltenreich.diaguard.TestSuite
+import com.faltenreich.diaguard.data.seed.query.tag.TagSeedQueries
 import com.faltenreich.diaguard.data.tag.Tag
 import com.faltenreich.diaguard.test.assertContentEquals
 import org.koin.test.inject

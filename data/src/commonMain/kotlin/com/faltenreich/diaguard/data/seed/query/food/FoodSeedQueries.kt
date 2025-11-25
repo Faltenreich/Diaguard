@@ -1,14 +1,14 @@
-package com.faltenreich.diaguard.startup.seed.query.food
+package com.faltenreich.diaguard.data.seed.query.food
 
 import androidx.compose.ui.text.intl.Locale
 import com.faltenreich.diaguard.data.food.Food
-import com.faltenreich.diaguard.persistence.file.FileReader
+import com.faltenreich.diaguard.data.seed.query.SeedQueries
 import com.faltenreich.diaguard.localization.Localization
 import com.faltenreich.diaguard.localization.LocalizationConstants
+import com.faltenreich.diaguard.persistence.file.FileReader
 import com.faltenreich.diaguard.serialization.Serialization
-import com.faltenreich.diaguard.startup.seed.query.SeedQueries
-import diaguard.shared.generated.resources.Res
-import diaguard.shared.generated.resources.food_common
+import diaguard.data.generated.resources.Res
+import diaguard.data.generated.resources.food_common
 
 class FoodSeedQueries(
     private val fileReader: FileReader,

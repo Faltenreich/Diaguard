@@ -1,7 +1,7 @@
-package com.faltenreich.diaguard.startup.seed.query.measurement
+package com.faltenreich.diaguard.data.seed.query.measurement
 
 import com.faltenreich.diaguard.data.measurement.category.MeasurementCategory
-import com.faltenreich.diaguard.startup.seed.query.SeedQueries
+import com.faltenreich.diaguard.data.seed.query.SeedQueries
 
 class MeasurementCategorySeedQueries(
     private val bloodSugarQueries: BloodSugarSeedQueries,

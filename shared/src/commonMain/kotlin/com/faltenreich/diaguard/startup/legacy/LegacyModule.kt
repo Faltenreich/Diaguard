@@ -2,16 +2,12 @@
 
 package com.faltenreich.diaguard.startup.legacy
 
-import org.koin.core.module.Module
+import com.faltenreich.diaguard.data.legacy.LegacyRepository
 import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.module
 import kotlin.jvm.JvmName
 
-expect fun legacyDaoModule(): Module
-
 fun legacyModule() = module {
-    includes(legacyDaoModule())
-
     factoryOf(::LegacyRepository)
 
     factoryOf(::ImportLegacyPreferencesUseCase)

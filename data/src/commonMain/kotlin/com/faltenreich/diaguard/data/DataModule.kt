@@ -46,11 +46,14 @@ import com.faltenreich.diaguard.data.tag.TagRepository
 import com.faltenreich.diaguard.data.tag.TagSqlDelightDao
 import com.faltenreich.diaguard.data.tag.TagSqlDelightMapper
 import com.faltenreich.diaguard.persistence.database.SqlDelightDriverFactory
+import org.koin.core.module.Module
 import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
 fun dataModule() = module {
+    includes(dataPlatformModule())
+
     // Requires Singleton to support synchronous CRUD operations
     single<SqlDelightApi> {
         val driverFactory = get<SqlDelightDriverFactory>()
@@ -114,3 +117,5 @@ fun dataModule() = module {
     factoryOf(::PreferenceDao)
     factoryOf(::PreferenceRepository)
 }
+
+expect fun dataPlatformModule(): Module

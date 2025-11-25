@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.startup.legacy.query
 
+import com.faltenreich.diaguard.data.legacy.query.KeyValueLegacyQueries
 import com.faltenreich.diaguard.data.preference.color.ColorScheme
 import com.faltenreich.diaguard.data.preference.color.ColorSchemePreference
 import com.faltenreich.diaguard.persistence.keyvalue.FakeKeyValueStore

@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.startup.legacy.query
 
 import androidx.test.platform.app.InstrumentationRegistry
+import com.faltenreich.diaguard.data.legacy.query.TagLegacyQueries
 import com.faltenreich.diaguard.datetime.DateTimeAndroidApi
 import com.faltenreich.diaguard.datetime.kotlinx.KotlinxDateTimeFactory
 import com.faltenreich.diaguard.persistence.database.SqliteDatabase

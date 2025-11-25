@@ -8,6 +8,7 @@ import com.faltenreich.diaguard.data.food.eaten.FoodEaten
 import com.faltenreich.diaguard.data.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.data.preference.Preference
 import com.faltenreich.diaguard.data.DatabaseKey
+import com.faltenreich.diaguard.data.legacy.LegacyDao
 import com.faltenreich.diaguard.data.tag.Tag
 
 class FakeLegacyDao(private val dateTimeFactory: DateTimeFactory) : LegacyDao {

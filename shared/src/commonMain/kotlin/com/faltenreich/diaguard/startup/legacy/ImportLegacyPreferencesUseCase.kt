@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.startup.legacy
 
+import com.faltenreich.diaguard.data.legacy.LegacyRepository
 import com.faltenreich.diaguard.data.preference.Preference
 import com.faltenreich.diaguard.logging.Logger
 import com.faltenreich.diaguard.data.preference.color.ColorSchemePreference

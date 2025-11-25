@@ -20,7 +20,7 @@ import com.faltenreich.diaguard.shared.notification.FakeAlarmManager
 import com.faltenreich.diaguard.shared.system.FakeSystemSettings
 import com.faltenreich.diaguard.shared.view.FakeWindowController
 import com.faltenreich.diaguard.startup.legacy.FakeLegacyDao
-import com.faltenreich.diaguard.startup.legacy.LegacyDao
+import com.faltenreich.diaguard.data.legacy.LegacyDao
 import com.faltenreich.diaguard.startup.seed.query.food.FoodSeedQueries
 import com.faltenreich.diaguard.startup.seed.query.tag.TagSeedQueries
 import com.faltenreich.diaguard.system.notification.AlarmManager

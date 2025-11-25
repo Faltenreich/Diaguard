@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.startup.legacy
 
 import com.faltenreich.diaguard.TestSuite
+import com.faltenreich.diaguard.data.legacy.LegacyRepository
 import kotlinx.coroutines.test.runTest
 import org.koin.test.inject
 import kotlin.test.Test

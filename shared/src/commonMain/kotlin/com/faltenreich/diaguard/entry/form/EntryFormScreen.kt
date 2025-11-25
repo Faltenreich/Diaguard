@@ -35,6 +35,7 @@ data class EntryFormScreen(
     private val foodId: Long,
 ) : Screen {
 
+    @Deprecated("Remove optionals to harden call-site")
     constructor(
         entry: Entry.Local? = null,
         date: Date? = null,

@@ -3,8 +3,6 @@ package com.faltenreich.diaguard.measurement.property.form
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import com.faltenreich.diaguard.data.measurement.category.MeasurementCategory
-import com.faltenreich.diaguard.data.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.injection.sharedViewModel
 import com.faltenreich.diaguard.injection.viewModel
 import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitSelectionEvent
@@ -27,19 +25,9 @@ import org.koin.core.parameter.parametersOf
 
 @Serializable
 data class MeasurementPropertyFormScreen(
-    val categoryId: Long,
-    val propertyId: Long?,
+    private val categoryId: Long,
+    private val propertyId: Long?,
 ) : Screen {
-
-    constructor(category: MeasurementCategory.Local) : this(
-        categoryId = category.id,
-        propertyId = null,
-    )
-
-    constructor(property: MeasurementProperty.Local) : this(
-        categoryId = property.category.id,
-        propertyId = property.id,
-    )
 
     @Composable
     override fun TopAppBar(): TopAppBarStyle {

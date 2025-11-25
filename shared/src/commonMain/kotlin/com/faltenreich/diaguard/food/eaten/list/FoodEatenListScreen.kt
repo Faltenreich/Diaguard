@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
-import com.faltenreich.diaguard.data.food.Food
 import com.faltenreich.diaguard.injection.viewModel
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
@@ -21,10 +20,7 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.core.parameter.parametersOf
 
 @Serializable
-data class FoodEatenListScreen(private val foodId: Long) :
-    Screen {
-
-    constructor(tag: Food.Local) : this(tag.id)
+data class FoodEatenListScreen(private val foodId: Long) : Screen {
 
     @Composable
     override fun TopAppBar(): TopAppBarStyle {

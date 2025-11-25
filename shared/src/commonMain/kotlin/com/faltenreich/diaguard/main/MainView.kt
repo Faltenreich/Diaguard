@@ -27,6 +27,7 @@ import com.faltenreich.diaguard.entry.search.EntrySearchScreen
 import com.faltenreich.diaguard.export.form.ExportFormScreen
 import com.faltenreich.diaguard.food.eaten.list.FoodEatenListScreen
 import com.faltenreich.diaguard.food.form.FoodFormScreen
+import com.faltenreich.diaguard.food.search.FoodSearchMode
 import com.faltenreich.diaguard.food.search.FoodSearchScreen
 import com.faltenreich.diaguard.injection.LocalSharedViewModelStoreOwner
 import com.faltenreich.diaguard.injection.rememberViewModelStoreOwner
@@ -82,27 +83,46 @@ fun MainView(
                 )
                 is NavigationEvent.NavigateTo -> navController.navigate(
                     screen = when (val target = event.target) {
-                        is NavigationTarget.LicenseList -> LicenseListScreen
-                        is NavigationTarget.MeasurementCategoryList -> MeasurementCategoryListScreen
+                        is NavigationTarget.Dashboard -> DashboardScreen
+                        is NavigationTarget.EntryForm -> EntryFormScreen(
+                            entryId = target.entryId,
+                            dateTimeIsoString = target.dateTimeIsoString,
+                            foodId = target.foodId,
+                        )
+                        is NavigationTarget.EntrySearch -> EntrySearchScreen(target.query)
+                        is NavigationTarget.ExportForm -> ExportFormScreen
+                        is NavigationTarget.FoodEatenList -> FoodEatenListScreen(foodId = target.foodId)
+                        is NavigationTarget.FoodForm -> FoodFormScreen(foodId = target.foodId)
                         is NavigationTarget.FoodPreferenceList -> FoodPreferenceListScreen
+                        is NavigationTarget.FoodSearch -> FoodSearchScreen(
+                            mode = when (target.mode) {
+                                NavigationTarget.FoodSearch.Mode.STROLL -> FoodSearchMode.STROLL
+                                NavigationTarget.FoodSearch.Mode.FIND -> FoodSearchMode.FIND
+                            },
+                        )
+                        is NavigationTarget.LicenseList -> LicenseListScreen
+                        is NavigationTarget.Log -> LogScreen
+                        is NavigationTarget.MeasurementCategoryForm -> MeasurementCategoryFormScreen(
+                            categoryId = target.categoryId,
+                        )
+                        is NavigationTarget.MeasurementCategoryList -> MeasurementCategoryListScreen
+                        is NavigationTarget.MeasurementPropertyForm -> MeasurementPropertyFormScreen(
+                            categoryId = target.categoryId,
+                            propertyId = target.propertyId,
+                        )
                         is NavigationTarget.MeasurementUnitList -> MeasurementUnitListScreen(
                             mode = when (target.mode) {
                                 NavigationTarget.MeasurementUnitList.Mode.STROLL -> MeasurementUnitListMode.STROLL
                                 NavigationTarget.MeasurementUnitList.Mode.FIND -> MeasurementUnitListMode.FIND
                             },
                         )
+                        is NavigationTarget.OverviewPreferenceList -> OverviewPreferenceListScreen
                         is NavigationTarget.ReadBackupForm -> ReadBackupFormScreen
+                        is NavigationTarget.Statistic -> StatisticScreen
+                        is NavigationTarget.TagDetail -> TagDetailScreen(tagId = target.tagId)
                         is NavigationTarget.TagList -> TagListScreen
+                        is NavigationTarget.Timeline -> TimelineScreen
                         is NavigationTarget.WriteBackupForm -> WriteBackupFormScreen
-                        is NavigationTarget.EntryForm -> TODO()
-                        is NavigationTarget.EntrySearch -> TODO()
-                        is NavigationTarget.FoodEatenList -> TODO()
-                        is NavigationTarget.FoodForm -> TODO()
-                        is NavigationTarget.FoodSearch -> TODO()
-                        is NavigationTarget.MeasurementCategoryForm -> TODO()
-                        is NavigationTarget.MeasurementPropertyForm -> TODO()
-                        NavigationTarget.Statistic -> TODO()
-                        is NavigationTarget.TagDetail -> TODO()
                     },
                     popHistory = event.popHistory,
                 )

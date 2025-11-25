@@ -3,7 +3,6 @@ package com.faltenreich.diaguard.tag.detail
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.faltenreich.diaguard.data.tag.Tag
 import com.faltenreich.diaguard.injection.viewModel
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarItem
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
@@ -22,10 +21,7 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.core.parameter.parametersOf
 
 @Serializable
-data class TagDetailScreen(private val tagId: Long) :
-    Screen {
-
-    constructor(tag: Tag.Local) : this(tag.id)
+data class TagDetailScreen(private val tagId: Long) : Screen {
 
     @Composable
     override fun TopAppBar(): TopAppBarStyle {

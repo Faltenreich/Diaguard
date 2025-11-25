@@ -17,8 +17,7 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.core.parameter.parametersOf
 
 @Serializable
-data class EntrySearchScreen(private val query: String = "") :
-    Screen {
+data class EntrySearchScreen(private val query: String) : Screen {
 
     @Composable
     override fun TopAppBar(): TopAppBarStyle {

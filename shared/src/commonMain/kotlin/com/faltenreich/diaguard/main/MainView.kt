@@ -38,6 +38,7 @@ import com.faltenreich.diaguard.measurement.category.list.MeasurementCategoryLis
 import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormScreen
 import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitListScreen
 import com.faltenreich.diaguard.navigation.NavigationEvent
+import com.faltenreich.diaguard.navigation.NavigationTarget
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBar
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBar
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
@@ -76,6 +77,12 @@ fun MainView(
             when (event) {
                 is NavigationEvent.PushScreen -> navController.navigate(
                     screen = event.screen,
+                    popHistory = event.popHistory,
+                )
+                is NavigationEvent.NavigateTo -> navController.navigate(
+                    screen = when (event.target) {
+                        is NavigationTarget.LicenseList -> LicenseListScreen
+                    },
                     popHistory = event.popHistory,
                 )
                 is NavigationEvent.PopScreen -> navController.popBackStack()

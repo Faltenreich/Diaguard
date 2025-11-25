@@ -10,11 +10,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.data.preview.PreviewScaffold
+import com.faltenreich.diaguard.navigation.NavigationTarget
 import com.faltenreich.diaguard.preference.color.ColorScheme
 import com.faltenreich.diaguard.preference.color.ColorSchemeForm
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesForm
 import com.faltenreich.diaguard.preference.food.FoodPreferenceListScreen
-import com.faltenreich.diaguard.preference.license.LicenseListScreen
 import com.faltenreich.diaguard.preference.list.item.PreferenceActionListItem
 import com.faltenreich.diaguard.preference.list.item.PreferenceCategoryListItem
 import com.faltenreich.diaguard.preference.screen.StartScreen
@@ -243,11 +243,7 @@ fun OverviewPreferenceList(
             PreferenceActionListItem(
                 title = stringResource(Res.string.licenses),
                 onClick = {
-                    onIntent(
-                        OverviewPreferenceListIntent.PushScreen(
-                            LicenseListScreen
-                        )
-                    )
+                    onIntent(OverviewPreferenceListIntent.NavigateTo(NavigationTarget.LicenseList))
                 },
             )
         }

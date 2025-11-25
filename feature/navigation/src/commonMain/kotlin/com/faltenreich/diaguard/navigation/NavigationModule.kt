@@ -1,9 +1,10 @@
 package com.faltenreich.diaguard.navigation
 
-import com.faltenreich.diaguard.navigation.bar.snackbar.ShowSnackbarUseCase
 import com.faltenreich.diaguard.navigation.bar.bottom.GetBottomAppBarStyleUseCase
+import com.faltenreich.diaguard.navigation.bar.snackbar.ShowSnackbarUseCase
 import com.faltenreich.diaguard.navigation.bar.top.GetTopAppBarStyleUseCase
 import com.faltenreich.diaguard.navigation.screen.CollectNavigationEventsUseCase
+import com.faltenreich.diaguard.navigation.screen.NavigateToUseCase
 import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
 import com.faltenreich.diaguard.navigation.screen.PushScreenUseCase
 import org.koin.core.module.dsl.factoryOf
@@ -17,6 +18,7 @@ fun navigationModule() = module {
     factoryOf(::GetTopAppBarStyleUseCase)
     factoryOf(::GetBottomAppBarStyleUseCase)
 
+    factoryOf(::NavigateToUseCase)
     factoryOf(::PushScreenUseCase)
     factoryOf(::PopScreenUseCase)
 

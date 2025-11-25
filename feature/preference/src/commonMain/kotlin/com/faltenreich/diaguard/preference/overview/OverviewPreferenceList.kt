@@ -14,7 +14,6 @@ import com.faltenreich.diaguard.navigation.NavigationTarget
 import com.faltenreich.diaguard.preference.color.ColorScheme
 import com.faltenreich.diaguard.preference.color.ColorSchemeForm
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesForm
-import com.faltenreich.diaguard.preference.food.FoodPreferenceListScreen
 import com.faltenreich.diaguard.preference.list.item.PreferenceActionListItem
 import com.faltenreich.diaguard.preference.list.item.PreferenceCategoryListItem
 import com.faltenreich.diaguard.preference.screen.StartScreen
@@ -112,7 +111,7 @@ fun OverviewPreferenceList(
             PreferenceActionListItem(
                 title = stringResource(Res.string.measurement_categories),
                 onClick = {
-                    // TODO: onIntent(OverviewPreferenceListIntent.PushScreen(MeasurementCategoryListScreen))
+                    onIntent(OverviewPreferenceListIntent.NavigateTo(NavigationTarget.MeasurementCategoryList))
                 },
             )
         }
@@ -120,7 +119,13 @@ fun OverviewPreferenceList(
             PreferenceActionListItem(
                 title = stringResource(Res.string.measurement_units),
                 onClick = {
-                    // TODO: onIntent(OverviewPreferenceListIntent.PushScreen(MeasurementUnitListScreen(mode = MeasurementUnitListMode.STROLL)))
+                    onIntent(
+                        OverviewPreferenceListIntent.NavigateTo(
+                            NavigationTarget.MeasurementUnitList(
+                                mode = NavigationTarget.MeasurementUnitList.Mode.STROLL,
+                            ),
+                        ),
+                    )
                 },
             )
         }
@@ -128,7 +133,7 @@ fun OverviewPreferenceList(
             PreferenceActionListItem(
                 title = stringResource(Res.string.tags),
                 onClick = {
-                    // TODO: onIntent(OverviewPreferenceListIntent.PushScreen(TagListScreen))
+                    onIntent(OverviewPreferenceListIntent.NavigateTo(NavigationTarget.TagList))
                 },
             )
         }
@@ -137,9 +142,7 @@ fun OverviewPreferenceList(
                 title = stringResource(Res.string.food),
                 onClick = {
                     onIntent(
-                        OverviewPreferenceListIntent.PushScreen(
-                            FoodPreferenceListScreen
-                        )
+                        OverviewPreferenceListIntent.NavigateTo(NavigationTarget.FoodPreferenceList)
                     )
                 },
             )
@@ -156,7 +159,7 @@ fun OverviewPreferenceList(
                 title = stringResource(Res.string.backup_write),
                 subtitle = stringResource(Res.string.backup_write_description),
                 onClick = {
-                    // TODO: onIntent(OverviewPreferenceListIntent.PushScreen(WriteBackupFormScreen))
+                    onIntent(OverviewPreferenceListIntent.NavigateTo(NavigationTarget.WriteBackupForm))
                 },
             )
         }
@@ -165,7 +168,7 @@ fun OverviewPreferenceList(
                 title = stringResource(Res.string.backup_read),
                 subtitle = stringResource(Res.string.backup_read_description),
                 onClick = {
-                    // TODO: onIntent(OverviewPreferenceListIntent.PushScreen(ReadBackupFormScreen))
+                    onIntent(OverviewPreferenceListIntent.NavigateTo(NavigationTarget.ReadBackupForm))
                 },
             )
         }

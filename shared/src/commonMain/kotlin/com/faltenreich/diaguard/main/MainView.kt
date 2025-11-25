@@ -36,6 +36,7 @@ import com.faltenreich.diaguard.main.menu.MainMenu
 import com.faltenreich.diaguard.measurement.category.form.MeasurementCategoryFormScreen
 import com.faltenreich.diaguard.measurement.category.list.MeasurementCategoryListScreen
 import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormScreen
+import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitListMode
 import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitListScreen
 import com.faltenreich.diaguard.navigation.NavigationEvent
 import com.faltenreich.diaguard.navigation.NavigationTarget
@@ -80,8 +81,19 @@ fun MainView(
                     popHistory = event.popHistory,
                 )
                 is NavigationEvent.NavigateTo -> navController.navigate(
-                    screen = when (event.target) {
+                    screen = when (val target = event.target) {
                         is NavigationTarget.LicenseList -> LicenseListScreen
+                        is NavigationTarget.MeasurementCategoryList -> MeasurementCategoryListScreen
+                        is NavigationTarget.FoodPreferenceList -> FoodPreferenceListScreen
+                        is NavigationTarget.MeasurementUnitList -> MeasurementUnitListScreen(
+                            mode = when (target.mode) {
+                                NavigationTarget.MeasurementUnitList.Mode.STROLL -> MeasurementUnitListMode.STROLL
+                                NavigationTarget.MeasurementUnitList.Mode.FIND -> MeasurementUnitListMode.FIND
+                            },
+                        )
+                        is NavigationTarget.ReadBackupForm -> ReadBackupFormScreen
+                        is NavigationTarget.TagList -> TagListScreen
+                        is NavigationTarget.WriteBackupForm -> WriteBackupFormScreen
                     },
                     popHistory = event.popHistory,
                 )

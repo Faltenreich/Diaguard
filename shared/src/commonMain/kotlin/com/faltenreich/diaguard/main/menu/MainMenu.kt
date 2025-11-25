@@ -7,10 +7,9 @@ import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.dashboard.DashboardScreen
 import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import com.faltenreich.diaguard.export.form.ExportFormScreen
-import com.faltenreich.diaguard.food.search.FoodSearchMode
 import com.faltenreich.diaguard.food.search.FoodSearchScreen
 import com.faltenreich.diaguard.log.LogScreen
-import com.faltenreich.diaguard.navigation.screen.Screen
+import com.faltenreich.diaguard.navigation.NavigationTarget
 import com.faltenreich.diaguard.preference.overview.OverviewPreferenceListScreen
 import com.faltenreich.diaguard.preference.screen.StartScreen
 import com.faltenreich.diaguard.statistic.StatisticScreen
@@ -28,7 +27,7 @@ import kotlin.reflect.KClass
 @Composable
 fun MainMenu(
     currentDestination: String?,
-    onItemClick: (screen: Screen, popHistory: Boolean) -> Unit,
+    onItemClick: (target: NavigationTarget, popHistory: Boolean) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier) {
@@ -36,19 +35,19 @@ fun MainMenu(
             label = StartScreen.DASHBOARD.labelResource,
             icon = StartScreen.DASHBOARD.iconResource,
             isSelected = currentDestination.isSelecting(DashboardScreen::class),
-            onClick = { onItemClick(DashboardScreen, true) },
+            onClick = { onItemClick(NavigationTarget.Dashboard, true) },
         )
         MainMenuItem(
             label = StartScreen.TIMELINE.labelResource,
             icon = StartScreen.TIMELINE.iconResource,
             isSelected = currentDestination.isSelecting(TimelineScreen::class),
-            onClick = { onItemClick(TimelineScreen, true) },
+            onClick = { onItemClick(NavigationTarget.Timeline, true) },
         )
         MainMenuItem(
             label = StartScreen.LOG.labelResource,
             icon = StartScreen.LOG.iconResource,
             isSelected = currentDestination.isSelecting(LogScreen::class),
-            onClick = { onItemClick(LogScreen, true) },
+            onClick = { onItemClick(NavigationTarget.Log, true) },
         )
 
         Divider(modifier = Modifier.padding(vertical = AppTheme.dimensions.padding.P_2))
@@ -57,25 +56,27 @@ fun MainMenu(
             label = Res.string.food,
             icon = null,
             isSelected = currentDestination.isSelecting(FoodSearchScreen::class),
-            onClick = { onItemClick(FoodSearchScreen(mode = FoodSearchMode.STROLL), false) },
+            onClick = { onItemClick(NavigationTarget.FoodSearch(
+                mode = NavigationTarget.FoodSearch.Mode.STROLL), false)
+            },
         )
         MainMenuItem(
             label = Res.string.statistic,
             icon = null,
             isSelected = currentDestination.isSelecting(StatisticScreen::class),
-            onClick = { onItemClick(StatisticScreen, false) },
+            onClick = { onItemClick(NavigationTarget.Statistic, false) },
         )
         MainMenuItem(
             label = Res.string.export,
             icon = null,
             isSelected = currentDestination.isSelecting(ExportFormScreen::class),
-            onClick = { onItemClick(ExportFormScreen, false) },
+            onClick = { onItemClick(NavigationTarget.ExportForm, false) },
         )
         MainMenuItem(
             label = Res.string.preferences,
             icon = null,
             isSelected = currentDestination.isSelecting(OverviewPreferenceListScreen::class),
-            onClick = { onItemClick(OverviewPreferenceListScreen, false) },
+            onClick = { onItemClick(NavigationTarget.OverviewPreferenceList, false) },
         )
     }
 }

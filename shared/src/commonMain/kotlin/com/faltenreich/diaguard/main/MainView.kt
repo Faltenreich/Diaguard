@@ -204,9 +204,9 @@ fun MainView(
         ) {
             MainMenu(
                 currentDestination = navController.currentDestination?.route,
-                onItemClick = { screen, popHistory ->
+                onItemClick = { target, popHistory ->
                     showMenu = false
-                    viewModel.dispatchIntent(MainIntent.PushScreen(screen, popHistory))
+                    viewModel.dispatchIntent(MainIntent.NavigateTo(target, popHistory))
                 },
             )
         }

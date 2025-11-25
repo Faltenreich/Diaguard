@@ -2,6 +2,8 @@ package com.faltenreich.diaguard.navigation
 
 sealed interface NavigationTarget {
 
+    data object Dashboard : NavigationTarget
+
     data class EntryForm(
         val entryId: Long = -1L,
         // TODO: Improve
@@ -10,6 +12,8 @@ sealed interface NavigationTarget {
     ) : NavigationTarget
 
     data class EntrySearch(val query: String = "") : NavigationTarget
+
+    data object ExportForm : NavigationTarget
 
     data class FoodForm(val foodId: Long = -1L) : NavigationTarget
 
@@ -26,6 +30,8 @@ sealed interface NavigationTarget {
     data object FoodPreferenceList : NavigationTarget
 
     data object LicenseList : NavigationTarget
+
+    data object Log : NavigationTarget
 
     data class MeasurementCategoryForm(val categoryId: Long = -1L) : NavigationTarget
 
@@ -44,6 +50,8 @@ sealed interface NavigationTarget {
         }
     }
 
+    data object OverviewPreferenceList : NavigationTarget
+
     data object ReadBackupForm : NavigationTarget
 
     data object Statistic : NavigationTarget
@@ -51,6 +59,8 @@ sealed interface NavigationTarget {
     data class TagDetail(val tagId: Long) : NavigationTarget
 
     data object TagList : NavigationTarget
+
+    data object Timeline : NavigationTarget
 
     data object WriteBackupForm : NavigationTarget
 }

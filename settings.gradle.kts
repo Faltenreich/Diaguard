@@ -41,5 +41,6 @@ include(
     ":core:test",
     ":core:view",
 
+    ":feature:datetime",
     ":feature:navigation",
 )

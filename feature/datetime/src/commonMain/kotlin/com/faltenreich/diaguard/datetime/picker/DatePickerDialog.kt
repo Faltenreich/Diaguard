@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.datetime.picker
 
 import androidx.compose.material3.DatePicker
+import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDatePickerState
@@ -10,9 +11,9 @@ import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.injection.inject
 import com.faltenreich.diaguard.data.preview.PreviewScaffold
-import diaguard.shared.generated.resources.Res
-import diaguard.shared.generated.resources.cancel
-import diaguard.shared.generated.resources.ok
+import diaguard.feature.datetime.generated.resources.Res
+import diaguard.feature.datetime.generated.resources.cancel
+import diaguard.feature.datetime.generated.resources.ok
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -27,7 +28,7 @@ fun DatePickerDialog(
     val state = rememberDatePickerState(
         initialSelectedDateMillis = date.atStartOfDay().epochMilliseconds,
     )
-    androidx.compose.material3.DatePickerDialog(
+    DatePickerDialog(
         onDismissRequest = onDismissRequest,
         confirmButton = {
             TextButton(

@@ -34,6 +34,7 @@ kotlin {
                 implementation(project(":core:serialization"))
                 implementation(project(":core:system"))
                 implementation(project(":core:view"))
+                implementation(project(":feature:datetime"))
                 implementation(project(":feature:navigation"))
                 implementation(libs.aboutlibraries.core)
                 implementation(libs.aboutlibraries.compose)

@@ -31,5 +31,10 @@ kotlin {
                 implementation(libs.koin.viewmodel)
             }
         }
+        all {
+            languageSettings {
+                optIn("androidx.compose.material3.ExperimentalMaterial3Api")
+            }
+        }
     }
 }

@@ -255,7 +255,6 @@
     <string name="terms_and_conditions_url">https://github.com/Faltenreich/Diaguard/tree/master/resource/legal/terms/TERMS_AND_CONDITIONS_EN.md</string>
     <string name="therapy">Therapy</string>
     <string name="timeline">Timeline</string>
-    <string name="time_select">Select time</string>
     <string name="time_midnight">AM</string>
     <string name="time_noon">PM</string>
     <string name="today">Today</string>

@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.datetime.picker
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.DatePickerDefaults.dateFormatter
+import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.DateRangePicker
 import androidx.compose.material3.DateRangePickerDefaults
 import androidx.compose.material3.DisplayMode
@@ -17,9 +18,9 @@ import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import com.faltenreich.diaguard.datetime.DateRange
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.injection.inject
-import diaguard.shared.generated.resources.Res
-import diaguard.shared.generated.resources.cancel
-import diaguard.shared.generated.resources.ok
+import diaguard.feature.datetime.generated.resources.Res
+import diaguard.feature.datetime.generated.resources.cancel
+import diaguard.feature.datetime.generated.resources.ok
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -35,7 +36,7 @@ fun DateRangePickerDialog(
         initialSelectedEndDateMillis = dateRange.endInclusive.atStartOfDay().millisSince1970,
         initialDisplayMode = DisplayMode.Picker,
     )
-    androidx.compose.material3.DatePickerDialog(
+    DatePickerDialog(
         onDismissRequest = onDismissRequest,
         confirmButton = {
             TextButton(

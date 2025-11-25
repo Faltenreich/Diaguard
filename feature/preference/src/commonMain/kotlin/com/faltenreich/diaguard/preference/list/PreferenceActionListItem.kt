@@ -7,7 +7,7 @@ import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-fun PreferenceActionListItem(
+internal fun PreferenceActionListItem(
     title: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,

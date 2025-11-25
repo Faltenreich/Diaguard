@@ -5,7 +5,8 @@ import com.faltenreich.diaguard.persistence.keyvalue.read
 import com.faltenreich.diaguard.persistence.keyvalue.write
 import kotlinx.coroutines.flow.Flow
 
-class PreferenceDao(
+@PublishedApi
+internal class PreferenceDao(
     @PublishedApi internal val keyValueStore: KeyValueStore,
 ) {
 

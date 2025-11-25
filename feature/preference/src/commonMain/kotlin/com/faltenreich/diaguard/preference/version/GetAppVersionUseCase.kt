@@ -4,7 +4,7 @@ import com.faltenreich.diaguard.config.BuildConfig
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 
-class GetAppVersionUseCase(
+internal class GetAppVersionUseCase(
     private val buildConfig: BuildConfig,
 ) {
 

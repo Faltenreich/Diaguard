@@ -67,7 +67,7 @@ import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-fun OverviewPreferenceList(
+internal fun OverviewPreferenceList(
     state: OverviewPreferenceListState?,
     onIntent: (OverviewPreferenceListIntent) -> Unit,
     modifier: Modifier = Modifier,

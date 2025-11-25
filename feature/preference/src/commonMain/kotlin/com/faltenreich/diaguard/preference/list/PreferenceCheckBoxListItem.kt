@@ -8,7 +8,7 @@ import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-fun PreferenceCheckBoxListItem(
+internal fun PreferenceCheckBoxListItem(
     title: String,
     isChecked: Boolean,
     onCheckedChange: (Boolean) -> Unit,

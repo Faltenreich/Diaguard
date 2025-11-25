@@ -11,7 +11,7 @@ import diaguard.feature.preference.generated.resources.Res
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-fun LicenseList(
+internal fun LicenseList(
     onIntent: (LicenseListIntent) -> Unit,
     modifier: Modifier = Modifier,
 ) {

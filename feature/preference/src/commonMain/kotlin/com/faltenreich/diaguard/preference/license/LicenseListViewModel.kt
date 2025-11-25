@@ -4,7 +4,7 @@ import com.faltenreich.diaguard.architecture.viewmodel.ViewModel
 import com.faltenreich.diaguard.system.web.UrlOpener
 import kotlinx.coroutines.flow.emptyFlow
 
-class LicenseListViewModel(
+internal class LicenseListViewModel(
     private val urlOpener: UrlOpener,
 ) : ViewModel<Unit, LicenseListIntent, Unit>() {
 

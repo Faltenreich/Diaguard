@@ -5,7 +5,7 @@ import com.faltenreich.diaguard.localization.NumberFormatter
 import diaguard.feature.preference.generated.resources.Res
 import diaguard.feature.preference.generated.resources.decimal_places_illustration
 
-class IllustrateDecimalPlacesUseCase(
+internal class IllustrateDecimalPlacesUseCase(
     private val numberFormatter: NumberFormatter,
     private val localization: Localization,
 ) {

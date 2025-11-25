@@ -27,7 +27,7 @@ import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-fun StartScreenListItem(
+internal fun StartScreenListItem(
     startScreen: StartScreen,
     isSelected: Boolean,
     onClick: () -> Unit,

@@ -3,8 +3,7 @@ package com.faltenreich.diaguard.data.preference
 import com.faltenreich.diaguard.localization.Localization
 import kotlinx.coroutines.flow.Flow
 
-// TODO: Migrate preferences
-class PreferenceRepository(
+class PreferenceRepository internal constructor(
     @PublishedApi internal val dao: PreferenceDao,
     private val localization: Localization,
 ) {

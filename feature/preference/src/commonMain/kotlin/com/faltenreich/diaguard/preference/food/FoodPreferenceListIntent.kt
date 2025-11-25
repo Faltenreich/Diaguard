@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.preference.food
 
-sealed interface FoodPreferenceListIntent {
+internal sealed interface FoodPreferenceListIntent {
 
     data class SetShowCustomFood(val showCustomFood: Boolean) : FoodPreferenceListIntent
 

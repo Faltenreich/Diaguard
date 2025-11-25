@@ -9,7 +9,7 @@ import com.faltenreich.diaguard.data.preference.food.ShowCommonFoodPreference
 import com.faltenreich.diaguard.data.preference.food.ShowCustomFoodPreference
 import kotlinx.coroutines.flow.combine
 
-class FoodPreferenceListViewModel(
+internal class FoodPreferenceListViewModel(
     getPreference: GetPreferenceUseCase,
     private val setPreference: SetPreferenceUseCase,
     private val openUrl: OpenUrlUseCase,

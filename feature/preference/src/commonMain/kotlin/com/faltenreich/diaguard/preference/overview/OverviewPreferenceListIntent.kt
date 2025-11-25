@@ -4,7 +4,7 @@ import com.faltenreich.diaguard.navigation.NavigationTarget
 import com.faltenreich.diaguard.data.preference.color.ColorScheme
 import com.faltenreich.diaguard.data.preference.startscreen.StartScreen
 
-sealed interface OverviewPreferenceListIntent {
+internal sealed interface OverviewPreferenceListIntent {
 
     data class SetColorScheme(val colorScheme: ColorScheme) : OverviewPreferenceListIntent
 

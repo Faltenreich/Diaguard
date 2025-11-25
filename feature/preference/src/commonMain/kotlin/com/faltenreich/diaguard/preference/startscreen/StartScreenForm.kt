@@ -18,7 +18,7 @@ import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-fun StartScreenForm(
+internal fun StartScreenForm(
     state: StartScreen,
     onChange: (StartScreen) -> Unit,
     modifier: Modifier = Modifier,

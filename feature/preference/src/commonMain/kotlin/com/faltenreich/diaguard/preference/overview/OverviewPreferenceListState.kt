@@ -3,7 +3,7 @@ package com.faltenreich.diaguard.preference.overview
 import com.faltenreich.diaguard.data.preference.color.ColorScheme
 import com.faltenreich.diaguard.data.preference.startscreen.StartScreen
 
-data class OverviewPreferenceListState(
+internal data class OverviewPreferenceListState(
     val appVersion: String,
     val colorScheme: ColorScheme,
     val decimalPlaces: DecimalPlaces,

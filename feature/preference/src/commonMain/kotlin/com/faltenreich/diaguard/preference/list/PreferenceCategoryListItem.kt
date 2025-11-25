@@ -22,7 +22,7 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-fun PreferenceCategoryListItem(
+internal fun PreferenceCategoryListItem(
     title: String,
     modifier: Modifier = Modifier,
     icon: DrawableResource? = null,

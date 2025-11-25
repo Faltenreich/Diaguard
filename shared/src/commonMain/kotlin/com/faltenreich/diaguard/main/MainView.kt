@@ -124,9 +124,9 @@ fun MainView(
                         is NavigationTarget.Timeline -> TimelineScreen
                         is NavigationTarget.WriteBackupForm -> WriteBackupFormScreen
                     },
-                    popHistory = event.popHistory,
+                    popHistory = event.clearHistory,
                 )
-                is NavigationEvent.PopScreen -> navController.popBackStack()
+                is NavigationEvent.NavigateBack -> navController.popBackStack()
                 is NavigationEvent.ShowSnackbar -> snackbarHostState.showSnackbar(event.message)
             }
         }
@@ -163,7 +163,7 @@ fun MainView(
                     style = state.topAppBarStyle,
                     navigationIcon = {
                         if (navController.previousBackStackEntry != null) {
-                            IconButton(onClick = { viewModel.dispatchIntent(MainIntent.PopScreen) }) {
+                            IconButton(onClick = { viewModel.dispatchIntent(MainIntent.NavigateBack) }) {
                                 Icon(
                                     painter = painterResource(
                                         diaguard.core.view.generated.resources.Res.drawable.ic_arrow_back,

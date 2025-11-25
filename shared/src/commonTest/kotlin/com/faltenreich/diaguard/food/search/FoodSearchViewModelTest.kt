@@ -24,7 +24,7 @@ class FoodSearchViewModelTest : TestSuite() {
     fun `pop screen when intending to close`() = runTest {
         navigation.events.test {
             viewModel.handleIntent(FoodSearchIntent.Close)
-            assertTrue(awaitItem() is NavigationEvent.PopScreen)
+            assertTrue(awaitItem() is NavigationEvent.NavigateBack)
         }
     }
 

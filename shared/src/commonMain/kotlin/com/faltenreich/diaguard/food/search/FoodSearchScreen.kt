@@ -65,7 +65,7 @@ data class FoodSearchScreen(private val modeOrdinal: Int) :
                         query = input
                         viewModel.dispatchIntent(FoodSearchIntent.SetQuery(input))
                     },
-                    popScreen = { viewModel.dispatchIntent(FoodSearchIntent.Close) },
+                    onBackIconClick = { viewModel.dispatchIntent(FoodSearchIntent.Close) },
                     modifier = Modifier.fillMaxWidth(),
                 )
             }

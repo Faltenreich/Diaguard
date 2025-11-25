@@ -50,7 +50,7 @@ class TagDetailViewModelTest : TestSuite() {
             viewModel.handleIntent(TagDetailIntent.SetName("update"))
             viewModel.handleIntent(TagDetailIntent.UpdateTag)
 
-            assertTrue(awaitItem() is NavigationEvent.PopScreen)
+            assertTrue(awaitItem() is NavigationEvent.NavigateBack)
         }
     }
 
@@ -59,7 +59,7 @@ class TagDetailViewModelTest : TestSuite() {
         navigation.events.test {
             viewModel.handleIntent(TagDetailIntent.UpdateTag)
 
-            assertTrue(awaitItem() is NavigationEvent.PopScreen)
+            assertTrue(awaitItem() is NavigationEvent.NavigateBack)
         }
     }
 

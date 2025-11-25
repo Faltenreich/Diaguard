@@ -10,8 +10,8 @@ import com.faltenreich.diaguard.entry.form.StoreEntryUseCase
 import com.faltenreich.diaguard.entry.list.EntryListPagingSource
 import com.faltenreich.diaguard.injection.inject
 import com.faltenreich.diaguard.navigation.NavigationTarget
+import com.faltenreich.diaguard.navigation.screen.NavigateBackUseCase
 import com.faltenreich.diaguard.navigation.screen.NavigateToUseCase
-import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
 import com.faltenreich.diaguard.tag.StoreTagUseCase
 import com.faltenreich.diaguard.tag.ValidateTagUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,7 +28,7 @@ class TagDetailViewModel(
     private val deleteEntry: DeleteEntryUseCase = inject(),
     private val storeEntry: StoreEntryUseCase = inject(),
     private val navigateTo: NavigateToUseCase = inject(),
-    private val popScreen: PopScreenUseCase = inject(),
+    private val navigateBack: NavigateBackUseCase = inject(),
 ) : ViewModel<TagDetailState, TagDetailIntent, Unit>() {
 
     private val tag: Tag.Local = checkNotNull(getTagById(tagId))
@@ -77,7 +77,7 @@ class TagDetailViewModel(
         when (val result = validateTag(tag)) {
             is ValidationResult.Success -> {
                 storeTag(tag)
-                popScreen()
+                navigateBack()
             }
             is ValidationResult.Failure -> {
                 error.update { result.error }
@@ -87,6 +87,6 @@ class TagDetailViewModel(
 
     private suspend fun deleteTag() {
         deleteTag(tag)
-        popScreen()
+        navigateBack()
     }
 }

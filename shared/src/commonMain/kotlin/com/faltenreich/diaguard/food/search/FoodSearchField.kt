@@ -8,9 +8,9 @@ import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
+import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import com.faltenreich.diaguard.view.button.ClearButton
 import com.faltenreich.diaguard.view.input.SearchField
-import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import diaguard.core.view.generated.resources.ic_arrow_back
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.food_search_prompt
@@ -22,7 +22,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 fun FoodSearchField(
     query: String,
     onQueryChange: (String) -> Unit,
-    popScreen: () -> Unit,
+    onBackIconClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val focusManager = LocalFocusManager.current
@@ -31,7 +31,7 @@ fun FoodSearchField(
         query = query,
         placeholder = stringResource(Res.string.food_search_prompt),
         leadingIcon = {
-            IconButton(onClick = popScreen) {
+            IconButton(onClick = onBackIconClick) {
                 Icon(
                     painter = painterResource(diaguard.core.view.generated.resources.Res.drawable.ic_arrow_back),
                     contentDescription = null,
@@ -63,6 +63,6 @@ private fun Preview() = PreviewScaffold {
     FoodSearchField(
         query = "Query",
         onQueryChange = {},
-        popScreen = {},
+        onBackIconClick = {},
     )
 }

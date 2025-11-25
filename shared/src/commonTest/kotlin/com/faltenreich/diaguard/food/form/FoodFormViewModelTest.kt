@@ -211,7 +211,7 @@ class FoodFormViewModelTest : TestSuite() {
             viewModel.handleIntent(FoodFormIntent.Submit)
 
             state.cancelAndConsumeRemainingEvents()
-            assertTrue(events.awaitItem() is NavigationEvent.PopScreen)
+            assertTrue(events.awaitItem() is NavigationEvent.NavigateBack)
             assertEquals(
                 expected = name,
                 actual = foodRepository.getById(food.id)?.name,
@@ -248,7 +248,7 @@ class FoodFormViewModelTest : TestSuite() {
             viewModel.handleIntent(FoodFormIntent.Delete(needsConfirmation = false))
 
             val event = awaitItem()
-            assertTrue(event is NavigationEvent.PopScreen)
+            assertTrue(event is NavigationEvent.NavigateBack)
             assertNull(foodRepository.getById(food.id))
         }
     }
@@ -276,7 +276,7 @@ class FoodFormViewModelTest : TestSuite() {
             viewModel.handleIntent(FoodFormIntent.Delete(needsConfirmation = false))
 
             val event = awaitItem()
-            assertTrue(event is NavigationEvent.PopScreen)
+            assertTrue(event is NavigationEvent.NavigateBack)
         }
     }
 }

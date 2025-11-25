@@ -11,8 +11,8 @@ import com.faltenreich.diaguard.measurement.property.usecase.GetMeasurementPrope
 import com.faltenreich.diaguard.measurement.property.usecase.StoreMeasurementPropertyUseCase
 import com.faltenreich.diaguard.navigation.NavigationTarget
 import com.faltenreich.diaguard.navigation.bar.snackbar.ShowSnackbarUseCase
+import com.faltenreich.diaguard.navigation.screen.NavigateBackUseCase
 import com.faltenreich.diaguard.navigation.screen.NavigateToUseCase
-import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
 import com.faltenreich.diaguard.preference.color.ColorSchemePreference
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import diaguard.shared.generated.resources.Res
@@ -30,7 +30,7 @@ class MeasurementCategoryFormViewModel(
     private val storeProperty: StoreMeasurementPropertyUseCase = inject(),
     private val deleteCategory: DeleteMeasurementCategoryUseCase = inject(),
     private val navigateTo: NavigateToUseCase = inject(),
-    private val popScreen: PopScreenUseCase = inject(),
+    private val navigateBack: NavigateBackUseCase = inject(),
     private val showSnackbar: ShowSnackbarUseCase = inject(),
 ) : ViewModel<MeasurementCategoryFormState, MeasurementCategoryFormIntent, Unit>() {
 
@@ -132,7 +132,7 @@ class MeasurementCategoryFormViewModel(
             isActive = isActive.value,
         )
         storeCategory(category)
-        popScreen()
+        navigateBack()
     }
 
     private suspend fun deleteCategory(needsConfirmation: Boolean) {
@@ -141,7 +141,7 @@ class MeasurementCategoryFormViewModel(
                 deleteDialog.update { MeasurementCategoryFormState.DeleteDialog }
             } else {
                 deleteCategory(category)
-                popScreen()
+                navigateBack()
             }
         } else {
             alertDialog.update { MeasurementCategoryFormState.AlertDialog }

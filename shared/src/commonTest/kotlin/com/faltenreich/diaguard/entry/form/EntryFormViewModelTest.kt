@@ -166,7 +166,7 @@ class EntryFormViewModelTest : TestSuite() {
                 expected = 10.0,
                 actual = values.first().value,
             )
-            assertTrue(navigation.awaitItem() is NavigationEvent.PopScreen)
+            assertTrue(navigation.awaitItem() is NavigationEvent.NavigateBack)
         }
     }
 
@@ -188,7 +188,7 @@ class EntryFormViewModelTest : TestSuite() {
 
         navigation.events.test {
             viewModel.handleIntent(EntryFormIntent.Delete(needsConfirmation = true))
-            assertTrue(awaitItem() is NavigationEvent.PopScreen)
+            assertTrue(awaitItem() is NavigationEvent.NavigateBack)
         }
     }
 

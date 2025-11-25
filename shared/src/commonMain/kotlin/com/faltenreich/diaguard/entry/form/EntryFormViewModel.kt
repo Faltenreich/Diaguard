@@ -20,8 +20,8 @@ import com.faltenreich.diaguard.food.eaten.FoodEatenInputState
 import com.faltenreich.diaguard.injection.inject
 import com.faltenreich.diaguard.logging.Logger
 import com.faltenreich.diaguard.navigation.NavigationTarget
+import com.faltenreich.diaguard.navigation.screen.NavigateBackUseCase
 import com.faltenreich.diaguard.navigation.screen.NavigateToUseCase
-import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
 import com.faltenreich.diaguard.system.permission.HasPermissionUseCase
 import com.faltenreich.diaguard.system.permission.Permission
 import com.faltenreich.diaguard.system.permission.PermissionResult
@@ -48,7 +48,7 @@ class EntryFormViewModel(
     getTagSuggestions: GetTagSuggestionsUseCase = inject(),
     getDateTimeForEntry: GetDateTimeForEntryUseCase = inject(),
     private val navigateTo: NavigateToUseCase = inject(),
-    private val popScreen: PopScreenUseCase = inject(),
+    private val navigateBack: NavigateBackUseCase = inject(),
     private val validate: ValidateEntryFormInputUseCase = inject(),
     private val storeEntry: StoreEntryUseCase = inject(),
     private val deleteEntry: DeleteEntryUseCase = inject(),
@@ -215,7 +215,7 @@ class EntryFormViewModel(
         when (val result = validate(input)) {
             is ValidationResult.Success -> {
                 storeEntry(input)
-                popScreen()
+                navigateBack()
             }
 
             is ValidationResult.Failure -> {
@@ -231,10 +231,10 @@ class EntryFormViewModel(
                 deleteDialog.update { EntryFormState.DeleteDialog }
             } else {
                 deleteEntry(entry)
-                popScreen()
+                navigateBack()
             }
         } else {
-            popScreen()
+            navigateBack()
         }
     }
 

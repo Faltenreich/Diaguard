@@ -61,7 +61,7 @@ class MeasurementCategoryFormDialogDialogViewModelTest : TestSuite() {
                 expected = update,
                 actual = categoryRepository.getById(category.id)!!.name,
             )
-            assertTrue(awaitItem() is NavigationEvent.PopScreen)
+            assertTrue(awaitItem() is NavigationEvent.NavigateBack)
         }
     }
 

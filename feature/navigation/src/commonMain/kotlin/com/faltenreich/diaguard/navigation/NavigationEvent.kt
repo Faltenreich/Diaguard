@@ -12,10 +12,10 @@ sealed interface NavigationEvent {
 
     data class NavigateTo(
         val target: NavigationTarget,
-        val popHistory: Boolean,
+        val clearHistory: Boolean,
     ) : NavigationEvent
 
-    data object PopScreen : NavigationEvent
+    data object NavigateBack : NavigationEvent
 
     data class ShowSnackbar(
         val message: String,

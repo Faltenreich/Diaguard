@@ -6,8 +6,8 @@ import com.faltenreich.diaguard.log.LogScreen
 import com.faltenreich.diaguard.navigation.bar.bottom.GetBottomAppBarStyleUseCase
 import com.faltenreich.diaguard.navigation.bar.top.GetTopAppBarStyleUseCase
 import com.faltenreich.diaguard.navigation.screen.CollectNavigationEventsUseCase
+import com.faltenreich.diaguard.navigation.screen.NavigateBackUseCase
 import com.faltenreich.diaguard.navigation.screen.NavigateToUseCase
-import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
 import com.faltenreich.diaguard.preference.color.ColorSchemePreference
 import com.faltenreich.diaguard.preference.screen.StartScreen
 import com.faltenreich.diaguard.preference.screen.StartScreenPreference
@@ -22,7 +22,7 @@ class MainViewModel(
     getBottomAppBarStyle: GetBottomAppBarStyleUseCase,
     private val windowController: WindowController,
     private val navigateTo: NavigateToUseCase,
-    private val popScreen: PopScreenUseCase,
+    private val navigateBack: NavigateBackUseCase,
     val collectNavigationEvents: CollectNavigationEventsUseCase,
 ) : ViewModel<MainState, MainIntent, Unit>() {
 
@@ -49,7 +49,7 @@ class MainViewModel(
             is MainIntent.TintStatusBars ->
                 windowController.setIsAppearanceLightStatusBars(isAppearanceLightStatusBars)
             is MainIntent.NavigateTo -> navigateTo(target, popHistory)
-            is MainIntent.PopScreen -> popScreen()
+            is MainIntent.NavigateBack -> navigateBack()
         }
     }
 }

@@ -79,7 +79,7 @@ class MeasurementPropertyFormDialogDialogViewModelTest : TestSuite() {
             assertEquals(expected = valueRange.maximum.toDouble(), actual = update.range.maximum)
             assertEquals(expected = valueRange.isHighlighted, actual = update.range.isHighlighted)
 
-            assertTrue(awaitItem() is NavigationEvent.PopScreen)
+            assertTrue(awaitItem() is NavigationEvent.NavigateBack)
         }
     }
 

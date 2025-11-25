@@ -6,8 +6,8 @@ import com.faltenreich.diaguard.architecture.viewmodel.ViewModel
 import com.faltenreich.diaguard.data.food.search.FoodSearchParams
 import com.faltenreich.diaguard.injection.inject
 import com.faltenreich.diaguard.navigation.NavigationTarget
+import com.faltenreich.diaguard.navigation.screen.NavigateBackUseCase
 import com.faltenreich.diaguard.navigation.screen.NavigateToUseCase
-import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
 import com.faltenreich.diaguard.preference.food.ShowBrandedFoodPreference
 import com.faltenreich.diaguard.preference.food.ShowCommonFoodPreference
 import com.faltenreich.diaguard.preference.food.ShowCustomFoodPreference
@@ -26,7 +26,7 @@ class FoodSearchViewModel(
     getPreference: GetPreferenceUseCase = inject(),
     private val searchFood: SearchFoodUseCase = inject(),
     private val navigateTo: NavigateToUseCase = inject(),
-    private val popScreen: PopScreenUseCase = inject(),
+    private val navigateBack: NavigateBackUseCase = inject(),
 ) : ViewModel<FoodSearchState, FoodSearchIntent, Unit>() {
 
     private val _query = MutableStateFlow("")
@@ -62,7 +62,7 @@ class FoodSearchViewModel(
     override suspend fun handleIntent(intent: FoodSearchIntent) {
         when (intent) {
             is FoodSearchIntent.SetQuery -> _query.update { intent.query }
-            is FoodSearchIntent.Close -> popScreen()
+            is FoodSearchIntent.Close -> navigateBack()
             is FoodSearchIntent.Create -> navigateTo(NavigationTarget.FoodForm())
             is FoodSearchIntent.OpenFood -> navigateTo(NavigationTarget.FoodForm(foodId = intent.food.id))
             is FoodSearchIntent.OpenPreferences -> navigateTo(NavigationTarget.FoodPreferenceList)

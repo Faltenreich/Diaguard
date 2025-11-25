@@ -8,8 +8,8 @@ import com.faltenreich.diaguard.food.nutrient.FoodNutrient
 import com.faltenreich.diaguard.food.nutrient.FoodNutrientData
 import com.faltenreich.diaguard.injection.inject
 import com.faltenreich.diaguard.navigation.NavigationTarget
+import com.faltenreich.diaguard.navigation.screen.NavigateBackUseCase
 import com.faltenreich.diaguard.navigation.screen.NavigateToUseCase
-import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
@@ -25,7 +25,7 @@ class FoodFormViewModel(
     private val storeFood: StoreFoodUseCase = inject(),
     private val deleteFood: DeleteFoodUseCase = inject(),
     private val navigateTo: NavigateToUseCase = inject(),
-    private val popScreen: PopScreenUseCase = inject(),
+    private val navigateBack: NavigateBackUseCase = inject(),
 ) : ViewModel<FoodFormState, FoodFormIntent, Unit>() {
 
     private val food = foodId?.let(getFoodById::invoke)
@@ -97,7 +97,7 @@ class FoodFormViewModel(
         when (val result = validateInput(input, food)) {
             is ValidationResult.Success -> {
                 storeFood(result.data)
-                popScreen()
+                navigateBack()
             }
             is ValidationResult.Failure -> {
                 error.update { result.error }
@@ -112,10 +112,10 @@ class FoodFormViewModel(
                 deleteDialog.update { FoodFormState.DeleteDialog }
             } else {
                 deleteFood(food)
-                popScreen()
+                navigateBack()
             }
         } else {
-            popScreen()
+            navigateBack()
         }
     }
 }

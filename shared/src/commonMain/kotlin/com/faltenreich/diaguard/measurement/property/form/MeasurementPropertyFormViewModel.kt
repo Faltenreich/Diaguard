@@ -15,8 +15,8 @@ import com.faltenreich.diaguard.measurement.property.usecase.GetMeasurementPrope
 import com.faltenreich.diaguard.measurement.property.usecase.StoreMeasurementPropertyUseCase
 import com.faltenreich.diaguard.measurement.unit.usecase.GetMeasurementUnitSuggestionsUseCase
 import com.faltenreich.diaguard.navigation.NavigationTarget
+import com.faltenreich.diaguard.navigation.screen.NavigateBackUseCase
 import com.faltenreich.diaguard.navigation.screen.NavigateToUseCase
-import com.faltenreich.diaguard.navigation.screen.PopScreenUseCase
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesPreference
 import com.faltenreich.diaguard.preference.store.GetPreferenceUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -37,7 +37,7 @@ class MeasurementPropertyFormViewModel(
     private val deleteProperty: DeleteMeasurementPropertyUseCase = inject(),
     private val storeCategory: StoreMeasurementCategoryUseCase = inject(),
     private val navigateTo: NavigateToUseCase = inject(),
-    private val popScreen: PopScreenUseCase = inject(),
+    private val navigateBack: NavigateBackUseCase = inject(),
 ) : ViewModel<MeasurementPropertyFormState, MeasurementPropertyFormIntent, Unit>() {
 
     private val category = checkNotNull(getCategoryById(categoryId))
@@ -139,7 +139,7 @@ class MeasurementPropertyFormViewModel(
         when (storeProperty(property.value)) {
             is Result.Success -> {
                 storeCategory(category)
-                popScreen()
+                navigateBack()
             }
             is Result.Failure -> errorBar.update { MeasurementPropertyFormState.ErrorBar }
         }
@@ -148,14 +148,14 @@ class MeasurementPropertyFormViewModel(
     private suspend fun delete(intent: MeasurementPropertyFormIntent.Delete) {
         when (val property = property.value) {
             is MeasurementProperty.Seed,
-            is MeasurementProperty.User-> popScreen()
+            is MeasurementProperty.User-> navigateBack()
             is MeasurementProperty.Local -> {
                 if (property.isUserGenerated) {
                     if (intent.needsConfirmation) {
                         dialog.update { MeasurementPropertyFormState.Dialog.Delete }
                     } else {
                         deleteProperty(property)
-                        popScreen()
+                        navigateBack()
                     }
                 } else {
                     dialog.update { MeasurementPropertyFormState.Dialog.Alert }

@@ -66,8 +66,8 @@ class MainViewModelTest : TestSuite() {
     @Test
     fun `closes screen`() = runTest {
         navigation.events.test {
-            viewModel.handleIntent(MainIntent.PopScreen)
-            assertTrue(awaitItem() is NavigationEvent.PopScreen)
+            viewModel.handleIntent(MainIntent.NavigateBack)
+            assertTrue(awaitItem() is NavigationEvent.NavigateBack)
         }
     }
 }

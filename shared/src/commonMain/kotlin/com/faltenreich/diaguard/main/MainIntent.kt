@@ -8,5 +8,5 @@ sealed interface MainIntent {
 
     data class NavigateTo(val target: NavigationTarget, val popHistory: Boolean) : MainIntent
 
-    data object PopScreen : MainIntent
+    data object NavigateBack : MainIntent
 }

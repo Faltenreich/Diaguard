@@ -20,7 +20,7 @@ jobs:
       matrix:
         api-level:
           - 21
-          - 33
+          - 36
 
     steps:
     - name: Checkout

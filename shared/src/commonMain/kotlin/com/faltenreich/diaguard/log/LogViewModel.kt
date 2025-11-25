@@ -74,7 +74,7 @@ class LogViewModel(
                         nextItems = nextItems,
                     )
                 }
-                is LogIntent.CreateEntry -> navigateTo(NavigationTarget.EntryForm(dateTimeIsoString = date?.atStartOfDay()?.isoString))
+                is LogIntent.CreateEntry -> navigateTo(NavigationTarget.EntryForm(dateTime = date?.atStartOfDay()))
                 is LogIntent.OpenEntry -> navigateTo(NavigationTarget.EntryForm(entryId = entry.id))
                 is LogIntent.DeleteEntry -> deleteEntry(entry)
                 is LogIntent.RestoreEntry -> {

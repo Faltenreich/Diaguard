@@ -1,13 +1,14 @@
 package com.faltenreich.diaguard.navigation
 
+import com.faltenreich.diaguard.datetime.DateTime
+
 sealed interface NavigationTarget {
 
     data object Dashboard : NavigationTarget
 
     data class EntryForm(
         val entryId: Long = -1L,
-        // TODO: Improve
-        val dateTimeIsoString: String? = null,
+        val dateTime: DateTime? = null,
         val foodId: Long = -1L,
     ) : NavigationTarget
 

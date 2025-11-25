@@ -86,7 +86,7 @@ fun MainView(
                         is NavigationTarget.Dashboard -> DashboardScreen
                         is NavigationTarget.EntryForm -> EntryFormScreen(
                             entryId = target.entryId,
-                            dateTimeIsoString = target.dateTimeIsoString,
+                            dateTimeIsoString = target.dateTime?.isoString,
                             foodId = target.foodId,
                         )
                         is NavigationTarget.EntrySearch -> EntrySearchScreen(target.query)
@@ -145,9 +145,11 @@ fun MainView(
 
     LaunchedEffect(shortcut) {
         when (shortcut) {
-            Shortcut.CREATE_ENTRY -> navController.navigate(
-                screen = EntryFormScreen(),
-                popHistory = true,
+            Shortcut.CREATE_ENTRY -> viewModel.dispatchIntent(
+                MainIntent.NavigateTo(
+                    target = NavigationTarget.EntryForm(),
+                    popHistory = true,
+                ),
             )
             null -> Unit
         }

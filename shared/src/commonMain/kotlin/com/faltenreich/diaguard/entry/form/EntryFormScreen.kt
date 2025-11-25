@@ -3,9 +3,6 @@ package com.faltenreich.diaguard.entry.form
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import com.faltenreich.diaguard.data.entry.Entry
-import com.faltenreich.diaguard.data.food.Food
-import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.food.search.FoodSelectionEvent
 import com.faltenreich.diaguard.food.search.FoodSelectionViewModel
 import com.faltenreich.diaguard.injection.sharedViewModel
@@ -34,18 +31,6 @@ data class EntryFormScreen(
     private val dateTimeIsoString: String?,
     private val foodId: Long,
 ) : Screen {
-
-    @Deprecated("Remove optionals to harden call-site")
-    constructor(
-        entry: Entry.Local? = null,
-        date: Date? = null,
-        food: Food.Local? = null,
-    ) : this(
-        entryId = entry?.id ?: -1,
-        // Attention: Will be converted to DateTime at Time now in GetDateTimeForEntryUseCase
-        dateTimeIsoString = date?.atStartOfDay()?.isoString,
-        foodId = food?.id ?: -1,
-    )
 
     @Composable
     override fun TopAppBar(): TopAppBarStyle {

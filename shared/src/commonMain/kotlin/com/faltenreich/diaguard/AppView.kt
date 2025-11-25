@@ -5,7 +5,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.main.MainView
-import com.faltenreich.diaguard.preference.color.isDark
+import com.faltenreich.diaguard.data.preference.color.isDark
 import com.faltenreich.diaguard.injection.viewModel
 import com.faltenreich.diaguard.system.notification.Shortcut
 import com.faltenreich.diaguard.view.window.keyboardPadding

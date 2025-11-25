@@ -1,7 +1,8 @@
 package com.faltenreich.diaguard.startup.legacy.query
 
-import com.faltenreich.diaguard.preference.color.ColorScheme
-import com.faltenreich.diaguard.preference.color.ColorSchemePreference
+import com.faltenreich.diaguard.data.preference.color.ColorScheme
+import com.faltenreich.diaguard.data.preference.color.ColorSchemePreference
+import com.faltenreich.diaguard.persistence.keyvalue.FakeKeyValueStore
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesPreference
 import com.faltenreich.diaguard.preference.food.ShowBrandedFoodPreference
 import com.faltenreich.diaguard.preference.food.ShowCommonFoodPreference

@@ -8,7 +8,7 @@ import com.faltenreich.diaguard.navigation.bar.top.GetTopAppBarStyleUseCase
 import com.faltenreich.diaguard.navigation.screen.CollectNavigationEventsUseCase
 import com.faltenreich.diaguard.navigation.screen.NavigateBackUseCase
 import com.faltenreich.diaguard.navigation.screen.NavigateToUseCase
-import com.faltenreich.diaguard.preference.color.ColorSchemePreference
+import com.faltenreich.diaguard.data.preference.color.ColorSchemePreference
 import com.faltenreich.diaguard.preference.screen.StartScreen
 import com.faltenreich.diaguard.preference.screen.StartScreenPreference
 import com.faltenreich.diaguard.preference.GetPreferenceUseCase

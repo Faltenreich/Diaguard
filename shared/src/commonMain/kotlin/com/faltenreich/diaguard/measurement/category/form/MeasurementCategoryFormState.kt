@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.measurement.category.form
 
 import com.faltenreich.diaguard.data.measurement.property.MeasurementProperty
-import com.faltenreich.diaguard.preference.color.ColorScheme
+import com.faltenreich.diaguard.data.preference.color.ColorScheme
 
 data class MeasurementCategoryFormState(
     val name: String,

@@ -13,7 +13,7 @@ import com.faltenreich.diaguard.navigation.NavigationTarget
 import com.faltenreich.diaguard.navigation.bar.snackbar.ShowSnackbarUseCase
 import com.faltenreich.diaguard.navigation.screen.NavigateBackUseCase
 import com.faltenreich.diaguard.navigation.screen.NavigateToUseCase
-import com.faltenreich.diaguard.preference.color.ColorSchemePreference
+import com.faltenreich.diaguard.data.preference.color.ColorSchemePreference
 import com.faltenreich.diaguard.preference.GetPreferenceUseCase
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.error_unknown

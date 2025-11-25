@@ -1,10 +1,10 @@
-package com.faltenreich.diaguard.preference.color
+package com.faltenreich.diaguard.data.preference.color
 
 import com.faltenreich.diaguard.data.preference.Preference
-import com.faltenreich.diaguard.preference.color.ColorScheme.SYSTEM
-import com.faltenreich.diaguard.preference.color.ColorScheme.entries
-import diaguard.feature.preference.generated.resources.Res
-import diaguard.feature.preference.generated.resources.preference_theme
+import com.faltenreich.diaguard.data.preference.color.ColorScheme.SYSTEM
+import com.faltenreich.diaguard.data.preference.color.ColorScheme.entries
+import diaguard.data.generated.resources.Res
+import diaguard.data.generated.resources.preference_theme
 
 data object ColorSchemePreference :
     Preference<Int, ColorScheme> {

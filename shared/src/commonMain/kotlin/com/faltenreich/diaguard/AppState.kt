@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard
 
-import com.faltenreich.diaguard.preference.color.ColorScheme
+import com.faltenreich.diaguard.data.preference.color.ColorScheme
 
 sealed interface AppState {
 

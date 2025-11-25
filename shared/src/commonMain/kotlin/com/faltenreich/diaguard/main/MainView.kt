@@ -46,7 +46,7 @@ import com.faltenreich.diaguard.navigation.bar.top.TopAppBar
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 import com.faltenreich.diaguard.navigation.navigate
 import com.faltenreich.diaguard.navigation.screen
-import com.faltenreich.diaguard.preference.color.isDark
+import com.faltenreich.diaguard.data.preference.color.isDark
 import com.faltenreich.diaguard.preference.food.FoodPreferenceListScreen
 import com.faltenreich.diaguard.preference.license.LicenseListScreen
 import com.faltenreich.diaguard.preference.overview.OverviewPreferenceListScreen

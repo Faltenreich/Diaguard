@@ -9,9 +9,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import com.faltenreich.diaguard.data.preference.color.ColorScheme
 import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import com.faltenreich.diaguard.navigation.NavigationTarget
-import com.faltenreich.diaguard.preference.color.ColorScheme
 import com.faltenreich.diaguard.preference.color.ColorSchemeForm
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesForm
 import com.faltenreich.diaguard.preference.list.PreferenceActionListItem
@@ -26,6 +26,9 @@ import diaguard.feature.preference.generated.resources.backup_read_description
 import diaguard.feature.preference.generated.resources.backup_write
 import diaguard.feature.preference.generated.resources.backup_write_description
 import diaguard.feature.preference.generated.resources.color_scheme
+import diaguard.feature.preference.generated.resources.color_scheme_dark
+import diaguard.feature.preference.generated.resources.color_scheme_light
+import diaguard.feature.preference.generated.resources.color_scheme_system
 import diaguard.feature.preference.generated.resources.contact
 import diaguard.feature.preference.generated.resources.decimal_places
 import diaguard.feature.preference.generated.resources.facebook
@@ -76,7 +79,13 @@ fun OverviewPreferenceList(
         item {
             PreferenceActionListItem(
                 title = stringResource(Res.string.color_scheme),
-                subtitle = stringResource(state.colorScheme.labelResource),
+                subtitle = stringResource(
+                    when (state.colorScheme) {
+                        ColorScheme.SYSTEM -> Res.string.color_scheme_system
+                        ColorScheme.LIGHT -> Res.string.color_scheme_light
+                        ColorScheme.DARK -> Res.string.color_scheme_dark
+                    }
+                ),
                 onClick = { showColorSchemeForm = true },
             )
         }

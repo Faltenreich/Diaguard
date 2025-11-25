@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.preference.overview
 
-import com.faltenreich.diaguard.preference.color.ColorScheme
+import com.faltenreich.diaguard.data.preference.color.ColorScheme
 import com.faltenreich.diaguard.preference.screen.StartScreen
 
 data class OverviewPreferenceListState(

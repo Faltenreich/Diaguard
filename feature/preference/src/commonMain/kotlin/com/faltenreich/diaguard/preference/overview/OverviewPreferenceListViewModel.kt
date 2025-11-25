@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.preference.overview
 
 import com.faltenreich.diaguard.architecture.viewmodel.ViewModel
 import com.faltenreich.diaguard.navigation.screen.NavigateToUseCase
-import com.faltenreich.diaguard.preference.color.ColorSchemePreference
+import com.faltenreich.diaguard.data.preference.color.ColorSchemePreference
 import com.faltenreich.diaguard.preference.decimal.DecimalPlacesPreference
 import com.faltenreich.diaguard.preference.decimal.IllustrateDecimalPlacesUseCase
 import com.faltenreich.diaguard.preference.screen.StartScreenPreference

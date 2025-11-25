@@ -9,6 +9,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.faltenreich.diaguard.data.preference.color.ColorScheme
 import com.faltenreich.diaguard.view.theme.AppTheme
 import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import diaguard.feature.preference.generated.resources.Res

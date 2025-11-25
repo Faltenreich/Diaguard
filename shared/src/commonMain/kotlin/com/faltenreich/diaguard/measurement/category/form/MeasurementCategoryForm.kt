@@ -22,8 +22,8 @@ import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.view.theme.AppTheme
 import com.faltenreich.diaguard.measurement.category.icon.MeasurementCategoryIcon
 import com.faltenreich.diaguard.measurement.property.list.MeasurementPropertyList
-import com.faltenreich.diaguard.preference.color.ColorScheme
-import com.faltenreich.diaguard.preference.color.isDark
+import com.faltenreich.diaguard.data.preference.color.ColorScheme
+import com.faltenreich.diaguard.data.preference.color.isDark
 import com.faltenreich.diaguard.view.overlay.DeleteDialog
 import com.faltenreich.diaguard.view.divider.Divider
 import com.faltenreich.diaguard.view.image.EmojiPicker

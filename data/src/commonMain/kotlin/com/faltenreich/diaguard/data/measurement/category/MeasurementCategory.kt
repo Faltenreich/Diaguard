@@ -42,13 +42,8 @@ sealed interface MeasurementCategory {
         val key: DatabaseKey.MeasurementCategory?,
     ) : MeasurementCategory, DatabaseEntity {
 
-        val isBloodSugar: Boolean
-            get() = key == DatabaseKey.MeasurementCategory.BLOOD_SUGAR
+        val isUserGenerated: Boolean = key == null
 
-        val isMeal: Boolean
-            get() = key == DatabaseKey.MeasurementCategory.MEAL
-
-        val isUserGenerated: Boolean
-            get() = key == null
+        val isMeal: Boolean = key == DatabaseKey.MeasurementCategory.MEAL
     }
 }

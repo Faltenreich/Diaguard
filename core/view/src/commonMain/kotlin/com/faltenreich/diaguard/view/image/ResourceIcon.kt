@@ -6,9 +6,9 @@ import androidx.compose.material3.LocalContentColor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import com.faltenreich.diaguard.resource.Res
+import com.faltenreich.diaguard.resource.ic_add
 import com.faltenreich.diaguard.view.theme.AppTheme
-import diaguard.core.view.generated.resources.Res
-import diaguard.core.view.generated.resources.ic_add
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview

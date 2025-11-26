@@ -12,10 +12,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.painter.Painter
-import com.faltenreich.diaguard.view.theme.AppTheme
+import com.faltenreich.diaguard.resource.Res
+import com.faltenreich.diaguard.resource.ic_add
 import com.faltenreich.diaguard.view.info.Tooltip
-import diaguard.core.view.generated.resources.Res
-import diaguard.core.view.generated.resources.ic_add
+import com.faltenreich.diaguard.view.theme.AppTheme
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview

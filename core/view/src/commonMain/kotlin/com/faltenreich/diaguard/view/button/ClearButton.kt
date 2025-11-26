@@ -4,9 +4,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import diaguard.core.view.generated.resources.Res
-import diaguard.core.view.generated.resources.clear_input
-import diaguard.core.view.generated.resources.ic_clear
+import com.faltenreich.diaguard.resource.Res
+import com.faltenreich.diaguard.resource.clear_input
+import com.faltenreich.diaguard.resource.ic_clear
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview

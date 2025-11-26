@@ -4,12 +4,12 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import com.faltenreich.diaguard.resource.Res
+import com.faltenreich.diaguard.resource.cancel
+import com.faltenreich.diaguard.resource.delete
+import com.faltenreich.diaguard.resource.delete_description
+import com.faltenreich.diaguard.resource.delete_title
 import com.faltenreich.diaguard.view.theme.AppTheme
-import diaguard.core.view.generated.resources.Res
-import diaguard.core.view.generated.resources.cancel
-import diaguard.core.view.generated.resources.delete
-import diaguard.core.view.generated.resources.delete_description
-import diaguard.core.view.generated.resources.delete_title
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 

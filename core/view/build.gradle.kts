@@ -9,6 +9,7 @@ kotlin {
         commonMain {
             dependencies {
                 implementation(project(":core:injection"))
+                implementation(project(":core:localization"))
                 implementation(compose.ui)
                 implementation(compose.components.resources)
                 implementation(compose.foundation)

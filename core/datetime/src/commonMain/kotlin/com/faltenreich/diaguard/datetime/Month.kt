@@ -1,6 +1,30 @@
 package com.faltenreich.diaguard.datetime
 
-import diaguard.core.datetime.generated.resources.*
+import com.faltenreich.diaguard.resource.Res
+import com.faltenreich.diaguard.resource.month_april
+import com.faltenreich.diaguard.resource.month_april_short
+import com.faltenreich.diaguard.resource.month_august
+import com.faltenreich.diaguard.resource.month_august_short
+import com.faltenreich.diaguard.resource.month_december
+import com.faltenreich.diaguard.resource.month_december_short
+import com.faltenreich.diaguard.resource.month_february
+import com.faltenreich.diaguard.resource.month_february_short
+import com.faltenreich.diaguard.resource.month_january
+import com.faltenreich.diaguard.resource.month_january_short
+import com.faltenreich.diaguard.resource.month_july
+import com.faltenreich.diaguard.resource.month_july_short
+import com.faltenreich.diaguard.resource.month_june
+import com.faltenreich.diaguard.resource.month_june_short
+import com.faltenreich.diaguard.resource.month_march
+import com.faltenreich.diaguard.resource.month_march_short
+import com.faltenreich.diaguard.resource.month_may
+import com.faltenreich.diaguard.resource.month_may_short
+import com.faltenreich.diaguard.resource.month_november
+import com.faltenreich.diaguard.resource.month_november_short
+import com.faltenreich.diaguard.resource.month_october
+import com.faltenreich.diaguard.resource.month_october_short
+import com.faltenreich.diaguard.resource.month_september
+import com.faltenreich.diaguard.resource.month_september_short
 import org.jetbrains.compose.resources.StringResource
 
 enum class Month(

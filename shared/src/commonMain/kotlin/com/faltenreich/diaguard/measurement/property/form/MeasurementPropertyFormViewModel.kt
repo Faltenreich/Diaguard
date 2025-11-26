@@ -6,6 +6,7 @@ import com.faltenreich.diaguard.data.measurement.property.MeasurementAggregation
 import com.faltenreich.diaguard.data.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.data.measurement.property.MeasurementValueRange
 import com.faltenreich.diaguard.data.measurement.unit.MeasurementUnit
+import com.faltenreich.diaguard.data.preference.decimal.DecimalPlacesPreference
 import com.faltenreich.diaguard.injection.inject
 import com.faltenreich.diaguard.measurement.category.usecase.GetMeasurementCategoryByIdUseCase
 import com.faltenreich.diaguard.measurement.category.usecase.StoreMeasurementCategoryUseCase
@@ -17,7 +18,6 @@ import com.faltenreich.diaguard.measurement.unit.usecase.GetMeasurementUnitSugge
 import com.faltenreich.diaguard.navigation.NavigationTarget
 import com.faltenreich.diaguard.navigation.screen.NavigateBackUseCase
 import com.faltenreich.diaguard.navigation.screen.NavigateToUseCase
-import com.faltenreich.diaguard.data.preference.decimal.DecimalPlacesPreference
 import com.faltenreich.diaguard.preference.GetPreferenceUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
@@ -46,7 +46,7 @@ class MeasurementPropertyFormViewModel(
         propertyLocal
             ?: MeasurementProperty.User(
                 sortIndex = getMaximumSortIndexOfProperty(categoryId)?.plus(1) ?: 0,
-                category = category,
+                category = category.local,
             )
     )
 
@@ -138,7 +138,7 @@ class MeasurementPropertyFormViewModel(
     private suspend fun submit() {
         when (storeProperty(property.value)) {
             is Result.Success -> {
-                storeCategory(category)
+                storeCategory(category.local)
                 navigateBack()
             }
             is Result.Failure -> errorBar.update { MeasurementPropertyFormState.ErrorBar }

@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.measurement.category.form
 import com.faltenreich.diaguard.architecture.viewmodel.ViewModel
 import com.faltenreich.diaguard.data.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.data.measurement.property.MeasurementProperty
+import com.faltenreich.diaguard.data.preference.color.ColorSchemePreference
 import com.faltenreich.diaguard.injection.inject
 import com.faltenreich.diaguard.measurement.category.usecase.DeleteMeasurementCategoryUseCase
 import com.faltenreich.diaguard.measurement.category.usecase.GetMeasurementCategoryByIdUseCase
@@ -13,7 +14,6 @@ import com.faltenreich.diaguard.navigation.NavigationTarget
 import com.faltenreich.diaguard.navigation.bar.snackbar.ShowSnackbarUseCase
 import com.faltenreich.diaguard.navigation.screen.NavigateBackUseCase
 import com.faltenreich.diaguard.navigation.screen.NavigateToUseCase
-import com.faltenreich.diaguard.data.preference.color.ColorSchemePreference
 import com.faltenreich.diaguard.preference.GetPreferenceUseCase
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.error_unknown
@@ -34,12 +34,12 @@ class MeasurementCategoryFormViewModel(
     private val showSnackbar: ShowSnackbarUseCase = inject(),
 ) : ViewModel<MeasurementCategoryFormState, MeasurementCategoryFormIntent, Unit>() {
 
-    private val category: MeasurementCategory.Local = checkNotNull(getCategoryBdId(categoryId))
+    private val category: MeasurementCategory.Localized = checkNotNull(getCategoryBdId(categoryId))
     private val name = MutableStateFlow(category.name)
-    private val icon = MutableStateFlow(category.icon)
-    private val isActive = MutableStateFlow(category.isActive)
+    private val icon = MutableStateFlow(category.local.icon)
+    private val isActive = MutableStateFlow(category.local.isActive)
 
-    private val properties = getProperties(category)
+    private val properties = getProperties(category.local)
     private val deleteDialog = MutableStateFlow<MeasurementCategoryFormState.DeleteDialog?>(null)
     private val alertDialog = MutableStateFlow<MeasurementCategoryFormState.AlertDialog?>(null)
 
@@ -69,7 +69,7 @@ class MeasurementCategoryFormViewModel(
             is MeasurementCategoryFormIntent.EditProperty ->
                 editProperty(intent.property)
             is MeasurementCategoryFormIntent.AddProperty ->
-                navigateTo(NavigationTarget.MeasurementPropertyForm(categoryId = category.id))
+                navigateTo(NavigationTarget.MeasurementPropertyForm(categoryId = category.local.id))
             is MeasurementCategoryFormIntent.Store ->
                 updateCategory()
             is MeasurementCategoryFormIntent.Delete ->
@@ -126,7 +126,7 @@ class MeasurementCategoryFormViewModel(
 
     // TODO: Validate
     private suspend fun updateCategory() {
-        val category = category.copy(
+        val category = category.local.copy(
             name = name.value,
             icon = icon.value?.takeIf(String::isNotBlank),
             isActive = isActive.value,
@@ -136,11 +136,11 @@ class MeasurementCategoryFormViewModel(
     }
 
     private suspend fun deleteCategory(needsConfirmation: Boolean) {
-        if (category.isUserGenerated) {
+        if (category.local.isUserGenerated) {
             if (needsConfirmation) {
                 deleteDialog.update { MeasurementCategoryFormState.DeleteDialog }
             } else {
-                deleteCategory(category)
+                deleteCategory(category.local)
                 navigateBack()
             }
         } else {

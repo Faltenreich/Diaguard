@@ -5,9 +5,10 @@ import com.faltenreich.diaguard.data.measurement.category.MeasurementCategoryRep
 
 class GetMeasurementCategoryByIdUseCase(
     private val repository: MeasurementCategoryRepository,
+    private val localize: LocalizeMeasurementCategoryUseCase,
 ) {
 
-    operator fun invoke(id: Long): MeasurementCategory.Local? {
-        return repository.getById(id)
+    operator fun invoke(id: Long): MeasurementCategory.Localized? {
+        return repository.getById(id)?.let(localize::invoke)
     }
 }

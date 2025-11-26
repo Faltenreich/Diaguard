@@ -16,21 +16,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import com.faltenreich.diaguard.food.nutrient.FoodNutrientListItem
-import com.faltenreich.diaguard.view.overlay.DeleteDialog
 import com.faltenreich.diaguard.view.divider.Divider
-import com.faltenreich.diaguard.view.layout.FormRow
+import com.faltenreich.diaguard.view.divider.TextDivider
+import com.faltenreich.diaguard.view.image.ResourceIcon
 import com.faltenreich.diaguard.view.info.NoticeBar
 import com.faltenreich.diaguard.view.info.NoticeBarStyle
-import com.faltenreich.diaguard.view.image.ResourceIcon
-import com.faltenreich.diaguard.view.divider.TextDivider
 import com.faltenreich.diaguard.view.input.TextInput
-import com.faltenreich.diaguard.data.preview.PreviewScaffold
+import com.faltenreich.diaguard.view.layout.FormRow
+import com.faltenreich.diaguard.view.overlay.DeleteDialog
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.brand
 import diaguard.shared.generated.resources.ic_brand
 import diaguard.shared.generated.resources.ic_food
-import diaguard.core.view.generated.resources.ic_note
+import diaguard.shared.generated.resources.ic_note
 import diaguard.shared.generated.resources.ingredients
 import diaguard.shared.generated.resources.name
 import diaguard.shared.generated.resources.nutrients_per_100g
@@ -92,7 +92,7 @@ fun FoodForm(
 
                 Divider()
 
-                FormRow(icon = { ResourceIcon(diaguard.core.view.generated.resources.Res.drawable.ic_note) }) {
+                FormRow(icon = { ResourceIcon(Res.drawable.ic_note) }) {
                     TextInput(
                         input = ingredients,
                         onInputChange = { input ->

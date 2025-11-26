@@ -17,12 +17,12 @@ import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import com.faltenreich.diaguard.preference.overview.OverviewPreferenceListState
 import com.faltenreich.diaguard.view.theme.AppTheme
-import diaguard.core.view.generated.resources.ic_add
-import diaguard.feature.preference.generated.resources.Res
-import diaguard.feature.preference.generated.resources.decimal_places
-import diaguard.feature.preference.generated.resources.decimal_places_description
-import diaguard.feature.preference.generated.resources.decimal_places_update
-import diaguard.feature.preference.generated.resources.ic_remove
+import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.decimal_places
+import diaguard.shared.generated.resources.decimal_places_description
+import diaguard.shared.generated.resources.decimal_places_update
+import diaguard.shared.generated.resources.ic_add
+import diaguard.shared.generated.resources.ic_remove
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
@@ -85,7 +85,7 @@ internal fun DecimalPlacesForm(
                 enabled = state.enableIncreaseButton,
             ) {
                 Icon(
-                    imageVector = vectorResource(diaguard.core.view.generated.resources.Res.drawable.ic_add),
+                    imageVector = vectorResource(Res.drawable.ic_add),
                     contentDescription = stringResource(
                         Res.string.decimal_places_update,
                         state.selection + 1,

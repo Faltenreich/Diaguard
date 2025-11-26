@@ -15,17 +15,17 @@ import com.faltenreich.diaguard.statistic.StatisticScreen
 import com.faltenreich.diaguard.timeline.TimelineScreen
 import com.faltenreich.diaguard.view.divider.Divider
 import com.faltenreich.diaguard.view.theme.AppTheme
-import diaguard.feature.preference.generated.resources.dashboard
-import diaguard.feature.preference.generated.resources.ic_dashboard
-import diaguard.feature.preference.generated.resources.ic_log
-import diaguard.feature.preference.generated.resources.ic_timeline
-import diaguard.feature.preference.generated.resources.log
-import diaguard.feature.preference.generated.resources.timeline
 import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.dashboard
 import diaguard.shared.generated.resources.export
 import diaguard.shared.generated.resources.food
+import diaguard.shared.generated.resources.ic_dashboard
+import diaguard.shared.generated.resources.ic_log
+import diaguard.shared.generated.resources.ic_timeline
+import diaguard.shared.generated.resources.log
 import diaguard.shared.generated.resources.preferences
 import diaguard.shared.generated.resources.statistic
+import diaguard.shared.generated.resources.timeline
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -39,20 +39,20 @@ fun MainMenu(
 ) {
     Column(modifier = modifier) {
         MainMenuItem(
-            label = stringResource(diaguard.feature.preference.generated.resources.Res.string.dashboard),
-            icon = painterResource(diaguard.feature.preference.generated.resources.Res.drawable.ic_dashboard),
+            label = stringResource(Res.string.dashboard),
+            icon = painterResource(Res.drawable.ic_dashboard),
             isSelected = currentDestination.isSelecting(DashboardScreen::class),
             onClick = { onItemClick(NavigationTarget.Dashboard, true) },
         )
         MainMenuItem(
-            label = stringResource(diaguard.feature.preference.generated.resources.Res.string.timeline),
-            icon = painterResource(diaguard.feature.preference.generated.resources.Res.drawable.ic_timeline),
+            label = stringResource(Res.string.timeline),
+            icon = painterResource(Res.drawable.ic_timeline),
             isSelected = currentDestination.isSelecting(TimelineScreen::class),
             onClick = { onItemClick(NavigationTarget.Timeline, true) },
         )
         MainMenuItem(
-            label = stringResource(diaguard.feature.preference.generated.resources.Res.string.log),
-            icon = painterResource(diaguard.feature.preference.generated.resources.Res.drawable.ic_log),
+            label = stringResource(Res.string.log),
+            icon = painterResource(Res.drawable.ic_log),
             isSelected = currentDestination.isSelecting(LogScreen::class),
             onClick = { onItemClick(NavigationTarget.Log, true) },
         )

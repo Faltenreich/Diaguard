@@ -10,8 +10,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import com.faltenreich.diaguard.view.info.Tooltip
-import diaguard.feature.navigation.generated.resources.Res
-import diaguard.feature.navigation.generated.resources.ic_search
+import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.ic_search
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview

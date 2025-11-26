@@ -8,8 +8,8 @@ import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 import com.faltenreich.diaguard.navigation.screen.Screen
 import com.faltenreich.diaguard.view.button.TooltipFloatingActionButton
-import diaguard.core.view.generated.resources.ic_add
 import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.ic_add
 import diaguard.shared.generated.resources.measurement_unit_new
 import diaguard.shared.generated.resources.measurement_units
 import kotlinx.serialization.Serializable
@@ -40,7 +40,7 @@ data class MeasurementUnitListScreen(private val modeOrdinal: Int) :
         return BottomAppBarStyle.Visible(
             floatingActionButton = {
                 TooltipFloatingActionButton(
-                    painter = painterResource(diaguard.core.view.generated.resources.Res.drawable.ic_add),
+                    painter = painterResource(Res.drawable.ic_add),
                     contentDescription = stringResource(Res.string.measurement_unit_new),
                     onClick = { viewModel.dispatchIntent(MeasurementUnitListIntent.OpenFormDialog()) },
                 )

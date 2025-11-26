@@ -20,9 +20,9 @@ import com.faltenreich.diaguard.measurement.category.icon.MeasurementCategoryIco
 import com.faltenreich.diaguard.view.divider.Divider
 import com.faltenreich.diaguard.view.image.ResourceIcon
 import com.faltenreich.diaguard.view.theme.AppTheme
-import diaguard.feature.navigation.generated.resources.ic_search
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.food_add
+import diaguard.shared.generated.resources.ic_search
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -69,7 +69,7 @@ fun MeasurementCategoryInput(
                         modifier = Modifier.padding(end = AppTheme.dimensions.padding.P_1),
                     ) {
                         ResourceIcon(
-                            icon = diaguard.feature.navigation.generated.resources.Res.drawable.ic_search,
+                            icon = Res.drawable.ic_search,
                             contentDescription = stringResource(Res.string.food_add),
                         )
                     }

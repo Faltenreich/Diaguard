@@ -13,9 +13,9 @@ import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import com.faltenreich.diaguard.view.button.ClearButton
 import com.faltenreich.diaguard.view.input.SearchField
 import com.faltenreich.diaguard.view.layout.rememberFocusRequester
-import diaguard.feature.navigation.generated.resources.ic_search
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.entry_search_prompt
+import diaguard.shared.generated.resources.ic_search
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -34,7 +34,7 @@ fun EntrySearchField(
         placeholder = stringResource(Res.string.entry_search_prompt),
         leadingIcon = {
             Icon(
-                painter = painterResource(diaguard.feature.navigation.generated.resources.Res.drawable.ic_search),
+                painter = painterResource(Res.drawable.ic_search),
                 contentDescription = null,
             )
         },

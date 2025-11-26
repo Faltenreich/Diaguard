@@ -7,12 +7,12 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.injection.inject
-import com.faltenreich.diaguard.data.preview.PreviewScaffold
-import diaguard.feature.datetime.generated.resources.Res
-import diaguard.feature.datetime.generated.resources.cancel
-import diaguard.feature.datetime.generated.resources.ok
+import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.cancel
+import diaguard.shared.generated.resources.ok
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 

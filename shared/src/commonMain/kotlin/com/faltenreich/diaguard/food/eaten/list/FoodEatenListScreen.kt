@@ -10,10 +10,10 @@ import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 import com.faltenreich.diaguard.navigation.screen.Screen
 import com.faltenreich.diaguard.view.button.TooltipFloatingActionButton
 import com.faltenreich.diaguard.view.theme.AppTheme
-import diaguard.core.view.generated.resources.ic_add
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.entry_new_description
 import diaguard.shared.generated.resources.food_eaten
+import diaguard.shared.generated.resources.ic_add
 import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -42,7 +42,7 @@ data class FoodEatenListScreen(private val foodId: Long) : Screen {
         return BottomAppBarStyle.Visible(
             floatingActionButton = {
                 TooltipFloatingActionButton(
-                    painter = painterResource(diaguard.core.view.generated.resources.Res.drawable.ic_add),
+                    painter = painterResource(Res.drawable.ic_add),
                     contentDescription = stringResource(Res.string.entry_new_description),
                     onClick = { viewModel.dispatchIntent(FoodEatenListIntent.CreateEntry) },
                 )

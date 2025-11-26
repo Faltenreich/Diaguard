@@ -19,8 +19,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.faltenreich.diaguard.view.theme.AppTheme
-import diaguard.feature.datetime.generated.resources.Res
-import diaguard.feature.datetime.generated.resources.time_select
+import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.time_select
 import org.jetbrains.compose.resources.stringResource
 
 @Composable

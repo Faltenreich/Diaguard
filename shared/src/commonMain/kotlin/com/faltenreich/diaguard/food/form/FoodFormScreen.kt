@@ -9,11 +9,11 @@ import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 import com.faltenreich.diaguard.navigation.screen.Screen
 import com.faltenreich.diaguard.view.button.TooltipFloatingActionButton
-import diaguard.core.view.generated.resources.ic_check
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.food
 import diaguard.shared.generated.resources.food_delete
 import diaguard.shared.generated.resources.food_eaten
+import diaguard.shared.generated.resources.ic_check
 import diaguard.shared.generated.resources.ic_delete
 import diaguard.shared.generated.resources.ic_history
 import diaguard.shared.generated.resources.save
@@ -58,7 +58,7 @@ data class FoodFormScreen(private val foodId: Long) :
             },
             floatingActionButton = {
                 TooltipFloatingActionButton(
-                    painter = painterResource(diaguard.core.view.generated.resources.Res.drawable.ic_check),
+                    painter = painterResource(Res.drawable.ic_check),
                     contentDescription = stringResource(Res.string.save),
                     onClick = { viewModel.dispatchIntent(FoodFormIntent.Submit) },
                 )

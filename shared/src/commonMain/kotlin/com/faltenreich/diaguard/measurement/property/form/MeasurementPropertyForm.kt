@@ -25,18 +25,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontStyle
 import com.faltenreich.diaguard.data.measurement.property.MeasurementAggregationStyle
 import com.faltenreich.diaguard.data.measurement.unit.MeasurementUnit
+import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import com.faltenreich.diaguard.measurement.property.aggregationstyle.MeasurementAggregationStyleForm
 import com.faltenreich.diaguard.measurement.property.range.MeasurementValueRangeForm
-import com.faltenreich.diaguard.data.preview.PreviewScaffold
-import com.faltenreich.diaguard.view.overlay.DeleteDialog
 import com.faltenreich.diaguard.view.divider.Divider
-import com.faltenreich.diaguard.view.layout.FormRow
+import com.faltenreich.diaguard.view.divider.TextDivider
 import com.faltenreich.diaguard.view.info.NoticeBar
 import com.faltenreich.diaguard.view.info.NoticeBarStyle
-import com.faltenreich.diaguard.view.divider.TextDivider
 import com.faltenreich.diaguard.view.input.TextInput
+import com.faltenreich.diaguard.view.layout.FormRow
+import com.faltenreich.diaguard.view.overlay.DeleteDialog
 import com.faltenreich.diaguard.view.theme.AppTheme
-import diaguard.core.view.generated.resources.ic_check
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.aggregation_style
 import diaguard.shared.generated.resources.aggregation_style_average
@@ -44,6 +43,7 @@ import diaguard.shared.generated.resources.aggregation_style_cumulative
 import diaguard.shared.generated.resources.aggregation_style_description
 import diaguard.shared.generated.resources.delete_error_pre_defined
 import diaguard.shared.generated.resources.delete_title
+import diaguard.shared.generated.resources.ic_check
 import diaguard.shared.generated.resources.measurement_property_missing_input
 import diaguard.shared.generated.resources.measurement_unit
 import diaguard.shared.generated.resources.measurement_unit_select
@@ -174,7 +174,7 @@ private fun UnitList(
                     }
                     AnimatedVisibility(visible = item.isSelected) {
                         Icon(
-                            painter = painterResource(diaguard.core.view.generated.resources.Res.drawable.ic_check),
+                            painter = painterResource(Res.drawable.ic_check),
                             contentDescription = stringResource(
                                 Res.string.measurement_unit_selected_description
                             ),

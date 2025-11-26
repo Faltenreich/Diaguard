@@ -12,15 +12,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.faltenreich.diaguard.view.theme.AppTheme
-import com.faltenreich.diaguard.measurement.category.form.MeasurementCategoryFormIntent
 import com.faltenreich.diaguard.data.measurement.property.MeasurementProperty
-import com.faltenreich.diaguard.view.divider.Divider
-import com.faltenreich.diaguard.view.image.ResourceIcon
-import com.faltenreich.diaguard.view.divider.TextDivider
 import com.faltenreich.diaguard.data.preview.PreviewScaffold
-import diaguard.core.view.generated.resources.ic_add
+import com.faltenreich.diaguard.measurement.category.form.MeasurementCategoryFormIntent
+import com.faltenreich.diaguard.view.divider.Divider
+import com.faltenreich.diaguard.view.divider.TextDivider
+import com.faltenreich.diaguard.view.image.ResourceIcon
+import com.faltenreich.diaguard.view.theme.AppTheme
 import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.ic_add
 import diaguard.shared.generated.resources.measurement_properties
 import diaguard.shared.generated.resources.measurement_property_add
 import org.jetbrains.compose.resources.stringResource
@@ -66,7 +66,7 @@ fun MeasurementPropertyList(
                 label = { Text(stringResource(Res.string.measurement_property_add)) },
                 icon = {
                     ResourceIcon(
-                        icon = diaguard.core.view.generated.resources.Res.drawable.ic_add,
+                        icon = Res.drawable.ic_add,
                         modifier = Modifier.size(InputChipDefaults.AvatarSize),
                     )
                 },

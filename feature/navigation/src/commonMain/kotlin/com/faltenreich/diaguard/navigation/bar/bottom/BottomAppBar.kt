@@ -3,9 +3,9 @@ package com.faltenreich.diaguard.navigation.bar.bottom
 import androidx.compose.runtime.Composable
 import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import com.faltenreich.diaguard.view.theme.AppTheme
-import diaguard.feature.navigation.generated.resources.Res
-import diaguard.feature.navigation.generated.resources.ic_menu
-import diaguard.feature.navigation.generated.resources.menu_open
+import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.ic_menu
+import diaguard.shared.generated.resources.menu_open
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview

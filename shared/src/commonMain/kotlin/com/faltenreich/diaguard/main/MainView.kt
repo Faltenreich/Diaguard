@@ -22,6 +22,7 @@ import androidx.navigation.compose.rememberNavController
 import com.faltenreich.diaguard.backup.read.ReadBackupFormScreen
 import com.faltenreich.diaguard.backup.write.WriteBackupFormScreen
 import com.faltenreich.diaguard.dashboard.DashboardScreen
+import com.faltenreich.diaguard.data.preference.color.isDark
 import com.faltenreich.diaguard.entry.form.EntryFormScreen
 import com.faltenreich.diaguard.entry.search.EntrySearchScreen
 import com.faltenreich.diaguard.export.form.ExportFormScreen
@@ -46,7 +47,6 @@ import com.faltenreich.diaguard.navigation.bar.top.TopAppBar
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 import com.faltenreich.diaguard.navigation.navigate
 import com.faltenreich.diaguard.navigation.screen
-import com.faltenreich.diaguard.data.preference.color.isDark
 import com.faltenreich.diaguard.preference.food.FoodPreferenceListScreen
 import com.faltenreich.diaguard.preference.license.LicenseListScreen
 import com.faltenreich.diaguard.preference.overview.OverviewPreferenceListScreen
@@ -55,8 +55,8 @@ import com.faltenreich.diaguard.system.notification.Shortcut
 import com.faltenreich.diaguard.tag.detail.TagDetailScreen
 import com.faltenreich.diaguard.tag.list.TagListScreen
 import com.faltenreich.diaguard.timeline.TimelineScreen
-import diaguard.core.view.generated.resources.ic_arrow_back
 import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.ic_arrow_back
 import diaguard.shared.generated.resources.navigate_back
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -166,7 +166,7 @@ fun MainView(
                             IconButton(onClick = { viewModel.dispatchIntent(MainIntent.NavigateBack) }) {
                                 Icon(
                                     painter = painterResource(
-                                        diaguard.core.view.generated.resources.Res.drawable.ic_arrow_back,
+                                        Res.drawable.ic_arrow_back,
                                     ),
                                     contentDescription = stringResource(Res.string.navigate_back),
                                 )

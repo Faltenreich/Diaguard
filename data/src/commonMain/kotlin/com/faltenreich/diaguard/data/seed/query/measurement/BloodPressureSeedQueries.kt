@@ -1,16 +1,16 @@
 package com.faltenreich.diaguard.data.seed.query.measurement
 
+import com.faltenreich.diaguard.data.DatabaseKey
 import com.faltenreich.diaguard.data.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.data.measurement.property.MeasurementAggregationStyle
 import com.faltenreich.diaguard.data.measurement.property.MeasurementProperty
-import com.faltenreich.diaguard.data.measurement.unit.suggestion.MeasurementUnitSuggestion
 import com.faltenreich.diaguard.data.measurement.property.MeasurementValueRange
-import com.faltenreich.diaguard.data.DatabaseKey
+import com.faltenreich.diaguard.data.measurement.unit.suggestion.MeasurementUnitSuggestion
 import com.faltenreich.diaguard.localization.Localization
-import diaguard.data.generated.resources.Res
-import diaguard.data.generated.resources.blood_pressure
-import diaguard.data.generated.resources.diastolic
-import diaguard.data.generated.resources.systolic
+import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.blood_pressure
+import diaguard.shared.generated.resources.diastolic
+import diaguard.shared.generated.resources.systolic
 
 class BloodPressureSeedQueries(
     private val localization: Localization,

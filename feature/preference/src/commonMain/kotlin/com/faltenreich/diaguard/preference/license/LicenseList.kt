@@ -7,7 +7,7 @@ import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import com.mikepenz.aboutlibraries.ui.compose.m3.LibrariesContainer
 import com.mikepenz.aboutlibraries.ui.compose.produceLibraries
-import diaguard.feature.preference.generated.resources.Res
+import diaguard.shared.generated.resources.Res
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable

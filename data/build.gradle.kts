@@ -42,3 +42,8 @@ sqldelight {
         }
     }
 }
+
+compose.resources {
+    packageOfResClass = "diaguard.shared.generated.resources"
+    publicResClass = true
+}

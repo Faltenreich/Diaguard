@@ -24,11 +24,11 @@ import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 import com.faltenreich.diaguard.navigation.screen.Screen
 import com.faltenreich.diaguard.view.button.TooltipFloatingActionButton
 import com.faltenreich.diaguard.view.theme.AppTheme
-import diaguard.core.view.generated.resources.ic_add
-import diaguard.core.view.generated.resources.ic_preferences
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.food_new
 import diaguard.shared.generated.resources.food_preferences_open
+import diaguard.shared.generated.resources.ic_add
+import diaguard.shared.generated.resources.ic_preferences
 import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -82,14 +82,14 @@ data class FoodSearchScreen(private val modeOrdinal: Int) :
         return BottomAppBarStyle.Visible(
             actions = {
                 BottomAppBarItem(
-                    painter = painterResource(diaguard.core.view.generated.resources.Res.drawable.ic_preferences),
+                    painter = painterResource(Res.drawable.ic_preferences),
                     contentDescription = stringResource(Res.string.food_preferences_open),
                     onClick = { viewModel.dispatchIntent(FoodSearchIntent.OpenPreferences) },
                 )
             },
             floatingActionButton = {
                 TooltipFloatingActionButton(
-                    painter = painterResource(diaguard.core.view.generated.resources.Res.drawable.ic_add),
+                    painter = painterResource(Res.drawable.ic_add),
                     contentDescription = stringResource(Res.string.food_new),
                     onClick = { viewModel.dispatchIntent(FoodSearchIntent.Create) },
                 )

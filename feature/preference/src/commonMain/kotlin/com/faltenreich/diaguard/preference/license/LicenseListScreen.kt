@@ -5,8 +5,8 @@ import androidx.compose.runtime.Composable
 import com.faltenreich.diaguard.injection.viewModel
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 import com.faltenreich.diaguard.navigation.screen.Screen
-import diaguard.feature.preference.generated.resources.Res
-import diaguard.feature.preference.generated.resources.licenses
+import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.licenses
 import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.stringResource
 

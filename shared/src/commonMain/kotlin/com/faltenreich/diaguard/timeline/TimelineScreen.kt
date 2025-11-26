@@ -9,12 +9,12 @@ import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.screen.Screen
 import com.faltenreich.diaguard.view.animation.rememberAnimatable
 import com.faltenreich.diaguard.view.button.TooltipFloatingActionButton
-import diaguard.core.view.generated.resources.ic_add
-import diaguard.feature.navigation.generated.resources.ic_search
 import diaguard.shared.generated.resources.Res
 import diaguard.shared.generated.resources.date_picker_open
 import diaguard.shared.generated.resources.entry_new_description
+import diaguard.shared.generated.resources.ic_add
 import diaguard.shared.generated.resources.ic_date
+import diaguard.shared.generated.resources.ic_search
 import diaguard.shared.generated.resources.search_open
 import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
@@ -30,7 +30,7 @@ data object TimelineScreen : Screen {
         return BottomAppBarStyle.Visible(
             actions = {
                 BottomAppBarItem(
-                    painter = painterResource(diaguard.feature.navigation.generated.resources.Res.drawable.ic_search),
+                    painter = painterResource(Res.drawable.ic_search),
                     contentDescription = stringResource(Res.string.search_open),
                     onClick = { viewModel.dispatchIntent(TimelineIntent.OpenEntrySearch()) },
                 )
@@ -42,7 +42,7 @@ data object TimelineScreen : Screen {
             },
             floatingActionButton = {
                 TooltipFloatingActionButton(
-                    painter = painterResource(diaguard.core.view.generated.resources.Res.drawable.ic_add),
+                    painter = painterResource(Res.drawable.ic_add),
                     contentDescription = stringResource(Res.string.entry_new_description),
                     onClick = { viewModel.dispatchIntent(TimelineIntent.CreateEntry) },
                 )

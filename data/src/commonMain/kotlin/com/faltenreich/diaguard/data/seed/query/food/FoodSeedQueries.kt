@@ -7,8 +7,8 @@ import com.faltenreich.diaguard.localization.Localization
 import com.faltenreich.diaguard.localization.LocalizationConstants
 import com.faltenreich.diaguard.persistence.file.FileReader
 import com.faltenreich.diaguard.serialization.Serialization
-import diaguard.data.generated.resources.Res
-import diaguard.data.generated.resources.food_common
+import diaguard.shared.generated.resources.Res
+import diaguard.shared.generated.resources.food_common
 
 class FoodSeedQueries(
     private val fileReader: FileReader,

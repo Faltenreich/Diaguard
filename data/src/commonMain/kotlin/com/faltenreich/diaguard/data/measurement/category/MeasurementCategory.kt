@@ -46,9 +46,4 @@ sealed interface MeasurementCategory {
 
         val isMeal: Boolean = key == DatabaseKey.MeasurementCategory.MEAL
     }
-
-    data class Localized(
-        val local: Local,
-        val name: String,
-    )
 }

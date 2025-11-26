@@ -18,6 +18,14 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import com.faltenreich.diaguard.food.nutrient.FoodNutrientListItem
+import com.faltenreich.diaguard.resource.Res
+import com.faltenreich.diaguard.resource.brand
+import com.faltenreich.diaguard.resource.ic_brand
+import com.faltenreich.diaguard.resource.ic_food
+import com.faltenreich.diaguard.resource.ic_note
+import com.faltenreich.diaguard.resource.ingredients
+import com.faltenreich.diaguard.resource.name
+import com.faltenreich.diaguard.resource.nutrients_per_100g
 import com.faltenreich.diaguard.view.divider.Divider
 import com.faltenreich.diaguard.view.divider.TextDivider
 import com.faltenreich.diaguard.view.image.ResourceIcon
@@ -26,14 +34,6 @@ import com.faltenreich.diaguard.view.info.NoticeBarStyle
 import com.faltenreich.diaguard.view.input.TextInput
 import com.faltenreich.diaguard.view.layout.FormRow
 import com.faltenreich.diaguard.view.overlay.DeleteDialog
-import diaguard.shared.generated.resources.Res
-import diaguard.shared.generated.resources.brand
-import diaguard.shared.generated.resources.ic_brand
-import diaguard.shared.generated.resources.ic_food
-import diaguard.shared.generated.resources.ic_note
-import diaguard.shared.generated.resources.ingredients
-import diaguard.shared.generated.resources.name
-import diaguard.shared.generated.resources.nutrients_per_100g
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 

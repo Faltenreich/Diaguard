@@ -7,8 +7,8 @@ import com.faltenreich.diaguard.data.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.data.measurement.property.MeasurementValueRange
 import com.faltenreich.diaguard.data.measurement.unit.suggestion.MeasurementUnitSuggestion
 import com.faltenreich.diaguard.localization.Localization
-import diaguard.shared.generated.resources.Res
-import diaguard.shared.generated.resources.hba1c
+import com.faltenreich.diaguard.resource.Res
+import com.faltenreich.diaguard.resource.hba1c
 
 class HbA1cSeedQueries(
     private val localization: Localization,

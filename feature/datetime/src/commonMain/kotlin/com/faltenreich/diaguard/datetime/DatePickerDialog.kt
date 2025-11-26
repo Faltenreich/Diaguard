@@ -10,9 +10,9 @@ import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.injection.inject
-import diaguard.shared.generated.resources.Res
-import diaguard.shared.generated.resources.cancel
-import diaguard.shared.generated.resources.ok
+import com.faltenreich.diaguard.resource.Res
+import com.faltenreich.diaguard.resource.cancel
+import com.faltenreich.diaguard.resource.ok
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 

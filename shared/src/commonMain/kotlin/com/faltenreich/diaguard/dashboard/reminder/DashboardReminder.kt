@@ -16,16 +16,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.faltenreich.diaguard.view.theme.AppTheme
-import com.faltenreich.diaguard.view.image.ResourceIcon
 import com.faltenreich.diaguard.data.preview.PreviewScaffold
-import diaguard.shared.generated.resources.Res
-import diaguard.shared.generated.resources.cancel
-import diaguard.shared.generated.resources.delete
-import diaguard.shared.generated.resources.ic_alarm
-import diaguard.shared.generated.resources.ic_delete
-import diaguard.shared.generated.resources.reminder_delete_dialog_description
-import diaguard.shared.generated.resources.reminder_delete_dialog_title
+import com.faltenreich.diaguard.resource.Res
+import com.faltenreich.diaguard.resource.cancel
+import com.faltenreich.diaguard.resource.delete
+import com.faltenreich.diaguard.resource.ic_alarm
+import com.faltenreich.diaguard.resource.ic_delete
+import com.faltenreich.diaguard.resource.reminder_delete_dialog_description
+import com.faltenreich.diaguard.resource.reminder_delete_dialog_title
+import com.faltenreich.diaguard.view.image.ResourceIcon
+import com.faltenreich.diaguard.view.theme.AppTheme
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 

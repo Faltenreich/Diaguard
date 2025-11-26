@@ -2,8 +2,8 @@ package com.faltenreich.diaguard.preference.decimalplaces
 
 import com.faltenreich.diaguard.localization.Localization
 import com.faltenreich.diaguard.localization.NumberFormatter
-import diaguard.shared.generated.resources.Res
-import diaguard.shared.generated.resources.decimal_places_illustration
+import com.faltenreich.diaguard.resource.Res
+import com.faltenreich.diaguard.resource.decimal_places_illustration
 
 internal class IllustrateDecimalPlacesUseCase(
     private val numberFormatter: NumberFormatter,

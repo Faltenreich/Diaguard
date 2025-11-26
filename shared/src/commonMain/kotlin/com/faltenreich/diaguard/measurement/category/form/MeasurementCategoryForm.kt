@@ -19,28 +19,27 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import com.faltenreich.diaguard.view.theme.AppTheme
-import com.faltenreich.diaguard.measurement.category.icon.MeasurementCategoryIcon
-import com.faltenreich.diaguard.measurement.property.list.MeasurementPropertyList
 import com.faltenreich.diaguard.data.preference.color.ColorScheme
 import com.faltenreich.diaguard.data.preference.color.isDark
-import com.faltenreich.diaguard.view.overlay.DeleteDialog
+import com.faltenreich.diaguard.data.preview.PreviewScaffold
+import com.faltenreich.diaguard.measurement.category.icon.MeasurementCategoryIcon
+import com.faltenreich.diaguard.measurement.property.list.MeasurementPropertyList
+import com.faltenreich.diaguard.resource.Res
+import com.faltenreich.diaguard.resource.delete_error_pre_defined
+import com.faltenreich.diaguard.resource.delete_title
+import com.faltenreich.diaguard.resource.icon
+import com.faltenreich.diaguard.resource.measurement_category_visibility
+import com.faltenreich.diaguard.resource.measurement_category_visibility_hidden
+import com.faltenreich.diaguard.resource.measurement_category_visibility_visible
+import com.faltenreich.diaguard.resource.name
+import com.faltenreich.diaguard.resource.ok
+import com.faltenreich.diaguard.view.checkbox.TextCheckbox
 import com.faltenreich.diaguard.view.divider.Divider
 import com.faltenreich.diaguard.view.image.EmojiPicker
-import com.faltenreich.diaguard.view.layout.FormRow
-import com.faltenreich.diaguard.view.checkbox.TextCheckbox
 import com.faltenreich.diaguard.view.input.TextInput
-import com.faltenreich.diaguard.data.preview.PreviewScaffold
-import diaguard.shared.generated.resources.Res
-import diaguard.shared.generated.resources.delete_error_pre_defined
-import diaguard.shared.generated.resources.delete_title
-import diaguard.shared.generated.resources.icon
-import diaguard.shared.generated.resources.measurement_category_visibility
-import diaguard.shared.generated.resources.measurement_category_visibility_hidden
-import diaguard.shared.generated.resources.measurement_category_visibility_visible
-import diaguard.shared.generated.resources.name
-import diaguard.shared.generated.resources.ok
-import kotlinx.coroutines.NonCancellable.isActive
+import com.faltenreich.diaguard.view.layout.FormRow
+import com.faltenreich.diaguard.view.overlay.DeleteDialog
+import com.faltenreich.diaguard.view.theme.AppTheme
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -98,10 +97,10 @@ fun MeasurementCategoryForm(
             TextCheckbox(
                 title = stringResource(Res.string.measurement_category_visibility),
                 subtitle = stringResource(
-                    if (isActive) Res.string.measurement_category_visibility_visible
+                    if (state.isActive) Res.string.measurement_category_visibility_visible
                     else Res.string.measurement_category_visibility_hidden
                 ),
-                checked = isActive,
+                checked = state.isActive,
                 onCheckedChange = { isChecked ->
                     onIntent(MeasurementCategoryFormIntent.SetIsActive(isChecked))
                 },

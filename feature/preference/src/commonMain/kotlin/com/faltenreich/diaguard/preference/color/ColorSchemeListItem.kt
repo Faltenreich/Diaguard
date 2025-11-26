@@ -11,11 +11,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
 import com.faltenreich.diaguard.data.preference.color.ColorScheme
 import com.faltenreich.diaguard.data.preview.PreviewScaffold
+import com.faltenreich.diaguard.resource.Res
+import com.faltenreich.diaguard.resource.color_scheme_dark
+import com.faltenreich.diaguard.resource.color_scheme_light
+import com.faltenreich.diaguard.resource.color_scheme_system
 import com.faltenreich.diaguard.view.theme.AppTheme
-import diaguard.shared.generated.resources.Res
-import diaguard.shared.generated.resources.color_scheme_dark
-import diaguard.shared.generated.resources.color_scheme_light
-import diaguard.shared.generated.resources.color_scheme_system
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 

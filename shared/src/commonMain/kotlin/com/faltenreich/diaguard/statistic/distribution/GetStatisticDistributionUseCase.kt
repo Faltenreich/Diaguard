@@ -1,12 +1,12 @@
 package com.faltenreich.diaguard.statistic.distribution
 
-import com.faltenreich.diaguard.localization.Localization
-import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.data.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.data.measurement.value.MeasurementValueRepository
+import com.faltenreich.diaguard.datetime.Date
+import com.faltenreich.diaguard.localization.Localization
 import com.faltenreich.diaguard.measurement.value.MeasurementValueTint
-import diaguard.shared.generated.resources.Res
-import diaguard.shared.generated.resources.no_entries
+import com.faltenreich.diaguard.resource.Res
+import com.faltenreich.diaguard.resource.no_entries
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map

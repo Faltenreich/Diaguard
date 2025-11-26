@@ -1,11 +1,11 @@
 package com.faltenreich.diaguard.entry.form.reminder
 
 import com.faltenreich.diaguard.localization.Localization
-import diaguard.shared.generated.resources.Res
-import diaguard.shared.generated.resources.reminder
-import diaguard.shared.generated.resources.reminder_label_hours
-import diaguard.shared.generated.resources.reminder_label_minutes
-import diaguard.shared.generated.resources.reminder_label_seconds
+import com.faltenreich.diaguard.resource.Res
+import com.faltenreich.diaguard.resource.reminder
+import com.faltenreich.diaguard.resource.reminder_label_hours
+import com.faltenreich.diaguard.resource.reminder_label_minutes
+import com.faltenreich.diaguard.resource.reminder_label_seconds
 import kotlin.time.Duration
 
 class GetReminderLabelUseCase(

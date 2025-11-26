@@ -10,10 +10,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.data.food.eaten.FoodEaten
-import com.faltenreich.diaguard.view.divider.Divider
 import com.faltenreich.diaguard.data.preview.PreviewScaffold
-import diaguard.shared.generated.resources.Res
-import diaguard.shared.generated.resources.no_entries
+import com.faltenreich.diaguard.resource.Res
+import com.faltenreich.diaguard.resource.no_entries
+import com.faltenreich.diaguard.view.divider.Divider
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 

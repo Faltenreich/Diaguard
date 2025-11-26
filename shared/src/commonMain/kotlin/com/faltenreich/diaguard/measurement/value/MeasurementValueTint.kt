@@ -2,11 +2,11 @@ package com.faltenreich.diaguard.measurement.value
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import com.faltenreich.diaguard.resource.Res
+import com.faltenreich.diaguard.resource.value_range_high
+import com.faltenreich.diaguard.resource.value_range_low
+import com.faltenreich.diaguard.resource.value_range_target
 import com.faltenreich.diaguard.view.theme.AppTheme
-import diaguard.shared.generated.resources.Res
-import diaguard.shared.generated.resources.value_range_high
-import diaguard.shared.generated.resources.value_range_low
-import diaguard.shared.generated.resources.value_range_target
 import org.jetbrains.compose.resources.stringResource
 
 enum class MeasurementValueTint {

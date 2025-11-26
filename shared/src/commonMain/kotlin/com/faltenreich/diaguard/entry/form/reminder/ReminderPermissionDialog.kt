@@ -6,11 +6,11 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.data.preview.PreviewScaffold
-import diaguard.shared.generated.resources.Res
-import diaguard.shared.generated.resources.cancel
-import diaguard.shared.generated.resources.permission_grant
-import diaguard.shared.generated.resources.reminder
-import diaguard.shared.generated.resources.reminder_permission_rationale
+import com.faltenreich.diaguard.resource.Res
+import com.faltenreich.diaguard.resource.cancel
+import com.faltenreich.diaguard.resource.permission_grant
+import com.faltenreich.diaguard.resource.reminder
+import com.faltenreich.diaguard.resource.reminder_permission_rationale
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 

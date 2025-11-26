@@ -8,12 +8,12 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import com.faltenreich.diaguard.entry.list.EntryList
 import com.faltenreich.diaguard.entry.list.EntryListItemState
-import com.faltenreich.diaguard.data.preview.PreviewScaffold
-import diaguard.shared.generated.resources.Res
-import diaguard.shared.generated.resources.entry_search_empty
-import diaguard.shared.generated.resources.entry_search_placeholder
+import com.faltenreich.diaguard.resource.Res
+import com.faltenreich.diaguard.resource.entry_search_empty
+import com.faltenreich.diaguard.resource.entry_search_placeholder
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource

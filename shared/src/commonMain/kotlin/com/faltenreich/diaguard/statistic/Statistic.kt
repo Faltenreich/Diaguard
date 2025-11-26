@@ -6,9 +6,11 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.faltenreich.diaguard.view.divider.Divider
-import com.faltenreich.diaguard.view.divider.TextDivider
 import com.faltenreich.diaguard.data.preview.PreviewScaffold
+import com.faltenreich.diaguard.resource.Res
+import com.faltenreich.diaguard.resource.average
+import com.faltenreich.diaguard.resource.distribution
+import com.faltenreich.diaguard.resource.trend
 import com.faltenreich.diaguard.statistic.average.StatisticAverage
 import com.faltenreich.diaguard.statistic.category.StatisticCategory
 import com.faltenreich.diaguard.statistic.daterange.StatisticDateRangeBar
@@ -18,10 +20,8 @@ import com.faltenreich.diaguard.statistic.daterange.StatisticDateRangeType
 import com.faltenreich.diaguard.statistic.distribution.StatisticDistribution
 import com.faltenreich.diaguard.statistic.property.StatisticProperty
 import com.faltenreich.diaguard.statistic.trend.StatisticTrend
-import diaguard.shared.generated.resources.Res
-import diaguard.shared.generated.resources.average
-import diaguard.shared.generated.resources.distribution
-import diaguard.shared.generated.resources.trend
+import com.faltenreich.diaguard.view.divider.Divider
+import com.faltenreich.diaguard.view.divider.TextDivider
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 

@@ -8,12 +8,12 @@ import com.faltenreich.diaguard.injection.viewModel
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 import com.faltenreich.diaguard.navigation.screen.Screen
+import com.faltenreich.diaguard.resource.Res
+import com.faltenreich.diaguard.resource.entry_new_description
+import com.faltenreich.diaguard.resource.food_eaten
+import com.faltenreich.diaguard.resource.ic_add
 import com.faltenreich.diaguard.view.button.TooltipFloatingActionButton
 import com.faltenreich.diaguard.view.theme.AppTheme
-import diaguard.shared.generated.resources.Res
-import diaguard.shared.generated.resources.entry_new_description
-import diaguard.shared.generated.resources.food_eaten
-import diaguard.shared.generated.resources.ic_add
 import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource

@@ -4,11 +4,11 @@ import androidx.compose.ui.geometry.Size
 import com.faltenreich.diaguard.datetime.DateTimeConstants
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.localization.Localization
+import com.faltenreich.diaguard.resource.Res
+import com.faltenreich.diaguard.resource.time_midnight
+import com.faltenreich.diaguard.resource.time_noon
 import com.faltenreich.diaguard.timeline.canvas.TimelineCanvasDimensions
 import com.faltenreich.diaguard.timeline.date.TimelineDateState
-import diaguard.shared.generated.resources.Res
-import diaguard.shared.generated.resources.time_midnight
-import diaguard.shared.generated.resources.time_noon
 
 class GetTimelineTimeStateUseCase(
     private val localization: Localization,

@@ -12,14 +12,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.data.measurement.unit.MeasurementUnit
-import com.faltenreich.diaguard.view.input.TextInput
 import com.faltenreich.diaguard.data.preview.PreviewScaffold
-import diaguard.shared.generated.resources.Res
-import diaguard.shared.generated.resources.abbreviation
-import diaguard.shared.generated.resources.cancel
-import diaguard.shared.generated.resources.create
-import diaguard.shared.generated.resources.measurement_unit
-import diaguard.shared.generated.resources.name
+import com.faltenreich.diaguard.resource.Res
+import com.faltenreich.diaguard.resource.abbreviation
+import com.faltenreich.diaguard.resource.cancel
+import com.faltenreich.diaguard.resource.create
+import com.faltenreich.diaguard.resource.measurement_unit
+import com.faltenreich.diaguard.resource.name
+import com.faltenreich.diaguard.view.input.TextInput
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 

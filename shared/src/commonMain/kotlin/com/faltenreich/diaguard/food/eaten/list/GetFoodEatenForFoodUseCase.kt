@@ -1,15 +1,15 @@
 package com.faltenreich.diaguard.food.eaten.list
 
-import com.faltenreich.diaguard.localization.Localization
-import com.faltenreich.diaguard.localization.NumberFormatter
-import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.data.food.Food
 import com.faltenreich.diaguard.data.food.eaten.FoodEaten
 import com.faltenreich.diaguard.data.food.eaten.FoodEatenRepository
 import com.faltenreich.diaguard.data.preference.decimal.DecimalPlacesPreference
+import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
+import com.faltenreich.diaguard.localization.Localization
+import com.faltenreich.diaguard.localization.NumberFormatter
 import com.faltenreich.diaguard.preference.GetPreferenceUseCase
-import diaguard.shared.generated.resources.Res
-import diaguard.shared.generated.resources.grams_abbreviation
+import com.faltenreich.diaguard.resource.Res
+import com.faltenreich.diaguard.resource.grams_abbreviation
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 

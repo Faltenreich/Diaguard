@@ -1,16 +1,19 @@
 package com.faltenreich.diaguard.statistic
 
-import com.faltenreich.diaguard.localization.Localization
+import com.faltenreich.diaguard.architecture.viewmodel.ViewModel
+import com.faltenreich.diaguard.data.measurement.category.MeasurementCategory
+import com.faltenreich.diaguard.data.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.datetime.factory.GetTodayUseCase
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
-import com.faltenreich.diaguard.data.measurement.category.MeasurementCategory
+import com.faltenreich.diaguard.localization.Localization
 import com.faltenreich.diaguard.measurement.category.usecase.GetActiveMeasurementCategoriesUseCase
-import com.faltenreich.diaguard.data.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.measurement.property.usecase.GetMeasurementPropertiesUseCase
-import com.faltenreich.diaguard.architecture.viewmodel.ViewModel
+import com.faltenreich.diaguard.resource.Res
+import com.faltenreich.diaguard.resource.quarter
+import com.faltenreich.diaguard.resource.week
 import com.faltenreich.diaguard.statistic.average.GetStatisticAverageUseCase
 import com.faltenreich.diaguard.statistic.category.StatisticCategoryState
 import com.faltenreich.diaguard.statistic.daterange.StatisticDateRangeState
@@ -18,9 +21,6 @@ import com.faltenreich.diaguard.statistic.daterange.StatisticDateRangeType
 import com.faltenreich.diaguard.statistic.distribution.GetStatisticDistributionUseCase
 import com.faltenreich.diaguard.statistic.property.StatisticPropertyState
 import com.faltenreich.diaguard.statistic.trend.GetStatisticTrendUseCase
-import diaguard.shared.generated.resources.Res
-import diaguard.shared.generated.resources.quarter
-import diaguard.shared.generated.resources.week
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine

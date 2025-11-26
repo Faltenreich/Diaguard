@@ -7,11 +7,11 @@ import com.faltenreich.diaguard.data.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.data.measurement.property.MeasurementValueRange
 import com.faltenreich.diaguard.data.measurement.unit.suggestion.MeasurementUnitSuggestion
 import com.faltenreich.diaguard.localization.Localization
-import diaguard.shared.generated.resources.Res
-import diaguard.shared.generated.resources.basal
-import diaguard.shared.generated.resources.bolus
-import diaguard.shared.generated.resources.correction
-import diaguard.shared.generated.resources.insulin
+import com.faltenreich.diaguard.resource.Res
+import com.faltenreich.diaguard.resource.basal
+import com.faltenreich.diaguard.resource.bolus
+import com.faltenreich.diaguard.resource.correction
+import com.faltenreich.diaguard.resource.insulin
 
 class InsulinSeedQueries(
     private val localization: Localization,

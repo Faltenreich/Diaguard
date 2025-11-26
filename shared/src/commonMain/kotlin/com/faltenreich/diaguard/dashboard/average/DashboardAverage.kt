@@ -9,15 +9,15 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.faltenreich.diaguard.view.theme.AppTheme
 import com.faltenreich.diaguard.data.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.data.preview.PreviewScaffold
-import diaguard.shared.generated.resources.Res
-import diaguard.shared.generated.resources.average
-import diaguard.shared.generated.resources.day
-import diaguard.shared.generated.resources.month
-import diaguard.shared.generated.resources.placeholder
-import diaguard.shared.generated.resources.week
+import com.faltenreich.diaguard.resource.Res
+import com.faltenreich.diaguard.resource.average
+import com.faltenreich.diaguard.resource.day
+import com.faltenreich.diaguard.resource.month
+import com.faltenreich.diaguard.resource.placeholder
+import com.faltenreich.diaguard.resource.week
+import com.faltenreich.diaguard.view.theme.AppTheme
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 

@@ -32,7 +32,7 @@ kover {
                 annotatedBy("androidx.compose.runtime.Composable")
                 classes("*.*ComposableSingletons*")
                 classes("*Screen*")
-                classes("diaguard.shared.generated.resources.*")
+                classes("com.faltenreich.diaguard.resource.*")
             }
         }
     }

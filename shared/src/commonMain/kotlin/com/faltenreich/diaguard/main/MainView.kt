@@ -50,14 +50,14 @@ import com.faltenreich.diaguard.navigation.screen
 import com.faltenreich.diaguard.preference.food.FoodPreferenceListScreen
 import com.faltenreich.diaguard.preference.license.LicenseListScreen
 import com.faltenreich.diaguard.preference.overview.OverviewPreferenceListScreen
+import com.faltenreich.diaguard.resource.Res
+import com.faltenreich.diaguard.resource.ic_arrow_back
+import com.faltenreich.diaguard.resource.navigate_back
 import com.faltenreich.diaguard.statistic.StatisticScreen
 import com.faltenreich.diaguard.system.notification.Shortcut
 import com.faltenreich.diaguard.tag.detail.TagDetailScreen
 import com.faltenreich.diaguard.tag.list.TagListScreen
 import com.faltenreich.diaguard.timeline.TimelineScreen
-import diaguard.shared.generated.resources.Res
-import diaguard.shared.generated.resources.ic_arrow_back
-import diaguard.shared.generated.resources.navigate_back
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview

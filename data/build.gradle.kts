@@ -44,6 +44,6 @@ sqldelight {
 }
 
 compose.resources {
-    packageOfResClass = "diaguard.shared.generated.resources"
+    packageOfResClass = "com.faltenreich.diaguard.resource"
     publicResClass = true
 }

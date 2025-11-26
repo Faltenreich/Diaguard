@@ -2,31 +2,27 @@ package com.faltenreich.diaguard.food.form
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import com.faltenreich.diaguard.data.food.Food
 import com.faltenreich.diaguard.injection.viewModel
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarItem
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 import com.faltenreich.diaguard.navigation.screen.Screen
+import com.faltenreich.diaguard.resource.Res
+import com.faltenreich.diaguard.resource.food
+import com.faltenreich.diaguard.resource.food_delete
+import com.faltenreich.diaguard.resource.food_eaten
+import com.faltenreich.diaguard.resource.ic_check
+import com.faltenreich.diaguard.resource.ic_delete
+import com.faltenreich.diaguard.resource.ic_history
+import com.faltenreich.diaguard.resource.save
 import com.faltenreich.diaguard.view.button.TooltipFloatingActionButton
-import diaguard.shared.generated.resources.Res
-import diaguard.shared.generated.resources.food
-import diaguard.shared.generated.resources.food_delete
-import diaguard.shared.generated.resources.food_eaten
-import diaguard.shared.generated.resources.ic_check
-import diaguard.shared.generated.resources.ic_delete
-import diaguard.shared.generated.resources.ic_history
-import diaguard.shared.generated.resources.save
 import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.core.parameter.parametersOf
 
 @Serializable
-data class FoodFormScreen(private val foodId: Long) :
-    Screen {
-
-    constructor(food: Food.Local? = null) : this(foodId = food?.id ?: -1)
+data class FoodFormScreen(private val foodId: Long) : Screen {
 
     @Composable
     override fun TopAppBar(): TopAppBarStyle {

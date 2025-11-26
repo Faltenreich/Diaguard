@@ -27,14 +27,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
-import com.faltenreich.diaguard.view.theme.AppTheme
-import com.faltenreich.diaguard.entry.form.tag.EntryTagList
 import com.faltenreich.diaguard.data.entry.tag.EntryTag
-import com.faltenreich.diaguard.measurement.category.icon.MeasurementCategoryIcon
 import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import com.faltenreich.diaguard.data.tag.Tag
-import diaguard.shared.generated.resources.Res
-import diaguard.shared.generated.resources.undo
+import com.faltenreich.diaguard.entry.form.tag.EntryTagList
+import com.faltenreich.diaguard.measurement.category.icon.MeasurementCategoryIcon
+import com.faltenreich.diaguard.resource.Res
+import com.faltenreich.diaguard.resource.undo
+import com.faltenreich.diaguard.view.theme.AppTheme
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 

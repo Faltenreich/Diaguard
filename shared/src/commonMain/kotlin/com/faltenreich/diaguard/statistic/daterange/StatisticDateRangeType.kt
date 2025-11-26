@@ -1,11 +1,11 @@
 package com.faltenreich.diaguard.statistic.daterange
 
 import com.faltenreich.diaguard.datetime.DateUnit
-import diaguard.shared.generated.resources.Res
-import diaguard.shared.generated.resources.month
-import diaguard.shared.generated.resources.quarter
-import diaguard.shared.generated.resources.week
-import diaguard.shared.generated.resources.year
+import com.faltenreich.diaguard.resource.Res
+import com.faltenreich.diaguard.resource.month
+import com.faltenreich.diaguard.resource.quarter
+import com.faltenreich.diaguard.resource.week
+import com.faltenreich.diaguard.resource.year
 import org.jetbrains.compose.resources.StringResource
 
 enum class StatisticDateRangeType(

@@ -1,19 +1,19 @@
 package com.faltenreich.diaguard.entry.form.food
 
+import com.faltenreich.diaguard.data.DatabaseKey
 import com.faltenreich.diaguard.data.entry.Entry
 import com.faltenreich.diaguard.data.food.Food
-import com.faltenreich.diaguard.food.eaten.FoodEatenInputState
-import com.faltenreich.diaguard.food.eaten.list.GetFoodEatenForEntryUseCase
 import com.faltenreich.diaguard.data.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.data.measurement.property.MeasurementPropertyRepository
-import com.faltenreich.diaguard.measurement.value.MeasurementValueMapper
 import com.faltenreich.diaguard.data.preference.decimal.DecimalPlacesPreference
-import com.faltenreich.diaguard.preference.GetPreferenceUseCase
-import com.faltenreich.diaguard.data.DatabaseKey
+import com.faltenreich.diaguard.food.eaten.FoodEatenInputState
+import com.faltenreich.diaguard.food.eaten.list.GetFoodEatenForEntryUseCase
 import com.faltenreich.diaguard.localization.Localization
 import com.faltenreich.diaguard.localization.NumberFormatter
-import diaguard.shared.generated.resources.Res
-import diaguard.shared.generated.resources.food_input_value_per_100g
+import com.faltenreich.diaguard.measurement.value.MeasurementValueMapper
+import com.faltenreich.diaguard.preference.GetPreferenceUseCase
+import com.faltenreich.diaguard.resource.Res
+import com.faltenreich.diaguard.resource.food_input_value_per_100g
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flowOf

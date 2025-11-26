@@ -6,10 +6,10 @@ import com.faltenreich.diaguard.injection.viewModel
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 import com.faltenreich.diaguard.navigation.screen.Screen
+import com.faltenreich.diaguard.resource.Res
+import com.faltenreich.diaguard.resource.export
+import com.faltenreich.diaguard.resource.ic_check
 import com.faltenreich.diaguard.view.button.TooltipFloatingActionButton
-import diaguard.shared.generated.resources.Res
-import diaguard.shared.generated.resources.export
-import diaguard.shared.generated.resources.ic_check
 import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource

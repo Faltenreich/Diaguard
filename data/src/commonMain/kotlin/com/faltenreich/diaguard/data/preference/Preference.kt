@@ -1,10 +1,8 @@
 package com.faltenreich.diaguard.data.preference
 
-import org.jetbrains.compose.resources.StringResource
-
 interface Preference<Store, Domain> {
 
-    val key: StringResource
+    val key: String
 
     val default: Domain
 

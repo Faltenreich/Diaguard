@@ -11,7 +11,6 @@ internal class PreferenceDao(
 ) {
 
     inline fun <reified T> read(key: String): Flow<T?> {
-        // FIXME: Pass default value to SharedPreferences (and DataStore?)
         return keyValueStore.read(key)
     }
 

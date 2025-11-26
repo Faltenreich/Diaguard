@@ -42,8 +42,3 @@ sqldelight {
         }
     }
 }
-
-compose.resources {
-    packageOfResClass = "com.faltenreich.diaguard.resource"
-    publicResClass = true
-}

@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.localization
 
 import androidx.compose.ui.text.intl.Locale
-import diaguard.core.localization.generated.resources.Res
+import com.faltenreich.diaguard.resource.Res
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.compose.resources.PluralStringResource
 import org.jetbrains.compose.resources.StringResource

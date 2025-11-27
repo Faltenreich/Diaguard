@@ -10,9 +10,9 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
-import com.faltenreich.diaguard.injection.inject
 import com.faltenreich.diaguard.data.navigation.Navigation
 import com.faltenreich.diaguard.data.navigation.Screen
+import com.faltenreich.diaguard.injection.inject
 import kotlin.jvm.JvmSuppressWildcards
 import kotlin.reflect.KType
 

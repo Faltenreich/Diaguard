@@ -12,7 +12,10 @@ import com.faltenreich.diaguard.food.foodModule
 import com.faltenreich.diaguard.localization.localizationModule
 import com.faltenreich.diaguard.log.logModule
 import com.faltenreich.diaguard.logging.loggingModule
-import com.faltenreich.diaguard.main.mainModule
+import com.faltenreich.diaguard.main.GetBottomAppBarStyleUseCase
+import com.faltenreich.diaguard.main.GetNavigationEventUseCase
+import com.faltenreich.diaguard.main.GetTopAppBarStyleUseCase
+import com.faltenreich.diaguard.main.MainViewModel
 import com.faltenreich.diaguard.measurement.measurementModule
 import com.faltenreich.diaguard.navigation.navigationModule
 import com.faltenreich.diaguard.network.networkModule
@@ -25,6 +28,7 @@ import com.faltenreich.diaguard.system.systemModule
 import com.faltenreich.diaguard.tag.tagModule
 import com.faltenreich.diaguard.timeline.timelineModule
 import com.faltenreich.diaguard.view.viewModule
+import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
@@ -34,6 +38,10 @@ fun appModule() = module {
         dataModule(),
         featureModule(),
     )
+    factoryOf(::GetTopAppBarStyleUseCase)
+    factoryOf(::GetBottomAppBarStyleUseCase)
+    factoryOf(::GetNavigationEventUseCase)
+    viewModelOf(::MainViewModel)
     viewModelOf(::AppViewModel)
 }
 
@@ -60,7 +68,6 @@ private fun featureModule() = module {
         exportModule(),
         foodModule(),
         logModule(),
-        mainModule(),
         measurementModule(),
         navigationModule(),
         preferenceModule(),

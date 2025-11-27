@@ -63,8 +63,8 @@ kotlin {
 }
 
 dependencies {
+    implementation(project(":app:common"))
     implementation(project(":core:system"))
-    implementation(project(":shared"))
 
     implementation(libs.activity.compose)
     implementation(platform(libs.koin.bom))

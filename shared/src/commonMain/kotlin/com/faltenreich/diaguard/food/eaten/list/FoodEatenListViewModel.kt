@@ -2,10 +2,10 @@ package com.faltenreich.diaguard.food.eaten.list
 
 import com.faltenreich.diaguard.architecture.viewmodel.ViewModel
 import com.faltenreich.diaguard.data.food.Food
+import com.faltenreich.diaguard.data.navigation.NavigationTarget
 import com.faltenreich.diaguard.entry.form.GetFoodByIdUseCase
 import com.faltenreich.diaguard.injection.inject
-import com.faltenreich.diaguard.data.navigation.NavigationTarget
-import com.faltenreich.diaguard.navigation.screen.NavigateToUseCase
+import com.faltenreich.diaguard.navigation.NavigateToUseCase
 import kotlinx.coroutines.flow.map
 
 class FoodEatenListViewModel(

@@ -6,6 +6,8 @@ import com.faltenreich.diaguard.data.measurement.property.MeasurementAggregation
 import com.faltenreich.diaguard.data.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.data.measurement.property.MeasurementValueRange
 import com.faltenreich.diaguard.data.measurement.unit.MeasurementUnit
+import com.faltenreich.diaguard.data.navigation.NavigationTarget
+import com.faltenreich.diaguard.data.preference.decimal.DecimalPlacesPreference
 import com.faltenreich.diaguard.injection.inject
 import com.faltenreich.diaguard.measurement.category.usecase.GetMeasurementCategoryByIdUseCase
 import com.faltenreich.diaguard.measurement.category.usecase.StoreMeasurementCategoryUseCase
@@ -14,10 +16,8 @@ import com.faltenreich.diaguard.measurement.property.usecase.GetMaximumSortIndex
 import com.faltenreich.diaguard.measurement.property.usecase.GetMeasurementPropertyBdIdUseCase
 import com.faltenreich.diaguard.measurement.property.usecase.StoreMeasurementPropertyUseCase
 import com.faltenreich.diaguard.measurement.unit.usecase.GetMeasurementUnitSuggestionsUseCase
-import com.faltenreich.diaguard.data.navigation.NavigationTarget
-import com.faltenreich.diaguard.navigation.screen.NavigateBackUseCase
-import com.faltenreich.diaguard.navigation.screen.NavigateToUseCase
-import com.faltenreich.diaguard.data.preference.decimal.DecimalPlacesPreference
+import com.faltenreich.diaguard.navigation.NavigateBackUseCase
+import com.faltenreich.diaguard.navigation.NavigateToUseCase
 import com.faltenreich.diaguard.preference.GetPreferenceUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine

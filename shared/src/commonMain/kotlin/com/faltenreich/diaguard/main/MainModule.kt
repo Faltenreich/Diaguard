@@ -5,6 +5,8 @@ import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
 fun mainModule() = module {
+    factoryOf(::GetTopAppBarStyleUseCase)
+    factoryOf(::GetBottomAppBarStyleUseCase)
     factoryOf(::GetNavigationEventUseCase)
     viewModelOf(::MainViewModel)
 }

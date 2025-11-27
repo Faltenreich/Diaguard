@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.log
 import androidx.paging.Pager
 import androidx.paging.cachedIn
 import com.faltenreich.diaguard.architecture.viewmodel.ViewModel
+import com.faltenreich.diaguard.data.navigation.NavigationTarget
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.factory.GetTodayUseCase
 import com.faltenreich.diaguard.datetime.format.FormatDateTimeUseCase
@@ -12,8 +13,7 @@ import com.faltenreich.diaguard.log.list.LogListPagingSource
 import com.faltenreich.diaguard.log.list.item.LogDayState
 import com.faltenreich.diaguard.log.list.item.LogDayStickyInfo
 import com.faltenreich.diaguard.log.list.item.LogDayStyle
-import com.faltenreich.diaguard.data.navigation.NavigationTarget
-import com.faltenreich.diaguard.navigation.screen.NavigateToUseCase
+import com.faltenreich.diaguard.navigation.NavigateToUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map

@@ -39,6 +39,7 @@ import com.faltenreich.diaguard.data.measurement.value.MeasurementValueDao
 import com.faltenreich.diaguard.data.measurement.value.MeasurementValueRepository
 import com.faltenreich.diaguard.data.measurement.value.MeasurementValueSqlDelightDao
 import com.faltenreich.diaguard.data.measurement.value.MeasurementValueSqlDelightMapper
+import com.faltenreich.diaguard.data.navigation.Navigation
 import com.faltenreich.diaguard.data.preference.PreferenceDao
 import com.faltenreich.diaguard.data.preference.PreferenceRepository
 import com.faltenreich.diaguard.data.seed.SeedBundleDao
@@ -65,6 +66,7 @@ import com.faltenreich.diaguard.persistence.database.SqlDelightDriverFactory
 import com.faltenreich.diaguard.persistence.file.ResourceFileReader
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.factoryOf
+import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
@@ -173,6 +175,8 @@ fun dataModule() = module {
     }
 
     factoryOf(::SeedRepository)
+
+    singleOf(::Navigation)
 }
 
 expect fun dataPlatformModule(): Module

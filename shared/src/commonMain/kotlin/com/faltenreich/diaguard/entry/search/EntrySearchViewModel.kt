@@ -3,12 +3,12 @@ package com.faltenreich.diaguard.entry.search
 import androidx.paging.Pager
 import androidx.paging.cachedIn
 import com.faltenreich.diaguard.architecture.viewmodel.ViewModel
+import com.faltenreich.diaguard.data.navigation.NavigationTarget
 import com.faltenreich.diaguard.entry.form.DeleteEntryUseCase
 import com.faltenreich.diaguard.entry.form.StoreEntryUseCase
 import com.faltenreich.diaguard.entry.list.EntryListPagingSource
 import com.faltenreich.diaguard.injection.inject
-import com.faltenreich.diaguard.data.navigation.NavigationTarget
-import com.faltenreich.diaguard.navigation.screen.NavigateToUseCase
+import com.faltenreich.diaguard.navigation.NavigateToUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update

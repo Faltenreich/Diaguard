@@ -4,6 +4,7 @@ import com.faltenreich.diaguard.architecture.either.ValidationResult
 import com.faltenreich.diaguard.architecture.viewmodel.ViewModel
 import com.faltenreich.diaguard.data.entry.Entry
 import com.faltenreich.diaguard.data.food.Food
+import com.faltenreich.diaguard.data.navigation.NavigationTarget
 import com.faltenreich.diaguard.data.tag.Tag
 import com.faltenreich.diaguard.datetime.format.FormatDateTimeUseCase
 import com.faltenreich.diaguard.entry.form.datetime.GetDateTimeForEntryUseCase
@@ -19,9 +20,8 @@ import com.faltenreich.diaguard.entry.form.tag.GetTagsOfEntry
 import com.faltenreich.diaguard.food.eaten.FoodEatenInputState
 import com.faltenreich.diaguard.injection.inject
 import com.faltenreich.diaguard.logging.Logger
-import com.faltenreich.diaguard.data.navigation.NavigationTarget
-import com.faltenreich.diaguard.navigation.screen.NavigateBackUseCase
-import com.faltenreich.diaguard.navigation.screen.NavigateToUseCase
+import com.faltenreich.diaguard.navigation.NavigateBackUseCase
+import com.faltenreich.diaguard.navigation.NavigateToUseCase
 import com.faltenreich.diaguard.system.permission.HasPermissionUseCase
 import com.faltenreich.diaguard.system.permission.Permission
 import com.faltenreich.diaguard.system.permission.PermissionResult

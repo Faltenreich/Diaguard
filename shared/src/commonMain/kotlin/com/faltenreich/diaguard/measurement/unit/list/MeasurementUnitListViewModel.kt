@@ -7,7 +7,7 @@ import com.faltenreich.diaguard.injection.inject
 import com.faltenreich.diaguard.measurement.unit.usecase.GetMeasurementUnitsUseCase
 import com.faltenreich.diaguard.measurement.unit.usecase.StoreMeasurementUnitUseCase
 import com.faltenreich.diaguard.measurement.unit.usecase.ValidateMeasurementUnitUseCase
-import com.faltenreich.diaguard.navigation.screen.NavigateBackUseCase
+import com.faltenreich.diaguard.navigation.NavigateBackUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update

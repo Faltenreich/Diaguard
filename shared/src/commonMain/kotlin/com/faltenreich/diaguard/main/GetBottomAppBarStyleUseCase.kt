@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.navigation.bar.bottom
+package com.faltenreich.diaguard.main
 
 import com.faltenreich.diaguard.data.navigation.Navigation
 import com.faltenreich.diaguard.view.bar.BottomAppBarStyle

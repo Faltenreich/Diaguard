@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
-class Navigation {
+class Navigation internal constructor() {
 
     private val _events = MutableSharedFlow<NavigationEvent>()
     val events = _events.asSharedFlow()

@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.main
 
-import com.faltenreich.diaguard.data.navigation.SnackbarDuration
 import com.faltenreich.diaguard.data.navigation.Screen
+import com.faltenreich.diaguard.view.bar.SnackbarDuration
 
 sealed interface MainEvent {
 

@@ -4,14 +4,14 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
-import com.faltenreich.diaguard.injection.viewModel
-import com.faltenreich.diaguard.data.navigation.BottomAppBarStyle
-import com.faltenreich.diaguard.data.navigation.TopAppBarStyle
 import com.faltenreich.diaguard.data.navigation.Screen
+import com.faltenreich.diaguard.injection.viewModel
 import com.faltenreich.diaguard.resource.Res
 import com.faltenreich.diaguard.resource.entry_new_description
 import com.faltenreich.diaguard.resource.food_eaten
 import com.faltenreich.diaguard.resource.ic_add
+import com.faltenreich.diaguard.view.bar.BottomAppBarStyle
+import com.faltenreich.diaguard.view.bar.TopAppBarStyle
 import com.faltenreich.diaguard.view.button.TooltipFloatingActionButton
 import com.faltenreich.diaguard.view.theme.AppTheme
 import kotlinx.serialization.Serializable

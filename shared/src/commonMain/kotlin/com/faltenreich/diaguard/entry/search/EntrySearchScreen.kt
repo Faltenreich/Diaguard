@@ -6,12 +6,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import com.faltenreich.diaguard.injection.viewModel
-import com.faltenreich.diaguard.data.navigation.BottomAppBarStyle
-import com.faltenreich.diaguard.data.navigation.TopAppBarStyle
 import com.faltenreich.diaguard.data.navigation.Screen
+import com.faltenreich.diaguard.injection.viewModel
 import com.faltenreich.diaguard.resource.Res
 import com.faltenreich.diaguard.resource.entry_search
+import com.faltenreich.diaguard.view.bar.BottomAppBarStyle
+import com.faltenreich.diaguard.view.bar.TopAppBarStyle
 import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.stringResource
 import org.koin.core.parameter.parametersOf

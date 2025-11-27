@@ -1,5 +1,7 @@
 package com.faltenreich.diaguard.data.navigation
 
+import com.faltenreich.diaguard.view.bar.SnackbarDuration
+
 sealed interface NavigationEvent {
 
     data class NavigateTo(

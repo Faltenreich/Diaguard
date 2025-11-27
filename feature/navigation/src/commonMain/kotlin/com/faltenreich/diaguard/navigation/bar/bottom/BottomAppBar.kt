@@ -1,11 +1,11 @@
 package com.faltenreich.diaguard.navigation.bar.bottom
 
 import androidx.compose.runtime.Composable
-import com.faltenreich.diaguard.data.navigation.BottomAppBarStyle
 import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import com.faltenreich.diaguard.resource.Res
 import com.faltenreich.diaguard.resource.ic_menu
 import com.faltenreich.diaguard.resource.menu_open
+import com.faltenreich.diaguard.view.bar.BottomAppBarStyle
 import com.faltenreich.diaguard.view.theme.AppTheme
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource

@@ -24,8 +24,6 @@ import com.faltenreich.diaguard.backup.read.ReadBackupFormScreen
 import com.faltenreich.diaguard.backup.write.WriteBackupFormScreen
 import com.faltenreich.diaguard.dashboard.DashboardScreen
 import com.faltenreich.diaguard.data.navigation.NavigationTarget
-import com.faltenreich.diaguard.data.navigation.SnackbarDuration
-import com.faltenreich.diaguard.data.navigation.TopAppBarStyle
 import com.faltenreich.diaguard.data.preference.color.isDark
 import com.faltenreich.diaguard.entry.form.EntryFormScreen
 import com.faltenreich.diaguard.entry.search.EntrySearchScreen
@@ -55,6 +53,8 @@ import com.faltenreich.diaguard.system.notification.Shortcut
 import com.faltenreich.diaguard.tag.detail.TagDetailScreen
 import com.faltenreich.diaguard.tag.list.TagListScreen
 import com.faltenreich.diaguard.timeline.TimelineScreen
+import com.faltenreich.diaguard.view.bar.SnackbarDuration
+import com.faltenreich.diaguard.view.bar.TopAppBarStyle
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource

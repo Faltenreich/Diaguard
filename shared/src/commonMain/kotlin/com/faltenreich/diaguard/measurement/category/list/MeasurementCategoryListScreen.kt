@@ -2,14 +2,14 @@ package com.faltenreich.diaguard.measurement.category.list
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import com.faltenreich.diaguard.injection.viewModel
-import com.faltenreich.diaguard.data.navigation.BottomAppBarStyle
-import com.faltenreich.diaguard.data.navigation.TopAppBarStyle
 import com.faltenreich.diaguard.data.navigation.Screen
+import com.faltenreich.diaguard.injection.viewModel
 import com.faltenreich.diaguard.resource.Res
 import com.faltenreich.diaguard.resource.ic_add
 import com.faltenreich.diaguard.resource.measurement_categories
 import com.faltenreich.diaguard.resource.measurement_category_new
+import com.faltenreich.diaguard.view.bar.BottomAppBarStyle
+import com.faltenreich.diaguard.view.bar.TopAppBarStyle
 import com.faltenreich.diaguard.view.button.TooltipFloatingActionButton
 import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.painterResource

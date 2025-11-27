@@ -2,11 +2,9 @@ package com.faltenreich.diaguard.food.form
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import com.faltenreich.diaguard.data.navigation.Screen
 import com.faltenreich.diaguard.injection.viewModel
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarItem
-import com.faltenreich.diaguard.data.navigation.BottomAppBarStyle
-import com.faltenreich.diaguard.data.navigation.TopAppBarStyle
-import com.faltenreich.diaguard.data.navigation.Screen
 import com.faltenreich.diaguard.resource.Res
 import com.faltenreich.diaguard.resource.food
 import com.faltenreich.diaguard.resource.food_delete
@@ -15,6 +13,8 @@ import com.faltenreich.diaguard.resource.ic_check
 import com.faltenreich.diaguard.resource.ic_delete
 import com.faltenreich.diaguard.resource.ic_history
 import com.faltenreich.diaguard.resource.save
+import com.faltenreich.diaguard.view.bar.BottomAppBarStyle
+import com.faltenreich.diaguard.view.bar.TopAppBarStyle
 import com.faltenreich.diaguard.view.button.TooltipFloatingActionButton
 import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.painterResource

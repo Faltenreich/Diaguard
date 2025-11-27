@@ -4,7 +4,7 @@ import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.navigation.NavigationEvent
 import com.faltenreich.diaguard.navigation.NavigationTarget
 
-class NavigateToUseCase(private val navigation: Navigation) {
+class NavigateToUseCase internal constructor(private val navigation: Navigation) {
 
     suspend operator fun invoke(target: NavigationTarget, popHistory: Boolean = false) {
         navigation.postEvent(NavigationEvent.NavigateTo(target, popHistory))

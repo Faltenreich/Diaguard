@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.navigation
+package com.faltenreich.diaguard.main
 
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.EnterTransition
@@ -14,6 +14,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.faltenreich.diaguard.injection.inject
+import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.navigation.screen.Screen
 import kotlin.jvm.JvmSuppressWildcards
 import kotlin.reflect.KType
@@ -31,8 +32,8 @@ inline fun <reified T : Screen> NavGraphBuilder.screen(
     (AnimatedContentTransitionScope<NavBackStackEntry>.() -> @JvmSuppressWildcards ExitTransition?)? = exitTransition,
     noinline sizeTransform:
     (AnimatedContentTransitionScope<NavBackStackEntry>.() -> @JvmSuppressWildcards SizeTransform?)? = null,
-    navigation: Navigation = inject(),
 ) {
+    val navigation = inject<Navigation>()
     composable<T>(
         typeMap,
         deepLinks,

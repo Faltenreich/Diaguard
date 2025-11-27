@@ -19,12 +19,12 @@ import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.data.navigation.Screen
 import com.faltenreich.diaguard.injection.sharedViewModel
 import com.faltenreich.diaguard.injection.viewModel
-import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarItem
 import com.faltenreich.diaguard.resource.Res
 import com.faltenreich.diaguard.resource.food_new
 import com.faltenreich.diaguard.resource.food_preferences_open
 import com.faltenreich.diaguard.resource.ic_add
 import com.faltenreich.diaguard.resource.ic_preferences
+import com.faltenreich.diaguard.view.bar.BottomAppBarItem
 import com.faltenreich.diaguard.view.bar.BottomAppBarStyle
 import com.faltenreich.diaguard.view.bar.TopAppBarStyle
 import com.faltenreich.diaguard.view.button.TooltipFloatingActionButton

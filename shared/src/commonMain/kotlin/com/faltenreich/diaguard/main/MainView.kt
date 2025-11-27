@@ -40,8 +40,6 @@ import com.faltenreich.diaguard.measurement.category.form.MeasurementCategoryFor
 import com.faltenreich.diaguard.measurement.category.list.MeasurementCategoryListScreen
 import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormScreen
 import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitListScreen
-import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBar
-import com.faltenreich.diaguard.navigation.bar.top.TopAppBar
 import com.faltenreich.diaguard.preference.food.FoodPreferenceListScreen
 import com.faltenreich.diaguard.preference.license.LicenseListScreen
 import com.faltenreich.diaguard.preference.overview.OverviewPreferenceListScreen
@@ -53,7 +51,9 @@ import com.faltenreich.diaguard.system.notification.Shortcut
 import com.faltenreich.diaguard.tag.detail.TagDetailScreen
 import com.faltenreich.diaguard.tag.list.TagListScreen
 import com.faltenreich.diaguard.timeline.TimelineScreen
+import com.faltenreich.diaguard.view.bar.BottomAppBar
 import com.faltenreich.diaguard.view.bar.SnackbarDuration
+import com.faltenreich.diaguard.view.bar.TopAppBar
 import com.faltenreich.diaguard.view.bar.TopAppBarStyle
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource

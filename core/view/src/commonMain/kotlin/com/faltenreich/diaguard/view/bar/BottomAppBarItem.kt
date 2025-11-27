@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.navigation.bar.bottom
+package com.faltenreich.diaguard.view.bar
 
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.material3.Icon
@@ -8,7 +8,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
-import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import com.faltenreich.diaguard.resource.Res
 import com.faltenreich.diaguard.resource.ic_search
 import com.faltenreich.diaguard.view.info.Tooltip
@@ -48,7 +47,7 @@ fun BottomAppBarItem(
 
 @Preview
 @Composable
-private fun Preview() = PreviewScaffold {
+private fun Preview() {
     BottomAppBarItem(
         painter = painterResource(Res.drawable.ic_search),
         contentDescription = "",

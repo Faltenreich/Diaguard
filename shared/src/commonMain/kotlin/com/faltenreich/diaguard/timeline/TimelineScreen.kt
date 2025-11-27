@@ -5,7 +5,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import com.faltenreich.diaguard.data.navigation.Screen
 import com.faltenreich.diaguard.injection.viewModel
-import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarItem
 import com.faltenreich.diaguard.resource.Res
 import com.faltenreich.diaguard.resource.date_picker_open
 import com.faltenreich.diaguard.resource.entry_new_description
@@ -14,6 +13,7 @@ import com.faltenreich.diaguard.resource.ic_date
 import com.faltenreich.diaguard.resource.ic_search
 import com.faltenreich.diaguard.resource.search_open
 import com.faltenreich.diaguard.view.animation.rememberAnimatable
+import com.faltenreich.diaguard.view.bar.BottomAppBarItem
 import com.faltenreich.diaguard.view.bar.BottomAppBarStyle
 import com.faltenreich.diaguard.view.button.TooltipFloatingActionButton
 import kotlinx.coroutines.launch

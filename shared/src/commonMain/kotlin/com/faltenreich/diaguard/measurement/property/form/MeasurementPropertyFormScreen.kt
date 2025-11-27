@@ -8,13 +8,13 @@ import com.faltenreich.diaguard.injection.sharedViewModel
 import com.faltenreich.diaguard.injection.viewModel
 import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitSelectionEvent
 import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitSelectionViewModel
-import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarItem
 import com.faltenreich.diaguard.resource.Res
 import com.faltenreich.diaguard.resource.ic_check
 import com.faltenreich.diaguard.resource.ic_delete
 import com.faltenreich.diaguard.resource.measurement_property
 import com.faltenreich.diaguard.resource.measurement_property_delete
 import com.faltenreich.diaguard.resource.save
+import com.faltenreich.diaguard.view.bar.BottomAppBarItem
 import com.faltenreich.diaguard.view.bar.BottomAppBarStyle
 import com.faltenreich.diaguard.view.bar.TopAppBarStyle
 import com.faltenreich.diaguard.view.button.TooltipFloatingActionButton

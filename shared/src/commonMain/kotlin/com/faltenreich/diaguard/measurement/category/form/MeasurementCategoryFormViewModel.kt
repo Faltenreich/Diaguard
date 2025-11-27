@@ -6,6 +6,7 @@ import com.faltenreich.diaguard.data.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.data.navigation.NavigationTarget
 import com.faltenreich.diaguard.data.preference.color.ColorSchemePreference
 import com.faltenreich.diaguard.injection.inject
+import com.faltenreich.diaguard.localization.Localization
 import com.faltenreich.diaguard.measurement.category.usecase.DeleteMeasurementCategoryUseCase
 import com.faltenreich.diaguard.measurement.category.usecase.GetMeasurementCategoryByIdUseCase
 import com.faltenreich.diaguard.measurement.category.usecase.StoreMeasurementCategoryUseCase
@@ -32,6 +33,7 @@ class MeasurementCategoryFormViewModel(
     private val navigateTo: NavigateToUseCase = inject(),
     private val navigateBack: NavigateBackUseCase = inject(),
     private val showSnackbar: ShowSnackbarUseCase = inject(),
+    private val localization: Localization = inject(),
 ) : ViewModel<MeasurementCategoryFormState, MeasurementCategoryFormIntent, Unit>() {
 
     private val category: MeasurementCategory.Local = checkNotNull(getCategoryBdId(categoryId))
@@ -90,7 +92,7 @@ class MeasurementCategoryFormViewModel(
         inProperties: List<MeasurementProperty.Local>,
     ) {
         val previous = inProperties.lastOrNull { it.sortIndex < property.sortIndex } ?: run {
-            showSnackbar(Res.string.error_unknown)
+            showSnackbar(localization.getString(Res.string.error_unknown))
             return
         }
         swapSortIndexes(first = property, second = previous)
@@ -101,7 +103,7 @@ class MeasurementCategoryFormViewModel(
         inProperties: List<MeasurementProperty.Local>,
     ) {
         val next = inProperties.firstOrNull { it.sortIndex > property.sortIndex } ?: run {
-            showSnackbar(Res.string.error_unknown)
+            showSnackbar(localization.getString(Res.string.error_unknown))
             return
         }
         swapSortIndexes(first = property, second = next)

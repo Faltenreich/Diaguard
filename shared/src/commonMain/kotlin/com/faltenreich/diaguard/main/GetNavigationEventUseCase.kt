@@ -36,29 +36,28 @@ class GetNavigationEventUseCase(
 
     operator fun invoke(): Flow<MainEvent>{
         return navigation.events.map { event ->
-            when (event) {
-                is NavigationEvent.NavigateTo -> MainEvent.NavigateTo(
-                    screen = event.target.toScreen(),
-                    clearHistory = event.clearHistory,
-                )
-                is NavigationEvent.NavigateBack -> MainEvent.NavigateBack
-                is NavigationEvent.ShowSnackbar -> MainEvent.ShowSnackbar(
-                    message = event.message,
-                    actionLabel = event.actionLabel,
-                    withDismissAction = event.withDismissAction,
-                    duration = event.duration,
-                )
+            with (event) {
+                when (this) {
+                    is NavigationEvent.NavigateTo -> MainEvent.NavigateTo(
+                        screen = target.toScreen(),
+                        clearHistory = clearHistory,
+                    )
+                    is NavigationEvent.NavigateBack -> MainEvent.NavigateBack
+                    is NavigationEvent.ShowSnackbar -> MainEvent.ShowSnackbar(
+                        message = message,
+                        actionLabel = actionLabel,
+                        withDismissAction = withDismissAction,
+                        duration = duration,
+                    )
+                }
             }
         }
     }
 
     private fun NavigationTarget.toScreen(): Screen = when (this) {
         is NavigationTarget.Dashboard -> DashboardScreen
-        is NavigationTarget.EntryForm -> EntryFormScreen(
-            entryId = entryId,
-            dateTimeIsoString = dateTime?.isoString,
-            foodId = foodId,
-        )
+        is NavigationTarget.EntryForm ->
+            EntryFormScreen(entryId = entryId, dateTimeIsoString = dateTime?.isoString, foodId = foodId)
         is NavigationTarget.EntrySearch -> EntrySearchScreen(query)
         is NavigationTarget.ExportForm -> ExportFormScreen
         is NavigationTarget.FoodEatenList -> FoodEatenListScreen(foodId = foodId)
@@ -67,14 +66,10 @@ class GetNavigationEventUseCase(
         is NavigationTarget.FoodSearch -> FoodSearchScreen(mode = mode.toDomain())
         is NavigationTarget.LicenseList -> LicenseListScreen
         is NavigationTarget.Log -> LogScreen
-        is NavigationTarget.MeasurementCategoryForm -> MeasurementCategoryFormScreen(
-            categoryId = categoryId,
-        )
+        is NavigationTarget.MeasurementCategoryForm -> MeasurementCategoryFormScreen(categoryId = categoryId)
         is NavigationTarget.MeasurementCategoryList -> MeasurementCategoryListScreen
-        is NavigationTarget.MeasurementPropertyForm -> MeasurementPropertyFormScreen(
-            categoryId = categoryId,
-            propertyId = propertyId,
-        )
+        is NavigationTarget.MeasurementPropertyForm ->
+            MeasurementPropertyFormScreen(categoryId = categoryId, propertyId = propertyId)
         is NavigationTarget.MeasurementUnitList -> MeasurementUnitListScreen(mode = mode.toDomain())
         is NavigationTarget.OverviewPreferenceList -> OverviewPreferenceListScreen
         is NavigationTarget.ReadBackupForm -> ReadBackupFormScreen

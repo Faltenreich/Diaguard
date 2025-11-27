@@ -15,6 +15,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
@@ -28,7 +29,6 @@ import com.faltenreich.diaguard.entry.search.EntrySearchScreen
 import com.faltenreich.diaguard.export.form.ExportFormScreen
 import com.faltenreich.diaguard.food.eaten.list.FoodEatenListScreen
 import com.faltenreich.diaguard.food.form.FoodFormScreen
-import com.faltenreich.diaguard.food.search.FoodSearchMode
 import com.faltenreich.diaguard.food.search.FoodSearchScreen
 import com.faltenreich.diaguard.injection.LocalSharedViewModelStoreOwner
 import com.faltenreich.diaguard.injection.rememberViewModelStoreOwner
@@ -38,9 +38,7 @@ import com.faltenreich.diaguard.main.menu.MainMenu
 import com.faltenreich.diaguard.measurement.category.form.MeasurementCategoryFormScreen
 import com.faltenreich.diaguard.measurement.category.list.MeasurementCategoryListScreen
 import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormScreen
-import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitListMode
 import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitListScreen
-import com.faltenreich.diaguard.navigation.NavigationEvent
 import com.faltenreich.diaguard.navigation.NavigationTarget
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBar
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBar
@@ -56,6 +54,7 @@ import com.faltenreich.diaguard.system.notification.Shortcut
 import com.faltenreich.diaguard.tag.detail.TagDetailScreen
 import com.faltenreich.diaguard.tag.list.TagListScreen
 import com.faltenreich.diaguard.timeline.TimelineScreen
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -68,64 +67,20 @@ fun MainView(
 ) {
     val state = viewModel.collectState() ?: return
 
+    val scope = rememberCoroutineScope()
     val navController = rememberNavController()
     val snackbarHostState = remember { SnackbarHostState() }
     var showMenu by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
-        viewModel.collectNavigationEvents { event ->
+        viewModel.collectEvents { event ->
             when (event) {
-                is NavigationEvent.PushScreen -> navController.navigate(
+                is MainEvent.NavigateTo -> navController.navigate(
                     screen = event.screen,
-                    popHistory = event.popHistory,
-                )
-                is NavigationEvent.NavigateTo -> navController.navigate(
-                    screen = when (val target = event.target) {
-                        is NavigationTarget.Dashboard -> DashboardScreen
-                        is NavigationTarget.EntryForm -> EntryFormScreen(
-                            entryId = target.entryId,
-                            dateTimeIsoString = target.dateTime?.isoString,
-                            foodId = target.foodId,
-                        )
-                        is NavigationTarget.EntrySearch -> EntrySearchScreen(target.query)
-                        is NavigationTarget.ExportForm -> ExportFormScreen
-                        is NavigationTarget.FoodEatenList -> FoodEatenListScreen(foodId = target.foodId)
-                        is NavigationTarget.FoodForm -> FoodFormScreen(foodId = target.foodId)
-                        is NavigationTarget.FoodPreferenceList -> FoodPreferenceListScreen
-                        is NavigationTarget.FoodSearch -> FoodSearchScreen(
-                            mode = when (target.mode) {
-                                NavigationTarget.FoodSearch.Mode.STROLL -> FoodSearchMode.STROLL
-                                NavigationTarget.FoodSearch.Mode.FIND -> FoodSearchMode.FIND
-                            },
-                        )
-                        is NavigationTarget.LicenseList -> LicenseListScreen
-                        is NavigationTarget.Log -> LogScreen
-                        is NavigationTarget.MeasurementCategoryForm -> MeasurementCategoryFormScreen(
-                            categoryId = target.categoryId,
-                        )
-                        is NavigationTarget.MeasurementCategoryList -> MeasurementCategoryListScreen
-                        is NavigationTarget.MeasurementPropertyForm -> MeasurementPropertyFormScreen(
-                            categoryId = target.categoryId,
-                            propertyId = target.propertyId,
-                        )
-                        is NavigationTarget.MeasurementUnitList -> MeasurementUnitListScreen(
-                            mode = when (target.mode) {
-                                NavigationTarget.MeasurementUnitList.Mode.STROLL -> MeasurementUnitListMode.STROLL
-                                NavigationTarget.MeasurementUnitList.Mode.FIND -> MeasurementUnitListMode.FIND
-                            },
-                        )
-                        is NavigationTarget.OverviewPreferenceList -> OverviewPreferenceListScreen
-                        is NavigationTarget.ReadBackupForm -> ReadBackupFormScreen
-                        is NavigationTarget.Statistic -> StatisticScreen
-                        is NavigationTarget.TagDetail -> TagDetailScreen(tagId = target.tagId)
-                        is NavigationTarget.TagList -> TagListScreen
-                        is NavigationTarget.Timeline -> TimelineScreen
-                        is NavigationTarget.WriteBackupForm -> WriteBackupFormScreen
-                    },
                     popHistory = event.clearHistory,
                 )
-                is NavigationEvent.NavigateBack -> navController.popBackStack()
-                is NavigationEvent.ShowSnackbar -> snackbarHostState.showSnackbar(event.message)
+                is MainEvent.NavigateBack -> navController.popBackStack()
+                is MainEvent.ShowSnackbar -> scope.launch { snackbarHostState.showSnackbar(event.message) }
             }
         }
     }

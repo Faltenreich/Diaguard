@@ -75,10 +75,11 @@ fun MainView(
     LaunchedEffect(Unit) {
         viewModel.collectEvents { event ->
             when (event) {
-                is MainEvent.NavigateTo -> navController.navigate(
-                    screen = event.screen,
-                    popHistory = event.clearHistory,
-                )
+                is MainEvent.NavigateTo -> navController.navigate(event.screen) {
+                    if (event.clearHistory) {
+                        popUpTo((navController.graph.id))
+                    }
+                }
                 is MainEvent.NavigateBack -> navController.popBackStack()
                 is MainEvent.ShowSnackbar -> scope.launch { snackbarHostState.showSnackbar(event.message) }
             }

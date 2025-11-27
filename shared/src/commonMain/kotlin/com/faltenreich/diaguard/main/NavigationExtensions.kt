@@ -5,7 +5,6 @@ import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.SizeTransform
 import androidx.navigation.NavBackStackEntry
-import androidx.navigation.NavController
 import androidx.navigation.NavDeepLink
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
@@ -47,13 +46,5 @@ inline fun <reified T : Screen> NavGraphBuilder.screen(
         navigation.setBottomAppBarStyle(screen.BottomAppBar())
 
         screen.Content()
-    }
-}
-
-fun NavController.navigate(screen: Screen, popHistory: Boolean) {
-    navigate(screen) {
-        if (popHistory) {
-            popUpTo((graph.id))
-        }
     }
 }

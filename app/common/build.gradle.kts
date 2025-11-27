@@ -17,6 +17,7 @@ kotlin {
                 implementation(project(":core:serialization"))
                 implementation(project(":core:system"))
                 implementation(project(":core:view"))
+                implementation(project(":feature:dashboard"))
                 implementation(project(":feature:datetime"))
                 implementation(project(":feature:navigation"))
                 implementation(project(":feature:preference"))

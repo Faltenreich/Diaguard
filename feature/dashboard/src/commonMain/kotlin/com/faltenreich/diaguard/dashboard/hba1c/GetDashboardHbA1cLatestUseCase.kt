@@ -1,10 +1,10 @@
 package com.faltenreich.diaguard.dashboard.hba1c
 
-import com.faltenreich.diaguard.datetime.DateUnit
-import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
+import com.faltenreich.diaguard.data.DatabaseKey
 import com.faltenreich.diaguard.data.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.data.measurement.value.MeasurementValueRepository
-import com.faltenreich.diaguard.data.DatabaseKey
+import com.faltenreich.diaguard.datetime.DateUnit
+import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 

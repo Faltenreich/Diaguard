@@ -36,6 +36,7 @@ kotlin {
         all {
             languageSettings {
                 optIn("androidx.compose.material3.ExperimentalMaterial3Api")
+                optIn("kotlinx.coroutines.ExperimentalCoroutinesApi")
             }
         }
     }

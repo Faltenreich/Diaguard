@@ -1,9 +1,9 @@
 package com.faltenreich.diaguard.dashboard.trend
 
+import com.faltenreich.diaguard.data.DatabaseKey
+import com.faltenreich.diaguard.data.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
-import com.faltenreich.diaguard.data.measurement.property.MeasurementPropertyRepository
-import com.faltenreich.diaguard.data.DatabaseKey
 import com.faltenreich.diaguard.statistic.daterange.StatisticDateRangeType
 import com.faltenreich.diaguard.statistic.trend.GetStatisticTrendUseCase
 import com.faltenreich.diaguard.statistic.trend.StatisticTrendState

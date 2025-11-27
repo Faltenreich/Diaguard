@@ -3,7 +3,7 @@ package com.faltenreich.diaguard.tag.list
 import com.faltenreich.diaguard.architecture.either.ValidationResult
 import com.faltenreich.diaguard.architecture.viewmodel.ViewModel
 import com.faltenreich.diaguard.data.tag.Tag
-import com.faltenreich.diaguard.navigation.NavigationTarget
+import com.faltenreich.diaguard.data.navigation.NavigationTarget
 import com.faltenreich.diaguard.navigation.screen.NavigateToUseCase
 import com.faltenreich.diaguard.tag.StoreTagUseCase
 import com.faltenreich.diaguard.tag.ValidateTagUseCase

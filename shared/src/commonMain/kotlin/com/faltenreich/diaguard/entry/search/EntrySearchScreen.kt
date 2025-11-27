@@ -7,9 +7,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import com.faltenreich.diaguard.injection.viewModel
-import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
-import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
-import com.faltenreich.diaguard.navigation.screen.Screen
+import com.faltenreich.diaguard.data.navigation.BottomAppBarStyle
+import com.faltenreich.diaguard.data.navigation.TopAppBarStyle
+import com.faltenreich.diaguard.data.navigation.Screen
 import com.faltenreich.diaguard.resource.Res
 import com.faltenreich.diaguard.resource.entry_search
 import kotlinx.serialization.Serializable

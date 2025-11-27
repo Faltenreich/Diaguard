@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.navigation.bar.snackbar
+package com.faltenreich.diaguard.data.navigation
 
 enum class SnackbarDuration {
     SHORT,

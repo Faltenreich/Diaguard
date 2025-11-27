@@ -4,8 +4,8 @@ import app.cash.turbine.test
 import com.faltenreich.diaguard.TestSuite
 import com.faltenreich.diaguard.data.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.data.measurement.category.MeasurementCategoryRepository
-import com.faltenreich.diaguard.navigation.Navigation
-import com.faltenreich.diaguard.navigation.NavigationEvent
+import com.faltenreich.diaguard.data.navigation.Navigation
+import com.faltenreich.diaguard.data.navigation.NavigationEvent
 import com.faltenreich.diaguard.startup.seed.ImportSeedUseCase
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest

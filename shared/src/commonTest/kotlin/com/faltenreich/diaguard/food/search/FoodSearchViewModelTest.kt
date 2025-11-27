@@ -5,8 +5,8 @@ import com.faltenreich.diaguard.TestSuite
 import com.faltenreich.diaguard.data.food.FoodRepository
 import com.faltenreich.diaguard.food.FoodFactory
 import com.faltenreich.diaguard.food.form.FoodFormScreen
-import com.faltenreich.diaguard.navigation.Navigation
-import com.faltenreich.diaguard.navigation.NavigationEvent
+import com.faltenreich.diaguard.data.navigation.Navigation
+import com.faltenreich.diaguard.data.navigation.NavigationEvent
 import com.faltenreich.diaguard.preference.food.FoodPreferenceListScreen
 import kotlinx.coroutines.test.runTest
 import org.koin.core.parameter.parametersOf

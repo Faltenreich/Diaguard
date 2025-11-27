@@ -9,8 +9,8 @@ import com.faltenreich.diaguard.food.FoodFactory
 import com.faltenreich.diaguard.food.eaten.list.FoodEatenListScreen
 import com.faltenreich.diaguard.food.nutrient.FoodNutrient
 import com.faltenreich.diaguard.food.nutrient.FoodNutrientData
-import com.faltenreich.diaguard.navigation.Navigation
-import com.faltenreich.diaguard.navigation.NavigationEvent
+import com.faltenreich.diaguard.data.navigation.Navigation
+import com.faltenreich.diaguard.data.navigation.NavigationEvent
 import kotlinx.coroutines.test.runTest
 import org.koin.core.parameter.parametersOf
 import org.koin.test.get

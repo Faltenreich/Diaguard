@@ -1,8 +1,6 @@
-package com.faltenreich.diaguard.navigation.screen
+package com.faltenreich.diaguard.data.navigation
 
 import androidx.compose.runtime.Composable
-import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
-import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 
 interface Screen {
 

@@ -19,7 +19,7 @@ import com.faltenreich.diaguard.entry.form.tag.GetTagsOfEntry
 import com.faltenreich.diaguard.food.eaten.FoodEatenInputState
 import com.faltenreich.diaguard.injection.inject
 import com.faltenreich.diaguard.logging.Logger
-import com.faltenreich.diaguard.navigation.NavigationTarget
+import com.faltenreich.diaguard.data.navigation.NavigationTarget
 import com.faltenreich.diaguard.navigation.screen.NavigateBackUseCase
 import com.faltenreich.diaguard.navigation.screen.NavigateToUseCase
 import com.faltenreich.diaguard.system.permission.HasPermissionUseCase

@@ -1,8 +1,9 @@
 package com.faltenreich.diaguard.navigation.bar.snackbar
 
 import com.faltenreich.diaguard.localization.Localization
-import com.faltenreich.diaguard.navigation.Navigation
-import com.faltenreich.diaguard.navigation.NavigationEvent
+import com.faltenreich.diaguard.data.navigation.Navigation
+import com.faltenreich.diaguard.data.navigation.NavigationEvent
+import com.faltenreich.diaguard.data.navigation.SnackbarDuration
 import org.jetbrains.compose.resources.StringResource
 
 class ShowSnackbarUseCase(

@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.navigation
 
+import com.faltenreich.diaguard.data.navigation.Navigation
 import com.faltenreich.diaguard.navigation.bar.bottom.GetBottomAppBarStyleUseCase
 import com.faltenreich.diaguard.navigation.bar.snackbar.ShowSnackbarUseCase
 import com.faltenreich.diaguard.navigation.bar.top.GetTopAppBarStyleUseCase

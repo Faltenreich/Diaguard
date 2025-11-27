@@ -5,7 +5,7 @@ import androidx.paging.cachedIn
 import com.faltenreich.diaguard.architecture.viewmodel.ViewModel
 import com.faltenreich.diaguard.data.food.search.FoodSearchParams
 import com.faltenreich.diaguard.injection.inject
-import com.faltenreich.diaguard.navigation.NavigationTarget
+import com.faltenreich.diaguard.data.navigation.NavigationTarget
 import com.faltenreich.diaguard.navigation.screen.NavigateBackUseCase
 import com.faltenreich.diaguard.navigation.screen.NavigateToUseCase
 import com.faltenreich.diaguard.data.preference.food.ShowBrandedFoodPreference

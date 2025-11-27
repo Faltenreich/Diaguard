@@ -8,7 +8,7 @@ import com.faltenreich.diaguard.dashboard.reminder.GetDashboardReminderUseCase
 import com.faltenreich.diaguard.dashboard.today.GetDashboardTodayUseCase
 import com.faltenreich.diaguard.dashboard.trend.GetDashboardTrendUseCase
 import com.faltenreich.diaguard.entry.form.reminder.SetReminderUseCase
-import com.faltenreich.diaguard.navigation.NavigationTarget
+import com.faltenreich.diaguard.data.navigation.NavigationTarget
 import com.faltenreich.diaguard.navigation.screen.NavigateToUseCase
 import kotlinx.coroutines.flow.combine
 

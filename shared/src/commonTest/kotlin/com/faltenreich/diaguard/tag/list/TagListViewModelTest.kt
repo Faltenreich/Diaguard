@@ -4,8 +4,8 @@ import app.cash.turbine.test
 import com.faltenreich.diaguard.TestSuite
 import com.faltenreich.diaguard.data.tag.Tag
 import com.faltenreich.diaguard.data.tag.TagRepository
-import com.faltenreich.diaguard.navigation.Navigation
-import com.faltenreich.diaguard.navigation.NavigationEvent
+import com.faltenreich.diaguard.data.navigation.Navigation
+import com.faltenreich.diaguard.data.navigation.NavigationEvent
 import com.faltenreich.diaguard.tag.detail.TagDetailScreen
 import kotlinx.coroutines.test.runTest
 import org.koin.test.inject

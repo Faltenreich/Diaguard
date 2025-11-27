@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.navigation.bar.bottom
+package com.faltenreich.diaguard.data.navigation
 
 import androidx.compose.runtime.Composable
 

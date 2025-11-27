@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.preference.overview
 
-import com.faltenreich.diaguard.navigation.NavigationTarget
+import com.faltenreich.diaguard.data.navigation.NavigationTarget
 import com.faltenreich.diaguard.data.preference.color.ColorScheme
 import com.faltenreich.diaguard.data.preference.startscreen.StartScreen
 

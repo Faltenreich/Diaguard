@@ -14,7 +14,7 @@ import com.faltenreich.diaguard.measurement.property.usecase.GetMaximumSortIndex
 import com.faltenreich.diaguard.measurement.property.usecase.GetMeasurementPropertyBdIdUseCase
 import com.faltenreich.diaguard.measurement.property.usecase.StoreMeasurementPropertyUseCase
 import com.faltenreich.diaguard.measurement.unit.usecase.GetMeasurementUnitSuggestionsUseCase
-import com.faltenreich.diaguard.navigation.NavigationTarget
+import com.faltenreich.diaguard.data.navigation.NavigationTarget
 import com.faltenreich.diaguard.navigation.screen.NavigateBackUseCase
 import com.faltenreich.diaguard.navigation.screen.NavigateToUseCase
 import com.faltenreich.diaguard.data.preference.decimal.DecimalPlacesPreference

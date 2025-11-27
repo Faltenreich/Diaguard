@@ -23,6 +23,9 @@ import androidx.navigation.compose.rememberNavController
 import com.faltenreich.diaguard.backup.read.ReadBackupFormScreen
 import com.faltenreich.diaguard.backup.write.WriteBackupFormScreen
 import com.faltenreich.diaguard.dashboard.DashboardScreen
+import com.faltenreich.diaguard.data.navigation.NavigationTarget
+import com.faltenreich.diaguard.data.navigation.SnackbarDuration
+import com.faltenreich.diaguard.data.navigation.TopAppBarStyle
 import com.faltenreich.diaguard.data.preference.color.isDark
 import com.faltenreich.diaguard.entry.form.EntryFormScreen
 import com.faltenreich.diaguard.entry.search.EntrySearchScreen
@@ -39,11 +42,8 @@ import com.faltenreich.diaguard.measurement.category.form.MeasurementCategoryFor
 import com.faltenreich.diaguard.measurement.category.list.MeasurementCategoryListScreen
 import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormScreen
 import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitListScreen
-import com.faltenreich.diaguard.navigation.NavigationTarget
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBar
-import com.faltenreich.diaguard.navigation.bar.snackbar.SnackbarDuration
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBar
-import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 import com.faltenreich.diaguard.preference.food.FoodPreferenceListScreen
 import com.faltenreich.diaguard.preference.license.LicenseListScreen
 import com.faltenreich.diaguard.preference.overview.OverviewPreferenceListScreen

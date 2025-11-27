@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.main
 
-import com.faltenreich.diaguard.navigation.NavigationTarget
+import com.faltenreich.diaguard.data.navigation.NavigationTarget
 
 sealed interface MainIntent {
 

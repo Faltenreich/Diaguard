@@ -9,7 +9,7 @@ import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import com.faltenreich.diaguard.export.form.ExportFormScreen
 import com.faltenreich.diaguard.food.search.FoodSearchScreen
 import com.faltenreich.diaguard.log.LogScreen
-import com.faltenreich.diaguard.navigation.NavigationTarget
+import com.faltenreich.diaguard.data.navigation.NavigationTarget
 import com.faltenreich.diaguard.preference.overview.OverviewPreferenceListScreen
 import com.faltenreich.diaguard.resource.Res
 import com.faltenreich.diaguard.resource.dashboard

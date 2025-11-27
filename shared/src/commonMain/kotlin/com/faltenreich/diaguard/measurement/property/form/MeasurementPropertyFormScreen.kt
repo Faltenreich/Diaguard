@@ -8,9 +8,9 @@ import com.faltenreich.diaguard.injection.viewModel
 import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitSelectionEvent
 import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitSelectionViewModel
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarItem
-import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBarStyle
-import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
-import com.faltenreich.diaguard.navigation.screen.Screen
+import com.faltenreich.diaguard.data.navigation.BottomAppBarStyle
+import com.faltenreich.diaguard.data.navigation.TopAppBarStyle
+import com.faltenreich.diaguard.data.navigation.Screen
 import com.faltenreich.diaguard.resource.Res
 import com.faltenreich.diaguard.resource.ic_check
 import com.faltenreich.diaguard.resource.ic_delete

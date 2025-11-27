@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.data.preference.color.ColorScheme
 import com.faltenreich.diaguard.data.preference.startscreen.StartScreen
 import com.faltenreich.diaguard.data.preview.PreviewScaffold
-import com.faltenreich.diaguard.navigation.NavigationTarget
+import com.faltenreich.diaguard.data.navigation.NavigationTarget
 import com.faltenreich.diaguard.preference.color.ColorSchemeForm
 import com.faltenreich.diaguard.preference.decimalplaces.DecimalPlacesForm
 import com.faltenreich.diaguard.preference.list.PreferenceActionListItem

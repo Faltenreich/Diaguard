@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.navigation
+package com.faltenreich.diaguard.data.navigation
 
 import com.faltenreich.diaguard.datetime.DateTime
 

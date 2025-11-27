@@ -1,6 +1,4 @@
-package com.faltenreich.diaguard.navigation
-
-import com.faltenreich.diaguard.navigation.bar.snackbar.SnackbarDuration
+package com.faltenreich.diaguard.data.navigation
 
 sealed interface NavigationEvent {
 

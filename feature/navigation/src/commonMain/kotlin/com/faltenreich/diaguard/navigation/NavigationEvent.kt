@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.navigation
 
-import androidx.compose.material3.SnackbarDuration
+import com.faltenreich.diaguard.navigation.bar.snackbar.SnackbarDuration
 
 sealed interface NavigationEvent {
 
@@ -13,10 +13,8 @@ sealed interface NavigationEvent {
 
     data class ShowSnackbar(
         val message: String,
-        val actionLabel: String? = null,
-        val withDismissAction: Boolean = false,
-        val duration: SnackbarDuration =
-            if (actionLabel == null) SnackbarDuration.Short
-            else SnackbarDuration.Indefinite,
+        val actionLabel: String?,
+        val withDismissAction: Boolean,
+        val duration: SnackbarDuration,
     ) : NavigationEvent
 }

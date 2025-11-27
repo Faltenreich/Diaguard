@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.navigation.bar.snackbar
 
-import androidx.compose.material3.SnackbarDuration
 import com.faltenreich.diaguard.localization.Localization
 import com.faltenreich.diaguard.navigation.Navigation
 import com.faltenreich.diaguard.navigation.NavigationEvent
@@ -16,8 +15,8 @@ class ShowSnackbarUseCase(
         actionLabel: String? = null,
         withDismissAction: Boolean = false,
         duration: SnackbarDuration =
-            if (actionLabel == null) SnackbarDuration.Short
-            else SnackbarDuration.Indefinite,
+            if (actionLabel != null) SnackbarDuration.INDEFINITE
+            else SnackbarDuration.SHORT,
     ) {
         navigation.postEvent(
             NavigationEvent.ShowSnackbar(
@@ -29,13 +28,14 @@ class ShowSnackbarUseCase(
         )
     }
 
+    @Deprecated("Avoid Resources in UseCases")
     suspend operator fun invoke(
         messageResource: StringResource,
         actionLabel: String? = null,
         withDismissAction: Boolean = false,
         duration: SnackbarDuration =
-            if (actionLabel == null) SnackbarDuration.Short
-            else SnackbarDuration.Indefinite,
+            if (actionLabel != null) SnackbarDuration.INDEFINITE
+            else SnackbarDuration.SHORT,
     ) {
         invoke(
             message = localization.getString(messageResource),

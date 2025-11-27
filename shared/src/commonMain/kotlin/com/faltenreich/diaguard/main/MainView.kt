@@ -41,6 +41,7 @@ import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFor
 import com.faltenreich.diaguard.measurement.unit.list.MeasurementUnitListScreen
 import com.faltenreich.diaguard.navigation.NavigationTarget
 import com.faltenreich.diaguard.navigation.bar.bottom.BottomAppBar
+import com.faltenreich.diaguard.navigation.bar.snackbar.SnackbarDuration
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBar
 import com.faltenreich.diaguard.navigation.bar.top.TopAppBarStyle
 import com.faltenreich.diaguard.preference.food.FoodPreferenceListScreen
@@ -74,14 +75,27 @@ fun MainView(
 
     LaunchedEffect(Unit) {
         viewModel.collectEvents { event ->
-            when (event) {
-                is MainEvent.NavigateTo -> navController.navigate(event.screen) {
-                    if (event.clearHistory) {
-                        popUpTo((navController.graph.id))
+            with (event) {
+                when (this) {
+                    is MainEvent.NavigateTo -> navController.navigate(screen) {
+                        if (clearHistory) {
+                            popUpTo((navController.graph.id))
+                        }
+                    }
+                    is MainEvent.NavigateBack -> navController.popBackStack()
+                    is MainEvent.ShowSnackbar -> scope.launch {
+                        snackbarHostState.showSnackbar(
+                            message = message,
+                            actionLabel = actionLabel,
+                            withDismissAction = withDismissAction,
+                            duration = when (duration) {
+                                SnackbarDuration.SHORT -> androidx.compose.material3.SnackbarDuration.Short
+                                SnackbarDuration.LONG -> androidx.compose.material3.SnackbarDuration.Long
+                                SnackbarDuration.INDEFINITE -> androidx.compose.material3.SnackbarDuration.Indefinite
+                            }
+                        )
                     }
                 }
-                is MainEvent.NavigateBack -> navController.popBackStack()
-                is MainEvent.ShowSnackbar -> scope.launch { snackbarHostState.showSnackbar(event.message) }
             }
         }
     }

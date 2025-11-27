@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.main
 
-import androidx.compose.material3.SnackbarDuration
+import com.faltenreich.diaguard.navigation.bar.snackbar.SnackbarDuration
 import com.faltenreich.diaguard.navigation.screen.Screen
 
 sealed interface MainEvent {

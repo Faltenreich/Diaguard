@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.internal.config.AnalysisFlags.optIn
-
 val libs = extensions.getByType<org.gradle.accessors.dm.LibrariesForLibs>()
 
 plugins {

@@ -7,9 +7,7 @@ import androidx.compose.animation.SizeTransform
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
 import androidx.navigation.NavDeepLink
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavOptions
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
@@ -53,16 +51,9 @@ inline fun <reified T : Screen> NavGraphBuilder.screen(
 }
 
 fun NavController.navigate(screen: Screen, popHistory: Boolean) {
-    navigate(
-        route = screen,
-        navOptions = NavOptions.Builder()
-            .run {
-                if (popHistory) setPopUpTo(
-                    route = graph.findStartDestination().route,
-                    inclusive = true,
-                )
-                else this
-            }
-            .build()
-    )
+    navigate(screen) {
+        if (popHistory) {
+            popUpTo((graph.id))
+        }
+    }
 }

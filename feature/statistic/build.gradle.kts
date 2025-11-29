@@ -8,7 +8,6 @@ kotlin {
             dependencies {
                 implementation(project(":feature:navigation"))
                 implementation(project(":feature:preference"))
-                implementation(project(":feature:statistic"))
                 implementation(project(":shared"))
             }
         }

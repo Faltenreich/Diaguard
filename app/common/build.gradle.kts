@@ -6,6 +6,13 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
+                api(project(":shared"))
+                implementation(project(":feature:dashboard"))
+                implementation(project(":feature:datetime"))
+                implementation(project(":feature:navigation"))
+                implementation(project(":feature:preference"))
+                implementation(project(":feature:statistic"))
+                api(project(":data"))
                 implementation(project(":core:architecture"))
                 implementation(project(":core:config"))
                 implementation(project(":core:datetime"))
@@ -17,12 +24,6 @@ kotlin {
                 implementation(project(":core:serialization"))
                 implementation(project(":core:system"))
                 implementation(project(":core:view"))
-                implementation(project(":feature:dashboard"))
-                implementation(project(":feature:datetime"))
-                implementation(project(":feature:navigation"))
-                implementation(project(":feature:preference"))
-                api(project(":data"))
-                api(project(":shared"))
             }
         }
     }

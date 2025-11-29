@@ -25,6 +25,12 @@ include(
     ":app:common",
     ":app:android",
     ":shared",
+
+    ":feature:dashboard",
+    ":feature:datetime",
+    ":feature:navigation",
+    ":feature:preference",
+    ":feature:statistic",
     
     ":data",
 
@@ -41,9 +47,4 @@ include(
     ":core:system",
     ":core:test",
     ":core:view",
-
-    ":feature:dashboard",
-    ":feature:datetime",
-    ":feature:navigation",
-    ":feature:preference",
 )

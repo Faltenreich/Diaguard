@@ -3,6 +3,7 @@ package com.faltenreich.diaguard
 import com.faltenreich.diaguard.architecture.architectureModule
 import com.faltenreich.diaguard.backup.backupModule
 import com.faltenreich.diaguard.config.configModule
+import com.faltenreich.diaguard.dashboard.dashboardModule
 import com.faltenreich.diaguard.data.dataModule
 import com.faltenreich.diaguard.datetime.dateTimeModule
 import com.faltenreich.diaguard.entry.entryModule
@@ -62,7 +63,7 @@ private fun coreModule() = module {
 private fun featureModule() = module {
     includes(
         backupModule(),
-        _root_ide_package_.com.faltenreich.diaguard.dashboard.dashboardModule(),
+        dashboardModule(),
         entryModule(),
         exportModule(),
         foodModule(),

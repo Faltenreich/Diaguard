@@ -30,6 +30,7 @@ include(
     ":feature:datetime",
     ":feature:navigation",
     ":feature:preference",
+    ":feature:startup",
     ":feature:statistic",
     
     ":data",

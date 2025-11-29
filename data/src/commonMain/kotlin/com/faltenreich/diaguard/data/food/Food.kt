@@ -1,8 +1,8 @@
 package com.faltenreich.diaguard.data.food
 
-import com.faltenreich.diaguard.datetime.DateTime
-import com.faltenreich.diaguard.network.RemoteEntity
 import com.faltenreich.diaguard.data.DatabaseEntity
+import com.faltenreich.diaguard.data.network.RemoteEntity
+import com.faltenreich.diaguard.datetime.DateTime
 
 /**
  * Entity representing something that can be eaten or drunk

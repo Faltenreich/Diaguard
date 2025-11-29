@@ -1,15 +1,15 @@
 package com.faltenreich.diaguard.startup.legacy
 
+import com.faltenreich.diaguard.data.DatabaseKey
 import com.faltenreich.diaguard.data.entry.EntryRepository
 import com.faltenreich.diaguard.data.entry.tag.EntryTagRepository
 import com.faltenreich.diaguard.data.food.FoodRepository
 import com.faltenreich.diaguard.data.food.eaten.FoodEatenRepository
+import com.faltenreich.diaguard.data.legacy.LegacyRepository
 import com.faltenreich.diaguard.data.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.data.measurement.value.MeasurementValueRepository
-import com.faltenreich.diaguard.data.DatabaseKey
-import com.faltenreich.diaguard.data.legacy.LegacyRepository
-import com.faltenreich.diaguard.logging.Logger
 import com.faltenreich.diaguard.data.tag.TagRepository
+import com.faltenreich.diaguard.logging.Logger
 
 class ImportLegacyDatabaseUseCase(
     private val legacyRepository: LegacyRepository,

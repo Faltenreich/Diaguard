@@ -11,6 +11,7 @@ kotlin {
                 implementation(project(":feature:datetime"))
                 implementation(project(":feature:navigation"))
                 implementation(project(":feature:preference"))
+                implementation(project(":feature:startup"))
                 implementation(project(":feature:statistic"))
                 api(project(":data"))
                 implementation(project(":core:architecture"))

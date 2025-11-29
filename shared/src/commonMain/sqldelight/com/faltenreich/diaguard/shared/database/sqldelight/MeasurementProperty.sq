@@ -1,0 +1,109 @@
+CREATE TABLE MeasurementProperty (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    createdAt TEXT NOT NULL,
+    updatedAt TEXT NOT NULL,
+    key TEXT UNIQUE,
+    name TEXT NOT NULL,
+    sortIndex INTEGER NOT NULL,
+    aggregationStyle INTEGER NOT NULL,
+    valueRangeMinimum REAL NOT NULL,
+    valueRangeLow REAL,
+    valueRangeTarget REAL,
+    valueRangeHigh REAL,
+    valueRangeMaximum REAL NOT NULL,
+    isValueRangeHighlighted INTEGER NOT NULL,
+    categoryId INTEGER NOT NULL,
+    unitId INTEGER NOT NULL,
+    FOREIGN KEY(categoryId) REFERENCES MeasurementCategory(id) ON DELETE CASCADE,
+    FOREIGN KEY(unitId) REFERENCES MeasurementUnit(id) ON DELETE CASCADE
+);
+
+create:
+INSERT INTO MeasurementProperty(
+    createdAt,
+    updatedAt,
+    key,
+    name,
+    sortIndex,
+    aggregationStyle,
+    valueRangeMinimum,
+    valueRangeLow,
+    valueRangeTarget,
+    valueRangeHigh,
+    valueRangeMaximum,
+    isValueRangeHighlighted,
+    categoryId,
+    unitId
+)
+VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+
+getLastId:
+SELECT last_insert_rowid();
+
+getById:
+SELECT * FROM MeasurementProperty
+INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
+INNER JOIN MeasurementUnit ON MeasurementUnit.id == MeasurementProperty.unitId
+LEFT JOIN MeasurementUnitSuggestion ON MeasurementUnitSuggestion.propertyId == MeasurementProperty.id AND MeasurementUnitSuggestion.unitId == MeasurementUnit.id
+WHERE MeasurementProperty.id = ?;
+
+getByKey:
+SELECT * FROM MeasurementProperty
+INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
+INNER JOIN MeasurementUnit ON MeasurementUnit.id == MeasurementProperty.unitId
+LEFT JOIN MeasurementUnitSuggestion ON MeasurementUnitSuggestion.propertyId == MeasurementProperty.id AND MeasurementUnitSuggestion.unitId == MeasurementUnit.id
+WHERE MeasurementProperty.key = ?;
+
+getByCategoryId:
+SELECT * FROM MeasurementProperty
+INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
+INNER JOIN MeasurementUnit ON MeasurementUnit.id == MeasurementProperty.unitId
+LEFT JOIN MeasurementUnitSuggestion ON MeasurementUnitSuggestion.propertyId == MeasurementProperty.id AND MeasurementUnitSuggestion.unitId == MeasurementUnit.id
+WHERE MeasurementProperty.categoryId = ?
+ORDER BY MeasurementProperty.sortIndex ASC;
+
+getByCategoryKey:
+SELECT * FROM MeasurementProperty
+INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
+INNER JOIN MeasurementUnit ON MeasurementUnit.id == MeasurementProperty.unitId
+LEFT JOIN MeasurementUnitSuggestion ON MeasurementUnitSuggestion.propertyId == MeasurementProperty.id AND MeasurementUnitSuggestion.unitId == MeasurementUnit.id
+WHERE MeasurementCategory.key = ?
+ORDER BY MeasurementProperty.sortIndex ASC;
+
+getIfCategoryIsActive:
+SELECT * FROM MeasurementProperty
+INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
+INNER JOIN MeasurementUnit ON MeasurementUnit.id == MeasurementProperty.unitId
+LEFT JOIN MeasurementUnitSuggestion ON MeasurementUnitSuggestion.propertyId == MeasurementProperty.id AND MeasurementUnitSuggestion.unitId == MeasurementUnit.id
+WHERE MeasurementCategory.isActive = 1
+AND MeasurementProperty.key != :excludedPropertyKey
+ORDER BY MeasurementProperty.sortIndex ASC;
+
+
+getAll:
+SELECT * FROM MeasurementProperty
+INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
+INNER JOIN MeasurementUnit ON MeasurementUnit.id == MeasurementProperty.unitId
+LEFT JOIN MeasurementUnitSuggestion ON MeasurementUnitSuggestion.propertyId == MeasurementProperty.id AND MeasurementUnitSuggestion.unitId == MeasurementUnit.id
+ORDER BY MeasurementProperty.sortIndex ASC;
+
+getMaximumSortIndex:
+SELECT MAX(sortIndex) FROM MeasurementProperty WHERE categoryId = ?;
+
+update:
+UPDATE MeasurementProperty
+SET updatedAt = ?,
+    name = ?,
+    sortIndex = ?,
+    aggregationStyle = ?,
+    valueRangeMinimum = ?,
+    valueRangeLow = ?,
+    valueRangeTarget = ?,
+    valueRangeHigh = ?,
+    valueRangeMaximum = ?,
+    isValueRangeHighlighted = ?,
+    unitId = ?
+WHERE id = ?;
+
+deleteById:
+DELETE FROM MeasurementProperty WHERE id = ?;

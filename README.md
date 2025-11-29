@@ -1,14 +1,9 @@
-> [!NOTE]  
-> This app is currently being redeveloped in [Kotlin Multiplatform](https://kotlinlang.org/docs/multiplatform.html) to support additional platforms such as iOS.
-> You can follow its development on branch [feature/multiplatform](https://github.com/Faltenreich/Diaguard/tree/feature/multiplatform) and pull request [#51](https://github.com/Faltenreich/Diaguard/pull/51).
-> Therefore development for the native version on this branch has been slowed down but pull requests will be accepted nonetheless.
-
 # Diaguard
 
-![version](https://img.shields.io/badge/Release-3.15.1-478063.svg)
-![pipeline](https://github.com/Faltenreich/Diaguard/actions/workflows/verify.yml/badge.svg?branch=develop)
+![version](https://img.shields.io/badge/Release-4.0.0-478063.svg)
+![pipeline](https://github.com/Faltenreich/Diaguard/actions/workflows/verify.yml/badge.svg?branch=feature/multiplatform)
 
-<img src="./resource/image/marketing/showcase.png" width="750" alt=""> 
+<img src="./resource/image/marketing/showcase.png" width="750"> 
 
 Diaguard is an Android app for people with diabetes mellitus.
 
@@ -26,13 +21,13 @@ It replaces the handwritten diary and helps the user to quickly and easily recor
 * Estimated HbA1c
 * Statistics
 * Dark Mode
-* Localized in English, German, French, Spanish, Italian, Russian and Turkish
+* Localized in English, German, French, Spanish and Italian
 
-<img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" width="100" alt=""> <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/2.png" width="100" alt=""> <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/3.png" width="100" alt="">  <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/4.png" width="100" alt=""> <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/5.png" width="100" alt=""> <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/6.png" width="100" alt=""> <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/7.png" width="100" alt=""> 
+<img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" width="100"> <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/2.png" width="100"> <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/3.png" width="100">  <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/4.png" width="100"> <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/5.png" width="100"> <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/6.png" width="100"> <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/7.png" width="100"> 
 
 ## Distribution
 
-<a href='https://play.google.com/store/apps/details?id=com.faltenreich.diaguard'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' width="250"/></a><a href='https://f-droid.org/de/packages/com.faltenreich.diaguard'><img alt='Get it on F-Droid' src='https://f-droid.org/badge/get-it-on.png' width="250"/></a>
+<a href='https://play.google.com/store/apps/details?id=com.faltenreich.diaguard'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' width="250"/></a><a href='https://f-droid.org/de/packages/com.faltenreich.diaguard'><img alt='Get it on F-Droid' src='https://gitlab.com/fdroid/artwork/-/raw/master/badge/get-it-on.png' width="250"/></a>
 
 ## About
 
@@ -63,7 +58,7 @@ For these reasons, Diaguard has been, is and will always be free of cost.
 If you want to buy me a beer or support me in general, please use the donate button and be aware of my thanks.
 
 <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=AM6HG633T4BWY&source=url">
- <img src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" width="100" alt=""/>
+ <img src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" width="100"/>
 </a>
 
 ## Development
@@ -82,9 +77,9 @@ English is used as general language for naming things. Everything except the loc
 
 Localization takes place locally and affects following components:
 
-* User interfaces: localized via [Android resources](https://developer.android.com/guide/topics/resources/localization) (one [strings.xml](/app/src/main/res/values/strings.xml) per language)
-* Common food: localized via custom file import (one [food_common.csv](/app/src/main/assets/seed/food.csv) for all languages)
-* Default tags: localized via custom file import (one [tags.csv](/app/src/main/assets/seed/tags.csv) for all languages)
+* User interfaces: localized via [Android resources](https://developer.android.com/guide/topics/resources/localization) (one [strings.xml](/shared/src/commonMain/resources/MR/base/strings.xml) per language)
+* Common food: localized via custom file import (one [food_common.csv](/shared/src/commonMain/resources/MR/files/food_common.csv) for all languages)
+* Default tags: localized via custom file import (one [tags.csv](/shared/src/commonMain/resources/MR/files/tags.csv) for all languages)
 
 Currently the localization process requires certain programming skills. This should and could be improved by using an external service in order to support localizations by non-developers.
 
@@ -98,7 +93,7 @@ Domain-driven design improves the structure by grouping files in features. Every
  
 #### Testing
 
-Testing takes place via [JUnit](https://junit.org) and [Espresso](https://developer.android.com/training/testing/espresso). Tests are few in number and far from perfect, since most of Diaguard has been developed in the early of days of one developer. However the decision to go open source came with a code of conduct, and instrumentation testing major features was the first step in a right direction. The goal now is to unit- and instrumentation test every new and edited feature in order to increase the quality with every commit.
+Testing takes place via [JUnit](https://junit.org), [Espresso](https://developer.android.com/training/testing/espresso) and [Robolectric](http://robolectric.org). Tests are few in number and far from perfect, since most of Diaguard has been developed in the early of days of one developer. However the decision to go open source came with a code of conduct, and instrumentation testing major features was the first step in a right direction. The goal now is to unit- and instrumentation test every new and edited feature in order to increase the quality with every commit.
 
 #### Third-party licenses
 
@@ -109,7 +104,6 @@ This software uses following technologies with great appreciation:
 * [Apache Commons Text](http://commons.apache.org/proper/commons-text)
 * [App Privacy Policy Generator](https://github.com/nisrulz/app-privacy-policy-generator)
 * [BetterPickers](https://github.com/code-troopers/android-betterpickers)
-* [Droid Sans](https://github.com/google/fonts)
 * [EventBus](https://github.com/greenrobot/EventBus)
 * [FloatingActionButton](https://github.com/Clans/FloatingActionButton)
 * [Gson](https://github.com/google/gson)
@@ -126,6 +120,7 @@ This software uses following technologies with great appreciation:
 * [PDFjet](http://pdfjet.com)
 * [Picasso](http://square.github.io/picasso)
 * [Retrofit](https://square.github.io/retrofit)
+* [Robolectric](http://robolectric.org)
 * [Schweizer Nährwertdatenbank](http://naehrwertdaten.ch)
 * [Shields.io](https://shields.io)
 
@@ -156,4 +151,4 @@ Additionally to the permissions, conditions and limitations of the GPLv3, the pe
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-<img src="./resource/image/logo/logo_legacy.png" width="100" alt="">
+<img src="./resource/image/logo/logo_legacy.png" width="100">

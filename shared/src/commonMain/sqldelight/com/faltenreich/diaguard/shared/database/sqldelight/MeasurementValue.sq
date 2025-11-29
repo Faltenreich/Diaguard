@@ -1,0 +1,109 @@
+CREATE TABLE MeasurementValue (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    createdAt TEXT NOT NULL,
+    updatedAt TEXT NOT NULL,
+    value REAL NOT NULL,
+    propertyId INTEGER NOT NULL,
+    entryId INTEGER NOT NULL,
+    FOREIGN KEY(propertyId) REFERENCES MeasurementProperty(id) ON DELETE CASCADE,
+    FOREIGN KEY(entryId) REFERENCES Entry(id) ON DELETE CASCADE
+);
+
+create:
+INSERT INTO MeasurementValue(createdAt, updatedAt, value, propertyId, entryId)
+VALUES (?, ?, ?, ?, ?);
+
+getLastId:
+SELECT last_insert_rowid();
+
+getByDateRange:
+SELECT * FROM MeasurementValue
+INNER JOIN MeasurementProperty ON MeasurementProperty.id == MeasurementValue.propertyId
+INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
+INNER JOIN MeasurementUnit ON MeasurementUnit.id == MeasurementProperty.unitId
+LEFT JOIN MeasurementUnitSuggestion ON MeasurementUnitSuggestion.propertyId == MeasurementProperty.id AND MeasurementUnitSuggestion.unitId == MeasurementUnit.id
+INNER JOIN Entry ON Entry.id == MeasurementValue.entryId
+WHERE Entry.dateTime >= :startDateTime AND Entry.dateTime <= :endDateTime
+AND MeasurementProperty.key == :propertyKey
+ORDER BY Entry.dateTime;
+
+getByDateRangeIfCategoryIsActive:
+SELECT * FROM MeasurementValue
+INNER JOIN MeasurementProperty ON MeasurementProperty.id == MeasurementValue.propertyId
+INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
+INNER JOIN MeasurementUnit ON MeasurementUnit.id == MeasurementProperty.unitId
+LEFT JOIN MeasurementUnitSuggestion ON MeasurementUnitSuggestion.propertyId == MeasurementProperty.id AND MeasurementUnitSuggestion.unitId == MeasurementUnit.id
+INNER JOIN Entry ON Entry.id == MeasurementValue.entryId
+WHERE Entry.dateTime >= :startDateTime AND Entry.dateTime <= :endDateTime
+AND MeasurementProperty.key != :excludedPropertyKey
+AND MeasurementCategory.isActive = 1
+ORDER BY Entry.dateTime;
+
+getLatestByProperty:
+SELECT * FROM MeasurementValue
+INNER JOIN MeasurementProperty ON MeasurementProperty.id == MeasurementValue.propertyId
+INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
+INNER JOIN MeasurementUnit ON MeasurementUnit.id == MeasurementProperty.unitId
+LEFT JOIN MeasurementUnitSuggestion ON MeasurementUnitSuggestion.propertyId == MeasurementProperty.id AND MeasurementUnitSuggestion.unitId == MeasurementUnit.id
+INNER JOIN Entry ON Entry.id == MeasurementValue.entryId
+WHERE MeasurementProperty.key == :key
+ORDER BY Entry.dateTime DESC
+LIMIT 1;
+
+getByCategory:
+SELECT * FROM MeasurementValue
+INNER JOIN MeasurementProperty ON MeasurementProperty.id == MeasurementValue.propertyId
+INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
+INNER JOIN MeasurementUnit ON MeasurementUnit.id == MeasurementProperty.unitId
+LEFT JOIN MeasurementUnitSuggestion ON MeasurementUnitSuggestion.propertyId == MeasurementProperty.id AND MeasurementUnitSuggestion.unitId == MeasurementUnit.id
+INNER JOIN Entry ON Entry.id == MeasurementValue.entryId
+WHERE MeasurementCategory.key == :categoryKey
+AND Entry.dateTime >= :minDateTime
+AND Entry.dateTime <= :maxDateTime;
+
+getByEntry:
+SELECT * FROM MeasurementValue
+INNER JOIN MeasurementProperty ON MeasurementProperty.id == MeasurementValue.propertyId
+INNER JOIN MeasurementCategory ON MeasurementCategory.id == MeasurementProperty.categoryId
+INNER JOIN MeasurementUnit ON MeasurementUnit.id == MeasurementProperty.unitId
+LEFT JOIN MeasurementUnitSuggestion ON MeasurementUnitSuggestion.propertyId == MeasurementProperty.id AND MeasurementUnitSuggestion.unitId == MeasurementUnit.id
+INNER JOIN Entry ON Entry.id == MeasurementValue.entryId
+WHERE entryId = ?;
+
+countByProperty:
+SELECT COUNT(*) FROM MeasurementValue
+INNER JOIN Entry ON Entry.id == MeasurementValue.entryId
+WHERE MeasurementValue.propertyId == :propertyId
+AND Entry.dateTime >= :minDateTime
+AND Entry.dateTime <= :maxDateTime;
+
+countByValueRange:
+SELECT COUNT(*) FROM MeasurementValue
+INNER JOIN Entry ON Entry.id == MeasurementValue.entryId
+WHERE MeasurementValue.propertyId == :propertyId
+AND Entry.dateTime >= :minDateTime
+AND Entry.dateTime <= :maxDateTime
+AND MeasurementValue.value >= :minimumValue
+AND MeasurementValue.value <= :maximumValue;
+
+getAverageByPropertyId:
+SELECT AVG(MeasurementValue.value) FROM MeasurementValue
+INNER JOIN MeasurementProperty ON MeasurementProperty.id == MeasurementValue.propertyId
+INNER JOIN Entry ON Entry.id == MeasurementValue.entryId
+WHERE MeasurementProperty.id == :propertyId
+AND Entry.dateTime >= :minDateTime
+AND Entry.dateTime <= :maxDateTime;
+
+getAverageByPropertyKey:
+SELECT AVG(MeasurementValue.value) FROM MeasurementValue
+INNER JOIN MeasurementProperty ON MeasurementProperty.id == MeasurementValue.propertyId
+INNER JOIN Entry ON Entry.id == MeasurementValue.entryId
+WHERE MeasurementProperty.key == :propertyKey
+AND Entry.dateTime >= :minDateTime
+AND Entry.dateTime <= :maxDateTime;
+
+update:
+UPDATE MeasurementValue SET updatedAt = ?, value = ? WHERE id = ?;
+
+deleteById:
+DELETE FROM MeasurementValue WHERE id = ?;

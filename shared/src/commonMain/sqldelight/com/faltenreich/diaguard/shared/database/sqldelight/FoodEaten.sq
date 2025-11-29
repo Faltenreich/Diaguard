@@ -1,0 +1,39 @@
+CREATE TABLE FoodEaten (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    createdAt TEXT NOT NULL,
+    updatedAt TEXT NOT NULL,
+    amountInGrams REAL NOT NULL,
+    foodId INTEGER NOT NULL,
+    entryId INTEGER NOT NULL,
+    FOREIGN KEY(foodId) REFERENCES Food(id) ON DELETE CASCADE,
+    FOREIGN KEY(entryId) REFERENCES Entry(id) ON DELETE CASCADE
+);
+
+create:
+INSERT INTO FoodEaten(createdAt, updatedAt, amountInGrams, foodId, entryId)
+VALUES (?, ?, ?, ?, ?);
+
+getLastId:
+SELECT last_insert_rowid();
+
+getByFood:
+SELECT * FROM FoodEaten
+INNER JOIN Food ON Food.id == FoodEaten.foodId
+INNER JOIN Entry ON Entry.id == FoodEaten.entryId
+WHERE FoodEaten.foodId = ?
+ORDER BY FoodEaten.updatedAt DESC;
+
+getByEntry:
+SELECT * FROM FoodEaten
+INNER JOIN Food ON Food.id == FoodEaten.foodId
+INNER JOIN Entry ON Entry.id == FoodEaten.entryId
+WHERE FoodEaten.entryId = ?
+ORDER BY Food.name ASC;
+
+update:
+UPDATE FoodEaten
+SET updatedAt = ?, amountInGrams = ?
+WHERE id = ?;
+
+deleteById:
+DELETE FROM FoodEaten WHERE id = ?;

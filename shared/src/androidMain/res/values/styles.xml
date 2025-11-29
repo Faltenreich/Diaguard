@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+    <style name="EmojiPicker"/>
+    
+    <style name="EmojiPicker.Dark">
+        <item name="colorControlNormal">#E1E3DF</item>
+        <item name="android:textColorPrimary">#E1E3DF</item>
+    </style>
+
+    <style name="EmojiPicker.Light">
+        <item name="colorControlNormal">#191C1A</item>
+        <item name="android:textColorPrimary">#191C1A</item>
+    </style>
+    
+</resources>

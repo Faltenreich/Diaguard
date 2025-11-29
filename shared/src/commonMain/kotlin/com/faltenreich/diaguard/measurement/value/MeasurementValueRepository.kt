@@ -1,0 +1,113 @@
+package com.faltenreich.diaguard.measurement.value
+
+import com.faltenreich.diaguard.datetime.DateTime
+import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
+import com.faltenreich.diaguard.shared.database.DatabaseKey
+import kotlinx.coroutines.flow.Flow
+
+class MeasurementValueRepository(
+    private val dao: MeasurementValueDao,
+    private val dateTimeFactory: DateTimeFactory,
+) {
+
+    fun create(value: MeasurementValue.User): Long = with(value) {
+        dao.create(
+            createdAt = dateTimeFactory.now(),
+            updatedAt = dateTimeFactory.now(),
+            value = value.value,
+            propertyId = property.id,
+            entryId = entry.id,
+        )
+        return checkNotNull(dao.getLastId())
+    }
+
+    fun create(value: MeasurementValue.Legacy): Long = with(value) {
+        dao.create(
+            createdAt = createdAt,
+            updatedAt = updatedAt,
+            value = value.value,
+            propertyId = property.id,
+            entryId = entry.id,
+        )
+        return checkNotNull(dao.getLastId())
+    }
+
+    fun observeByDateRange(
+        startDateTime: DateTime,
+        endDateTime: DateTime,
+        propertyKey: DatabaseKey.MeasurementProperty,
+    ): Flow<List<MeasurementValue.Local>> {
+        return dao.observeByDateRange(startDateTime, endDateTime, propertyKey)
+    }
+
+    fun observeByDateRangeIfCategoryIsActive(
+        startDateTime: DateTime,
+        endDateTime: DateTime,
+        excludedPropertyKey: DatabaseKey.MeasurementProperty,
+    ): Flow<List<MeasurementValue.Local>> {
+        return dao.observeByDateRangeIfCategoryIsActive(startDateTime, endDateTime, excludedPropertyKey)
+    }
+
+    fun observeLatestByProperty(
+        key: DatabaseKey.MeasurementProperty,
+    ): Flow<MeasurementValue.Local?> {
+        return dao.observeLatestByProperty(key = key)
+    }
+
+    fun observeByCategory(
+        categoryKey: DatabaseKey.MeasurementCategory,
+        minDateTime: DateTime,
+        maxDateTime: DateTime,
+    ): Flow<List<MeasurementValue.Local>> {
+        return dao.observeByCategory(categoryKey, minDateTime, maxDateTime)
+    }
+
+    fun getByEntryId(entryId: Long): List<MeasurementValue.Local> {
+        return dao.getByEntryId(entryId)
+    }
+
+    fun observeCountByPropertyId(
+        propertyId: Long,
+        minDateTime: DateTime,
+        maxDateTime: DateTime,
+    ): Flow<Long> {
+        return dao.observeCountByPropertyId(propertyId, minDateTime, maxDateTime)
+    }
+
+    fun observeCountByValueRange(
+        range: ClosedRange<Double>,
+        propertyId: Long,
+        minDateTime: DateTime,
+        maxDateTime: DateTime,
+    ): Flow<Long> {
+        return dao.observeCountByValueRange(range, propertyId, minDateTime, maxDateTime)
+    }
+
+    fun observeAverageByPropertyId(
+        propertyId: Long,
+        minDateTime: DateTime,
+        maxDateTime: DateTime,
+    ): Flow<Double?> {
+        return dao.observeAverageByPropertyId(propertyId, minDateTime, maxDateTime)
+    }
+
+    fun observeAverageByPropertyKey(
+        propertyKey: DatabaseKey.MeasurementProperty,
+        minDateTime: DateTime,
+        maxDateTime: DateTime,
+    ): Flow<Double?> {
+        return dao.observeAverageByPropertyKey(propertyKey, minDateTime, maxDateTime)
+    }
+
+    fun update(value: MeasurementValue.Local) {
+        dao.update(
+            id = value.id,
+            updatedAt = dateTimeFactory.now(),
+            value = value.value,
+        )
+    }
+
+    fun delete(value: MeasurementValue.Local) {
+        dao.deleteById(value.id)
+    }
+}

@@ -7,6 +7,7 @@ kotlin {
         commonMain {
             dependencies {
                 api(project(":shared"))
+                implementation(project(":feature:backup"))
                 implementation(project(":feature:dashboard"))
                 implementation(project(":feature:datetime"))
                 implementation(project(":feature:navigation"))

@@ -26,6 +26,7 @@ include(
     ":app:android",
     ":shared",
 
+    ":feature:backup",
     ":feature:dashboard",
     ":feature:datetime",
     ":feature:navigation",

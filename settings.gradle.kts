@@ -22,22 +22,8 @@ dependencyResolutionManagement {
 rootProject.name = "diaguard"
 
 include(
-    ":app:common",
     ":app:android",
-    ":shared",
-
-    ":feature:backup",
-    ":feature:dashboard",
-    ":feature:datetime",
-    ":feature:export",
-    ":feature:log",
-    ":feature:navigation",
-    ":feature:preference",
-    ":feature:startup",
-    ":feature:statistic",
-    ":feature:timeline",
-    
-    ":data",
+    ":app:common",
 
     ":core:architecture",
     ":core:config",
@@ -52,4 +38,20 @@ include(
     ":core:system",
     ":core:test",
     ":core:view",
+    
+    ":data",
+    ":domain",
+
+    ":feature:backup",
+    ":feature:dashboard",
+    ":feature:datetime",
+    ":feature:export",
+    ":feature:log",
+    ":feature:navigation",
+    ":feature:preference",
+    ":feature:startup",
+    ":feature:statistic",
+    ":feature:timeline",
+
+    ":shared",
 )

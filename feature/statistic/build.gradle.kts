@@ -9,7 +9,6 @@ kotlin {
                 implementation(project(":feature:measurement"))
                 implementation(project(":feature:navigation"))
                 implementation(project(":feature:preference"))
-                implementation(project(":shared"))
             }
         }
     }

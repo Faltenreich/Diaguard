@@ -8,7 +8,6 @@ kotlin {
             dependencies {
                 implementation(project(":core:config"))
                 implementation(project(":feature:preference"))
-                implementation(project(":shared"))
             }
         }
     }

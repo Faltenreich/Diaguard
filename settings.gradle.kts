@@ -24,6 +24,7 @@ rootProject.name = "diaguard"
 include(
     ":app:common",
     ":app:android",
+    // TODO: Remove
     ":shared",
 
     ":feature:backup",

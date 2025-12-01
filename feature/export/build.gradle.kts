@@ -10,7 +10,6 @@ kotlin {
                 implementation(project(":feature:datetime"))
                 implementation(project(":feature:measurement"))
                 implementation(project(":feature:preference"))
-                implementation(project(":shared"))
             }
         }
     }

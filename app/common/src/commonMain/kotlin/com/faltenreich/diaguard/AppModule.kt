@@ -10,7 +10,6 @@ import com.faltenreich.diaguard.entry.entryModule
 import com.faltenreich.diaguard.export.exportModule
 import com.faltenreich.diaguard.food.foodModule
 import com.faltenreich.diaguard.localization.localizationModule
-import com.faltenreich.diaguard.log.logModule
 import com.faltenreich.diaguard.logging.loggingModule
 import com.faltenreich.diaguard.main.GetBottomAppBarStyleUseCase
 import com.faltenreich.diaguard.main.GetNavigationEventUseCase
@@ -67,7 +66,7 @@ private fun featureModule() = module {
         entryModule(),
         exportModule(),
         foodModule(),
-        logModule(),
+        _root_ide_package_.com.faltenreich.diaguard.log.logModule(),
         measurementModule(),
         navigationModule(),
         preferenceModule(),

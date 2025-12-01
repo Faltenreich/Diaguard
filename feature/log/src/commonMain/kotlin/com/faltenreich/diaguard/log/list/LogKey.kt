@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.log.list
 
-import com.faltenreich.diaguard.serialization.Serializable
 import com.faltenreich.diaguard.datetime.Date
+import com.faltenreich.diaguard.serialization.Serializable
 
 sealed class LogKey(val date: Date) : Serializable {
 

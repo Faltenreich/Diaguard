@@ -18,7 +18,7 @@ fun DrawScope.TimelineTable(
     textMeasurer: TextMeasurer,
 ) = with(state) {
     categories.forEach { category ->
-        category.properties.forEachIndexed { propertyIndex, property ->
+        category.properties.forEach { property ->
             // Divider
             drawLine(
                 color = config.gridStrokeColor,

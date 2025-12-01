@@ -19,7 +19,6 @@ kotlin {
                 implementation(project(":core:logging"))
                 implementation(project(":core:view"))
                 implementation(project(":data"))
-                implementation(project(":domain"))
                 implementation(compose.ui)
                 implementation(compose.components.resources)
                 implementation(compose.foundation)

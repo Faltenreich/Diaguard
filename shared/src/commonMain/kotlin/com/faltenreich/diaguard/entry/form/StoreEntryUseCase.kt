@@ -2,12 +2,12 @@ package com.faltenreich.diaguard.entry.form
 
 import com.faltenreich.diaguard.data.entry.Entry
 import com.faltenreich.diaguard.data.entry.EntryRepository
-import com.faltenreich.diaguard.entry.list.EntryListItemState
 import com.faltenreich.diaguard.data.entry.tag.EntryTag
-import com.faltenreich.diaguard.entry.tag.StoreEntryTagsUseCase
 import com.faltenreich.diaguard.data.food.eaten.FoodEaten
-import com.faltenreich.diaguard.food.eaten.StoreFoodEatenUseCase
 import com.faltenreich.diaguard.data.measurement.value.MeasurementValue
+import com.faltenreich.diaguard.entry.form.food.StoreFoodEatenUseCase
+import com.faltenreich.diaguard.entry.list.EntryListItemState
+import com.faltenreich.diaguard.entry.tag.StoreEntryTagsUseCase
 import com.faltenreich.diaguard.measurement.value.usecase.StoreMeasurementValuesUseCase
 
 class StoreEntryUseCase(

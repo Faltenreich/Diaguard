@@ -8,7 +8,6 @@ import com.faltenreich.diaguard.data.dataModule
 import com.faltenreich.diaguard.datetime.dateTimeModule
 import com.faltenreich.diaguard.entry.entryModule
 import com.faltenreich.diaguard.export.exportModule
-import com.faltenreich.diaguard.food.foodModule
 import com.faltenreich.diaguard.localization.localizationModule
 import com.faltenreich.diaguard.logging.loggingModule
 import com.faltenreich.diaguard.main.GetBottomAppBarStyleUseCase
@@ -63,7 +62,7 @@ private fun featureModule() = module {
         dashboardModule(),
         entryModule(),
         exportModule(),
-        foodModule(),
+        _root_ide_package_.com.faltenreich.diaguard.food.foodModule(),
         _root_ide_package_.com.faltenreich.diaguard.log.logModule(),
         measurementModule(),
         navigationModule(),

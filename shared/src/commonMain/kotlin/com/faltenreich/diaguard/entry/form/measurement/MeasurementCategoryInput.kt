@@ -14,8 +14,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import com.faltenreich.diaguard.entry.form.EntryFormIntent
-import com.faltenreich.diaguard.food.eaten.FoodEatenInput
-import com.faltenreich.diaguard.food.eaten.FoodEatenInputState
+import com.faltenreich.diaguard.entry.form.food.FoodEatenInput
+import com.faltenreich.diaguard.entry.form.food.FoodEatenInputState
 import com.faltenreich.diaguard.measurement.category.icon.MeasurementCategoryIcon
 import com.faltenreich.diaguard.resource.Res
 import com.faltenreich.diaguard.resource.food_add
@@ -89,7 +89,7 @@ fun MeasurementCategoryInput(
             }
         }
         if (state.category.isMeal) {
-            foodEaten.forEachIndexed { index, data ->
+            foodEaten.forEach { data ->
                 Divider()
                 FoodEatenInput(
                     state = data,

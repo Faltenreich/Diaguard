@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.food.eaten.list
+package com.faltenreich.diaguard.entry.form.food
 
 import com.faltenreich.diaguard.data.entry.Entry
 import com.faltenreich.diaguard.data.food.eaten.FoodEaten

@@ -11,6 +11,7 @@ kotlin {
                 implementation(project(":feature:dashboard"))
                 implementation(project(":feature:datetime"))
                 implementation(project(":feature:export"))
+                implementation(project(":feature:food"))
                 implementation(project(":feature:log"))
                 implementation(project(":feature:navigation"))
                 implementation(project(":feature:preference"))

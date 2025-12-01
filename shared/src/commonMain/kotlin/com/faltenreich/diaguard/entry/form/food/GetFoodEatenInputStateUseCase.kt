@@ -6,8 +6,6 @@ import com.faltenreich.diaguard.data.food.Food
 import com.faltenreich.diaguard.data.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.data.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.data.preference.decimal.DecimalPlacesPreference
-import com.faltenreich.diaguard.food.eaten.FoodEatenInputState
-import com.faltenreich.diaguard.food.eaten.list.GetFoodEatenForEntryUseCase
 import com.faltenreich.diaguard.localization.Localization
 import com.faltenreich.diaguard.localization.NumberFormatter
 import com.faltenreich.diaguard.measurement.value.MeasurementValueMapper

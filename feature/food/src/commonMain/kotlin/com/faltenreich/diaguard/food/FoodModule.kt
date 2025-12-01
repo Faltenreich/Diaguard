@@ -1,8 +1,8 @@
 package com.faltenreich.diaguard.food
 
-import com.faltenreich.diaguard.food.eaten.StoreFoodEatenUseCase
+import com.faltenreich.diaguard.entry.form.food.GetFoodEatenForEntryUseCase
+import com.faltenreich.diaguard.entry.form.food.StoreFoodEatenUseCase
 import com.faltenreich.diaguard.food.eaten.list.FoodEatenListViewModel
-import com.faltenreich.diaguard.food.eaten.list.GetFoodEatenForEntryUseCase
 import com.faltenreich.diaguard.food.eaten.list.GetFoodEatenForFoodUseCase
 import com.faltenreich.diaguard.food.form.CreateFoodFormInputUseCase
 import com.faltenreich.diaguard.food.form.DeleteFoodUseCase

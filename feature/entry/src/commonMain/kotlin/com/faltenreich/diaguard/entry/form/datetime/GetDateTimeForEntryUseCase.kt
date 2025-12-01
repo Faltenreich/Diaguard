@@ -1,8 +1,8 @@
 package com.faltenreich.diaguard.entry.form.datetime
 
+import com.faltenreich.diaguard.data.entry.Entry
 import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
-import com.faltenreich.diaguard.data.entry.Entry
 
 class GetDateTimeForEntryUseCase(
     private val dateTimeFactory: DateTimeFactory,

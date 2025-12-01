@@ -1,11 +1,11 @@
 package com.faltenreich.diaguard.entry.search
 
 import com.faltenreich.diaguard.data.entry.EntryRepository
-import com.faltenreich.diaguard.entry.list.EntryListItemState
-import com.faltenreich.diaguard.entry.list.MapEntryListItemStateUseCase
 import com.faltenreich.diaguard.data.entry.tag.EntryTagRepository
 import com.faltenreich.diaguard.data.food.eaten.FoodEatenRepository
 import com.faltenreich.diaguard.data.measurement.value.MeasurementValueRepository
+import com.faltenreich.diaguard.entry.list.EntryListItemState
+import com.faltenreich.diaguard.entry.list.MapEntryListItemStateUseCase
 import com.faltenreich.diaguard.view.paging.PagingPage
 
 class SearchEntriesUseCase(

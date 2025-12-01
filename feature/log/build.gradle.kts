@@ -8,8 +8,8 @@ kotlin {
             dependencies {
                 implementation(project(":core:serialization"))
                 implementation(project(":feature:datetime"))
+                implementation(project(":feature:entry"))
                 implementation(project(":feature:navigation"))
-                implementation(project(":shared"))
                 implementation(libs.paging)
             }
         }

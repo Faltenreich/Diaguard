@@ -145,7 +145,7 @@ private fun MeasurementValues(state: EntryListItemState) {
                     MeasurementCategoryIcon(category.category)
 
                     Column(verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_2)) {
-                        category.values.forEachIndexed { index, value ->
+                        category.values.forEach { value ->
                             Row(
                                 modifier = Modifier.padding(top = AppTheme.dimensions.padding.P_1),
                                 horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_2),

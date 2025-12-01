@@ -6,7 +6,6 @@ import com.faltenreich.diaguard.config.configModule
 import com.faltenreich.diaguard.dashboard.dashboardModule
 import com.faltenreich.diaguard.data.dataModule
 import com.faltenreich.diaguard.datetime.dateTimeModule
-import com.faltenreich.diaguard.entry.entryModule
 import com.faltenreich.diaguard.export.exportModule
 import com.faltenreich.diaguard.localization.localizationModule
 import com.faltenreich.diaguard.logging.loggingModule
@@ -59,7 +58,7 @@ private fun featureModule() = module {
     includes(
         backupModule(),
         dashboardModule(),
-        entryModule(),
+        _root_ide_package_.com.faltenreich.diaguard.entry.entryModule(),
         exportModule(),
         _root_ide_package_.com.faltenreich.diaguard.food.foodModule(),
         _root_ide_package_.com.faltenreich.diaguard.log.logModule(),

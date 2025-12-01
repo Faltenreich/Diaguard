@@ -29,6 +29,7 @@ include(
     ":feature:backup",
     ":feature:dashboard",
     ":feature:datetime",
+    ":feature:entry",
     ":feature:export",
     ":feature:food",
     ":feature:log",

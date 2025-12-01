@@ -1,8 +1,8 @@
 package com.faltenreich.diaguard.entry.form.measurement
 
-import com.faltenreich.diaguard.entry.form.EntryFormInput
 import com.faltenreich.diaguard.architecture.either.ValidationResult
 import com.faltenreich.diaguard.architecture.either.ValidationRule
+import com.faltenreich.diaguard.entry.form.EntryFormInput
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 

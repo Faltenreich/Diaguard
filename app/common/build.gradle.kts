@@ -10,6 +10,7 @@ kotlin {
                 implementation(project(":feature:backup"))
                 implementation(project(":feature:dashboard"))
                 implementation(project(":feature:datetime"))
+                implementation(project(":feature:entry"))
                 implementation(project(":feature:export"))
                 implementation(project(":feature:food"))
                 implementation(project(":feature:log"))

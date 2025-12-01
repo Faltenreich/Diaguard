@@ -11,8 +11,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.faltenreich.diaguard.data.entry.Entry
 import com.faltenreich.diaguard.data.measurement.value.MeasurementValue
+import com.faltenreich.diaguard.data.measurement.value.MeasurementValueTint
 import com.faltenreich.diaguard.data.preview.PreviewScaffold
-import com.faltenreich.diaguard.measurement.value.MeasurementValueTint
 import com.faltenreich.diaguard.resource.Res
 import com.faltenreich.diaguard.resource.entry_first_description
 import com.faltenreich.diaguard.resource.placeholder

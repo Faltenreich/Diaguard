@@ -34,6 +34,7 @@ kotlin {
                 implementation(project(":core:system"))
                 implementation(project(":core:view"))
                 implementation(project(":feature:datetime"))
+                implementation(project(":feature:measurement"))
                 implementation(project(":feature:navigation"))
                 implementation(project(":feature:preference"))
                 implementation(compose.ui)

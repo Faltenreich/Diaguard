@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.dashboard.latest
 
 import com.faltenreich.diaguard.data.entry.Entry
 import com.faltenreich.diaguard.data.measurement.value.MeasurementValue
-import com.faltenreich.diaguard.measurement.value.MeasurementValueTint
+import com.faltenreich.diaguard.data.measurement.value.MeasurementValueTint
 
 sealed interface DashboardLatestState {
 

@@ -5,10 +5,10 @@ import com.faltenreich.diaguard.data.entry.Entry
 import com.faltenreich.diaguard.data.food.Food
 import com.faltenreich.diaguard.data.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.data.measurement.property.MeasurementPropertyRepository
+import com.faltenreich.diaguard.data.measurement.value.MeasurementValueMapper
 import com.faltenreich.diaguard.data.preference.decimal.DecimalPlacesPreference
 import com.faltenreich.diaguard.localization.Localization
 import com.faltenreich.diaguard.localization.NumberFormatter
-import com.faltenreich.diaguard.measurement.value.MeasurementValueMapper
 import com.faltenreich.diaguard.preference.GetPreferenceUseCase
 import com.faltenreich.diaguard.resource.Res
 import com.faltenreich.diaguard.resource.food_input_value_per_100g

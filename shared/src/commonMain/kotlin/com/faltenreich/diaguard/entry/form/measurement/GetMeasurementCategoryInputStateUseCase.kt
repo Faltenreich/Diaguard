@@ -1,11 +1,11 @@
 package com.faltenreich.diaguard.entry.form.measurement
 
 import com.faltenreich.diaguard.data.entry.Entry
-import com.faltenreich.diaguard.measurement.category.usecase.GetActiveMeasurementCategoriesUseCase
 import com.faltenreich.diaguard.data.measurement.property.MeasurementPropertyRepository
-import com.faltenreich.diaguard.measurement.value.MeasurementValueMapper
+import com.faltenreich.diaguard.data.measurement.value.MeasurementValueMapper
 import com.faltenreich.diaguard.data.measurement.value.MeasurementValueRepository
 import com.faltenreich.diaguard.data.preference.decimal.DecimalPlacesPreference
+import com.faltenreich.diaguard.measurement.category.usecase.GetActiveMeasurementCategoriesUseCase
 import com.faltenreich.diaguard.preference.GetPreferenceUseCase
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow

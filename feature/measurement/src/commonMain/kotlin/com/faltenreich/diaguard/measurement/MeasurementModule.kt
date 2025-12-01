@@ -22,19 +22,13 @@ import com.faltenreich.diaguard.measurement.unit.usecase.GetMeasurementUnitSugge
 import com.faltenreich.diaguard.measurement.unit.usecase.GetMeasurementUnitsUseCase
 import com.faltenreich.diaguard.measurement.unit.usecase.StoreMeasurementUnitUseCase
 import com.faltenreich.diaguard.measurement.unit.usecase.ValidateMeasurementUnitUseCase
-import com.faltenreich.diaguard.measurement.value.MeasurementValueMapper
-import com.faltenreich.diaguard.measurement.value.usecase.GetMeasurementValueTintUseCase
-import com.faltenreich.diaguard.measurement.value.usecase.StoreMeasurementValuesUseCase
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.viewModel
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
 fun measurementModule() = module {
-    factoryOf(::MeasurementValueMapper)
-
     factoryOf(::StoreMeasurementCategoryUseCase)
-    factoryOf(::GetMeasurementValueTintUseCase)
     factoryOf(::GetActiveMeasurementCategoriesUseCase)
     factoryOf(::GetMeasurementCategoriesUseCase)
     factoryOf(::GetMeasurementCategoryByIdUseCase)
@@ -46,7 +40,6 @@ fun measurementModule() = module {
     factoryOf(::GetMeasurementPropertyBdIdUseCase)
     factoryOf(::GetMeasurementUnitSuggestionsUseCase)
     factoryOf(::GetMeasurementPropertiesUseCase)
-    factoryOf(::StoreMeasurementValuesUseCase)
     factoryOf(::DeleteMeasurementPropertyUseCase)
     factory { ValidateMeasurementUnitUseCase(rules = listOf(UniqueMeasurementUnitRule())) }
     factoryOf(::StoreMeasurementUnitUseCase)

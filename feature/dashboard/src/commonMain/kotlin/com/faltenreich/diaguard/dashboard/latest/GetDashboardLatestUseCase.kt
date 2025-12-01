@@ -1,12 +1,12 @@
 package com.faltenreich.diaguard.dashboard.latest
 
 import com.faltenreich.diaguard.data.DatabaseKey
+import com.faltenreich.diaguard.data.measurement.value.MeasurementValueMapper
 import com.faltenreich.diaguard.data.measurement.value.MeasurementValueRepository
+import com.faltenreich.diaguard.data.measurement.value.MeasurementValueTintMapper
 import com.faltenreich.diaguard.data.preference.decimal.DecimalPlacesPreference
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
-import com.faltenreich.diaguard.measurement.value.MeasurementValueMapper
-import com.faltenreich.diaguard.measurement.value.usecase.GetMeasurementValueTintUseCase
 import com.faltenreich.diaguard.preference.GetPreferenceUseCase
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.combine
 class GetDashboardLatestUseCase(
     private val valueRepository: MeasurementValueRepository,
     private val valueMapper: MeasurementValueMapper,
-    private val getValueColor: GetMeasurementValueTintUseCase,
+    private val getValueColor: MeasurementValueTintMapper,
     private val getPreference: GetPreferenceUseCase,
     private val dateTimeFactory: DateTimeFactory,
     private val dateTimeFormatter: DateTimeFormatter,

@@ -14,7 +14,6 @@ import com.faltenreich.diaguard.main.GetBottomAppBarStyleUseCase
 import com.faltenreich.diaguard.main.GetNavigationEventUseCase
 import com.faltenreich.diaguard.main.GetTopAppBarStyleUseCase
 import com.faltenreich.diaguard.main.MainViewModel
-import com.faltenreich.diaguard.measurement.measurementModule
 import com.faltenreich.diaguard.navigation.navigationModule
 import com.faltenreich.diaguard.network.networkModule
 import com.faltenreich.diaguard.persistence.persistenceModule
@@ -64,7 +63,7 @@ private fun featureModule() = module {
         exportModule(),
         _root_ide_package_.com.faltenreich.diaguard.food.foodModule(),
         _root_ide_package_.com.faltenreich.diaguard.log.logModule(),
-        measurementModule(),
+        _root_ide_package_.com.faltenreich.diaguard.measurement.measurementModule(),
         navigationModule(),
         preferenceModule(),
         startupModule(),

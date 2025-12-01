@@ -1,13 +1,13 @@
 package com.faltenreich.diaguard.statistic.trend
 
-import com.faltenreich.diaguard.datetime.DateRange
-import com.faltenreich.diaguard.datetime.DateRangeProgression
-import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.data.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.data.measurement.property.MeasurementValueRange
 import com.faltenreich.diaguard.data.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.data.measurement.value.MeasurementValueRepository
-import com.faltenreich.diaguard.measurement.value.usecase.GetMeasurementValueTintUseCase
+import com.faltenreich.diaguard.data.measurement.value.MeasurementValueTintMapper
+import com.faltenreich.diaguard.datetime.DateRange
+import com.faltenreich.diaguard.datetime.DateRangeProgression
+import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.statistic.daterange.StatisticDateRangeType
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
@@ -16,7 +16,7 @@ import kotlin.math.max
 
 class GetStatisticTrendUseCase(
     private val valueRepository: MeasurementValueRepository,
-    private val getValueTint: GetMeasurementValueTintUseCase,
+    private val getValueTint: MeasurementValueTintMapper,
     private val dateTimeFormatter: DateTimeFormatter,
 ) {
 

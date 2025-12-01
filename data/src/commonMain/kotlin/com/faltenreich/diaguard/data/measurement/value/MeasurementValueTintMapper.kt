@@ -1,9 +1,6 @@
-package com.faltenreich.diaguard.measurement.value.usecase
+package com.faltenreich.diaguard.data.measurement.value
 
-import com.faltenreich.diaguard.data.measurement.value.MeasurementValue
-import com.faltenreich.diaguard.measurement.value.MeasurementValueTint
-
-class GetMeasurementValueTintUseCase {
+class MeasurementValueTintMapper {
 
     operator fun invoke(measurementValue: MeasurementValue): MeasurementValueTint {
         return when {

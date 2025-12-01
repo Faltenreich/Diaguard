@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.measurement.value
+package com.faltenreich.diaguard.data.measurement.value
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color

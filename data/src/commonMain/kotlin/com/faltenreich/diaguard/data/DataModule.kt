@@ -36,9 +36,11 @@ import com.faltenreich.diaguard.data.measurement.unit.suggestion.MeasurementUnit
 import com.faltenreich.diaguard.data.measurement.unit.suggestion.MeasurementUnitSuggestionSqlDelightDao
 import com.faltenreich.diaguard.data.measurement.unit.suggestion.MeasurementUnitSuggestionSqlDelightMapper
 import com.faltenreich.diaguard.data.measurement.value.MeasurementValueDao
+import com.faltenreich.diaguard.data.measurement.value.MeasurementValueMapper
 import com.faltenreich.diaguard.data.measurement.value.MeasurementValueRepository
 import com.faltenreich.diaguard.data.measurement.value.MeasurementValueSqlDelightDao
 import com.faltenreich.diaguard.data.measurement.value.MeasurementValueSqlDelightMapper
+import com.faltenreich.diaguard.data.measurement.value.MeasurementValueTintMapper
 import com.faltenreich.diaguard.data.navigation.Navigation
 import com.faltenreich.diaguard.data.preference.PreferenceDao
 import com.faltenreich.diaguard.data.preference.PreferenceRepository
@@ -109,6 +111,8 @@ fun dataModule() = module {
     factory<MeasurementValueQueries> { get<SqlDelightApi>().measurementValueQueries }
     factoryOf(::MeasurementValueSqlDelightDao) bind MeasurementValueDao::class
     factoryOf(::MeasurementValueSqlDelightMapper)
+    factoryOf(::MeasurementValueMapper)
+    factoryOf(::MeasurementValueTintMapper)
     factoryOf(::MeasurementValueRepository)
 
     factoryOf(::OpenFoodFactsMapper)

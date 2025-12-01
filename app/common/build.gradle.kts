@@ -13,6 +13,7 @@ kotlin {
                 implementation(project(":feature:export"))
                 implementation(project(":feature:food"))
                 implementation(project(":feature:log"))
+                implementation(project(":feature:measurement"))
                 implementation(project(":feature:navigation"))
                 implementation(project(":feature:preference"))
                 implementation(project(":feature:startup"))

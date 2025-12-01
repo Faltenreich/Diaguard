@@ -32,6 +32,7 @@ include(
     ":feature:export",
     ":feature:food",
     ":feature:log",
+    ":feature:measurement",
     ":feature:navigation",
     ":feature:preference",
     ":feature:startup",

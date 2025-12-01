@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.statistic.distribution
 
 import com.faltenreich.diaguard.data.measurement.property.MeasurementProperty
-import com.faltenreich.diaguard.measurement.value.MeasurementValueTint
+import com.faltenreich.diaguard.data.measurement.value.MeasurementValueTint
 
 data class StatisticDistributionState(
     val property: MeasurementProperty.Local,

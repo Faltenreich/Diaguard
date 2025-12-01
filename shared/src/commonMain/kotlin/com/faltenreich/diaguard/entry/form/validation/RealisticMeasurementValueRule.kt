@@ -2,10 +2,10 @@ package com.faltenreich.diaguard.entry.form.validation
 
 import com.faltenreich.diaguard.architecture.either.ValidationResult
 import com.faltenreich.diaguard.architecture.either.ValidationRule
+import com.faltenreich.diaguard.data.measurement.value.MeasurementValueMapper
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementPropertyInputState
 import com.faltenreich.diaguard.injection.inject
 import com.faltenreich.diaguard.localization.Localization
-import com.faltenreich.diaguard.measurement.value.MeasurementValueMapper
 import com.faltenreich.diaguard.resource.Res
 import com.faltenreich.diaguard.resource.entry_form_error_unrealistic_value
 

@@ -1,7 +1,6 @@
-package com.faltenreich.diaguard.measurement.value
+package com.faltenreich.diaguard.data.measurement.value
 
 import com.faltenreich.diaguard.data.measurement.property.MeasurementProperty
-import com.faltenreich.diaguard.data.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.localization.NumberFormatter
 
 class MeasurementValueMapper(

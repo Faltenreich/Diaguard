@@ -1,8 +1,8 @@
 package com.faltenreich.diaguard.measurement.unit.usecase
 
-import com.faltenreich.diaguard.data.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.architecture.either.ValidationResult
 import com.faltenreich.diaguard.architecture.either.ValidationRule
+import com.faltenreich.diaguard.data.measurement.unit.MeasurementUnit
 
 class ValidateMeasurementUnitUseCase(private val rules: List<ValidationRule<MeasurementUnit>>) {
 

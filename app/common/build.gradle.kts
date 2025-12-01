@@ -16,6 +16,7 @@ kotlin {
                 implementation(project(":feature:preference"))
                 implementation(project(":feature:startup"))
                 implementation(project(":feature:statistic"))
+                implementation(project(":feature:timeline"))
                 api(project(":data"))
                 implementation(project(":core:architecture"))
                 implementation(project(":core:config"))

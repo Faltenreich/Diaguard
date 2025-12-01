@@ -1,8 +1,8 @@
 package com.faltenreich.diaguard.timeline.canvas.table
 
+import com.faltenreich.diaguard.data.DatabaseKey
 import com.faltenreich.diaguard.data.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.data.measurement.property.MeasurementPropertyRepository
-import com.faltenreich.diaguard.data.DatabaseKey
 import kotlinx.coroutines.flow.Flow
 
 class GetTimelineTableMeasurementPropertiesUseCase(

@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.timeline.canvas
 
-import com.faltenreich.diaguard.entry.list.EntryListItemState
 import com.faltenreich.diaguard.data.measurement.property.MeasurementProperty
+import com.faltenreich.diaguard.entry.list.EntryListItemState
 
 sealed interface TapTimelineCanvasResult {
 

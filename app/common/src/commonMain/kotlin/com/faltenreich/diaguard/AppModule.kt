@@ -24,7 +24,6 @@ import com.faltenreich.diaguard.serialization.serializationModule
 import com.faltenreich.diaguard.startup.startupModule
 import com.faltenreich.diaguard.statistic.statisticModule
 import com.faltenreich.diaguard.system.systemModule
-import com.faltenreich.diaguard.tag.tagModule
 import com.faltenreich.diaguard.view.viewModule
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.viewModelOf
@@ -71,7 +70,7 @@ private fun featureModule() = module {
         preferenceModule(),
         startupModule(),
         statisticModule(),
-        tagModule(),
+        _root_ide_package_.com.faltenreich.diaguard.tag.tagModule(),
         _root_ide_package_.com.faltenreich.diaguard.timeline.timelineModule(),
     )
 }

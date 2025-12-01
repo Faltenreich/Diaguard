@@ -14,6 +14,7 @@ import com.faltenreich.diaguard.entry.form.reminder.GetReminderUseCase
 import com.faltenreich.diaguard.entry.form.reminder.SetReminderUseCase
 import com.faltenreich.diaguard.entry.form.tag.GetTagSuggestionsUseCase
 import com.faltenreich.diaguard.entry.form.tag.GetTagsOfEntry
+import com.faltenreich.diaguard.entry.form.tag.GetTagsUseCase
 import com.faltenreich.diaguard.entry.form.validation.RealisticMeasurementValueRule
 import com.faltenreich.diaguard.entry.form.validation.ValidEntryFormInputRule
 import com.faltenreich.diaguard.entry.list.MapEntryListItemStateUseCase
@@ -30,6 +31,7 @@ fun entryModule() = module {
     factoryOf(::GetDateTimeForEntryUseCase)
     factoryOf(::GetMeasurementCategoryInputStateUseCase)
     factoryOf(::GetFoodEatenInputStateUseCase)
+    factoryOf(::GetTagsUseCase)
     factoryOf(::GetTagSuggestionsUseCase)
     factoryOf(::GetTagsOfEntry)
     factoryOf(::MapEntryListItemStateUseCase)

@@ -35,6 +35,7 @@ include(
     ":feature:preference",
     ":feature:startup",
     ":feature:statistic",
+    ":feature:tag",
     ":feature:timeline",
     
     ":data",

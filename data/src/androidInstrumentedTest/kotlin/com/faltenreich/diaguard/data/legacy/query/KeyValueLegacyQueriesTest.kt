@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.startup.legacy.query
+package com.faltenreich.diaguard.data.legacy.query
 
 import com.faltenreich.diaguard.data.legacy.query.KeyValueLegacyQueries
 import com.faltenreich.diaguard.data.preference.color.ColorScheme

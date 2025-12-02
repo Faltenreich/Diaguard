@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.shared.test
+package com.faltenreich.diaguard.data
 
 import android.os.FileUtils
 import androidx.test.platform.app.InstrumentationRegistry

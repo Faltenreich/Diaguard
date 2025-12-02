@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.startup.legacy.query
+package com.faltenreich.diaguard.data.legacy.query
 
 import androidx.test.platform.app.InstrumentationRegistry
 import com.faltenreich.diaguard.datetime.DateTimeAndroidApi
@@ -8,7 +8,7 @@ import com.faltenreich.diaguard.data.DatabaseKey
 import com.faltenreich.diaguard.data.legacy.query.MeasurementValueLegacyQueries
 import com.faltenreich.diaguard.persistence.database.SqliteDatabase
 import com.faltenreich.diaguard.localization.ComposeLocalization
-import com.faltenreich.diaguard.shared.test.FileFactory
+import com.faltenreich.diaguard.data.FileFactory
 import com.faltenreich.diaguard.data.legacy.query.measurement.ActivityLegacyQueries
 import com.faltenreich.diaguard.data.legacy.query.measurement.BloodPressureLegacyQueries
 import com.faltenreich.diaguard.data.legacy.query.measurement.BloodSugarLegacyQueries

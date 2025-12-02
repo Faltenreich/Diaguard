@@ -1,10 +1,7 @@
-package com.faltenreich.diaguard.shared.datetime
+package com.faltenreich.diaguard.datetime
 
 import androidx.compose.ui.text.intl.Locale
 import androidx.test.platform.app.InstrumentationRegistry
-import com.faltenreich.diaguard.datetime.DateTimeAndroidApi
-import com.faltenreich.diaguard.datetime.DayOfWeek
-import com.faltenreich.diaguard.datetime.WeekOfYear
 import com.faltenreich.diaguard.datetime.kotlinx.KotlinxDateTimeFactory
 import com.faltenreich.diaguard.localization.ComposeLocalization
 import org.junit.Assert

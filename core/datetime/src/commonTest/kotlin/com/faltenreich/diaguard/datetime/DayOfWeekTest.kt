@@ -1,10 +1,9 @@
 package com.faltenreich.diaguard.datetime
 
-import com.faltenreich.diaguard.TestSuite
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class DayOfWeekTest : TestSuite() {
+class DayOfWeekTest {
 
     @Test
     fun `previous day of Monday is Sunday`() {

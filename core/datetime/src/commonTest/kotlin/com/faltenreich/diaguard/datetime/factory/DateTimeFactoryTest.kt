@@ -1,12 +1,15 @@
 package com.faltenreich.diaguard.datetime.factory
 
-import com.faltenreich.diaguard.TestSuite
 import com.faltenreich.diaguard.datetime.DateUnit
+import com.faltenreich.diaguard.datetime.dateTimeModule
+import com.faltenreich.diaguard.datetime.testModule
+import com.faltenreich.diaguard.test.TestSuite
+import org.koin.dsl.module
 import org.koin.test.inject
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class DateTimeFactoryTest : TestSuite() {
+class DateTimeFactoryTest : TestSuite(module { dateTimeModule() + testModule() }) {
 
     private val dateTimeFactory: DateTimeFactory by inject()
 

@@ -15,6 +15,11 @@ kotlin {
                 implementation(libs.kotlinx.dateTime)
             }
         }
+        commonTest {
+            dependencies {
+                implementation(project(":core:test"))
+            }
+        }
         all {
             languageSettings {
                 optIn("kotlin.time.ExperimentalTime")

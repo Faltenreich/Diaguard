@@ -1,9 +1,10 @@
 package com.faltenreich.diaguard.datetime.format
 
-import com.faltenreich.diaguard.TestSuite
 import com.faltenreich.diaguard.datetime.DateTimeFakeApi
 import com.faltenreich.diaguard.datetime.DateTimePlatformApi
+import com.faltenreich.diaguard.datetime.dateTimeModule
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
+import com.faltenreich.diaguard.datetime.testModule
 import com.faltenreich.diaguard.resource.Res
 import com.faltenreich.diaguard.resource.date_time_ago_days
 import com.faltenreich.diaguard.resource.date_time_ago_hours
@@ -13,12 +14,14 @@ import com.faltenreich.diaguard.resource.month_january
 import com.faltenreich.diaguard.resource.month_january_short
 import com.faltenreich.diaguard.resource.weekday_saturday
 import com.faltenreich.diaguard.resource.weekday_saturday_short
+import com.faltenreich.diaguard.test.TestSuite
+import org.koin.dsl.module
 import org.koin.test.inject
 import org.koin.test.mock.declare
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class DateTimeFormatterTest : TestSuite() {
+class DateTimeFormatterTest : TestSuite(module { dateTimeModule() + testModule() }) {
 
     private val dateTimeFactory: DateTimeFactory by inject()
     private val dateTimeFormatter: DateTimeFormatter by inject()

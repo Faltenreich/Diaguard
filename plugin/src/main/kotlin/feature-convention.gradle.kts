@@ -33,6 +33,11 @@ kotlin {
                 implementation(libs.koin.viewmodel)
             }
         }
+        commonTest {
+            dependencies {
+                implementation(project(":core:test"))
+            }
+        }
         all {
             languageSettings {
                 optIn("androidx.compose.material3.ExperimentalMaterial3Api")

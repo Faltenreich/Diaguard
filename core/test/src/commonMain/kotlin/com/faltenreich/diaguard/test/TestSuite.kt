@@ -9,19 +9,17 @@ import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
 import org.koin.core.module.Module
 import org.koin.test.KoinTest
-import kotlin.test.AfterTest
-import kotlin.test.BeforeTest
 
 abstract class TestSuite(private val module: Module) : KoinTest {
 
-    @BeforeTest
+    // FIXME: @BeforeTest
     @CallSuper
     open fun beforeTest() {
         startKoin { modules(module) }
         Dispatchers.setMain(dispatcher = get())
     }
 
-    @AfterTest
+    // FIXME: @AfterTest
     @CallSuper
     open fun afterTest() {
         stopKoin()

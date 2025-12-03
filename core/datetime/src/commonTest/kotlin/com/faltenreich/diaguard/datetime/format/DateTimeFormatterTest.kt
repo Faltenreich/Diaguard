@@ -14,17 +14,37 @@ import com.faltenreich.diaguard.resource.month_january
 import com.faltenreich.diaguard.resource.month_january_short
 import com.faltenreich.diaguard.resource.weekday_saturday
 import com.faltenreich.diaguard.resource.weekday_saturday_short
-import com.faltenreich.diaguard.test.TestSuite
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.setMain
+import org.koin.core.component.get
+import org.koin.core.context.startKoin
+import org.koin.core.context.stopKoin
 import org.koin.dsl.module
+import org.koin.test.KoinTest
 import org.koin.test.inject
 import org.koin.test.mock.declare
+import kotlin.test.AfterTest
+import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class DateTimeFormatterTest : TestSuite(module { dateTimeModule() + testModule() }) {
+class DateTimeFormatterTest : KoinTest {
 
     private val dateTimeFactory: DateTimeFactory by inject()
     private val dateTimeFormatter: DateTimeFormatter by inject()
+
+    @BeforeTest
+    fun beforeTest() {
+        startKoin { modules(module { dateTimeModule() + testModule() }) }
+        Dispatchers.setMain(dispatcher = get())
+    }
+
+    @AfterTest
+    fun afterTest() {
+        stopKoin()
+        Dispatchers.resetMain()
+    }
 
     @Test
     fun `format time for 24-hour format`() {

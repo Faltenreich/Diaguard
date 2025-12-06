@@ -15,7 +15,7 @@ import com.faltenreich.diaguard.persistence.file.SystemFileReader
 import com.faltenreich.diaguard.persistence.persistenceModule
 import com.faltenreich.diaguard.serialization.Serialization
 import com.faltenreich.diaguard.shared.config.FakeBuildConfig
-import com.faltenreich.diaguard.shared.localization.FakeLocalization
+import com.faltenreich.diaguard.localization.FakeLocalization
 import com.faltenreich.diaguard.shared.notification.FakeAlarmManager
 import com.faltenreich.diaguard.shared.system.FakeSystemSettings
 import com.faltenreich.diaguard.shared.view.FakeWindowController

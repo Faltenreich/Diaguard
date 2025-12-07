@@ -12,12 +12,14 @@ import org.koin.test.KoinTest
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 
-abstract class TestSuite(private val module: Module) : KoinTest {
+abstract class TestSuite(private val modules: List<Module>) : KoinTest {
+
+    constructor(vararg modules: Module) : this(modules.toList())
 
     @BeforeTest
     @CallSuper
     open fun beforeTest() {
-        startKoin { modules(module) }
+        startKoin { modules(modules) }
         Dispatchers.setMain(dispatcher = StandardTestDispatcher())
     }
 

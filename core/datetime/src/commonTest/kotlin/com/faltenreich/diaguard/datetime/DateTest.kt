@@ -1,29 +1,15 @@
 package com.faltenreich.diaguard.datetime
 
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
-import org.koin.core.context.startKoin
-import org.koin.core.context.stopKoin
-import org.koin.test.KoinTest
+import com.faltenreich.diaguard.test.TestSuite
 import org.koin.test.inject
-import kotlin.test.AfterTest
-import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-class DateTest : KoinTest {
+class DateTest : TestSuite(modules = dateTimeModule() + testModule()) {
 
     private val dateTimeFactory: DateTimeFactory by inject()
-
-    @BeforeTest
-    fun beforeTest() {
-        startKoin { modules(dateTimeModule() + testModule()) }
-    }
-
-    @AfterTest
-    fun afterTest() {
-        stopKoin()
-    }
 
     @Test
     fun `date is equal if year and month and day are equal`() {

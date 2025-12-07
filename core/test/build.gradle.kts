@@ -18,5 +18,10 @@ kotlin {
                 implementation(kotlin("test-junit"))
             }
         }
+        all {
+            languageSettings {
+                optIn("kotlinx.coroutines.ExperimentalCoroutinesApi")
+            }
+        }
     }
 }

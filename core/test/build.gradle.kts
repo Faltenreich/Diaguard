@@ -13,9 +13,9 @@ kotlin {
                 implementation(libs.kotlinx.coroutines.test)
             }
         }
-        jvmMain {
+        androidMain {
             dependencies {
-                implementation(kotlin("test-jvm"))
+                implementation(kotlin("test-junit"))
             }
         }
     }

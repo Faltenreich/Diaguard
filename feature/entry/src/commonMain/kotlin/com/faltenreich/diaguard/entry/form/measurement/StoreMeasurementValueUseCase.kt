@@ -1,16 +1,16 @@
-package com.faltenreich.diaguard.measurement.value.usecase
+package com.faltenreich.diaguard.entry.form.measurement
 
-import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
+import com.faltenreich.diaguard.data.DatabaseKey
 import com.faltenreich.diaguard.data.entry.Entry
 import com.faltenreich.diaguard.data.entry.EntryRepository
 import com.faltenreich.diaguard.data.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.data.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.data.measurement.value.MeasurementValueRepository
-import com.faltenreich.diaguard.data.DatabaseKey
+import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import kotlinx.coroutines.flow.first
 
 /**
- * Convenience use case for creating a [MeasurementValue]
+ * Convenience use case for creating a [com.faltenreich.diaguard.data.measurement.value.MeasurementValue]
  */
 class StoreMeasurementValueUseCase(
     private val valueRepository: MeasurementValueRepository,

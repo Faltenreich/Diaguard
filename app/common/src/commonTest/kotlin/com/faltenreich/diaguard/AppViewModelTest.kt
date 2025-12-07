@@ -2,12 +2,13 @@ package com.faltenreich.diaguard
 
 import app.cash.turbine.test
 import com.faltenreich.diaguard.startup.seed.ImportSeedUseCase
+import com.faltenreich.diaguard.test.TestSuite
 import kotlinx.coroutines.test.runTest
 import org.koin.test.inject
 import kotlin.test.Test
 import kotlin.test.assertTrue
 
-class AppViewModelTest : TestSuite() {
+class AppViewModelTest : TestSuite(appModule()) {
 
     private val viewModel: AppViewModel by inject()
     private val importSeed: ImportSeedUseCase by inject()

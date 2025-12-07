@@ -1,6 +1,4 @@
-package com.faltenreich.diaguard.shared.view
-
-import com.faltenreich.diaguard.view.window.WindowController
+package com.faltenreich.diaguard.view.window
 
 class FakeWindowController : WindowController {
 

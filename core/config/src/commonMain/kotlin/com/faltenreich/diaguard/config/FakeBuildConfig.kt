@@ -1,6 +1,4 @@
-package com.faltenreich.diaguard.shared.config
-
-import com.faltenreich.diaguard.config.BuildConfig
+package com.faltenreich.diaguard.config
 
 class FakeBuildConfig : BuildConfig {
 

@@ -4,9 +4,6 @@ import com.faltenreich.diaguard.config.BuildConfig
 import com.faltenreich.diaguard.data.food.api.FoodApi
 import com.faltenreich.diaguard.data.food.api.openfoodfacts.OpenFoodFactsApi
 import com.faltenreich.diaguard.data.food.api.openfoodfacts.OpenFoodFactsMapper
-import com.faltenreich.diaguard.datetime.DateTimeFakeApi
-import com.faltenreich.diaguard.datetime.DateTimePlatformApi
-import com.faltenreich.diaguard.export.pdf.PdfExport
 import com.faltenreich.diaguard.localization.Localization
 import com.faltenreich.diaguard.logging.ConsoleLogger
 import com.faltenreich.diaguard.logging.Logger
@@ -14,11 +11,11 @@ import com.faltenreich.diaguard.measurement.value.usecase.StoreMeasurementValueU
 import com.faltenreich.diaguard.persistence.file.SystemFileReader
 import com.faltenreich.diaguard.persistence.persistenceModule
 import com.faltenreich.diaguard.serialization.Serialization
-import com.faltenreich.diaguard.shared.config.FakeBuildConfig
+import com.faltenreich.diaguard.config.FakeBuildConfig
 import com.faltenreich.diaguard.localization.FakeLocalization
-import com.faltenreich.diaguard.shared.notification.FakeAlarmManager
-import com.faltenreich.diaguard.shared.system.FakeSystemSettings
-import com.faltenreich.diaguard.shared.view.FakeWindowController
+import com.faltenreich.diaguard.system.notification.FakeAlarmManager
+import com.faltenreich.diaguard.system.settings.FakeSystemSettings
+import com.faltenreich.diaguard.view.window.FakeWindowController
 import com.faltenreich.diaguard.startup.legacy.FakeLegacyDao
 import com.faltenreich.diaguard.data.legacy.LegacyDao
 import com.faltenreich.diaguard.data.seed.query.food.FoodSeedQueries
@@ -48,9 +45,6 @@ fun testModules() = module {
     singleOf(::FakeBuildConfig) bind BuildConfig::class
     singleOf(::ConsoleLogger) bind Logger::class
     factoryOf(::FakeAlarmManager) bind AlarmManager::class
-    factory<DateTimePlatformApi> { DateTimeFakeApi(is24HourFormat = true) }
-
-    single<PdfExport> { PdfExport {} }
 
     single<FoodApi> {
         OpenFoodFactsApi(

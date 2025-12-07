@@ -1,6 +1,5 @@
-package com.faltenreich.diaguard.shared.serialization
+package com.faltenreich.diaguard.serialization
 
-import com.faltenreich.diaguard.serialization.KotlinxSerialization
 import kotlinx.serialization.Serializable
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -71,7 +70,7 @@ class KotlinxSerializationTest {
     @Test
     fun `encodes to YAML`() {
         assertEquals(
-            expected = "\"" + yaml.replace("\n","\\n") + "\"",
+            expected = "\"" + yaml.replace("\n", "\\n") + "\"",
             actual = serialization.encodeYaml(yaml),
         )
     }

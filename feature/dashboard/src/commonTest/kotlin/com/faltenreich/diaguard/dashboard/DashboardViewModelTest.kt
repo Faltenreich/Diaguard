@@ -1,11 +1,9 @@
 package com.faltenreich.diaguard.dashboard
 
 import app.cash.turbine.test
-import com.faltenreich.diaguard.TestSuite
 import com.faltenreich.diaguard.dashboard.hba1c.DashboardHbA1cState
 import com.faltenreich.diaguard.data.DatabaseKey
-import com.faltenreich.diaguard.measurement.value.usecase.StoreMeasurementValueUseCase
-import com.faltenreich.diaguard.startup.seed.ImportSeedUseCase
+import com.faltenreich.diaguard.test.TestSuite
 import kotlinx.coroutines.test.runTest
 import org.koin.test.inject
 import kotlin.test.Ignore
@@ -99,14 +97,15 @@ class DashboardViewModelTest : TestSuite() {
     }
 
     @Test
-    fun `shows estimated HbA1c if no values for HbA1c but Blood Sugar have been entered`() = runTest {
-        importSeed()
-        storeValue(value = 120.0, propertyKey = DatabaseKey.MeasurementProperty.BLOOD_SUGAR)
+    fun `shows estimated HbA1c if no values for HbA1c but Blood Sugar have been entered`() =
+        runTest {
+            importSeed()
+            storeValue(value = 120.0, propertyKey = DatabaseKey.MeasurementProperty.BLOOD_SUGAR)
 
-        viewModel.state.test {
-            val state = awaitItem()
+            viewModel.state.test {
+                val state = awaitItem()
 
-            assertTrue(state.hbA1c is DashboardHbA1cState.Estimated)
+                assertTrue(state.hbA1c is DashboardHbA1cState.Estimated)
+            }
         }
-    }
 }

@@ -7,7 +7,6 @@ import com.faltenreich.diaguard.data.food.api.openfoodfacts.OpenFoodFactsMapper
 import com.faltenreich.diaguard.localization.Localization
 import com.faltenreich.diaguard.logging.ConsoleLogger
 import com.faltenreich.diaguard.logging.Logger
-import com.faltenreich.diaguard.measurement.value.usecase.StoreMeasurementValueUseCase
 import com.faltenreich.diaguard.persistence.file.SystemFileReader
 import com.faltenreich.diaguard.persistence.persistenceModule
 import com.faltenreich.diaguard.serialization.Serialization
@@ -76,5 +75,4 @@ fun testModules() = module {
         )
     }
 
-    singleOf(::StoreMeasurementValueUseCase)
 }

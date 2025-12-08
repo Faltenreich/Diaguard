@@ -12,6 +12,7 @@ import com.faltenreich.diaguard.log.LogScreen
 import com.faltenreich.diaguard.preference.SetPreferenceUseCase
 import com.faltenreich.diaguard.startup.seed.ImportSeedUseCase
 import com.faltenreich.diaguard.test.TestSuite
+import com.faltenreich.diaguard.testModule
 import com.faltenreich.diaguard.timeline.TimelineScreen
 import kotlinx.coroutines.test.runTest
 import org.koin.test.inject
@@ -19,7 +20,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-class MainViewModelTest : TestSuite(appModule()) {
+class MainViewModelTest : TestSuite(appModule() + testModule()) {
 
     private val importSeed: ImportSeedUseCase by inject()
     private val setPreference: SetPreferenceUseCase by inject()

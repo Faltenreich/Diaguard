@@ -1,5 +1,7 @@
 package com.faltenreich.diaguard.data
 
+import com.faltenreich.diaguard.architecture.architectureModule
+import com.faltenreich.diaguard.config.configModule
 import com.faltenreich.diaguard.data.entry.EntryDao
 import com.faltenreich.diaguard.data.entry.EntryRepository
 import com.faltenreich.diaguard.data.entry.EntrySqlDelightDao
@@ -64,8 +66,16 @@ import com.faltenreich.diaguard.data.tag.TagDao
 import com.faltenreich.diaguard.data.tag.TagRepository
 import com.faltenreich.diaguard.data.tag.TagSqlDelightDao
 import com.faltenreich.diaguard.data.tag.TagSqlDelightMapper
+import com.faltenreich.diaguard.datetime.dateTimeModule
+import com.faltenreich.diaguard.localization.localizationModule
+import com.faltenreich.diaguard.logging.loggingModule
+import com.faltenreich.diaguard.network.networkModule
 import com.faltenreich.diaguard.persistence.database.SqlDelightDriverFactory
 import com.faltenreich.diaguard.persistence.file.ResourceFileReader
+import com.faltenreich.diaguard.persistence.persistenceModule
+import com.faltenreich.diaguard.serialization.serializationModule
+import com.faltenreich.diaguard.system.systemModule
+import com.faltenreich.diaguard.view.viewModule
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.singleOf
@@ -73,6 +83,18 @@ import org.koin.dsl.bind
 import org.koin.dsl.module
 
 fun dataModule() = module {
+    includes(
+        architectureModule(),
+        configModule(),
+        dateTimeModule(),
+        localizationModule(),
+        loggingModule(),
+        networkModule(),
+        persistenceModule(inMemory = false),
+        serializationModule(),
+        systemModule(),
+        viewModule(),
+    )
     includes(dataPlatformModule())
 
     // Requires Singleton to support synchronous CRUD operations

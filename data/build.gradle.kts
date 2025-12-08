@@ -10,6 +10,8 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
+                implementation(project(":core:architecture"))
+                implementation(project(":core:config"))
                 implementation(project(":core:datetime"))
                 implementation(project(":core:injection"))
                 implementation(project(":core:localization"))
@@ -17,6 +19,7 @@ kotlin {
                 implementation(project(":core:network"))
                 implementation(project(":core:persistence"))
                 implementation(project(":core:serialization"))
+                implementation(project(":core:system"))
                 implementation(project(":core:view"))
                 implementation(compose.components.resources)
                 implementation(compose.components.uiToolingPreview)

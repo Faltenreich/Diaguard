@@ -59,6 +59,12 @@ kotlin {
 android {
     val appNamespace: String by rootProject.extra
     val appCompileSdk: Int by rootProject.extra
+    val appMinSdk: Int by rootProject.extra
     namespace = appNamespace
     compileSdk = appCompileSdk
+    defaultConfig {
+        minSdk = appMinSdk
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunnerArguments["clearPackageData"] = "true"
+    }
 }

@@ -37,5 +37,10 @@ kotlin {
                 implementation(libs.koin.test)
             }
         }
+        androidInstrumentedTest {
+            dependencies {
+                implementation(libs.ktor.core)
+            }
+        }
     }
 }

@@ -5,6 +5,7 @@ import com.faltenreich.diaguard.dashboard.hba1c.DashboardHbA1cState
 import com.faltenreich.diaguard.data.DatabaseKey
 import com.faltenreich.diaguard.entry.form.measurement.StoreMeasurementValueUseCase
 import com.faltenreich.diaguard.startup.seed.ImportSeedUseCase
+import com.faltenreich.diaguard.startup.startupModule
 import com.faltenreich.diaguard.test.TestSuite
 import kotlinx.coroutines.test.runTest
 import org.koin.test.inject
@@ -15,7 +16,7 @@ import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
-class DashboardViewModelTest : TestSuite() {
+class DashboardViewModelTest : TestSuite(dashboardModule() + startupModule()) {
 
     private val viewModel: DashboardViewModel by inject()
     private val importSeed: ImportSeedUseCase by inject()

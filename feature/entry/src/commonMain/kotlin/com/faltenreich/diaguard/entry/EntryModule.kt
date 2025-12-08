@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.entry
 
+import com.faltenreich.diaguard.data.dataModule
 import com.faltenreich.diaguard.entry.form.DeleteEntryUseCase
 import com.faltenreich.diaguard.entry.form.EntryFormViewModel
 import com.faltenreich.diaguard.entry.form.GetEntryByIdUseCase
@@ -28,6 +29,8 @@ import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
 fun entryModule() = module {
+    includes(dataModule())
+
     factoryOf(::GetEntryByIdUseCase)
     factoryOf(::GetFoodByIdUseCase)
     factoryOf(::GetDateTimeForEntryUseCase)

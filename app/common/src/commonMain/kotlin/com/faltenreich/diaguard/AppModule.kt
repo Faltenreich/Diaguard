@@ -4,7 +4,6 @@ import com.faltenreich.diaguard.architecture.architectureModule
 import com.faltenreich.diaguard.backup.backupModule
 import com.faltenreich.diaguard.config.configModule
 import com.faltenreich.diaguard.dashboard.dashboardModule
-import com.faltenreich.diaguard.data.dataModule
 import com.faltenreich.diaguard.datetime.dateTimeModule
 import com.faltenreich.diaguard.entry.entryModule
 import com.faltenreich.diaguard.export.exportModule
@@ -35,7 +34,6 @@ import org.koin.dsl.module
 fun appModule() = module {
     includes(
         coreModule(),
-        dataModule(),
         featureModule(),
     )
     factoryOf(::GetTopAppBarStyleUseCase)

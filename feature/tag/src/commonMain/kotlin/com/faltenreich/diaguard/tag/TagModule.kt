@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.tag
 
+import com.faltenreich.diaguard.data.dataModule
 import com.faltenreich.diaguard.tag.detail.DeleteTagUseCase
 import com.faltenreich.diaguard.tag.detail.GetEntriesOfTagUseCase
 import com.faltenreich.diaguard.tag.detail.GetTagByIdUseCase
@@ -12,6 +13,8 @@ import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
 fun tagModule() = module {
+    includes(dataModule())
+
     factoryOf(::GetTagByIdUseCase)
     factoryOf(::GetTagsUseCase)
     factoryOf(::StoreTagUseCase)

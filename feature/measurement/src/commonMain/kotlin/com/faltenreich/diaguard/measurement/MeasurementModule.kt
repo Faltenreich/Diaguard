@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.measurement
 
+import com.faltenreich.diaguard.data.dataModule
 import com.faltenreich.diaguard.measurement.category.form.MeasurementCategoryFormViewModel
 import com.faltenreich.diaguard.measurement.category.list.MeasurementCategoryListViewModel
 import com.faltenreich.diaguard.measurement.category.usecase.DeleteMeasurementCategoryUseCase
@@ -28,6 +29,8 @@ import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
 fun measurementModule() = module {
+    includes(dataModule())
+
     factoryOf(::StoreMeasurementCategoryUseCase)
     factoryOf(::GetActiveMeasurementCategoriesUseCase)
     factoryOf(::GetMeasurementCategoriesUseCase)

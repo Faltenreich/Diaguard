@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.food
 
+import com.faltenreich.diaguard.data.dataModule
 import com.faltenreich.diaguard.entry.form.food.GetFoodEatenForEntryUseCase
 import com.faltenreich.diaguard.entry.form.food.StoreFoodEatenUseCase
 import com.faltenreich.diaguard.food.eaten.list.FoodEatenListViewModel
@@ -19,6 +20,8 @@ import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
 fun foodModule() = module {
+    includes(dataModule())
+
     factoryOf(::CreateFoodFormInputUseCase)
     factoryOf(::ValidateFoodInputUseCase)
     factoryOf(::StoreFoodUseCase)

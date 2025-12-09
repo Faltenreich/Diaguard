@@ -16,6 +16,7 @@ import org.koin.dsl.module
 fun dashboardModule() = module {
     includes(dataModule())
 
+    factory {  }
     factoryOf(::GetDashboardLatestUseCase)
     factoryOf(::GetDashboardReminderUseCase)
     factoryOf(::GetDashboardTodayUseCase)

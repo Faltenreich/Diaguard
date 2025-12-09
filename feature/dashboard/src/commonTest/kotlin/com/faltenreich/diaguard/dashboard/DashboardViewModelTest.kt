@@ -2,28 +2,23 @@ package com.faltenreich.diaguard.dashboard
 
 import app.cash.turbine.test
 import com.faltenreich.diaguard.dashboard.hba1c.DashboardHbA1cState
-import com.faltenreich.diaguard.data.DatabaseKey
-import com.faltenreich.diaguard.entry.form.measurement.StoreMeasurementValueUseCase
-import com.faltenreich.diaguard.startup.seed.ImportSeedUseCase
-import com.faltenreich.diaguard.startup.startupModule
+import com.faltenreich.diaguard.data.measurement.value.MeasurementValue
+import com.faltenreich.diaguard.data.measurement.value.MeasurementValueDao
+import com.faltenreich.diaguard.data.measurement.value.MeasurementValueFakeDao
 import com.faltenreich.diaguard.test.TestSuite
 import kotlinx.coroutines.test.runTest
 import org.koin.test.inject
-import kotlin.test.Ignore
+import org.koin.test.mock.declare
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
-class DashboardViewModelTest : TestSuite(dashboardModule() + startupModule()) {
+class DashboardViewModelTest : TestSuite(dashboardModule()) {
 
     private val viewModel: DashboardViewModel by inject()
-    private val importSeed: ImportSeedUseCase by inject()
-    private val storeValue: StoreMeasurementValueUseCase by inject()
 
-    // FIXME: Never completes
-    @Ignore
     @Test
     fun `shows empty content if no data is available`() = runTest {
         viewModel.state.test {
@@ -47,8 +42,16 @@ class DashboardViewModelTest : TestSuite(dashboardModule() + startupModule()) {
 
     @Test
     fun `shows latest blood sugar if data is available`() = runTest {
-        importSeed()
-        storeValue(value = 120.0, propertyKey = DatabaseKey.MeasurementProperty.BLOOD_SUGAR)
+        val value = MeasurementValue.Local(
+            id = 1L,
+            createdAt = TODO(),
+            updatedAt = TODO(),
+            value = 120.0,
+            property = TODO(),
+            entry = TODO(),
+        )
+        declare<MeasurementValueDao> { MeasurementValueFakeDao(values = listOf(value)) }
+        // storeValue(value = 120.0, propertyKey = DatabaseKey.MeasurementProperty.BLOOD_SUGAR)
 
         viewModel.state.test {
             val state = awaitItem()
@@ -59,10 +62,9 @@ class DashboardViewModelTest : TestSuite(dashboardModule() + startupModule()) {
 
     @Test
     fun `shows today's counts if data is available`() = runTest {
-        importSeed()
-        storeValue(value = 50.0, propertyKey = DatabaseKey.MeasurementProperty.BLOOD_SUGAR)
-        storeValue(value = 120.0, propertyKey = DatabaseKey.MeasurementProperty.BLOOD_SUGAR)
-        storeValue(value = 190.0, propertyKey = DatabaseKey.MeasurementProperty.BLOOD_SUGAR)
+        // storeValue(value = 50.0, propertyKey = DatabaseKey.MeasurementProperty.BLOOD_SUGAR)
+        // storeValue(value = 120.0, propertyKey = DatabaseKey.MeasurementProperty.BLOOD_SUGAR)
+        // storeValue(value = 190.0, propertyKey = DatabaseKey.MeasurementProperty.BLOOD_SUGAR)
 
         viewModel.state.test {
             val state = awaitItem()
@@ -75,8 +77,7 @@ class DashboardViewModelTest : TestSuite(dashboardModule() + startupModule()) {
 
     @Test
     fun `shows average values if data is available`() = runTest {
-        importSeed()
-        storeValue(value = 120.0, propertyKey = DatabaseKey.MeasurementProperty.BLOOD_SUGAR)
+        // storeValue(value = 120.0, propertyKey = DatabaseKey.MeasurementProperty.BLOOD_SUGAR)
 
         viewModel.state.test {
             val state = awaitItem()
@@ -89,8 +90,7 @@ class DashboardViewModelTest : TestSuite(dashboardModule() + startupModule()) {
 
     @Test
     fun `shows latest HbA1c if data is available`() = runTest {
-        importSeed()
-        storeValue(value = 6.0, propertyKey = DatabaseKey.MeasurementProperty.HBA1C)
+        // storeValue(value = 6.0, propertyKey = DatabaseKey.MeasurementProperty.HBA1C)
 
         viewModel.state.test {
             val state = awaitItem()
@@ -102,8 +102,7 @@ class DashboardViewModelTest : TestSuite(dashboardModule() + startupModule()) {
     @Test
     fun `shows estimated HbA1c if no values for HbA1c but Blood Sugar have been entered`() =
         runTest {
-            importSeed()
-            storeValue(value = 120.0, propertyKey = DatabaseKey.MeasurementProperty.BLOOD_SUGAR)
+            // storeValue(value = 120.0, propertyKey = DatabaseKey.MeasurementProperty.BLOOD_SUGAR)
 
             viewModel.state.test {
                 val state = awaitItem()

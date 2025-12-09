@@ -12,10 +12,5 @@ kotlin {
                 implementation(project(":feature:statistic"))
             }
         }
-        commonTest {
-            dependencies {
-                implementation(project(":feature:startup"))
-            }
-        }
     }
 }

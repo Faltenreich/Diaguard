@@ -1,10 +1,10 @@
 package com.faltenreich.diaguard.data.measurement.value
 
-import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.data.DatabaseKey
+import com.faltenreich.diaguard.datetime.DateTime
 import kotlinx.coroutines.flow.Flow
 
-internal interface MeasurementValueDao {
+interface MeasurementValueDao {
 
     fun create(
         createdAt: DateTime,

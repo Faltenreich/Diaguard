@@ -1,0 +1,73 @@
+language: android
+
+jdk:
+  - oraclejdk8
+
+android:
+  components:
+    - platform-tools
+    - tools
+    - build-tools-21.1.0
+    - build-tools-25.0.2
+    - android-21
+    - android-25
+    - extra-android-support
+    - extra-android-m2repository
+    - extra-google-google_play_services
+    - extra-google-m2repository
+    - extra-intel-android-sdk-intel-ktool-12.3.2
+    - extra-intel-android-sdk-intel-ktool-12.3.2-standalone
+    - extra-intel-android-sdk-intel-ktool-12.3.2-linux-x86_64
+    - extra-intel-android-sdk-intel-ktool-12.3.2-linux-x86_64-standalone
+    - extra-intel-android-sdk-intel-ktool-12.3.2-macos-x86_64
+    - extra-intel-android-sdk-intel-ktool-12.3.2-macos-x86_64-standalone
+    - extra-intel-android-sdk-intel-ktool-12.3.2-windows-x86_64
+    - extra-intel-android-sdk-intel-ktool-12.3.2-windows-x86_64-standalone
+    - sys-img-x86-21
+    - sys-img-x86-25
+    - sys-img-x86_64-21
+    - sys-img-x86_64-25
+    - sys-img-armeabi-v7a-21
+    - sys-img-armeabi-v7a-25
+    - sys-img-arm64-v8a-21
+    - sys-img-arm64-v8a-25
+    - sys-img-armeabi-v7a-google_apis-21
+    - sys-img-armeabi-v7a-google_apis-25
+    - sys-img-arm64-v8a-google_apis-21
+    - sys-img-arm64-v8a-google_apis-25
+    - sys-img-x86-google_apis-21
+    - sys-img-x86-google_apis-25
+    - sys-img-x86_64-google_apis-21
+    - sys-img-x86_64-google_apis-25
+
+  licenses:
+    - android-sdk-license-.+
+    - android-sdk-preview-license-.+
+
+before_install:
+  - echo yes | sdkmanager "tools"
+  - echo yes | sdkmanager "platforms;android-21"
+  - echo yes | sdkmanager "platforms;android-25"
+  - echo yes | sdkmanager "extras;android;m2repository"
+  - echo yes | sdkmanager "extras;google;m2repository"
+  - echo yes | sdkmanager "extras;google;google_play_services"
+  - echo yes | sdkmanager "extras;intel;android-sdk-intel-ktool"
+  - chmod +x ./gradlew
+  - sudo chmod 666 /dev/kvm
+
+script:
+  - ./gradlew build --no-daemon
+  - ./gradlew testBetaDebugUnitTest
+  - ./gradlew connectedBetaDebugAndroidTest
+
+notifications:
+  email: false
+
+cache:
+  directories:
+    - $HOME/.gradle
+    - $HOME/.android
+
+before_cache:
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/

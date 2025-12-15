@@ -11,12 +11,19 @@ import com.faltenreich.diaguard.data.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.data.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.data.preview.PreviewDateTime
 import com.faltenreich.diaguard.data.tag.Tag
+import com.faltenreich.diaguard.datetime.DayOfWeek
 
-interface FakeFactory {
+object FakeFactory {
 
     fun now() = PreviewDateTime()
 
     fun today() = now().date
+
+    @Suppress("MagicNumber")
+    fun DayOfWeek.localized() = toString()
+        .take(3)
+        .lowercase()
+        .replaceFirstChar(Char::uppercase)
 
     fun entry() = Entry.Local(
         id = 0L,

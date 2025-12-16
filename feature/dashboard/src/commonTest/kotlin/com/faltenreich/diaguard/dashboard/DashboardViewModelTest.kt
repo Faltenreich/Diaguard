@@ -5,6 +5,8 @@ import com.faltenreich.diaguard.dashboard.hba1c.DashboardHbA1cState
 import com.faltenreich.diaguard.data.fake.FakeFactory
 import com.faltenreich.diaguard.data.measurement.value.MeasurementValueDao
 import com.faltenreich.diaguard.data.measurement.value.MeasurementValueFakeDao
+import com.faltenreich.diaguard.datetime.DateTimePlatformApi
+import com.faltenreich.diaguard.datetime.DateTimePlatformFakeApi
 import com.faltenreich.diaguard.test.TestSuite
 import kotlinx.coroutines.test.runTest
 import org.koin.test.inject
@@ -21,6 +23,9 @@ class DashboardViewModelTest : TestSuite(dashboardModule()) {
 
     @Test
     fun `shows empty content if no data is available`() = runTest {
+        declare<DateTimePlatformApi> { DateTimePlatformFakeApi() }
+        declare<MeasurementValueDao> { MeasurementValueFakeDao(values = emptyList()) }
+
         viewModel.state.test {
             val state = awaitItem()
 

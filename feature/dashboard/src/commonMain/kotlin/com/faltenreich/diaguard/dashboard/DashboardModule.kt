@@ -9,12 +9,22 @@ import com.faltenreich.diaguard.dashboard.reminder.GetDashboardReminderUseCase
 import com.faltenreich.diaguard.dashboard.today.GetDashboardTodayUseCase
 import com.faltenreich.diaguard.dashboard.trend.GetDashboardTrendUseCase
 import com.faltenreich.diaguard.data.dataModule
+import com.faltenreich.diaguard.entry.entryModule
+import com.faltenreich.diaguard.navigation.navigationModule
+import com.faltenreich.diaguard.preference.preferenceModule
+import com.faltenreich.diaguard.statistic.statisticModule
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
 fun dashboardModule() = module {
-    includes(dataModule())
+    includes(
+        entryModule(),
+        dataModule(),
+        navigationModule(),
+        preferenceModule(),
+        statisticModule(),
+    )
 
     factory {  }
     factoryOf(::GetDashboardLatestUseCase)

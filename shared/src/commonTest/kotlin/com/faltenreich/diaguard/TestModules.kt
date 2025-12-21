@@ -1,26 +1,24 @@
 package com.faltenreich.diaguard
 
-import com.faltenreich.diaguard.config.BuildConfig
 import com.faltenreich.diaguard.data.food.api.FoodApi
 import com.faltenreich.diaguard.data.food.api.openfoodfacts.OpenFoodFactsApi
 import com.faltenreich.diaguard.data.food.api.openfoodfacts.OpenFoodFactsMapper
+import com.faltenreich.diaguard.data.legacy.LegacyDao
+import com.faltenreich.diaguard.data.seed.query.food.FoodSeedQueries
+import com.faltenreich.diaguard.data.seed.query.tag.TagSeedQueries
+import com.faltenreich.diaguard.localization.FakeLocalization
 import com.faltenreich.diaguard.localization.Localization
 import com.faltenreich.diaguard.logging.ConsoleLogger
 import com.faltenreich.diaguard.logging.Logger
 import com.faltenreich.diaguard.persistence.file.SystemFileReader
 import com.faltenreich.diaguard.persistence.persistenceModule
 import com.faltenreich.diaguard.serialization.Serialization
-import com.faltenreich.diaguard.config.FakeBuildConfig
-import com.faltenreich.diaguard.localization.FakeLocalization
+import com.faltenreich.diaguard.startup.legacy.FakeLegacyDao
+import com.faltenreich.diaguard.system.notification.AlarmManager
 import com.faltenreich.diaguard.system.notification.FakeAlarmManager
 import com.faltenreich.diaguard.system.settings.FakeSystemSettings
-import com.faltenreich.diaguard.view.window.FakeWindowController
-import com.faltenreich.diaguard.startup.legacy.FakeLegacyDao
-import com.faltenreich.diaguard.data.legacy.LegacyDao
-import com.faltenreich.diaguard.data.seed.query.food.FoodSeedQueries
-import com.faltenreich.diaguard.data.seed.query.tag.TagSeedQueries
-import com.faltenreich.diaguard.system.notification.AlarmManager
 import com.faltenreich.diaguard.system.settings.SystemSettings
+import com.faltenreich.diaguard.view.window.FakeWindowController
 import com.faltenreich.diaguard.view.window.WindowController
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
@@ -41,7 +39,6 @@ fun testModules() = module {
 
     factory<WindowController> { FakeWindowController() }
     factoryOf(::FakeSystemSettings) bind SystemSettings::class
-    singleOf(::FakeBuildConfig) bind BuildConfig::class
     singleOf(::ConsoleLogger) bind Logger::class
     factoryOf(::FakeAlarmManager) bind AlarmManager::class
 

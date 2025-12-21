@@ -22,4 +22,8 @@ internal class AndroidBuildConfig(private val context: Context) : BuildConfig {
     override fun getVersionName(): String {
         return getPackageInfo().versionName ?: "-"
     }
+
+    override fun isPersistent(): Boolean {
+        return true
+    }
 }

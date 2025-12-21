@@ -6,6 +6,7 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
+                implementation(project(":core:config"))
                 implementation(project(":core:injection"))
                 implementation(kotlin("test"))
                 implementation(project.dependencies.platform(libs.koin.bom))

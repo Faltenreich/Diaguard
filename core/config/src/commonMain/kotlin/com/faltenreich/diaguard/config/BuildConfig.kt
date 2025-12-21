@@ -7,4 +7,6 @@ interface BuildConfig {
     fun getVersionCode(): Long
 
     fun getVersionName(): String
+
+    fun isPersistent(): Boolean
 }

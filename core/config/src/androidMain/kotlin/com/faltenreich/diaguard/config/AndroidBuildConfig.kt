@@ -23,7 +23,7 @@ internal class AndroidBuildConfig(private val context: Context) : BuildConfig {
         return getPackageInfo().versionName ?: "-"
     }
 
-    override fun isPersistent(): Boolean {
+    override fun hasPlatformFramework(): Boolean {
         return true
     }
 }

@@ -8,5 +8,5 @@ interface BuildConfig {
 
     fun getVersionName(): String
 
-    fun isPersistent(): Boolean
+    fun hasPlatformFramework(): Boolean
 }

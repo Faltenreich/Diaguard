@@ -3,8 +3,6 @@ package com.faltenreich.diaguard.dashboard
 import app.cash.turbine.test
 import com.faltenreich.diaguard.dashboard.hba1c.DashboardHbA1cState
 import com.faltenreich.diaguard.data.fake.FakeFactory
-import com.faltenreich.diaguard.data.measurement.value.MeasurementValueDao
-import com.faltenreich.diaguard.data.measurement.value.MeasurementValueFakeDao
 import com.faltenreich.diaguard.datetime.DateTimePlatformApi
 import com.faltenreich.diaguard.datetime.DateTimePlatformFakeApi
 import com.faltenreich.diaguard.test.TestSuite
@@ -24,7 +22,6 @@ class DashboardViewModelTest : TestSuite(dashboardModule()) {
     @Test
     fun `shows empty content if no data is available`() = runTest {
         declare<DateTimePlatformApi> { DateTimePlatformFakeApi() }
-        declare<MeasurementValueDao> { MeasurementValueFakeDao(values = emptyList()) }
 
         viewModel.state.test {
             val state = awaitItem()
@@ -48,7 +45,6 @@ class DashboardViewModelTest : TestSuite(dashboardModule()) {
     @Test
     fun `shows latest blood sugar if data is available`() = runTest {
         val value = FakeFactory.value()
-        declare<MeasurementValueDao> { MeasurementValueFakeDao(values = listOf(value)) }
         // storeValue(value = 120.0, propertyKey = DatabaseKey.MeasurementProperty.BLOOD_SUGAR)
 
         viewModel.state.test {

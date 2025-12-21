@@ -8,6 +8,7 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
+                implementation(project(":core:config"))
                 implementation(project(":core:localization"))
                 implementation(project(":core:serialization"))
                 implementation(compose.components.resources)

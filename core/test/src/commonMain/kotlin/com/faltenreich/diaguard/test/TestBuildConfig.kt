@@ -10,5 +10,5 @@ class TestBuildConfig : BuildConfig {
 
     override fun getVersionName(): String = "1.0.0"
 
-    override fun isPersistent(): Boolean = false
+    override fun hasPlatformFramework(): Boolean = false
 }

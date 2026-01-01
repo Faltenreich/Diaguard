@@ -26,7 +26,6 @@ fun dashboardModule() = module {
         statisticModule(),
     )
 
-    factory {  }
     factoryOf(::GetDashboardLatestUseCase)
     factoryOf(::GetDashboardReminderUseCase)
     factoryOf(::GetDashboardTodayUseCase)

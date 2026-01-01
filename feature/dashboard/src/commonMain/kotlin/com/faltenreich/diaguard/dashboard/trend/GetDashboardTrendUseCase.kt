@@ -8,7 +8,6 @@ import com.faltenreich.diaguard.statistic.daterange.StatisticDateRangeType
 import com.faltenreich.diaguard.statistic.trend.GetStatisticTrendUseCase
 import com.faltenreich.diaguard.statistic.trend.StatisticTrendState
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flatMapLatest
 
 class GetDashboardTrendUseCase(
@@ -21,17 +20,13 @@ class GetDashboardTrendUseCase(
         val key = DatabaseKey.MeasurementProperty.BLOOD_SUGAR
         val today = dateTimeFactory.today()
         return propertyRepository.observeByKey(key).flatMapLatest { property ->
-            if (property != null) {
-                getStatisticTrend(
-                    property = property,
-                    dateRange = today
-                        .minus(1, DateUnit.WEEK)
-                        .plus(1, DateUnit.DAY) .. today,
-                    dateRangeType = StatisticDateRangeType.WEEK,
-                )
-            } else {
-                emptyFlow()
-            }
+            getStatisticTrend(
+                property = property,
+                dateRange = today
+                    .minus(1, DateUnit.WEEK)
+                    .plus(1, DateUnit.DAY) .. today,
+                dateRangeType = StatisticDateRangeType.WEEK,
+            )
         }
     }
 }

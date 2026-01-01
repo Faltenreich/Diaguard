@@ -11,6 +11,7 @@ import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.statistic.daterange.StatisticDateRangeType
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlin.math.max
 
@@ -21,38 +22,54 @@ class GetStatisticTrendUseCase(
 ) {
 
     operator fun invoke(
-        property: MeasurementProperty.Local,
+        property: MeasurementProperty.Local?,
         dateRange: DateRange,
         dateRangeType: StatisticDateRangeType,
     ): Flow<StatisticTrendState> {
+        val dateRangeProgression = DateRangeProgression(
+            dateRange = dateRange,
+            intervalDateUnit = dateRangeType.intervalDateUnit,
+        )
+        return if (property == null) {
+            getPlaceholderState(dateRangeProgression, dateRangeType)
+        } else {
+            getValueState(property, dateRangeProgression, dateRangeType)
+        }
+    }
+
+    private fun getPlaceholderState(
+        dateRangeProgression: DateRangeProgression,
+        dateRangeType: StatisticDateRangeType,
+    ): Flow<StatisticTrendState> {
+        return flowOf(
+            StatisticTrendState(
+                intervals = dateRangeProgression.map { intervalDateRange ->
+                    StatisticTrendState.Interval(
+                        dateRange = intervalDateRange,
+                        label = getLabel(intervalDateRange, dateRangeType),
+                        average = null,
+                    )
+                },
+                targetValue = MeasurementValueRange.BLOOD_SUGAR_TARGET_DEFAULT,
+                maximumValue = MeasurementValueRange.BLOOD_SUGAR_MAXIMUM_DEFAULT,
+            )
+        )
+    }
+
+    private fun getValueState(
+        property: MeasurementProperty.Local,
+        dateRangeProgression: DateRangeProgression,
+        dateRangeType: StatisticDateRangeType,
+    ): Flow<StatisticTrendState> {
         return combine(
-            DateRangeProgression(
-                dateRange = dateRange,
-                intervalDateUnit = dateRangeType.intervalDateUnit,
-            ).map { intervalDateRange ->
-                observeAverage(property, intervalDateRange).map { intervalDateRange to it }
+            dateRangeProgression.map { intervalDateRange ->
+                getAverageValue(property, intervalDateRange).map { intervalDateRange to it }
             }
         ) { averagesByInterval ->
             averagesByInterval.map { (intervalDateRange, average) ->
                 StatisticTrendState.Interval(
                     dateRange = intervalDateRange,
-                    label = when (dateRangeType) {
-                        StatisticDateRangeType.WEEK -> dateTimeFormatter.formatDayOfWeek(
-                            date = intervalDateRange.start,
-                            abbreviated = true,
-                        )
-                        StatisticDateRangeType.MONTH -> dateTimeFormatter.formatWeek(
-                            date = intervalDateRange.start,
-                        )
-                        StatisticDateRangeType.QUARTER -> dateTimeFormatter.formatMonth(
-                            month = intervalDateRange.start.month,
-                            abbreviated = false,
-                        )
-                        StatisticDateRangeType.YEAR -> dateTimeFormatter.formatMonth(
-                            month = intervalDateRange.start.month,
-                            abbreviated = true,
-                        )
-                    },
+                    label = getLabel(intervalDateRange, dateRangeType),
                     average = average?.let {
                         val value = MeasurementValue.Average(
                             value = average,
@@ -77,7 +94,7 @@ class GetStatisticTrendUseCase(
         }
     }
 
-    private fun observeAverage(
+    private fun getAverageValue(
         property: MeasurementProperty.Local,
         dateRange: DateRange,
     ): Flow<Double?> {
@@ -86,5 +103,28 @@ class GetStatisticTrendUseCase(
             minDateTime = dateRange.start.atStartOfDay(),
             maxDateTime = dateRange.endInclusive.atEndOfDay(),
         )
+    }
+
+    private fun getLabel(
+        dateRange: DateRange,
+        dateRangeType: StatisticDateRangeType,
+    ): String {
+        return when (dateRangeType) {
+            StatisticDateRangeType.WEEK -> dateTimeFormatter.formatDayOfWeek(
+                date = dateRange.start,
+                abbreviated = true,
+            )
+            StatisticDateRangeType.MONTH -> dateTimeFormatter.formatWeek(
+                date = dateRange.start,
+            )
+            StatisticDateRangeType.QUARTER -> dateTimeFormatter.formatMonth(
+                month = dateRange.start.month,
+                abbreviated = false,
+            )
+            StatisticDateRangeType.YEAR -> dateTimeFormatter.formatMonth(
+                month = dateRange.start.month,
+                abbreviated = true,
+            )
+        }
     }
 }

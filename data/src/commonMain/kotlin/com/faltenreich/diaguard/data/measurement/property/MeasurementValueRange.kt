@@ -12,5 +12,6 @@ data class MeasurementValueRange(
     companion object {
 
         const val BLOOD_SUGAR_TARGET_DEFAULT = 120.0
+        const val BLOOD_SUGAR_MAXIMUM_DEFAULT = 200.0
     }
 }

@@ -3,12 +3,9 @@ package com.faltenreich.diaguard.dashboard
 import app.cash.turbine.test
 import com.faltenreich.diaguard.dashboard.hba1c.DashboardHbA1cState
 import com.faltenreich.diaguard.data.fake.FakeFactory
-import com.faltenreich.diaguard.datetime.DateTimePlatformApi
-import com.faltenreich.diaguard.datetime.DateTimePlatformFakeApi
 import com.faltenreich.diaguard.test.TestSuite
 import kotlinx.coroutines.test.runTest
 import org.koin.test.inject
-import org.koin.test.mock.declare
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
@@ -21,8 +18,6 @@ class DashboardViewModelTest : TestSuite(dashboardModule()) {
 
     @Test
     fun `shows empty content if no data is available`() = runTest {
-        declare<DateTimePlatformApi> { DateTimePlatformFakeApi() }
-
         viewModel.state.test {
             val state = awaitItem()
 

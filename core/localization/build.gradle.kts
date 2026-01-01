@@ -8,6 +8,7 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
+                implementation(project(":core:config"))
                 implementation(project(":core:injection"))
                 implementation(compose.foundation)
                 implementation(compose.components.resources)

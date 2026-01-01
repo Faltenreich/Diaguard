@@ -1,13 +1,15 @@
 package com.faltenreich.diaguard.localization
 
 import androidx.compose.ui.text.intl.Locale
+import com.faltenreich.diaguard.config.BuildConfig
 import org.koin.core.module.dsl.factoryOf
-import org.koin.core.module.dsl.singleOf
-import org.koin.dsl.bind
 import org.koin.dsl.module
 
 fun localizationModule() = module {
     factory { Locale.current }
-    singleOf(::ComposeLocalization) bind Localization::class
+    single<Localization> {
+        if (get<BuildConfig>().hasPlatformFramework()) ComposeLocalization()
+        else FakeLocalization()
+    }
     factoryOf(::NumberFormatter)
 }

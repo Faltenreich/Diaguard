@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.dashboard
 
 import app.cash.turbine.test
 import com.faltenreich.diaguard.dashboard.hba1c.DashboardHbA1cState
+import com.faltenreich.diaguard.dashboard.latest.DashboardLatestState
 import com.faltenreich.diaguard.data.fake.FakeFactory
 import com.faltenreich.diaguard.test.TestSuite
 import kotlinx.coroutines.test.runTest
@@ -21,7 +22,7 @@ class DashboardViewModelTest : TestSuite(dashboardModule()) {
         viewModel.state.test {
             val state = awaitItem()
 
-            assertNull(state.latest)
+            assertEquals(DashboardLatestState.None, state.latest)
 
             assertEquals(expected = 0, actual = state.today.totalCount)
             assertEquals(expected = 0, actual = state.today.hypoCount)
@@ -33,7 +34,7 @@ class DashboardViewModelTest : TestSuite(dashboardModule()) {
 
             assertTrue(state.hbA1c is DashboardHbA1cState.Unknown)
 
-            assertTrue(state.trend.intervals.isEmpty())
+            assertTrue(state.trend.intervals.all { it.average == null })
         }
     }
 

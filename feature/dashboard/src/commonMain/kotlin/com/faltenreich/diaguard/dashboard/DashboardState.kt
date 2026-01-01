@@ -8,7 +8,7 @@ import com.faltenreich.diaguard.dashboard.today.DashboardTodayState
 import com.faltenreich.diaguard.statistic.trend.StatisticTrendState
 
 data class DashboardState(
-    val latest: DashboardLatestState?,
+    val latest: DashboardLatestState,
     val reminder: DashboardReminderState?,
     val today: DashboardTodayState,
     val average: DashboardAverageState,

@@ -7,7 +7,9 @@ import com.faltenreich.diaguard.entry.form.GetEntryByIdUseCase
 import com.faltenreich.diaguard.entry.form.GetFoodByIdUseCase
 import com.faltenreich.diaguard.entry.form.StoreEntryUseCase
 import com.faltenreich.diaguard.entry.form.datetime.GetDateTimeForEntryUseCase
+import com.faltenreich.diaguard.entry.form.food.GetFoodEatenForEntryUseCase
 import com.faltenreich.diaguard.entry.form.food.GetFoodEatenInputStateUseCase
+import com.faltenreich.diaguard.entry.form.food.StoreFoodEatenUseCase
 import com.faltenreich.diaguard.entry.form.measurement.GetMeasurementCategoryInputStateUseCase
 import com.faltenreich.diaguard.entry.form.measurement.StoreMeasurementValueUseCase
 import com.faltenreich.diaguard.entry.form.measurement.StoreMeasurementValuesUseCase
@@ -24,15 +26,24 @@ import com.faltenreich.diaguard.entry.list.MapEntryListItemStateUseCase
 import com.faltenreich.diaguard.entry.search.EntrySearchViewModel
 import com.faltenreich.diaguard.entry.search.SearchEntriesUseCase
 import com.faltenreich.diaguard.entry.tag.StoreEntryTagsUseCase
+import com.faltenreich.diaguard.measurement.measurementModule
+import com.faltenreich.diaguard.navigation.navigationModule
+import com.faltenreich.diaguard.preference.preferenceModule
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
 fun entryModule() = module {
-    includes(dataModule())
+    includes(
+        dataModule(),
+        measurementModule(),
+        navigationModule(),
+        preferenceModule(),
+    )
 
     factoryOf(::GetEntryByIdUseCase)
     factoryOf(::GetFoodByIdUseCase)
+    factoryOf(::GetFoodEatenForEntryUseCase)
     factoryOf(::GetDateTimeForEntryUseCase)
     factoryOf(::GetMeasurementCategoryInputStateUseCase)
     factoryOf(::GetFoodEatenInputStateUseCase)
@@ -45,6 +56,7 @@ fun entryModule() = module {
     factoryOf(::GetReminderLabelUseCase)
     factoryOf(::StoreMeasurementValuesUseCase)
     factoryOf(::StoreMeasurementValueUseCase)
+    factoryOf(::StoreFoodEatenUseCase)
 
     factory {
         ValidateEntryFormInputUseCase(

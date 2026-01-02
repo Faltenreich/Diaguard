@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.data
 
 import com.faltenreich.diaguard.architecture.architectureModule
+import com.faltenreich.diaguard.config.BuildConfig
 import com.faltenreich.diaguard.config.configModule
 import com.faltenreich.diaguard.data.entry.EntryDao
 import com.faltenreich.diaguard.data.entry.EntryRepository
@@ -67,12 +68,15 @@ import com.faltenreich.diaguard.data.tag.TagRepository
 import com.faltenreich.diaguard.data.tag.TagSqlDelightDao
 import com.faltenreich.diaguard.data.tag.TagSqlDelightMapper
 import com.faltenreich.diaguard.datetime.dateTimeModule
+import com.faltenreich.diaguard.localization.FakeLocalization
 import com.faltenreich.diaguard.localization.localizationModule
 import com.faltenreich.diaguard.logging.loggingModule
 import com.faltenreich.diaguard.network.networkModule
 import com.faltenreich.diaguard.persistence.database.SqlDelightDriverFactory
 import com.faltenreich.diaguard.persistence.file.ResourceFileReader
+import com.faltenreich.diaguard.persistence.file.SystemFileReader
 import com.faltenreich.diaguard.persistence.persistenceModule
+import com.faltenreich.diaguard.serialization.Serialization
 import com.faltenreich.diaguard.serialization.serializationModule
 import com.faltenreich.diaguard.system.systemModule
 import com.faltenreich.diaguard.view.viewModule
@@ -175,19 +179,31 @@ fun dataModule() = module {
     factoryOf(::MeasurementUnitSeedQueries)
     factoryOf(::MeasurementCategorySeedQueries)
 
-    factory {
-        FoodSeedQueries(
+    factory<FoodSeedQueries> {
+        if (get<BuildConfig>().hasPlatformFramework()) FoodSeedQueries(
             fileReader = ResourceFileReader("files/food_common.csv"),
             serialization = get(),
             localization = get(),
         )
+        // FIXME: FileNotFoundException
+        else FoodSeedQueries(
+            fileReader = SystemFileReader("src/commonMain/resources/seed/food.csv"),
+            serialization = Serialization(),
+            localization = FakeLocalization(),
+        )
     }
 
-    factory {
-        TagSeedQueries(
+    factory<TagSeedQueries> {
+        if (get<BuildConfig>().hasPlatformFramework()) TagSeedQueries(
             fileReader = ResourceFileReader("files/tags.csv"),
             serialization = get(),
             localization = get(),
+        )
+        // FIXME: FileNotFoundException
+        else TagSeedQueries(
+            fileReader = SystemFileReader("src/commonMain/resources/seed/tags.csv"),
+            serialization = Serialization(),
+            localization = FakeLocalization(),
         )
     }
 

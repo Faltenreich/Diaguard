@@ -3,19 +3,33 @@ package com.faltenreich.diaguard.dashboard
 import app.cash.turbine.test
 import com.faltenreich.diaguard.dashboard.hba1c.DashboardHbA1cState
 import com.faltenreich.diaguard.dashboard.latest.DashboardLatestState
+import com.faltenreich.diaguard.data.DatabaseKey
 import com.faltenreich.diaguard.data.fake.FakeFactory
+import com.faltenreich.diaguard.entry.form.measurement.StoreMeasurementValueUseCase
+import com.faltenreich.diaguard.startup.seed.ImportSeedUseCase
+import com.faltenreich.diaguard.startup.startupModule
 import com.faltenreich.diaguard.test.TestSuite
 import kotlinx.coroutines.test.runTest
 import org.koin.test.inject
+import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
-class DashboardViewModelTest : TestSuite(dashboardModule()) {
+class DashboardViewModelTest : TestSuite(dashboardModule() + startupModule()) {
+
+    private val importSeed: ImportSeedUseCase by inject()
+    private val storeValue: StoreMeasurementValueUseCase by inject()
 
     private val viewModel: DashboardViewModel by inject()
+
+    @BeforeTest
+    override fun beforeTest() {
+        super.beforeTest()
+        importSeed()
+    }
 
     @Test
     fun `shows empty content if no data is available`() = runTest {
@@ -41,7 +55,7 @@ class DashboardViewModelTest : TestSuite(dashboardModule()) {
     @Test
     fun `shows latest blood sugar if data is available`() = runTest {
         val value = FakeFactory.value()
-        // storeValue(value = 120.0, propertyKey = DatabaseKey.MeasurementProperty.BLOOD_SUGAR)
+        storeValue(value = 120.0, propertyKey = DatabaseKey.MeasurementProperty.BLOOD_SUGAR)
 
         viewModel.state.test {
             val state = awaitItem()
@@ -52,9 +66,9 @@ class DashboardViewModelTest : TestSuite(dashboardModule()) {
 
     @Test
     fun `shows today's counts if data is available`() = runTest {
-        // storeValue(value = 50.0, propertyKey = DatabaseKey.MeasurementProperty.BLOOD_SUGAR)
-        // storeValue(value = 120.0, propertyKey = DatabaseKey.MeasurementProperty.BLOOD_SUGAR)
-        // storeValue(value = 190.0, propertyKey = DatabaseKey.MeasurementProperty.BLOOD_SUGAR)
+        storeValue(value = 50.0, propertyKey = DatabaseKey.MeasurementProperty.BLOOD_SUGAR)
+        storeValue(value = 120.0, propertyKey = DatabaseKey.MeasurementProperty.BLOOD_SUGAR)
+        storeValue(value = 190.0, propertyKey = DatabaseKey.MeasurementProperty.BLOOD_SUGAR)
 
         viewModel.state.test {
             val state = awaitItem()
@@ -67,7 +81,7 @@ class DashboardViewModelTest : TestSuite(dashboardModule()) {
 
     @Test
     fun `shows average values if data is available`() = runTest {
-        // storeValue(value = 120.0, propertyKey = DatabaseKey.MeasurementProperty.BLOOD_SUGAR)
+        storeValue(value = 120.0, propertyKey = DatabaseKey.MeasurementProperty.BLOOD_SUGAR)
 
         viewModel.state.test {
             val state = awaitItem()
@@ -80,7 +94,7 @@ class DashboardViewModelTest : TestSuite(dashboardModule()) {
 
     @Test
     fun `shows latest HbA1c if data is available`() = runTest {
-        // storeValue(value = 6.0, propertyKey = DatabaseKey.MeasurementProperty.HBA1C)
+        storeValue(value = 6.0, propertyKey = DatabaseKey.MeasurementProperty.HBA1C)
 
         viewModel.state.test {
             val state = awaitItem()
@@ -92,7 +106,7 @@ class DashboardViewModelTest : TestSuite(dashboardModule()) {
     @Test
     fun `shows estimated HbA1c if no values for HbA1c but Blood Sugar have been entered`() =
         runTest {
-            // storeValue(value = 120.0, propertyKey = DatabaseKey.MeasurementProperty.BLOOD_SUGAR)
+            storeValue(value = 120.0, propertyKey = DatabaseKey.MeasurementProperty.BLOOD_SUGAR)
 
             viewModel.state.test {
                 val state = awaitItem()

@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.entry.form
 
 import app.cash.turbine.test
 import app.cash.turbine.turbineScope
+import com.faltenreich.diaguard.data.DatabaseKey
 import com.faltenreich.diaguard.data.entry.tag.EntryTagRepository
 import com.faltenreich.diaguard.data.food.FoodRepository
 import com.faltenreich.diaguard.data.measurement.value.MeasurementValueRepository
@@ -10,6 +11,7 @@ import com.faltenreich.diaguard.data.navigation.NavigationEvent
 import com.faltenreich.diaguard.data.tag.Tag
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.entry.entryModule
+import com.faltenreich.diaguard.entry.form.measurement.StoreMeasurementValueUseCase
 import com.faltenreich.diaguard.test.TestSuite
 import kotlinx.coroutines.test.runTest
 import org.koin.core.parameter.parametersOf
@@ -29,6 +31,7 @@ class EntryFormViewModelTest : TestSuite(entryModule()) {
     private val valueRepository: MeasurementValueRepository by inject()
     private val foodRepository: FoodRepository by inject()
     private val dateTimeFactory: DateTimeFactory by inject()
+    private val storeValue: StoreMeasurementValueUseCase by inject()
 
     private lateinit var viewModel: EntryFormViewModel
 
@@ -159,7 +162,7 @@ class EntryFormViewModelTest : TestSuite(entryModule()) {
 
     @Test
     fun `show modal if deleting entry`() = runTest {
-        // storeValue(10.0, DatabaseKey.MeasurementProperty.BLOOD_SUGAR)
+        storeValue(10.0, DatabaseKey.MeasurementProperty.BLOOD_SUGAR)
         val entryId = entryRepository.getLastId()!!
         viewModel = get(parameters = { parametersOf(entryId, null, null) })
 

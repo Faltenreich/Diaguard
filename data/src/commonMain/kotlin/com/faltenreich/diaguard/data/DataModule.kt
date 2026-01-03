@@ -74,7 +74,6 @@ import com.faltenreich.diaguard.logging.loggingModule
 import com.faltenreich.diaguard.network.networkModule
 import com.faltenreich.diaguard.persistence.database.SqlDelightDriverFactory
 import com.faltenreich.diaguard.persistence.file.ResourceFileReader
-import com.faltenreich.diaguard.persistence.file.SystemFileReader
 import com.faltenreich.diaguard.persistence.persistenceModule
 import com.faltenreich.diaguard.serialization.Serialization
 import com.faltenreich.diaguard.serialization.serializationModule
@@ -185,9 +184,8 @@ fun dataModule() = module {
             serialization = get(),
             localization = get(),
         )
-        // FIXME: FileNotFoundException
         else FoodSeedQueries(
-            fileReader = SystemFileReader("src/commonTest/resources/seed/food.csv"),
+            fileReader = { "" },
             serialization = Serialization(),
             localization = FakeLocalization(),
         )
@@ -199,9 +197,8 @@ fun dataModule() = module {
             serialization = get(),
             localization = get(),
         )
-        // FIXME: FileNotFoundException
         else TagSeedQueries(
-            fileReader = SystemFileReader("src/commonTest/resources/seed/tags.csv"),
+            fileReader = { "" },
             serialization = Serialization(),
             localization = FakeLocalization(),
         )

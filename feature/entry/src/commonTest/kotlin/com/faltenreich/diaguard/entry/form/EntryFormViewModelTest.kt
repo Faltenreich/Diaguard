@@ -4,19 +4,24 @@ import app.cash.turbine.test
 import app.cash.turbine.turbineScope
 import com.faltenreich.diaguard.data.DatabaseKey
 import com.faltenreich.diaguard.data.entry.tag.EntryTagRepository
+import com.faltenreich.diaguard.data.fake.FakeFactory
 import com.faltenreich.diaguard.data.food.FoodRepository
 import com.faltenreich.diaguard.data.measurement.value.MeasurementValueRepository
 import com.faltenreich.diaguard.data.navigation.Navigation
 import com.faltenreich.diaguard.data.navigation.NavigationEvent
+import com.faltenreich.diaguard.data.navigation.NavigationTarget
 import com.faltenreich.diaguard.data.tag.Tag
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.entry.entryModule
 import com.faltenreich.diaguard.entry.form.measurement.StoreMeasurementValueUseCase
+import com.faltenreich.diaguard.startup.seed.ImportSeedUseCase
+import com.faltenreich.diaguard.startup.startupModule
 import com.faltenreich.diaguard.test.TestSuite
 import kotlinx.coroutines.test.runTest
 import org.koin.core.parameter.parametersOf
 import org.koin.test.get
 import org.koin.test.inject
+import kotlin.test.BeforeTest
 import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -24,16 +29,23 @@ import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
-class EntryFormViewModelTest : TestSuite(entryModule()) {
+class EntryFormViewModelTest : TestSuite(entryModule() + startupModule()) {
 
     private val navigation: Navigation by inject()
     private val entryRepository: EntryTagRepository by inject()
     private val valueRepository: MeasurementValueRepository by inject()
     private val foodRepository: FoodRepository by inject()
     private val dateTimeFactory: DateTimeFactory by inject()
+    private val importSeed: ImportSeedUseCase by inject()
     private val storeValue: StoreMeasurementValueUseCase by inject()
 
     private lateinit var viewModel: EntryFormViewModel
+
+    @BeforeTest
+    override fun beforeTest() {
+        super.beforeTest()
+        importSeed()
+    }
 
     // TODO: Set locale
     @Test
@@ -190,8 +202,8 @@ class EntryFormViewModelTest : TestSuite(entryModule()) {
             viewModel.handleIntent(EntryFormIntent.SelectFood)
 
             val event = awaitItem()
-            // assertTrue(event is NavigationEvent.PushScreen)
-            // assertTrue(event.screen is FoodSearchScreen)
+            assertTrue(event is NavigationEvent.NavigateTo)
+            assertTrue(event.target is NavigationTarget.FoodSearch)
         }
     }
 
@@ -202,8 +214,7 @@ class EntryFormViewModelTest : TestSuite(entryModule()) {
         viewModel = get(parameters = { parametersOf(null, null, null) })
 
         viewModel.state.test {
-            /*
-            val foodId = foodRepository.create(FoodFactory.createByUser())
+            val foodId = foodRepository.create(FakeFactory.foodByUser())
             val food = checkNotNull(foodRepository.getById(foodId))
             viewModel.handleIntent(EntryFormIntent.AddFood(food))
 
@@ -211,7 +222,6 @@ class EntryFormViewModelTest : TestSuite(entryModule()) {
                 expected = food,
                 actual = awaitItem().foodEaten.first().food,
             )
-            */
         }
     }
 
@@ -222,11 +232,9 @@ class EntryFormViewModelTest : TestSuite(entryModule()) {
         viewModel = get(parameters = { parametersOf(null, null, null) })
 
         viewModel.state.test {
-            /*
-            val foodId = foodRepository.create(FoodFactory.createByUser())
+            val foodId = foodRepository.create(FakeFactory.foodByUser())
             val food = checkNotNull(foodRepository.getById(foodId))
             viewModel.handleIntent(EntryFormIntent.AddFood(food))
-            */
 
             val update = awaitItem().foodEaten.first().copy(amountInGrams = "10.0")
 
@@ -246,11 +254,9 @@ class EntryFormViewModelTest : TestSuite(entryModule()) {
         viewModel = get(parameters = { parametersOf(null, null, null) })
 
         viewModel.state.test {
-            /*
-            val foodId = foodRepository.create(FoodFactory.createByUser())
+            val foodId = foodRepository.create(FakeFactory.foodByUser())
             val food = checkNotNull(foodRepository.getById(foodId))
             viewModel.handleIntent(EntryFormIntent.AddFood(food))
-            */
 
             val foodInput = awaitItem().foodEaten.first()
 

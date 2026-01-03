@@ -4,13 +4,14 @@ import com.faltenreich.diaguard.data.tag.Tag
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.entry.entryModule
 import com.faltenreich.diaguard.entry.form.tag.GetTagSuggestionsUseCase
+import com.faltenreich.diaguard.startup.startupModule
 import com.faltenreich.diaguard.test.TestSuite
 import kotlinx.coroutines.test.runTest
 import org.koin.test.inject
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
 
-class GetTagSuggestionsUseCaseTest : TestSuite(entryModule()) {
+class GetTagSuggestionsUseCaseTest : TestSuite(entryModule() + startupModule()) {
 
     private val useCase = GetTagSuggestionsUseCase()
     private val dateTimeFactory by inject<DateTimeFactory>()

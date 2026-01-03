@@ -184,6 +184,24 @@ object FakeFactory {
         sugar = sugar,
     )
 
+    fun foodByUser(): Food.User {
+        return Food.User(
+            name = "name",
+            brand = "brand",
+            ingredients = "ingredients",
+            labels = "labels",
+            carbohydrates = 20.0,
+            energy = 1.0,
+            fat = 2.0,
+            fatSaturated = 3.0,
+            fiber = 4.0,
+            proteins = 5.0,
+            salt = 6.0,
+            sodium = 7.0,
+            sugar = 8.0,
+        )
+    }
+
     fun Food.Local.localized(): Food.Localized {
         return Food.Localized(
             local = this,

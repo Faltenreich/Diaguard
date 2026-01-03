@@ -19,8 +19,8 @@ abstract class TestSuite(private val modules: List<Module>) : KoinTest {
     @BeforeTest
     @CallSuper
     open fun beforeTest() {
-        startKoin { modules(modules + testModule()) }
         Dispatchers.setMain(dispatcher = StandardTestDispatcher())
+        startKoin { modules(modules + testModule()) }
     }
 
     @AfterTest

@@ -187,7 +187,7 @@ fun dataModule() = module {
         )
         // FIXME: FileNotFoundException
         else FoodSeedQueries(
-            fileReader = SystemFileReader("src/commonMain/resources/seed/food.csv"),
+            fileReader = SystemFileReader("src/commonTest/resources/seed/food.csv"),
             serialization = Serialization(),
             localization = FakeLocalization(),
         )
@@ -201,7 +201,7 @@ fun dataModule() = module {
         )
         // FIXME: FileNotFoundException
         else TagSeedQueries(
-            fileReader = SystemFileReader("src/commonMain/resources/seed/tags.csv"),
+            fileReader = SystemFileReader("src/commonTest/resources/seed/tags.csv"),
             serialization = Serialization(),
             localization = FakeLocalization(),
         )

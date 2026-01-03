@@ -184,6 +184,7 @@ fun dataModule() = module {
             serialization = get(),
             localization = get(),
         )
+        // TODO: Read from constant
         else FoodSeedQueries(
             fileReader = { "" },
             serialization = Serialization(),
@@ -197,6 +198,7 @@ fun dataModule() = module {
             serialization = get(),
             localization = get(),
         )
+        // TODO: Read from constant
         else TagSeedQueries(
             fileReader = { "" },
             serialization = Serialization(),

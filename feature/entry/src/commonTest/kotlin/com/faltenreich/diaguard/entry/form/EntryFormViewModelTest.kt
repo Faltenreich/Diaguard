@@ -177,9 +177,9 @@ class EntryFormViewModelTest : TestSuite(entryModule() + startupModule()) {
         storeValue(10.0, DatabaseKey.MeasurementProperty.BLOOD_SUGAR)
         val entryId = entryRepository.getLastId()!!
         viewModel = get(parameters = { parametersOf(entryId, null, null) })
+        viewModel.handleIntent(EntryFormIntent.Delete(needsConfirmation = true))
 
         viewModel.state.test {
-            viewModel.handleIntent(EntryFormIntent.Delete(needsConfirmation = true))
             assertNotNull(awaitItem().deleteDialog)
         }
     }

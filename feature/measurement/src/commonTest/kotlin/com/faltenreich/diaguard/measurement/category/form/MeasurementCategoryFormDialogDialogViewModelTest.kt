@@ -1,12 +1,14 @@
 package com.faltenreich.diaguard.measurement.category.form
 
 import app.cash.turbine.test
-import com.faltenreich.diaguard.TestSuite
 import com.faltenreich.diaguard.data.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.data.measurement.category.MeasurementCategoryRepository
 import com.faltenreich.diaguard.data.navigation.Navigation
 import com.faltenreich.diaguard.data.navigation.NavigationEvent
+import com.faltenreich.diaguard.measurement.measurementModule
 import com.faltenreich.diaguard.startup.seed.ImportSeedUseCase
+import com.faltenreich.diaguard.startup.startupModule
+import com.faltenreich.diaguard.test.TestSuite
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.koin.core.parameter.parametersOf
@@ -18,7 +20,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
-class MeasurementCategoryFormDialogDialogViewModelTest : TestSuite() {
+class MeasurementCategoryFormDialogDialogViewModelTest : TestSuite(measurementModule() + startupModule()) {
 
     private val importSeed: ImportSeedUseCase by inject()
     private val navigation: Navigation by inject()
@@ -78,6 +80,7 @@ class MeasurementCategoryFormDialogDialogViewModelTest : TestSuite() {
         viewModel = get(parameters = { parametersOf(categoryId) })
 
         viewModel.state.test {
+            awaitItem()
             viewModel.handleIntent(MeasurementCategoryFormIntent.Delete(needsConfirmation = true))
             assertNotNull(awaitItem().deleteDialog)
         }
@@ -89,6 +92,7 @@ class MeasurementCategoryFormDialogDialogViewModelTest : TestSuite() {
         viewModel = get(parameters = { parametersOf(category.id) })
 
         viewModel.state.test {
+            awaitItem()
             viewModel.handleIntent(MeasurementCategoryFormIntent.Delete(needsConfirmation = true))
             assertNotNull(awaitItem().alertDialog)
         }

@@ -23,13 +23,19 @@ import com.faltenreich.diaguard.measurement.unit.usecase.GetMeasurementUnitSugge
 import com.faltenreich.diaguard.measurement.unit.usecase.GetMeasurementUnitsUseCase
 import com.faltenreich.diaguard.measurement.unit.usecase.StoreMeasurementUnitUseCase
 import com.faltenreich.diaguard.measurement.unit.usecase.ValidateMeasurementUnitUseCase
+import com.faltenreich.diaguard.navigation.navigationModule
+import com.faltenreich.diaguard.preference.preferenceModule
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.viewModel
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
 fun measurementModule() = module {
-    includes(dataModule())
+    includes(
+        dataModule(),
+        navigationModule(),
+        preferenceModule(),
+    )
 
     factoryOf(::StoreMeasurementCategoryUseCase)
     factoryOf(::GetActiveMeasurementCategoriesUseCase)

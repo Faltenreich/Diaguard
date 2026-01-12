@@ -1,11 +1,13 @@
 package com.faltenreich.diaguard.measurement.property.form
 
 import app.cash.turbine.test
-import com.faltenreich.diaguard.TestSuite
 import com.faltenreich.diaguard.data.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.data.navigation.Navigation
 import com.faltenreich.diaguard.data.navigation.NavigationEvent
+import com.faltenreich.diaguard.measurement.measurementModule
 import com.faltenreich.diaguard.startup.seed.ImportSeedUseCase
+import com.faltenreich.diaguard.startup.startupModule
+import com.faltenreich.diaguard.test.TestSuite
 import kotlinx.coroutines.test.runTest
 import org.koin.core.parameter.parametersOf
 import org.koin.test.get
@@ -17,7 +19,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
-class MeasurementPropertyFormDialogDialogViewModelTest : TestSuite() {
+class MeasurementPropertyFormDialogDialogViewModelTest : TestSuite(measurementModule() + startupModule()) {
 
     private val importSeed: ImportSeedUseCase by inject()
     private val navigation: Navigation by inject()

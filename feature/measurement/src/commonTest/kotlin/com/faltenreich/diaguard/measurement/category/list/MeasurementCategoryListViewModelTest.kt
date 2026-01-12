@@ -2,12 +2,14 @@ package com.faltenreich.diaguard.measurement.category.list
 
 import app.cash.turbine.test
 import app.cash.turbine.turbineScope
-import com.faltenreich.diaguard.TestSuite
 import com.faltenreich.diaguard.data.DatabaseKey
-import com.faltenreich.diaguard.measurement.category.form.MeasurementCategoryFormScreen
 import com.faltenreich.diaguard.data.navigation.Navigation
 import com.faltenreich.diaguard.data.navigation.NavigationEvent
+import com.faltenreich.diaguard.data.navigation.NavigationTarget
+import com.faltenreich.diaguard.measurement.measurementModule
 import com.faltenreich.diaguard.startup.seed.ImportSeedUseCase
+import com.faltenreich.diaguard.startup.startupModule
+import com.faltenreich.diaguard.test.TestSuite
 import kotlinx.coroutines.test.runTest
 import org.koin.test.inject
 import kotlin.test.BeforeTest
@@ -15,7 +17,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-class MeasurementCategoryListViewModelTest : TestSuite() {
+class MeasurementCategoryListViewModelTest : TestSuite(measurementModule() + startupModule()) {
 
     private val importSeed: ImportSeedUseCase by inject()
     private val navigation: Navigation by inject()
@@ -84,8 +86,8 @@ class MeasurementCategoryListViewModelTest : TestSuite() {
             viewModel.handleIntent(MeasurementCategoryListIntent.Edit(category))
 
             val event = navigation.awaitItem()
-            assertTrue(event is NavigationEvent.PushScreen)
-            assertTrue(event.screen is MeasurementCategoryFormScreen)
+            assertTrue(event is NavigationEvent.NavigateTo)
+            assertTrue(event.target is NavigationTarget.MeasurementCategoryForm)
         }
     }
 
@@ -95,8 +97,8 @@ class MeasurementCategoryListViewModelTest : TestSuite() {
             viewModel.handleIntent(MeasurementCategoryListIntent.Create(name = ""))
 
             val event = awaitItem()
-            assertTrue(event is NavigationEvent.PushScreen)
-            assertTrue(event.screen is MeasurementCategoryFormScreen)
+            assertTrue(event is NavigationEvent.NavigateTo)
+            assertTrue(event.target is NavigationTarget.MeasurementCategoryForm)
         }
     }
 }

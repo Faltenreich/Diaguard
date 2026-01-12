@@ -178,6 +178,8 @@ fun dataModule() = module {
     factoryOf(::MeasurementUnitSeedQueries)
     factoryOf(::MeasurementCategorySeedQueries)
 
+    factoryOf(::TagSeedQueries)
+
     factory<FoodSeedQueries> {
         if (get<BuildConfig>().hasPlatformFramework()) FoodSeedQueries(
             fileReader = ResourceFileReader("files/food_common.csv"),
@@ -186,20 +188,6 @@ fun dataModule() = module {
         )
         // TODO: Read from constant
         else FoodSeedQueries(
-            fileReader = { "" },
-            serialization = Serialization(),
-            localization = FakeLocalization(),
-        )
-    }
-
-    factory<TagSeedQueries> {
-        if (get<BuildConfig>().hasPlatformFramework()) TagSeedQueries(
-            fileReader = ResourceFileReader("files/tags.csv"),
-            serialization = get(),
-            localization = get(),
-        )
-        // TODO: Read from constant
-        else TagSeedQueries(
             fileReader = { "" },
             serialization = Serialization(),
             localization = FakeLocalization(),

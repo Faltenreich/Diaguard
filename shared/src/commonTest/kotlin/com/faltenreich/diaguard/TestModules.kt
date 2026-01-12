@@ -5,7 +5,6 @@ import com.faltenreich.diaguard.data.food.api.openfoodfacts.OpenFoodFactsApi
 import com.faltenreich.diaguard.data.food.api.openfoodfacts.OpenFoodFactsMapper
 import com.faltenreich.diaguard.data.legacy.LegacyDao
 import com.faltenreich.diaguard.data.seed.query.food.FoodSeedQueries
-import com.faltenreich.diaguard.data.seed.query.tag.TagSeedQueries
 import com.faltenreich.diaguard.localization.FakeLocalization
 import com.faltenreich.diaguard.localization.Localization
 import com.faltenreich.diaguard.logging.ConsoleLogger
@@ -64,12 +63,4 @@ fun testModules() = module {
             localization = FakeLocalization(),
         )
     }
-    single {
-        TagSeedQueries(
-            fileReader = SystemFileReader("src/commonTest/resources/seed/tags.csv"),
-            serialization = Serialization(),
-            localization = FakeLocalization(),
-        )
-    }
-
 }

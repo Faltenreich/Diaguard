@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.localization
 
 import androidx.compose.ui.text.intl.Locale
 import org.jetbrains.compose.resources.PluralStringResource
+import org.jetbrains.compose.resources.StringArrayResource
 import org.jetbrains.compose.resources.StringResource
 
 class FakeLocalization(
@@ -14,6 +15,10 @@ class FakeLocalization(
 
     override fun getString(resource: StringResource, vararg formatArgs: Any): String {
         return resource.key
+    }
+
+    override fun getStringArray(resource: StringArrayResource): List<String> {
+        return listOf(resource.key)
     }
 
     override fun getPluralString(

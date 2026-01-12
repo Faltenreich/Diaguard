@@ -4,6 +4,7 @@ import androidx.compose.ui.text.intl.Locale
 import com.faltenreich.diaguard.resource.Res
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.compose.resources.PluralStringResource
+import org.jetbrains.compose.resources.StringArrayResource
 import org.jetbrains.compose.resources.StringResource
 
 class ComposeLocalization(private val locale: Locale = Locale.current) : Localization {
@@ -14,6 +15,10 @@ class ComposeLocalization(private val locale: Locale = Locale.current) : Localiz
 
     override fun getString(resource: StringResource, vararg formatArgs: Any): String = runBlocking {
         org.jetbrains.compose.resources.getString(resource, *formatArgs)
+    }
+
+    override fun getStringArray(resource: StringArrayResource): List<String> = runBlocking {
+        org.jetbrains.compose.resources.getStringArray(resource)
     }
 
     override fun getPluralString(

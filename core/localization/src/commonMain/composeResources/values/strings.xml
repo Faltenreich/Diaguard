@@ -249,6 +249,17 @@
     <string name="table">Table</string>
     <string name="tag">Tag</string>
     <string name="tags">Tags</string>
+    <string-array name="tags_seed">
+        <item>woke up</item>
+        <item>falling asleep</item>
+        <item>happy</item>
+        <item>excited</item>
+        <item>tired</item>
+        <item>sick</item>
+        <item>before sport</item>
+        <item>after sport</item>
+
+    </string-array>
     <string name="tag_delete">Delete tag</string>
     <string name="tag_remove_description">Remove tag "%1$s"</string>
     <string name="tag_new">Create new tag</string>

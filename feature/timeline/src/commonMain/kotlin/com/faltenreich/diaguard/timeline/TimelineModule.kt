@@ -1,6 +1,9 @@
 package com.faltenreich.diaguard.timeline
 
 import com.faltenreich.diaguard.data.dataModule
+import com.faltenreich.diaguard.entry.entryModule
+import com.faltenreich.diaguard.navigation.navigationModule
+import com.faltenreich.diaguard.preference.preferenceModule
 import com.faltenreich.diaguard.timeline.canvas.GetTimelineCanvasDimensionsUseCase
 import com.faltenreich.diaguard.timeline.canvas.TapTimelineCanvasUseCase
 import com.faltenreich.diaguard.timeline.canvas.chart.GetTimelineChartMeasurementPropertyUseCase
@@ -16,7 +19,12 @@ import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
 fun timelineModule() = module {
-    includes(dataModule())
+    includes(
+        dataModule(),
+        entryModule(),
+        navigationModule(),
+        preferenceModule(),
+    )
 
     factoryOf(::GetTimelineChartMeasurementPropertyUseCase)
     factoryOf(::GetTimelineChartMeasurementValuesUseCase)

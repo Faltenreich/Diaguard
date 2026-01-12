@@ -4,17 +4,17 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
 import app.cash.turbine.test
-import com.faltenreich.diaguard.TestSuite
 import com.faltenreich.diaguard.data.DatabaseKey
 import com.faltenreich.diaguard.data.measurement.category.MeasurementCategoryRepository
 import com.faltenreich.diaguard.data.measurement.property.MeasurementPropertyRepository
-import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
-import com.faltenreich.diaguard.entry.form.EntryFormScreen
-import com.faltenreich.diaguard.entry.search.EntrySearchScreen
-import com.faltenreich.diaguard.measurement.value.usecase.StoreMeasurementValueUseCase
 import com.faltenreich.diaguard.data.navigation.Navigation
 import com.faltenreich.diaguard.data.navigation.NavigationEvent
+import com.faltenreich.diaguard.data.navigation.NavigationTarget
+import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
+import com.faltenreich.diaguard.entry.form.measurement.StoreMeasurementValueUseCase
 import com.faltenreich.diaguard.startup.seed.ImportSeedUseCase
+import com.faltenreich.diaguard.startup.startupModule
+import com.faltenreich.diaguard.test.TestSuite
 import com.faltenreich.diaguard.timeline.canvas.chart.TimelineChartState
 import com.faltenreich.diaguard.timeline.canvas.table.TimelineTableState
 import kotlinx.coroutines.flow.first
@@ -25,7 +25,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-class TimelineViewModelTest : TestSuite() {
+class TimelineViewModelTest : TestSuite(timelineModule() + startupModule()) {
 
     private val importSeed: ImportSeedUseCase by inject()
     private val storeValue: StoreMeasurementValueUseCase by inject()
@@ -327,8 +327,8 @@ class TimelineViewModelTest : TestSuite() {
             viewModel.handleIntent(TimelineIntent.CreateEntry)
 
             val event = awaitItem()
-            assertTrue(event is NavigationEvent.PushScreen)
-            assertTrue(event.screen is EntryFormScreen)
+            assertTrue(event is NavigationEvent.NavigateTo)
+            assertTrue(event.target is NavigationTarget.EntryForm)
         }
     }
 
@@ -340,8 +340,8 @@ class TimelineViewModelTest : TestSuite() {
             viewModel.handleIntent(TimelineIntent.OpenEntrySearch())
 
             val event = awaitItem()
-            assertTrue(event is NavigationEvent.PushScreen)
-            assertTrue(event.screen is EntrySearchScreen)
+            assertTrue(event is NavigationEvent.NavigateTo)
+            assertTrue(event.target is NavigationTarget.EntrySearch)
         }
     }
 }

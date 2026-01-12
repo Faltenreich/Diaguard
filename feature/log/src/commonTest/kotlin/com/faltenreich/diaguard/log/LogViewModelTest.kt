@@ -1,21 +1,20 @@
 package com.faltenreich.diaguard.log
 
 import app.cash.turbine.test
-import com.faltenreich.diaguard.TestSuite
 import com.faltenreich.diaguard.data.entry.Entry
 import com.faltenreich.diaguard.data.entry.EntryRepository
-import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
-import com.faltenreich.diaguard.entry.form.EntryFormScreen
-import com.faltenreich.diaguard.entry.search.EntrySearchScreen
 import com.faltenreich.diaguard.data.navigation.Navigation
 import com.faltenreich.diaguard.data.navigation.NavigationEvent
+import com.faltenreich.diaguard.data.navigation.NavigationTarget
+import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
+import com.faltenreich.diaguard.test.TestSuite
 import kotlinx.coroutines.test.runTest
 import org.koin.core.component.inject
 import kotlin.test.Test
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
-class LogViewModelTest : TestSuite() {
+class LogViewModelTest : TestSuite(logModule()) {
 
     private val viewModel: LogViewModel by inject()
     private val navigation: Navigation by inject()
@@ -29,8 +28,8 @@ class LogViewModelTest : TestSuite() {
             viewModel.handleIntent(LogIntent.CreateEntry(date))
 
             val event = awaitItem()
-            assertTrue(event is NavigationEvent.PushScreen)
-            assertTrue(event.screen is EntryFormScreen)
+            assertTrue(event is NavigationEvent.NavigateTo)
+            assertTrue(event.target is NavigationTarget.EntryForm)
         }
     }
 
@@ -47,8 +46,8 @@ class LogViewModelTest : TestSuite() {
             viewModel.handleIntent(LogIntent.OpenEntry(entry))
 
             val event = awaitItem()
-            assertTrue(event is NavigationEvent.PushScreen)
-            assertTrue(event.screen is EntryFormScreen)
+            assertTrue(event is NavigationEvent.NavigateTo)
+            assertTrue(event.target is NavigationTarget.EntryForm)
         }
     }
 
@@ -58,8 +57,8 @@ class LogViewModelTest : TestSuite() {
             viewModel.handleIntent(LogIntent.OpenEntrySearch(query = ""))
 
             val event = awaitItem()
-            assertTrue(event is NavigationEvent.PushScreen)
-            assertTrue(event.screen is EntrySearchScreen)
+            assertTrue(event is NavigationEvent.NavigateTo)
+            assertTrue(event.target is NavigationTarget.EntrySearch)
         }
     }
 

@@ -1,12 +1,13 @@
 package com.faltenreich.diaguard.tag.list
 
 import app.cash.turbine.test
-import com.faltenreich.diaguard.TestSuite
-import com.faltenreich.diaguard.data.tag.Tag
-import com.faltenreich.diaguard.data.tag.TagRepository
 import com.faltenreich.diaguard.data.navigation.Navigation
 import com.faltenreich.diaguard.data.navigation.NavigationEvent
-import com.faltenreich.diaguard.tag.detail.TagDetailScreen
+import com.faltenreich.diaguard.data.navigation.NavigationTarget
+import com.faltenreich.diaguard.data.tag.Tag
+import com.faltenreich.diaguard.data.tag.TagRepository
+import com.faltenreich.diaguard.tag.tagModule
+import com.faltenreich.diaguard.test.TestSuite
 import kotlinx.coroutines.test.runTest
 import org.koin.test.inject
 import kotlin.test.BeforeTest
@@ -16,7 +17,7 @@ import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
-class TagListViewModelTest : TestSuite() {
+class TagListViewModelTest : TestSuite(tagModule()) {
 
     private val viewModel: TagListViewModel by inject()
     private val navigation: Navigation by inject()
@@ -54,14 +55,16 @@ class TagListViewModelTest : TestSuite() {
             viewModel.handleIntent(TagListIntent.OpenTag(tag))
 
             val event = awaitItem()
-            assertTrue(event is NavigationEvent.PushScreen)
-            assertTrue(event.screen is TagDetailScreen)
+            assertTrue(event is NavigationEvent.NavigateTo)
+            assertTrue(event.target is NavigationTarget.TagDetail)
         }
     }
     @Test
     fun `close modal when intending to close`() = runTest {
         viewModel.state.test {
+            awaitItem()
             viewModel.handleIntent(TagListIntent.OpenFormDialog)
+            awaitItem()
             viewModel.handleIntent(TagListIntent.CloseFormDialog)
             assertNull(awaitItem().formDialog)
         }

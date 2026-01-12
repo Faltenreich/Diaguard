@@ -11,5 +11,10 @@ kotlin {
                 implementation(libs.paging)
             }
         }
+        commonTest {
+            dependencies {
+                implementation(project(":feature:startup"))
+            }
+        }
     }
 }

@@ -1,17 +1,18 @@
 package com.faltenreich.diaguard.tag.detail
 
 import app.cash.turbine.test
-import com.faltenreich.diaguard.TestSuite
 import com.faltenreich.diaguard.data.DatabaseKey
 import com.faltenreich.diaguard.data.entry.EntryRepository
-import com.faltenreich.diaguard.data.tag.Tag
-import com.faltenreich.diaguard.data.tag.TagRepository
-import com.faltenreich.diaguard.entry.form.EntryFormScreen
-import com.faltenreich.diaguard.entry.search.EntrySearchScreen
-import com.faltenreich.diaguard.measurement.value.usecase.StoreMeasurementValueUseCase
 import com.faltenreich.diaguard.data.navigation.Navigation
 import com.faltenreich.diaguard.data.navigation.NavigationEvent
+import com.faltenreich.diaguard.data.navigation.NavigationTarget
+import com.faltenreich.diaguard.data.tag.Tag
+import com.faltenreich.diaguard.data.tag.TagRepository
+import com.faltenreich.diaguard.entry.form.measurement.StoreMeasurementValueUseCase
 import com.faltenreich.diaguard.startup.seed.ImportSeedUseCase
+import com.faltenreich.diaguard.startup.startupModule
+import com.faltenreich.diaguard.tag.tagModule
+import com.faltenreich.diaguard.test.TestSuite
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.koin.core.parameter.parametersOf
@@ -22,7 +23,7 @@ import kotlin.test.Test
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
-class TagDetailViewModelTest : TestSuite() {
+class TagDetailViewModelTest : TestSuite(tagModule() + startupModule()) {
 
     private val importSeed: ImportSeedUseCase by inject()
     private val storeValue: StoreMeasurementValueUseCase by inject()
@@ -85,8 +86,8 @@ class TagDetailViewModelTest : TestSuite() {
             viewModel.handleIntent(TagDetailIntent.OpenEntry(entry))
 
             val event = awaitItem()
-            assertTrue(event is NavigationEvent.PushScreen)
-            assertTrue(event.screen is EntryFormScreen)
+            assertTrue(event is NavigationEvent.NavigateTo)
+            assertTrue(event.target is NavigationTarget.EntryForm)
         }
     }
 
@@ -96,8 +97,8 @@ class TagDetailViewModelTest : TestSuite() {
             viewModel.handleIntent(TagDetailIntent.OpenEntrySearch(query = ""))
 
             val event = awaitItem()
-            assertTrue(event is NavigationEvent.PushScreen)
-            assertTrue(event.screen is EntrySearchScreen)
+            assertTrue(event is NavigationEvent.NavigateTo)
+            assertTrue(event.target is NavigationTarget.EntrySearch)
         }
     }
 

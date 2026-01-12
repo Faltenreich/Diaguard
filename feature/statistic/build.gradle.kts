@@ -11,5 +11,10 @@ kotlin {
                 implementation(project(":feature:preference"))
             }
         }
+        commonTest {
+            dependencies {
+                implementation(project(":feature:startup"))
+            }
+        }
     }
 }

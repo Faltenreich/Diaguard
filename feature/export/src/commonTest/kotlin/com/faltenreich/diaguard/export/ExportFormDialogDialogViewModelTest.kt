@@ -1,7 +1,6 @@
 package com.faltenreich.diaguard.export
 
 import app.cash.turbine.test
-import com.faltenreich.diaguard.TestSuite
 import com.faltenreich.diaguard.data.measurement.category.MeasurementCategoryRepository
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.export.form.ExportFormIntent
@@ -9,6 +8,8 @@ import com.faltenreich.diaguard.export.form.ExportFormState
 import com.faltenreich.diaguard.export.form.ExportFormViewModel
 import com.faltenreich.diaguard.export.pdf.PdfLayout
 import com.faltenreich.diaguard.startup.seed.ImportSeedUseCase
+import com.faltenreich.diaguard.startup.startupModule
+import com.faltenreich.diaguard.test.TestSuite
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.koin.test.inject
@@ -18,7 +19,7 @@ import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-class ExportFormDialogDialogViewModelTest : TestSuite() {
+class ExportFormDialogDialogViewModelTest : TestSuite(exportModule() + startupModule()) {
 
     private val importSeed: ImportSeedUseCase by inject()
     private val dateTimeFactory: DateTimeFactory by inject()
@@ -134,10 +135,6 @@ class ExportFormDialogDialogViewModelTest : TestSuite() {
         }
         viewModel.state.test {
             assertContentEquals(
-                expected = emptyList(),
-                actual = awaitItem().content.categories,
-            )
-            assertContentEquals(
                 expected = exportCategories,
                 actual = awaitItem().content.categories,
             )
@@ -251,9 +248,6 @@ class ExportFormDialogDialogViewModelTest : TestSuite() {
     @Test
     fun `update state when intending to set category exported`() = runTest {
         viewModel.state.test {
-            // Skip initial empty content
-            awaitItem()
-
             val before = awaitItem().content.categories
             val change = before.first().copy(isExported = false)
 

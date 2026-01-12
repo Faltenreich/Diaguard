@@ -1,13 +1,14 @@
 package com.faltenreich.diaguard.startup.legacy
 
-import com.faltenreich.diaguard.TestSuite
 import com.faltenreich.diaguard.data.legacy.LegacyRepository
+import com.faltenreich.diaguard.startup.startupModule
+import com.faltenreich.diaguard.test.TestSuite
 import kotlinx.coroutines.test.runTest
 import org.koin.test.inject
 import kotlin.test.Test
 import kotlin.test.assertTrue
 
-class LegacyRepositoryTest : TestSuite() {
+class LegacyRepositoryTest : TestSuite(startupModule()) {
 
     private val repository: LegacyRepository by inject()
 

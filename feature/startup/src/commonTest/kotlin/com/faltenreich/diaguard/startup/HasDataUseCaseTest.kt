@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.startup
 
-import com.faltenreich.diaguard.TestSuite
 import com.faltenreich.diaguard.startup.seed.ImportSeedUseCase
+import com.faltenreich.diaguard.test.TestSuite
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.koin.test.inject
@@ -9,7 +9,7 @@ import kotlin.test.Test
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-class HasDataUseCaseTest : TestSuite() {
+class HasDataUseCaseTest : TestSuite(startupModule()) {
 
     private val importSeed: ImportSeedUseCase by inject()
     private val hasData: HasDataUseCase by inject()

@@ -4,7 +4,6 @@ import com.faltenreich.diaguard.data.dataModule
 import com.faltenreich.diaguard.entry.form.DeleteEntryUseCase
 import com.faltenreich.diaguard.entry.form.EntryFormViewModel
 import com.faltenreich.diaguard.entry.form.GetEntryByIdUseCase
-import com.faltenreich.diaguard.entry.form.GetFoodByIdUseCase
 import com.faltenreich.diaguard.entry.form.StoreEntryUseCase
 import com.faltenreich.diaguard.entry.form.datetime.GetDateTimeForEntryUseCase
 import com.faltenreich.diaguard.entry.form.food.GetFoodEatenForEntryUseCase
@@ -42,7 +41,6 @@ fun entryModule() = module {
     )
 
     factoryOf(::GetEntryByIdUseCase)
-    factoryOf(::GetFoodByIdUseCase)
     factoryOf(::GetFoodEatenForEntryUseCase)
     factoryOf(::GetDateTimeForEntryUseCase)
     factoryOf(::GetMeasurementCategoryInputStateUseCase)

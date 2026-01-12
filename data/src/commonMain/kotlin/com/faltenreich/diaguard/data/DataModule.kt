@@ -74,6 +74,7 @@ import com.faltenreich.diaguard.logging.loggingModule
 import com.faltenreich.diaguard.network.networkModule
 import com.faltenreich.diaguard.persistence.database.SqlDelightDriverFactory
 import com.faltenreich.diaguard.persistence.file.ResourceFileReader
+import com.faltenreich.diaguard.persistence.file.SystemFileReader
 import com.faltenreich.diaguard.persistence.persistenceModule
 import com.faltenreich.diaguard.serialization.Serialization
 import com.faltenreich.diaguard.serialization.serializationModule
@@ -141,6 +142,23 @@ fun dataModule() = module {
     factoryOf(::MeasurementValueRepository)
 
     factoryOf(::OpenFoodFactsMapper)
+    factory<FoodApi> {
+        if (get<BuildConfig>().hasPlatformFramework()) OpenFoodFactsApi(
+            client = get(),
+            localization = get(),
+            serialization = get(),
+            mapper = get(),
+        )
+        else OpenFoodFactsApi(
+            // FIXME: Find way to read test file from different module
+            client = { SystemFileReader("src/commonTest/resources/network/openfoodfacts.json").read() },
+            localization = FakeLocalization(),
+            serialization = Serialization(),
+            mapper = OpenFoodFactsMapper(
+                dateTimeFactory = get(),
+            ),
+        )
+    }
     factoryOf(::OpenFoodFactsApi) bind FoodApi::class
     factory<FoodQueries> { get<SqlDelightApi>().foodQueries }
     factoryOf(::FoodSqlDelightDao) bind FoodDao::class
@@ -186,7 +204,7 @@ fun dataModule() = module {
             serialization = get(),
             localization = get(),
         )
-        // TODO: Read from constant
+        // FIXME: Find way to read test file from different module
         else FoodSeedQueries(
             fileReader = { "" },
             serialization = Serialization(),

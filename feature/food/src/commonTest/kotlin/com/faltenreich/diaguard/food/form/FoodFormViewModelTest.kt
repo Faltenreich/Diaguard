@@ -2,15 +2,16 @@ package com.faltenreich.diaguard.food.form
 
 import app.cash.turbine.test
 import app.cash.turbine.turbineScope
-import com.faltenreich.diaguard.TestSuite
+import com.faltenreich.diaguard.data.fake.FakeFactory
 import com.faltenreich.diaguard.data.food.Food
 import com.faltenreich.diaguard.data.food.FoodRepository
-import com.faltenreich.diaguard.food.FoodFactory
-import com.faltenreich.diaguard.food.eaten.list.FoodEatenListScreen
-import com.faltenreich.diaguard.food.nutrient.FoodNutrient
-import com.faltenreich.diaguard.food.nutrient.FoodNutrientData
 import com.faltenreich.diaguard.data.navigation.Navigation
 import com.faltenreich.diaguard.data.navigation.NavigationEvent
+import com.faltenreich.diaguard.data.navigation.NavigationTarget
+import com.faltenreich.diaguard.food.foodModule
+import com.faltenreich.diaguard.food.nutrient.FoodNutrient
+import com.faltenreich.diaguard.food.nutrient.FoodNutrientData
+import com.faltenreich.diaguard.test.TestSuite
 import kotlinx.coroutines.test.runTest
 import org.koin.core.parameter.parametersOf
 import org.koin.test.get
@@ -23,7 +24,7 @@ import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
-class FoodFormViewModelTest : TestSuite() {
+class FoodFormViewModelTest : TestSuite(foodModule()) {
 
     private val navigation: Navigation by inject()
     private val foodRepository: FoodRepository by inject()
@@ -35,7 +36,7 @@ class FoodFormViewModelTest : TestSuite() {
     override fun beforeTest() {
         super.beforeTest()
 
-        val foodId = foodRepository.create(FoodFactory.createByUser())
+        val foodId = foodRepository.create(FakeFactory.foodByUser())
         food = checkNotNull(foodRepository.getById(foodId))
     }
 
@@ -192,8 +193,8 @@ class FoodFormViewModelTest : TestSuite() {
             viewModel.handleIntent(FoodFormIntent.OpenFoodEaten(food))
 
             val event = awaitItem()
-            assertTrue(event is NavigationEvent.PushScreen)
-            assertTrue(event.screen is FoodEatenListScreen)
+            assertTrue(event is NavigationEvent.NavigateTo)
+            assertTrue(event.target is NavigationTarget.FoodEatenList)
         }
     }
 

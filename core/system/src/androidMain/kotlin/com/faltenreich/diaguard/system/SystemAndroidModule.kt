@@ -26,7 +26,15 @@ actual fun systemPlatformModule() = module {
     }
     factoryOf(::AndroidNotificationManager)
 
-    factoryOf(::AndroidSystemSettings) bind SystemSettings::class
+    factory<SystemSettings> {
+        if (get<BuildConfig>().hasPlatformFramework()) AndroidSystemSettings(context = get())
+        else object : SystemSettings {
+            override fun openNotificationSettings() = Unit
+        }
+    }
 
-    factoryOf(::AndroidUrlOpener) bind UrlOpener::class
+    factory<UrlOpener> {
+        if (get<BuildConfig>().hasPlatformFramework()) AndroidUrlOpener(context = get())
+        else UrlOpener {}
+    }
 }

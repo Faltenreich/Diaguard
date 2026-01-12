@@ -1,13 +1,14 @@
 package com.faltenreich.diaguard.preference.overview
 
 import app.cash.turbine.test
-import com.faltenreich.diaguard.TestSuite
+import com.faltenreich.diaguard.preference.preferenceModule
+import com.faltenreich.diaguard.test.TestSuite
 import kotlinx.coroutines.test.runTest
 import org.koin.test.inject
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class OverviewPreferenceListViewModelTest : TestSuite() {
+class OverviewPreferenceListViewModelTest : TestSuite(preferenceModule()) {
 
     private val viewModel: OverviewPreferenceListViewModel by inject()
 

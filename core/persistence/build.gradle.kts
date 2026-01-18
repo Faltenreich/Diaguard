@@ -22,8 +22,7 @@ kotlin {
                 implementation(libs.sqldelight.jvm)
             }
         }
-        @Suppress("unused")
-        val androidInstrumentedTest by getting {
+        getByName("androidDeviceTest") {
             dependencies {
                 implementation(libs.junit)
                 implementation(libs.androidx.test.runner)

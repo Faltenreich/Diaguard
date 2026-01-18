@@ -1,3 +1,5 @@
+import com.android.build.gradle.tasks.factory.AndroidUnitTest
+
 val libs = extensions.getByType<org.gradle.accessors.dm.LibrariesForLibs>()
 
 plugins {
@@ -36,4 +38,10 @@ kover {
             }
         }
     }
+}
+
+// Workaround for KoverCriticalException: Kover error: Non-nullable 'variantName' property has null value
+// https://github.com/Kotlin/kotlinx-kover/issues/772
+tasks.withType<Test>().configureEach {
+    (this as? AndroidUnitTest)?.variantName = "android"
 }

@@ -3,11 +3,31 @@ val libs = extensions.getByType<org.gradle.accessors.dm.LibrariesForLibs>()
 plugins {
     kotlin("multiplatform")
     id("core-convention")
-    id("com.android.library")
+    id("com.android.kotlin.multiplatform.library")
 }
 
 kotlin {
-    androidTarget()
+    androidLibrary {
+        val appNamespace: String by rootProject.extra
+        val appCompileSdk: Int by rootProject.extra
+        val appMinSdk: Int by rootProject.extra
+        namespace = appNamespace
+        compileSdk = appCompileSdk
+        minSdk = appMinSdk
+
+        androidResources {
+            enable = true
+        }
+
+        withHostTest {
+            isIncludeAndroidResources = true
+        }
+
+        withDeviceTest {
+            instrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+            execution = "HOST"
+        }
+    }
     iosX64()
     iosArm64()
     iosSimulatorArm64()
@@ -31,8 +51,7 @@ kotlin {
                 implementation(libs.turbine)
             }
         }
-        @Suppress("unused")
-        val androidInstrumentedTest by getting {
+        getByName("androidHostTest") {
             dependencies {
                 implementation(libs.junit)
                 implementation(libs.androidx.test.runner)
@@ -54,17 +73,4 @@ kotlin {
 
     val javaVersion: Int by rootProject.extra
     jvmToolchain(javaVersion)
-}
-
-android {
-    val appNamespace: String by rootProject.extra
-    val appCompileSdk: Int by rootProject.extra
-    val appMinSdk: Int by rootProject.extra
-    namespace = appNamespace
-    compileSdk = appCompileSdk
-    defaultConfig {
-        minSdk = appMinSdk
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        testInstrumentationRunnerArguments["clearPackageData"] = "true"
-    }
 }

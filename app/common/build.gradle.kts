@@ -22,7 +22,7 @@ kotlin {
                 implementation(project(":feature:timeline"))
             }
         }
-        androidInstrumentedTest {
+        getByName("androidDeviceTest") {
             dependencies {
                 implementation(libs.ktor.core)
             }

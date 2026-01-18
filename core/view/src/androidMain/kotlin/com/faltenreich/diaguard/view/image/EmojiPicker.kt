@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.emoji2.emojipicker.EmojiPickerView
-import com.faltenreich.diaguard.R
+import com.faltenreich.diaguard.view.R
 
 @Composable
 actual fun EmojiPicker(

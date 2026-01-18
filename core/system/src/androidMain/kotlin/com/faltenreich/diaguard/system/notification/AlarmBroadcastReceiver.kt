@@ -3,7 +3,7 @@ package com.faltenreich.diaguard.system.notification
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.faltenreich.diaguard.R
+import com.faltenreich.diaguard.system.R
 import com.faltenreich.diaguard.injection.inject
 import com.faltenreich.diaguard.logging.Logger
 

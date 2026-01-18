@@ -10,8 +10,8 @@ import android.content.Intent
 import android.media.RingtoneManager
 import android.os.Build
 import androidx.core.app.NotificationCompat
-import com.faltenreich.diaguard.R
 import com.faltenreich.diaguard.logging.Logger
+import com.faltenreich.diaguard.system.R
 import kotlin.time.Duration.Companion.seconds
 
 class AndroidNotificationManager(

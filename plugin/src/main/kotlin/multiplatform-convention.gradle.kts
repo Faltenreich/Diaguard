@@ -11,7 +11,7 @@ kotlin {
         val appNamespace: String by rootProject.extra
         val appCompileSdk: Int by rootProject.extra
         val appMinSdk: Int by rootProject.extra
-        namespace = "$appNamespace.${project.name}"
+        namespace = appNamespace + project.path.replace(":", ".")
         compileSdk = appCompileSdk
         minSdk = appMinSdk
 

@@ -10,8 +10,8 @@ import android.content.Intent
 import android.media.RingtoneManager
 import android.os.Build
 import androidx.core.app.NotificationCompat
+import com.faltenreich.diaguard.core.system.R
 import com.faltenreich.diaguard.logging.Logger
-import com.faltenreich.diaguard.system.R
 import kotlin.time.Duration.Companion.seconds
 
 class AndroidNotificationManager(
@@ -46,11 +46,7 @@ class AndroidNotificationManager(
         val intent = Intent(context, activity::class.java).apply {
             action = Shortcut.CREATE_ENTRY.action
         }
-        val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-        } else {
-            PendingIntent.FLAG_UPDATE_CURRENT
-        }
+        val flags = PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         val pendingIntent = PendingIntent.getActivity(context, 0, intent, flags)
         builder.setContentIntent(pendingIntent)
 

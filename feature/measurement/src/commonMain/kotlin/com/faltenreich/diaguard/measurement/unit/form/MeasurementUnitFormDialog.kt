@@ -21,7 +21,7 @@ import com.faltenreich.diaguard.resource.measurement_unit
 import com.faltenreich.diaguard.resource.name
 import com.faltenreich.diaguard.view.input.TextInput
 import org.jetbrains.compose.resources.stringResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun MeasurementUnitFormDialog(

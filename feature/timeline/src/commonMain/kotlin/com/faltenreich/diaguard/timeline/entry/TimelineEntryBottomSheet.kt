@@ -12,7 +12,7 @@ import com.faltenreich.diaguard.data.tag.Tag
 import com.faltenreich.diaguard.entry.list.EntryListItem
 import com.faltenreich.diaguard.entry.list.EntryListItemState
 import com.faltenreich.diaguard.view.theme.AppTheme
-import org.jetbrains.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun TimelineEntryBottomSheet(

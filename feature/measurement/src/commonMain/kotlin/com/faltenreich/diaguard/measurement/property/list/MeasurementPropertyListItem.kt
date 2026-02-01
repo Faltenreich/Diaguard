@@ -13,7 +13,7 @@ import com.faltenreich.diaguard.resource.ic_arrow_up
 import com.faltenreich.diaguard.view.image.ResourceIcon
 import com.faltenreich.diaguard.view.layout.FormRow
 import com.faltenreich.diaguard.view.theme.AppTheme
-import org.jetbrains.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun MeasurementPropertyListItem(

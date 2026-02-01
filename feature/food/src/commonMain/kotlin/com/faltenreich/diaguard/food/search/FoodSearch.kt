@@ -20,7 +20,7 @@ import com.faltenreich.diaguard.view.layout.PullToRefresh
 import com.faltenreich.diaguard.view.lifecycle.LifecycleState
 import com.faltenreich.diaguard.view.lifecycle.rememberLifecycleState
 import kotlinx.coroutines.flow.flowOf
-import org.jetbrains.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun FoodSearch(

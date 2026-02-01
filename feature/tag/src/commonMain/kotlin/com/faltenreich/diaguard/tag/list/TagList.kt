@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import com.faltenreich.diaguard.tag.form.TagFormDialog
 import com.faltenreich.diaguard.view.divider.Divider
-import org.jetbrains.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun TagList(

@@ -53,7 +53,7 @@ import com.faltenreich.diaguard.view.overlay.DeleteDialog
 import com.faltenreich.diaguard.view.theme.AppTheme
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun MeasurementPropertyForm(

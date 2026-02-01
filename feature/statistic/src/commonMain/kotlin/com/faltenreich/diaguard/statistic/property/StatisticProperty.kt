@@ -15,7 +15,7 @@ import com.faltenreich.diaguard.view.divider.Divider
 import com.faltenreich.diaguard.view.layout.FormRow
 import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import com.faltenreich.diaguard.statistic.StatisticIntent
-import org.jetbrains.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun StatisticProperty(

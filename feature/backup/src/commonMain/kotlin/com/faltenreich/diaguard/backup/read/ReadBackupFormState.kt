@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.backup.read
 
-import org.jetbrains.compose.ui.tooling.preview.PreviewParameterProvider
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 
 sealed interface ReadBackupFormState {
 

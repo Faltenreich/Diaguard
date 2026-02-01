@@ -14,7 +14,7 @@ import com.faltenreich.diaguard.view.theme.color.ColorSchemes
 import com.faltenreich.diaguard.view.theme.color.Colors
 import com.faltenreich.diaguard.view.theme.color.LocalColors
 import com.faltenreich.diaguard.view.theme.color.animated
-import org.jetbrains.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun AppTheme(

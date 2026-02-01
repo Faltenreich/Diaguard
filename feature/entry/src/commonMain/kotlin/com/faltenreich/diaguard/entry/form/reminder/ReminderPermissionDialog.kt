@@ -12,7 +12,7 @@ import com.faltenreich.diaguard.resource.permission_grant
 import com.faltenreich.diaguard.resource.reminder
 import com.faltenreich.diaguard.resource.reminder_permission_rationale
 import org.jetbrains.compose.resources.stringResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun ReminderPermissionDialog(

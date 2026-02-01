@@ -12,7 +12,7 @@ import com.faltenreich.diaguard.resource.placeholder
 import com.faltenreich.diaguard.view.divider.Divider
 import com.faltenreich.diaguard.view.layout.FormRow
 import org.jetbrains.compose.resources.stringResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun StatisticAverage(

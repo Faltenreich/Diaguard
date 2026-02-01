@@ -12,7 +12,7 @@ import com.faltenreich.diaguard.resource.ic_arrow_back
 import com.faltenreich.diaguard.resource.ic_preferences
 import com.faltenreich.diaguard.view.theme.AppTheme
 import org.jetbrains.compose.resources.painterResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun SearchField(

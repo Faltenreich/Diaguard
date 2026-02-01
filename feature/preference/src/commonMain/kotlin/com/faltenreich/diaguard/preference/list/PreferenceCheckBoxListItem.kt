@@ -5,7 +5,7 @@ import androidx.compose.material3.Checkbox
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.faltenreich.diaguard.data.preview.PreviewScaffold
-import org.jetbrains.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 internal fun PreferenceCheckBoxListItem(

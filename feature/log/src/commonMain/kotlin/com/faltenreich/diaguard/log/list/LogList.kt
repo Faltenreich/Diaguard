@@ -25,7 +25,7 @@ import com.faltenreich.diaguard.log.list.item.LogMonth
 import com.faltenreich.diaguard.view.layout.Skeleton
 import com.faltenreich.diaguard.view.theme.AppTheme
 import kotlinx.coroutines.flow.flowOf
-import org.jetbrains.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun LogList(

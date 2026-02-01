@@ -16,7 +16,7 @@ import com.faltenreich.diaguard.view.button.ClearButton
 import com.faltenreich.diaguard.view.input.SearchField
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun FoodSearchField(

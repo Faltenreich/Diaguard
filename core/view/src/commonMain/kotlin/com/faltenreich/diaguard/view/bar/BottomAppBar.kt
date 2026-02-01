@@ -1,13 +1,13 @@
 package com.faltenreich.diaguard.view.bar
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.tooling.preview.Preview
 import com.faltenreich.diaguard.resource.Res
 import com.faltenreich.diaguard.resource.ic_menu
 import com.faltenreich.diaguard.resource.menu_open
 import com.faltenreich.diaguard.view.theme.AppTheme
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.material3.BottomAppBar as Material3BottomBar
 
 @Composable

@@ -19,7 +19,7 @@ import com.faltenreich.diaguard.view.image.ResourceIcon
 import com.faltenreich.diaguard.view.layout.FormRow
 import com.faltenreich.diaguard.view.overlay.DropdownTextMenu
 import org.jetbrains.compose.resources.stringResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun StatisticDateRangeButton(

@@ -23,7 +23,7 @@ import com.faltenreich.diaguard.timeline.date.TimelineDateState
 import com.faltenreich.diaguard.timeline.entry.TimelineEntryBottomSheet
 import com.faltenreich.diaguard.view.animation.rememberAnimatable
 import com.faltenreich.diaguard.view.theme.AppTheme
-import org.jetbrains.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun Timeline(

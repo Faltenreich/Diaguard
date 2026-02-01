@@ -22,24 +22,3 @@ val javaVersion by extra(21)
 tasks.register("clean", Delete::class) {
     delete(rootProject.layout.buildDirectory)
 }
-
-tasks.register("applyVersionToReadme") {
-    dependsOn("assemble")
-    val string = "img.shields.io/badge/Release-"
-    val regex = "$string([0-9.]+)".toRegex()
-    val with = "$string$appVersionName"
-    val file = file("README.md")
-    file.writeText(file.readText().replace(regex, with))
-    println("Updating version badge in README.md: $with")
-}
-
-tasks.register("applyDateToReadme") {
-    dependsOn("assemble")
-    val string = "2013-"
-    val regex = "$string([0-9.]+)".toRegex()
-    val year = java.util.Calendar.getInstance().get(java.util.Calendar.YEAR)
-    val with = "$string$year"
-    val file = file("README.md")
-    file.writeText(file.readText().replace(regex, with))
-    println("Updating copyright timeframe in README.md: $with")
-}

@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.data.measurement.property
 
-import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.data.DatabaseKey
+import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import kotlinx.coroutines.flow.Flow
 
 class MeasurementPropertyRepository internal constructor(

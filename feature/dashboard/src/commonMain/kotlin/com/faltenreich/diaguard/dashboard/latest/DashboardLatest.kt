@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import com.faltenreich.diaguard.data.entry.Entry
 import com.faltenreich.diaguard.data.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.data.measurement.value.MeasurementValueTint
@@ -18,7 +19,6 @@ import com.faltenreich.diaguard.resource.entry_first_description
 import com.faltenreich.diaguard.resource.placeholder
 import com.faltenreich.diaguard.view.theme.AppTheme
 import org.jetbrains.compose.resources.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun DashboardLatest(

@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
@@ -25,7 +26,6 @@ import com.faltenreich.diaguard.log.list.item.LogMonth
 import com.faltenreich.diaguard.view.layout.Skeleton
 import com.faltenreich.diaguard.view.theme.AppTheme
 import kotlinx.coroutines.flow.flowOf
-import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun LogList(

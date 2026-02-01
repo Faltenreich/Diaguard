@@ -15,9 +15,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.tooling.preview.Preview
 import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import com.faltenreich.diaguard.view.theme.AppTheme
-import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun MainMenuItem(

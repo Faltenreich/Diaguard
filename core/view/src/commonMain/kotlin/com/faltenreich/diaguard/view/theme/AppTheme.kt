@@ -8,13 +8,13 @@ import androidx.compose.material3.Typography
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.faltenreich.diaguard.view.theme.color.ColorSchemes
 import com.faltenreich.diaguard.view.theme.color.Colors
 import com.faltenreich.diaguard.view.theme.color.LocalColors
 import com.faltenreich.diaguard.view.theme.color.animated
-import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun AppTheme(

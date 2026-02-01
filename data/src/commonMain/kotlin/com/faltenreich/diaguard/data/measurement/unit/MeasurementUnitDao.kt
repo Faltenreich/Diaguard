@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.data.measurement.unit
 
-import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.data.DatabaseKey
+import com.faltenreich.diaguard.datetime.DateTime
 import kotlinx.coroutines.flow.Flow
 
 internal interface MeasurementUnitDao {

@@ -10,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import com.faltenreich.diaguard.data.measurement.property.MeasurementAggregationStyle
 import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import com.faltenreich.diaguard.resource.Res
@@ -17,7 +18,6 @@ import com.faltenreich.diaguard.resource.aggregation_style
 import com.faltenreich.diaguard.resource.aggregation_style_description
 import com.faltenreich.diaguard.view.theme.AppTheme
 import org.jetbrains.compose.resources.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun MeasurementAggregationStyleForm(

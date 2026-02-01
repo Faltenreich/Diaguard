@@ -7,12 +7,12 @@ import com.faltenreich.diaguard.data.food.eaten.FoodEaten
 import com.faltenreich.diaguard.data.legacy.query.EntryLegacyQueries
 import com.faltenreich.diaguard.data.legacy.query.EntryTagLegacyQueries
 import com.faltenreich.diaguard.data.legacy.query.FoodEatenLegacyQueries
-import com.faltenreich.diaguard.data.measurement.value.MeasurementValue
-import com.faltenreich.diaguard.data.preference.Preference
 import com.faltenreich.diaguard.data.legacy.query.FoodLegacyQueries
 import com.faltenreich.diaguard.data.legacy.query.KeyValueLegacyQueries
 import com.faltenreich.diaguard.data.legacy.query.MeasurementValueLegacyQueries
 import com.faltenreich.diaguard.data.legacy.query.TagLegacyQueries
+import com.faltenreich.diaguard.data.measurement.value.MeasurementValue
+import com.faltenreich.diaguard.data.preference.Preference
 import com.faltenreich.diaguard.data.tag.Tag
 
 class AndroidLegacyDao(

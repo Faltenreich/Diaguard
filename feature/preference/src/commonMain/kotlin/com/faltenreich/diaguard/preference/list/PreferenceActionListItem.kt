@@ -3,8 +3,8 @@ package com.faltenreich.diaguard.preference.list
 import androidx.compose.foundation.clickable
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import androidx.compose.ui.tooling.preview.Preview
+import com.faltenreich.diaguard.data.preview.PreviewScaffold
 
 @Composable
 internal fun PreferenceActionListItem(

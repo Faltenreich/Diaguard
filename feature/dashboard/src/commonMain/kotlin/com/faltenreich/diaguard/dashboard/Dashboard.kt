@@ -13,6 +13,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import com.faltenreich.diaguard.dashboard.average.DashboardAverage
 import com.faltenreich.diaguard.dashboard.average.DashboardAverageState
 import com.faltenreich.diaguard.dashboard.hba1c.DashboardHbA1c
@@ -28,7 +29,6 @@ import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import com.faltenreich.diaguard.statistic.trend.StatisticTrendState
 import com.faltenreich.diaguard.statistic.trend.StatisticTrendState.Interval
 import com.faltenreich.diaguard.view.theme.AppTheme
-import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun Dashboard(

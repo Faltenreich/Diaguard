@@ -18,6 +18,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import com.faltenreich.diaguard.entry.form.EntryFormState
 import com.faltenreich.diaguard.resource.Res
@@ -26,7 +27,6 @@ import com.faltenreich.diaguard.resource.ok
 import com.faltenreich.diaguard.resource.reminder
 import com.faltenreich.diaguard.view.theme.AppTheme
 import org.jetbrains.compose.resources.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
 

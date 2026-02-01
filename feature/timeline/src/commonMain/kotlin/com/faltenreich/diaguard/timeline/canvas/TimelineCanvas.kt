@@ -26,6 +26,7 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.rememberTextMeasurer
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.toSize
 import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import com.faltenreich.diaguard.timeline.TimelineConfig
@@ -40,7 +41,6 @@ import com.faltenreich.diaguard.view.theme.AppTheme
 import com.faltenreich.diaguard.view.theme.LocalDimensions
 import com.faltenreich.diaguard.view.theme.color.LocalColors
 import kotlinx.coroutines.launch
-import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun TimelineCanvas(

@@ -1,8 +1,8 @@
 package com.faltenreich.diaguard.data.measurement.category
 
-import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.data.DatabaseKey
 import com.faltenreich.diaguard.data.sqldelight.toSqlLiteBoolean
+import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 
 internal class MeasurementCategorySqlDelightMapper(
     private val dateTimeFactory: DateTimeFactory,

@@ -28,7 +28,7 @@ kotlin {
                 implementation(libs.android.test.runner)
                 implementation(libs.android.test.junit)
                 implementation(libs.android.test.junit.ktx)
-                implementation(libs.kotlinx.coroutines.test)
+                implementation(libs.coroutines.test)
                 implementation(libs.turbine)
             }
         }

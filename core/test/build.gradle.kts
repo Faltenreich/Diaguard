@@ -10,8 +10,8 @@ kotlin {
                 implementation(project(":core:injection"))
                 implementation(kotlin("test"))
                 implementation(project.dependencies.platform(libs.koin.bom))
+                implementation(libs.coroutines.test)
                 implementation(libs.koin.test)
-                implementation(libs.kotlinx.coroutines.test)
             }
         }
         androidMain {

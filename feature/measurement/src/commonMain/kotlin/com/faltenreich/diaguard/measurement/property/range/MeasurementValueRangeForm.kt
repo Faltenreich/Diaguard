@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
 import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormState
 import com.faltenreich.diaguard.resource.Res
@@ -38,7 +39,6 @@ import com.faltenreich.diaguard.view.divider.Divider
 import com.faltenreich.diaguard.view.input.TextInput
 import com.faltenreich.diaguard.view.theme.AppTheme
 import org.jetbrains.compose.resources.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun MeasurementValueRangeForm(

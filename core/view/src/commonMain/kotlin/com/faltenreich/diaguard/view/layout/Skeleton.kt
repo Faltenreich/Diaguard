@@ -6,8 +6,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.geometry.Offset
-import com.faltenreich.diaguard.view.theme.AppTheme
 import androidx.compose.ui.tooling.preview.Preview
+import com.faltenreich.diaguard.view.theme.AppTheme
 
 @Composable
 fun Skeleton(

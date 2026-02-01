@@ -7,10 +7,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import com.faltenreich.diaguard.tag.form.TagFormDialog
 import com.faltenreich.diaguard.view.divider.Divider
-import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun TagList(

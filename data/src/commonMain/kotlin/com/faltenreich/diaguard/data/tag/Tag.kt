@@ -1,8 +1,8 @@
 package com.faltenreich.diaguard.data.tag
 
-import com.faltenreich.diaguard.datetime.DateTime
-import com.faltenreich.diaguard.data.entry.Entry
 import com.faltenreich.diaguard.data.DatabaseEntity
+import com.faltenreich.diaguard.data.entry.Entry
+import com.faltenreich.diaguard.datetime.DateTime
 
 /**
  * Entity for labeling an [Entry]

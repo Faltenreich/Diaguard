@@ -15,12 +15,12 @@ import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.rememberTextMeasurer
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.toSize
 import com.faltenreich.diaguard.data.measurement.value.MeasurementValueTint
 import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import com.faltenreich.diaguard.statistic.trend.StatisticTrendState.Interval
 import com.faltenreich.diaguard.view.theme.AppTheme
-import androidx.compose.ui.tooling.preview.Preview
 
 const val VALUE_DOT_RADIUS = 12f
 

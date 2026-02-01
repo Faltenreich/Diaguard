@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.data.legacy.query
 
-import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.data.entry.tag.EntryTag
+import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.persistence.database.SqliteDatabase
 import com.faltenreich.diaguard.persistence.database.getLong
 

@@ -8,12 +8,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.tooling.preview.Preview
 import com.faltenreich.diaguard.resource.Res
 import com.faltenreich.diaguard.resource.ic_search
 import com.faltenreich.diaguard.view.info.Tooltip
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun BottomAppBarItem(

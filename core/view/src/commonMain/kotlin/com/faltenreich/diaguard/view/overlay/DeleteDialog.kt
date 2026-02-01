@@ -4,6 +4,7 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.tooling.preview.Preview
 import com.faltenreich.diaguard.resource.Res
 import com.faltenreich.diaguard.resource.cancel
 import com.faltenreich.diaguard.resource.delete
@@ -11,7 +12,6 @@ import com.faltenreich.diaguard.resource.delete_description
 import com.faltenreich.diaguard.resource.delete_title
 import com.faltenreich.diaguard.view.theme.AppTheme
 import org.jetbrains.compose.resources.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun DeleteDialog(

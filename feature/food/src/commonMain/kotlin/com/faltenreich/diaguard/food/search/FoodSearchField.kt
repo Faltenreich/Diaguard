@@ -8,6 +8,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.tooling.preview.Preview
 import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import com.faltenreich.diaguard.resource.Res
 import com.faltenreich.diaguard.resource.food_search_prompt
@@ -16,7 +17,6 @@ import com.faltenreich.diaguard.view.button.ClearButton
 import com.faltenreich.diaguard.view.input.SearchField
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun FoodSearchField(

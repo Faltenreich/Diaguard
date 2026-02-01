@@ -12,6 +12,7 @@ import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
@@ -21,7 +22,6 @@ import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import com.faltenreich.diaguard.data.tag.Tag
 import com.faltenreich.diaguard.view.theme.AppTheme
 import kotlinx.coroutines.flow.flowOf
-import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun EntryList(

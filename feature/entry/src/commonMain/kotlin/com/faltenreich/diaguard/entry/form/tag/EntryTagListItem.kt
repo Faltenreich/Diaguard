@@ -4,9 +4,9 @@ import androidx.compose.material3.ElevatedAssistChip
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import com.faltenreich.diaguard.data.tag.Tag
-import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun EntryTagListItem(

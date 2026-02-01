@@ -1,8 +1,8 @@
 package com.faltenreich.diaguard.data.measurement.value
 
+import com.faltenreich.diaguard.data.DatabaseKey
 import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
-import com.faltenreich.diaguard.data.DatabaseKey
 import kotlinx.coroutines.flow.Flow
 
 class MeasurementValueRepository internal constructor(

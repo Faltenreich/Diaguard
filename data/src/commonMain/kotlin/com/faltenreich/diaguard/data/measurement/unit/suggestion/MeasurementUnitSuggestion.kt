@@ -1,10 +1,10 @@
 package com.faltenreich.diaguard.data.measurement.unit.suggestion
 
-import com.faltenreich.diaguard.datetime.DateTime
-import com.faltenreich.diaguard.data.measurement.property.MeasurementProperty
-import com.faltenreich.diaguard.data.measurement.unit.MeasurementUnit
 import com.faltenreich.diaguard.data.DatabaseEntity
 import com.faltenreich.diaguard.data.DatabaseKey
+import com.faltenreich.diaguard.data.measurement.property.MeasurementProperty
+import com.faltenreich.diaguard.data.measurement.unit.MeasurementUnit
+import com.faltenreich.diaguard.datetime.DateTime
 
 /**
  * Entity representing a suggested unit of a seeded [MeasurementProperty]

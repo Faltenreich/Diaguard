@@ -8,6 +8,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -20,7 +21,6 @@ import com.faltenreich.diaguard.view.layout.PullToRefresh
 import com.faltenreich.diaguard.view.lifecycle.LifecycleState
 import com.faltenreich.diaguard.view.lifecycle.rememberLifecycleState
 import kotlinx.coroutines.flow.flowOf
-import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun FoodSearch(

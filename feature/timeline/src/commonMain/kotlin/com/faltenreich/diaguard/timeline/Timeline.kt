@@ -15,6 +15,7 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import com.faltenreich.diaguard.datetime.DatePickerDialog
 import com.faltenreich.diaguard.timeline.canvas.TimelineCanvas
@@ -23,7 +24,6 @@ import com.faltenreich.diaguard.timeline.date.TimelineDateState
 import com.faltenreich.diaguard.timeline.entry.TimelineEntryBottomSheet
 import com.faltenreich.diaguard.view.animation.rememberAnimatable
 import com.faltenreich.diaguard.view.theme.AppTheme
-import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun Timeline(

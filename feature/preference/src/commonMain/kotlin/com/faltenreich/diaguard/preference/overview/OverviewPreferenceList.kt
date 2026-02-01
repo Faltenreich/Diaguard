@@ -9,10 +9,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import com.faltenreich.diaguard.data.navigation.NavigationTarget
 import com.faltenreich.diaguard.data.preference.color.ColorScheme
 import com.faltenreich.diaguard.data.preference.startscreen.StartScreen
 import com.faltenreich.diaguard.data.preview.PreviewScaffold
-import com.faltenreich.diaguard.data.navigation.NavigationTarget
 import com.faltenreich.diaguard.preference.color.ColorSchemeForm
 import com.faltenreich.diaguard.preference.decimalplaces.DecimalPlacesForm
 import com.faltenreich.diaguard.preference.list.PreferenceActionListItem
@@ -64,7 +65,6 @@ import com.faltenreich.diaguard.resource.therapy
 import com.faltenreich.diaguard.resource.timeline
 import com.faltenreich.diaguard.resource.version
 import org.jetbrains.compose.resources.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 internal fun OverviewPreferenceList(

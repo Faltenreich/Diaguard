@@ -10,8 +10,8 @@ kotlin {
             dependencies {
                 implementation(project(":core:config"))
                 implementation(project(":core:injection"))
-                implementation(compose.foundation)
-                implementation(compose.components.resources)
+                implementation(libs.compose.foundation)
+                implementation(libs.compose.resources)
             }
         }
     }

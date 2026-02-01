@@ -8,8 +8,8 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
-                implementation(compose.foundation)
-                implementation(compose.components.resources)
+                implementation(libs.compose.foundation)
+                implementation(libs.compose.resources)
                 implementation(project.dependencies.platform(libs.koin.bom))
                 implementation(libs.koin.core)
                 implementation(libs.koin.compose)

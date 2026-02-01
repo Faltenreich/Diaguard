@@ -11,8 +11,8 @@ kotlin {
                 implementation(project(":core:config"))
                 implementation(project(":core:localization"))
                 implementation(project(":core:serialization"))
-                implementation(compose.components.resources)
-                implementation(compose.foundation)
+                implementation(libs.compose.resources)
+                implementation(libs.compose.foundation)
                 implementation(libs.kotlinx.dateTime)
             }
         }

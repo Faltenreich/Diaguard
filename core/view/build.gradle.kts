@@ -10,12 +10,12 @@ kotlin {
             dependencies {
                 implementation(project(":core:injection"))
                 implementation(project(":core:localization"))
-                implementation(compose.ui)
-                implementation(compose.components.resources)
-                implementation(compose.foundation)
-                implementation(compose.material3)
-                implementation(compose.components.uiToolingPreview)
-                implementation(compose.runtime)
+                implementation(libs.compose.ui)
+                implementation(libs.compose.resources)
+                implementation(libs.compose.foundation)
+                implementation(libs.compose.material3)
+                implementation(libs.compose.preview)
+                implementation(libs.compose.runtime)
                 implementation(libs.paging)
             }
         }

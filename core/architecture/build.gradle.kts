@@ -10,8 +10,8 @@ kotlin {
             dependencies {
                 implementation(project(":core:injection"))
                 implementation(project(":core:logging"))
-                implementation(compose.foundation)
-                implementation(compose.components.resources)
+                implementation(libs.compose.foundation)
+                implementation(libs.compose.resources)
                 implementation(project.dependencies.platform(libs.koin.bom))
                 implementation(libs.koin.core)
                 implementation(libs.koin.compose)

@@ -25,6 +25,7 @@ import com.faltenreich.diaguard.view.layout.WizardStepState
 import com.faltenreich.diaguard.view.theme.AppTheme
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.jetbrains.compose.ui.tooling.preview.PreviewParameter
 
 @Composable
 fun WriteBackupForm(
@@ -98,10 +99,12 @@ fun WriteBackupForm(
 
 @Preview
 @Composable
-private fun Preview() = PreviewScaffold {
+private fun Preview(
+    @PreviewParameter(WriteBackupFormState.PreviewParameter::class)
+    state: WriteBackupFormState,
+) = PreviewScaffold {
     WriteBackupForm(
-        // TODO: Add missing states when PreviewParameter is working
-        state = WriteBackupFormState.Idle,
+        state = state,
         onIntent = {},
     )
 }

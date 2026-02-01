@@ -1,5 +1,7 @@
 package com.faltenreich.diaguard.backup.read
 
+import org.jetbrains.compose.ui.tooling.preview.PreviewParameterProvider
+
 sealed interface ReadBackupFormState {
 
     data object Idle : ReadBackupFormState
@@ -15,4 +17,17 @@ sealed interface ReadBackupFormState {
     data object Storing : ReadBackupFormState
 
     data object Completed : ReadBackupFormState
+
+    class PreviewParameter : PreviewParameterProvider<ReadBackupFormState> {
+
+        override val values = sequenceOf(
+            Idle,
+            Selected,
+            Reading,
+            Ready,
+            Checked,
+            Storing,
+            Completed,
+        )
+    }
 }

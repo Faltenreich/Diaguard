@@ -21,7 +21,7 @@ kotlin {
         }
         androidMain {
             dependencies {
-                implementation(libs.androidx.emojipicker)
+                implementation(libs.android.emojipicker)
             }
         }
         all {

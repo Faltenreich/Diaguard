@@ -54,9 +54,9 @@ kotlin {
         getByName("androidHostTest") {
             dependencies {
                 implementation(libs.junit)
-                implementation(libs.androidx.test.runner)
-                implementation(libs.androidx.test.junit)
-                implementation(libs.androidx.test.junit.ktx)
+                implementation(libs.android.test.runner)
+                implementation(libs.android.test.junit)
+                implementation(libs.android.test.junit.ktx)
                 implementation(libs.kotlinx.coroutines.test)
                 implementation(libs.turbine)
             }

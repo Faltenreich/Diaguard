@@ -17,7 +17,7 @@ kotlin {
         }
         androidMain {
             dependencies {
-                implementation(libs.androidx.preferences)
+                implementation(libs.android.preferences)
                 implementation(libs.sqldelight.android)
                 implementation(libs.sqldelight.jvm)
             }
@@ -25,9 +25,9 @@ kotlin {
         getByName("androidDeviceTest") {
             dependencies {
                 implementation(libs.junit)
-                implementation(libs.androidx.test.runner)
-                implementation(libs.androidx.test.junit)
-                implementation(libs.androidx.test.junit.ktx)
+                implementation(libs.android.test.runner)
+                implementation(libs.android.test.junit)
+                implementation(libs.android.test.junit.ktx)
                 implementation(libs.kotlinx.coroutines.test)
                 implementation(libs.turbine)
             }

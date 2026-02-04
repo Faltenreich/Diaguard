@@ -8,6 +8,7 @@ kotlin {
             dependencies {
                 implementation(project(":core:system"))
                 implementation(project(":feature:datetime"))
+                implementation(project(":feature:food"))
                 implementation(project(":feature:measurement"))
                 implementation(project(":feature:navigation"))
                 implementation(project(":feature:preference"))

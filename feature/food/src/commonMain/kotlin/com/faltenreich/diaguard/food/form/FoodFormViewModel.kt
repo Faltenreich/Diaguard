@@ -4,9 +4,9 @@ import com.faltenreich.diaguard.architecture.either.ValidationResult
 import com.faltenreich.diaguard.architecture.viewmodel.ViewModel
 import com.faltenreich.diaguard.data.food.Food
 import com.faltenreich.diaguard.data.navigation.NavigationTarget
-import com.faltenreich.diaguard.entry.form.GetFoodByIdUseCase
 import com.faltenreich.diaguard.food.nutrient.FoodNutrient
 import com.faltenreich.diaguard.food.nutrient.FoodNutrientData
+import com.faltenreich.diaguard.food.search.GetFoodByIdUseCase
 import com.faltenreich.diaguard.injection.inject
 import com.faltenreich.diaguard.navigation.NavigateBackUseCase
 import com.faltenreich.diaguard.navigation.NavigateToUseCase

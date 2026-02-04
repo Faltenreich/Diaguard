@@ -25,6 +25,7 @@ import com.faltenreich.diaguard.entry.list.MapEntryListItemStateUseCase
 import com.faltenreich.diaguard.entry.search.EntrySearchViewModel
 import com.faltenreich.diaguard.entry.search.SearchEntriesUseCase
 import com.faltenreich.diaguard.entry.tag.StoreEntryTagsUseCase
+import com.faltenreich.diaguard.food.foodModule
 import com.faltenreich.diaguard.measurement.measurementModule
 import com.faltenreich.diaguard.navigation.navigationModule
 import com.faltenreich.diaguard.preference.preferenceModule
@@ -35,6 +36,7 @@ import org.koin.dsl.module
 fun entryModule() = module {
     includes(
         dataModule(),
+        foodModule(),
         measurementModule(),
         navigationModule(),
         preferenceModule(),

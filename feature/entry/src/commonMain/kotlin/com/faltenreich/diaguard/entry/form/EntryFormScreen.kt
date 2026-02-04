@@ -2,7 +2,11 @@ package com.faltenreich.diaguard.entry.form
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import com.faltenreich.diaguard.data.navigation.Screen
+import com.faltenreich.diaguard.food.search.FoodSelectionEvent
+import com.faltenreich.diaguard.food.search.FoodSelectionViewModel
+import com.faltenreich.diaguard.injection.sharedViewModel
 import com.faltenreich.diaguard.injection.viewModel
 import com.faltenreich.diaguard.resource.Res
 import com.faltenreich.diaguard.resource.entry
@@ -85,7 +89,6 @@ data class EntryFormScreen(
             },
         )
 
-        /* TODO: Uncomment when reference is available
         val foodSelectionViewModel = sharedViewModel<FoodSelectionViewModel>()
         LaunchedEffect(Unit) {
             foodSelectionViewModel.collectEvents { event ->
@@ -95,7 +98,6 @@ data class EntryFormScreen(
                 }
             }
         }
-        */
 
         EntryForm(
             state = viewModel.collectState(),

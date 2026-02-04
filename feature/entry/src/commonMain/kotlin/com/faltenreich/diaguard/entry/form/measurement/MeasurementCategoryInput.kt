@@ -6,12 +6,15 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Card
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import com.faltenreich.diaguard.entry.form.EntryFormIntent
@@ -33,6 +36,14 @@ fun MeasurementCategoryInput(
     onIntent: (EntryFormIntent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val keyboardOptionsNext = KeyboardOptions.Default.copy(
+        keyboardType = KeyboardType.Decimal,
+        imeAction = ImeAction.Next,
+    )
+    val keyboardOptionsDone = keyboardOptionsNext.copy(
+        imeAction = ImeAction.Done,
+    )
+
     Card(modifier = modifier.animateContentSize()) {
         Row(
             modifier = Modifier
@@ -62,6 +73,9 @@ fun MeasurementCategoryInput(
                     state = property,
                     modifier = Modifier.weight(1f),
                     onIntent = onIntent,
+                    keyboardOptions =
+                        if (property.isLast && (!state.category.isMeal || foodEaten.isEmpty())) keyboardOptionsDone
+                        else keyboardOptionsNext
                 )
                 if (state.category.isMeal) {
                     IconButton(
@@ -89,14 +103,17 @@ fun MeasurementCategoryInput(
             }
         }
         if (state.category.isMeal) {
-            foodEaten.forEach { data ->
+            foodEaten.forEachIndexed { index, data ->
                 Divider()
                 FoodEatenInput(
                     state = data,
+                    keyboardOptions =
+                        if (state.propertyInputStates.any { it.isLast } && index == foodEaten.lastIndex) keyboardOptionsDone
+                        else keyboardOptionsNext,
+                    onIntent = onIntent,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(AppTheme.dimensions.padding.P_1),
-                    onIntent = onIntent,
                 )
             }
         }

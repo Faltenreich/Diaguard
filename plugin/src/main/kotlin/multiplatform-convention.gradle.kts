@@ -28,7 +28,6 @@ kotlin {
             execution = "HOST"
         }
     }
-    iosX64()
     iosArm64()
     iosSimulatorArm64()
 

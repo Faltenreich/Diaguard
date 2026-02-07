@@ -28,6 +28,7 @@ import com.faltenreich.diaguard.view.image.ResourceIcon
 import com.faltenreich.diaguard.view.input.TextInput
 import com.faltenreich.diaguard.view.layout.FormRow
 import com.faltenreich.diaguard.view.overlay.DeleteDialog
+import com.faltenreich.diaguard.view.overlay.DeleteSeverity
 import kotlinx.coroutines.flow.flowOf
 import org.jetbrains.compose.resources.stringResource
 
@@ -73,6 +74,7 @@ fun TagDetail(
 
     if (state.deleteDialog != null) {
         DeleteDialog(
+            severity = DeleteSeverity.MEDIUM,
             onDismissRequest = { onIntent(TagDetailIntent.CloseDeleteDialog) },
             onConfirmRequest = {
                 onIntent(TagDetailIntent.CloseDeleteDialog)

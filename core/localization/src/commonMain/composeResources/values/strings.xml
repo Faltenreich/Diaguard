@@ -68,6 +68,7 @@
     <string name="decimal_places_illustration">"%1$s" will currently be shown as "%2$s".</string>
     <string name="decimal_places_update">Set decimal places to %1$d</string>
     <string name="delete">Delete</string>
+    <string name="delete_confirm">Delete (%1$d)</string>
     <string name="delete_title">Delete data</string>
     <string name="delete_description">This will irrevocably remove this and related data from the app</string>
     <string name="delete_error_pre_defined">This pre-defined data cannot be deleted</string>

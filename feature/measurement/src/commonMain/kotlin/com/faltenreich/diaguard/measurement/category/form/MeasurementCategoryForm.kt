@@ -40,6 +40,7 @@ import com.faltenreich.diaguard.view.image.EmojiPicker
 import com.faltenreich.diaguard.view.input.TextInput
 import com.faltenreich.diaguard.view.layout.FormRow
 import com.faltenreich.diaguard.view.overlay.DeleteDialog
+import com.faltenreich.diaguard.view.overlay.DeleteSeverity
 import com.faltenreich.diaguard.view.theme.AppTheme
 import org.jetbrains.compose.resources.stringResource
 
@@ -141,6 +142,7 @@ fun MeasurementCategoryForm(
 
     if (state.deleteDialog != null) {
         DeleteDialog(
+            severity = DeleteSeverity.HIGH,
             onDismissRequest = { onIntent(MeasurementCategoryFormIntent.CloseDeleteDialog) },
             onConfirmRequest = {
                 onIntent(MeasurementCategoryFormIntent.CloseDeleteDialog)

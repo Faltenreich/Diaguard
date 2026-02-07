@@ -51,6 +51,7 @@ import com.faltenreich.diaguard.view.info.NoticeBarStyle
 import com.faltenreich.diaguard.view.input.TextInput
 import com.faltenreich.diaguard.view.layout.FormRow
 import com.faltenreich.diaguard.view.overlay.DeleteDialog
+import com.faltenreich.diaguard.view.overlay.DeleteSeverity
 import com.faltenreich.diaguard.view.theme.AppTheme
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -225,6 +226,7 @@ private fun Dialog(
 ) {
     when (state) {
         is MeasurementPropertyFormState.Dialog.Delete -> DeleteDialog(
+            severity = DeleteSeverity.HIGH,
             onDismissRequest = { onIntent(MeasurementPropertyFormIntent.CloseDialog) },
             onConfirmRequest = {
                 onIntent(MeasurementPropertyFormIntent.CloseDialog)

@@ -51,6 +51,7 @@ import com.faltenreich.diaguard.view.image.ResourceIcon
 import com.faltenreich.diaguard.view.input.TextInput
 import com.faltenreich.diaguard.view.layout.FormRow
 import com.faltenreich.diaguard.view.overlay.DeleteDialog
+import com.faltenreich.diaguard.view.overlay.DeleteSeverity
 import com.faltenreich.diaguard.view.theme.AppTheme
 import org.jetbrains.compose.resources.stringResource
 import kotlin.time.Duration.Companion.seconds
@@ -232,6 +233,7 @@ fun EntryForm(
 
     if (state.deleteDialog != null) {
         DeleteDialog(
+            severity = DeleteSeverity.LOW,
             onDismissRequest = {
                 onIntent(EntryFormIntent.CloseDeleteDialog)
             },

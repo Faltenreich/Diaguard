@@ -35,6 +35,7 @@ import com.faltenreich.diaguard.view.info.NoticeBarStyle
 import com.faltenreich.diaguard.view.input.TextInput
 import com.faltenreich.diaguard.view.layout.FormRow
 import com.faltenreich.diaguard.view.overlay.DeleteDialog
+import com.faltenreich.diaguard.view.overlay.DeleteSeverity
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -133,6 +134,7 @@ fun FoodForm(
 
     if (state.deleteDialog != null) {
         DeleteDialog(
+            severity = DeleteSeverity.MEDIUM,
             onDismissRequest = {
                 onIntent(FoodFormIntent.CloseDeleteDialog)
             },

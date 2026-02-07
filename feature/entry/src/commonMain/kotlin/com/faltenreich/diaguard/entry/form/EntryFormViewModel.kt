@@ -14,6 +14,7 @@ import com.faltenreich.diaguard.entry.form.measurement.GetMeasurementCategoryInp
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementCategoryInputState
 import com.faltenreich.diaguard.entry.form.measurement.MeasurementPropertyInputState
 import com.faltenreich.diaguard.entry.form.measurement.ValidateEntryFormInputUseCase
+import com.faltenreich.diaguard.entry.form.reminder.FormatReminderNumbersUseCase
 import com.faltenreich.diaguard.entry.form.reminder.GetReminderLabelUseCase
 import com.faltenreich.diaguard.entry.form.reminder.SetReminderUseCase
 import com.faltenreich.diaguard.entry.form.tag.GetTagSuggestionsUseCase
@@ -55,6 +56,7 @@ class EntryFormViewModel(
     private val deleteEntry: DeleteEntryUseCase = inject(),
     private val setReminder: SetReminderUseCase = inject(),
     private val getReminderLabel: GetReminderLabelUseCase = inject(),
+    private val formatReminderNumbers: FormatReminderNumbersUseCase = inject(),
     private val hasPermission: HasPermissionUseCase = inject(),
     private val requestPermission: RequestPermissionUseCase = inject(),
     private val formatDateTime: FormatDateTimeUseCase = inject(),
@@ -176,9 +178,11 @@ class EntryFormViewModel(
     }
 
     private suspend fun openReminderPicker() {
+        val duration = reminderDuration.value
         reminderPicker.update {
             EntryFormState.Reminder.Picker(
-                duration = reminderDuration.value,
+                duration = duration,
+                numbers = formatReminderNumbers(duration),
                 isPermissionGranted = hasPermission(Permission.POST_NOTIFICATIONS),
             )
         }
@@ -186,11 +190,15 @@ class EntryFormViewModel(
 
     private suspend fun requestNotificationPermission() {
         when (requestPermission(Permission.POST_NOTIFICATIONS)) {
-            is PermissionResult.Granted -> reminderPicker.update {
-                EntryFormState.Reminder.Picker(
-                    duration = reminderDuration.value,
-                    isPermissionGranted = true,
-                )
+            is PermissionResult.Granted -> {
+                val duration = reminderDuration.value
+                reminderPicker.update {
+                    EntryFormState.Reminder.Picker(
+                        duration = duration,
+                        numbers = formatReminderNumbers(duration),
+                        isPermissionGranted = true,
+                    )
+                }
             }
 
             is PermissionResult.Denied -> reminderPicker.update { null }

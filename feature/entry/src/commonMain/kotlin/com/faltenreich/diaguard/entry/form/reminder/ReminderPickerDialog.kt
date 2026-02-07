@@ -64,7 +64,7 @@ fun ReminderPickerDialog(
                 )
 
                 ReminderPicker(
-                    duration = state.duration,
+                    numbers = state.numbers,
                     onChange = { duration = it },
                 )
 
@@ -91,6 +91,7 @@ private fun Preview() = PreviewScaffold {
     ReminderPickerDialog(
         state = EntryFormState.Reminder.Picker(
             duration = 10.minutes,
+            numbers = listOf(1, 0, 0, 0),
             isPermissionGranted = true,
         ),
         onDismissRequest = {},

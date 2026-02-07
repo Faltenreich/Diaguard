@@ -26,8 +26,6 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import com.faltenreich.diaguard.data.preview.PreviewScaffold
-import com.faltenreich.diaguard.injection.inject
-import com.faltenreich.diaguard.localization.NumberFormatter
 import com.faltenreich.diaguard.resource.Res
 import com.faltenreich.diaguard.resource.hours_abbreviation_short
 import com.faltenreich.diaguard.resource.ic_backspace
@@ -43,27 +41,17 @@ import kotlin.time.Duration.Companion.seconds
 
 @Composable
 fun ReminderPicker(
-    duration: Duration,
+    numbers: List<Int>,
     onChange: (Duration) -> Unit,
     modifier: Modifier = Modifier,
-    numberFormatter: NumberFormatter = inject(),
 ) {
-    var numbers by remember {
-        mutableStateOf(
-            duration.toComponents { hours, minutes, seconds, _ ->
-                // TODO: Format via UseCase
-                val format = { number: Int -> numberFormatter.invoke(number, width = 2, padZeroes = true) }
-                val string = "${format(hours.toInt())}${format(minutes)}${format(seconds)}"
-                string.toCharArray().map(Char::digitToInt)
-            }
-        )
-    }
+    var latestNumbers by remember(numbers) { mutableStateOf(numbers) }
 
     val latestOnChange by rememberUpdatedState(onChange)
-    LaunchedEffect(numbers) {
-        val hours = numbers.subList(0, 2).joinToString("").toInt()
-        val minutes = numbers.subList(2, 4).joinToString("").toInt()
-        val seconds = numbers.subList(4, 6).joinToString("").toInt()
+    LaunchedEffect(latestNumbers) {
+        val hours = latestNumbers.subList(0, 2).joinToString("").toInt()
+        val minutes = latestNumbers.subList(2, 4).joinToString("").toInt()
+        val seconds = latestNumbers.subList(4, 6).joinToString("").toInt()
         val duration = hours.hours + minutes.minutes + seconds.seconds
         latestOnChange(duration)
     }
@@ -79,24 +67,24 @@ fun ReminderPicker(
         Text(
             text = buildAnnotatedString {
                 withStyle(styleDigit) {
-                    append(numbers[0].toString())
-                    append(numbers[1].toString())
+                    append(latestNumbers[0].toString())
+                    append(latestNumbers[1].toString())
                 }
                 withStyle(styleLabel) {
                     append(stringResource(Res.string.hours_abbreviation_short))
                     append(" ")
                 }
                 withStyle(styleDigit) {
-                    append(numbers[2].toString())
-                    append(numbers[3].toString())
+                    append(latestNumbers[2].toString())
+                    append(latestNumbers[3].toString())
                 }
                 withStyle(styleLabel) {
                     append(stringResource(Res.string.minutes_abbreviation_short))
                     append(" ")
                 }
                 withStyle(styleDigit) {
-                    append(numbers[4].toString())
-                    append(numbers[5].toString())
+                    append(latestNumbers[4].toString())
+                    append(latestNumbers[5].toString())
                 }
                 withStyle(styleLabel) {
                     append(stringResource(Res.string.seconds_abbreviation_short))
@@ -110,7 +98,7 @@ fun ReminderPicker(
         ) {
             items(9) { index ->
                 val number = index + 1
-                Button(onClick = { numbers = numbers.add(number) }) {
+                Button(onClick = { latestNumbers = latestNumbers.add(number) }) {
                     Text(
                         text = number.toString(),
                         style = styleButton,
@@ -118,7 +106,7 @@ fun ReminderPicker(
                 }
             }
             item {
-                Button(onClick = { numbers = numbers.add(0).add(0) }) {
+                Button(onClick = { latestNumbers = latestNumbers.add(0).add(0) }) {
                     Text(
                         text = "00",
                         style = styleButton,
@@ -126,7 +114,7 @@ fun ReminderPicker(
                 }
             }
             item {
-                Button(onClick = { numbers = numbers.add(0) }) {
+                Button(onClick = { latestNumbers = latestNumbers.add(0) }) {
                     Text(
                         text = 0.toString(),
                         style = styleButton,
@@ -134,7 +122,7 @@ fun ReminderPicker(
                 }
             }
             item {
-                Button(onClick = { numbers = numbers.removeLast() }) {
+                Button(onClick = { latestNumbers = latestNumbers.removeLast() }) {
                     ResourceIcon(Res.drawable.ic_backspace)
                 }
             }
@@ -172,7 +160,7 @@ private fun Button(
 @Composable
 private fun Preview() = PreviewScaffold {
     ReminderPicker(
-        duration = 1.hours + 2.minutes + 3.seconds,
+        numbers = listOf(1, 2, 3),
         onChange = {},
     )
 }

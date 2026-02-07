@@ -13,6 +13,7 @@ import com.faltenreich.diaguard.entry.form.measurement.GetMeasurementCategoryInp
 import com.faltenreich.diaguard.entry.form.measurement.StoreMeasurementValueUseCase
 import com.faltenreich.diaguard.entry.form.measurement.StoreMeasurementValuesUseCase
 import com.faltenreich.diaguard.entry.form.measurement.ValidateEntryFormInputUseCase
+import com.faltenreich.diaguard.entry.form.reminder.FormatReminderNumbersUseCase
 import com.faltenreich.diaguard.entry.form.reminder.GetReminderLabelUseCase
 import com.faltenreich.diaguard.entry.form.reminder.GetReminderUseCase
 import com.faltenreich.diaguard.entry.form.reminder.SetReminderUseCase
@@ -54,6 +55,7 @@ fun entryModule() = module {
     factoryOf(::SetReminderUseCase)
     factoryOf(::GetReminderUseCase)
     factoryOf(::GetReminderLabelUseCase)
+    factoryOf(::FormatReminderNumbersUseCase)
     factoryOf(::StoreMeasurementValuesUseCase)
     factoryOf(::StoreMeasurementValueUseCase)
     factoryOf(::StoreFoodEatenUseCase)

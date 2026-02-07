@@ -34,6 +34,7 @@ data class EntryFormState(
 
         data class Picker(
             val duration: Duration,
+            val numbers: List<Int>,
             val isPermissionGranted: Boolean,
         )
     }

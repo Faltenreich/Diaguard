@@ -2,6 +2,8 @@ package com.faltenreich.diaguard.main.menu
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -37,7 +39,9 @@ fun MainMenu(
     onItemClick: (target: NavigationTarget, popHistory: Boolean) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Column(modifier = modifier) {
+    Column(
+        modifier = modifier.verticalScroll(rememberScrollState()),
+    ) {
         MainMenuItem(
             label = stringResource(Res.string.dashboard),
             icon = painterResource(Res.drawable.ic_dashboard),

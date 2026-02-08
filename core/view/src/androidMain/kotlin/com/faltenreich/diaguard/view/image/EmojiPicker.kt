@@ -11,7 +11,6 @@ import com.faltenreich.diaguard.core.view.R
 @Composable
 actual fun EmojiPicker(
     onEmojiPick: (String) -> Unit,
-    columns: Int,
     isDarkColorScheme: Boolean,
     modifier: Modifier,
 ) {
@@ -19,7 +18,6 @@ actual fun EmojiPicker(
         factory = { context ->
             val style = if (isDarkColorScheme) R.style.EmojiPicker_Dark else R.style.EmojiPicker_Light
             EmojiPickerView(ContextThemeWrapper(context, style)).apply {
-                emojiGridColumns = columns
                 isNestedScrollingEnabled = true
                 setOnEmojiPickedListener { item ->
                     onEmojiPick(item.emoji)

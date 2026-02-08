@@ -6,7 +6,6 @@ import androidx.compose.ui.Modifier
 @Composable
 actual fun EmojiPicker(
     onEmojiPick: (String) -> Unit,
-    columns: Int,
     isDarkColorScheme: Boolean,
     modifier: Modifier,
 ) {

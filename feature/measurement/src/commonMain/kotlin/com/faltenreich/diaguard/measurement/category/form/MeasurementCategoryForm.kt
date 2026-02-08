@@ -126,11 +126,8 @@ fun MeasurementCategoryForm(
                     showEmojiPicker = false
                     onIntent(MeasurementCategoryFormIntent.SetIcon(icon))
                 },
-                // TODO: Adjust for smaller/larger screens
-                columns = 9,
                 isDarkColorScheme = state.colorScheme.isDark(),
                 // Workaround: Fixes nested scroll
-                // FIXME: Lags after expanding bottom sheet
                 modifier = if (sheetState.currentValue == SheetValue.Expanded) {
                     Modifier.verticalScroll(rememberScrollState())
                 } else {

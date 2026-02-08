@@ -10,7 +10,6 @@ import kotlin.jvm.JvmName
 @Composable
 expect fun EmojiPicker(
     onEmojiPick: (String) -> Unit,
-    columns: Int,
     isDarkColorScheme: Boolean,
     modifier: Modifier = Modifier,
 )
@@ -20,7 +19,6 @@ expect fun EmojiPicker(
 private fun Preview() {
     EmojiPicker(
         onEmojiPick = {},
-        columns = 4,
         isDarkColorScheme = false,
     )
 }

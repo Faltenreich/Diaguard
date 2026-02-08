@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.view.info
 
 import androidx.compose.material3.PlainTooltip
 import androidx.compose.material3.Text
+import androidx.compose.material3.TooltipAnchorPosition
 import androidx.compose.material3.TooltipBox
 import androidx.compose.material3.TooltipDefaults
 import androidx.compose.material3.TooltipState
@@ -14,11 +15,11 @@ fun Tooltip(
     text: String,
     state: TooltipState = rememberTooltipState(),
     modifier: Modifier = Modifier,
+    position: TooltipAnchorPosition = TooltipAnchorPosition.Above,
     content: @Composable () -> Unit,
 ) {
     TooltipBox(
-        positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
-        // FIXME: java.lang.NoSuchMethodError: No static method PlainTooltip (on Windows only?)
+        positionProvider = TooltipDefaults.rememberTooltipPositionProvider(position),
         tooltip = { PlainTooltip { Text(text) } },
         state = state,
         modifier = modifier,

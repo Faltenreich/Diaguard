@@ -16,6 +16,7 @@ fun BottomAppBar(
     onMenuClick: () -> Unit,
 ) {
     when (style) {
+        is BottomAppBarStyle.Hidden -> Unit
         is BottomAppBarStyle.Visible -> {
             Material3BottomBar(
                 actions = {

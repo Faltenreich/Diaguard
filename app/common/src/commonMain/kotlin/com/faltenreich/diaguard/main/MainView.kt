@@ -1,10 +1,10 @@
 package com.faltenreich.diaguard.main
 
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.NavigationRail
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -39,6 +39,7 @@ import com.faltenreich.diaguard.injection.rememberViewModelStoreOwner
 import com.faltenreich.diaguard.injection.viewModel
 import com.faltenreich.diaguard.log.LogScreen
 import com.faltenreich.diaguard.main.menu.MainMenuBottomSheet
+import com.faltenreich.diaguard.main.menu.MainNavigationRail
 import com.faltenreich.diaguard.measurement.category.form.MeasurementCategoryFormScreen
 import com.faltenreich.diaguard.measurement.category.list.MeasurementCategoryListScreen
 import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormScreen
@@ -128,12 +129,14 @@ fun MainView(
     CompositionLocalProvider(LocalSharedViewModelStoreOwner provides viewModelStoreOwner) {
         val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
         if (windowSizeClass.isWidthAtLeastBreakpoint(WindowSizeClass.WIDTH_DP_EXPANDED_LOWER_BOUND)) {
-            Scaffold(modifier = modifier) { paddingValues ->
-                NavigationRail(
-                    modifier = Modifier.padding(paddingValues),
-                ) {
-                    // TODO: Add items from main menu
-                }
+            Row(modifier = modifier) {
+                MainNavigationRail(
+                    navController = navController,
+                    onItemClick =  { target, popHistory ->
+                        showMenu = false
+                        viewModel.dispatchIntent(MainIntent.NavigateTo(target, popHistory))
+                    },
+                )
                 NavHost(
                     navController = navController,
                     startDestination = startScreen,

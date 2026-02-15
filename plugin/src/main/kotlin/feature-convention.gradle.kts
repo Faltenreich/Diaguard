@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.internal.config.AnalysisFlags.optIn
+
 val libs = extensions.getByType<org.gradle.accessors.dm.LibrariesForLibs>()
 
 plugins {
@@ -21,6 +23,9 @@ kotlin {
                 implementation(project(":data"))
                 implementation(libs.compose.foundation)
                 implementation(libs.compose.material3)
+                implementation(libs.compose.material3.adaptive)
+                implementation(libs.compose.material3.adaptive.layout)
+                implementation(libs.compose.material3.adaptive.navigation)
                 implementation(libs.compose.navigation)
                 implementation(libs.compose.preview)
                 implementation(libs.compose.resources)

@@ -4,9 +4,11 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.NavigationRail
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
@@ -17,8 +19,10 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
+import androidx.window.core.layout.WindowSizeClass
 import com.faltenreich.diaguard.backup.read.ReadBackupFormScreen
 import com.faltenreich.diaguard.backup.write.WriteBackupFormScreen
 import com.faltenreich.diaguard.dashboard.DashboardScreen
@@ -122,67 +126,61 @@ fun MainView(
     }
 
     CompositionLocalProvider(LocalSharedViewModelStoreOwner provides viewModelStoreOwner) {
-        Scaffold(
-            modifier = modifier,
-            topBar = {
-                TopAppBar(
-                    style = state.topAppBarStyle,
-                    navigationIcon = {
-                        if (navController.previousBackStackEntry != null) {
-                            IconButton(onClick = { viewModel.dispatchIntent(MainIntent.NavigateBack) }) {
-                                Icon(
-                                    painter = painterResource(
-                                        Res.drawable.ic_arrow_back,
-                                    ),
-                                    contentDescription = stringResource(Res.string.navigate_back),
-                                )
-                            }
-                        }
-                    },
-                )
-            },
-            snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
-            // Support edge-to-edge content, e.g. in Log
-            contentWindowInsets = WindowInsets(top = 0),
-            content = { padding ->
+        val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
+        if (windowSizeClass.isWidthAtLeastBreakpoint(WindowSizeClass.WIDTH_DP_EXPANDED_LOWER_BOUND)) {
+            Scaffold(modifier = modifier) { paddingValues ->
+                NavigationRail(
+                    modifier = Modifier.padding(paddingValues),
+                ) {
+                    // TODO: Add items from main menu
+                }
                 NavHost(
                     navController = navController,
                     startDestination = startScreen,
-                    modifier = Modifier.padding(padding),
                 ) {
-                    screen<DashboardScreen>()
-                    screen<TimelineScreen>()
-                    screen<LogScreen>()
-
-                    screen<EntryFormScreen>()
-                    screen<EntrySearchScreen>()
-                    screen<FoodFormScreen>()
-                    screen<FoodSearchScreen>()
-                    screen<FoodEatenListScreen>()
-                    screen<FoodPreferenceListScreen>()
-
-                    screen<StatisticScreen>()
-                    screen<ExportFormScreen>()
-
-                    screen<OverviewPreferenceListScreen>()
-                    screen<WriteBackupFormScreen>()
-                    screen<ReadBackupFormScreen>()
-                    screen<MeasurementCategoryListScreen>()
-                    screen<MeasurementCategoryFormScreen>()
-                    screen<MeasurementPropertyFormScreen>()
-                    screen<MeasurementUnitListScreen>()
-                    screen<TagListScreen>()
-                    screen<TagDetailScreen>()
-                    screen<LicenseListScreen>()
+                    navGraph()
                 }
-            },
-            bottomBar = {
-                BottomAppBar(
-                    style = state.bottomAppBarStyle,
-                    onMenuClick = { showMenu = true },
-                )
-            },
-        )
+            }
+        } else {
+            Scaffold(
+                modifier = modifier,
+                topBar = {
+                    TopAppBar(
+                        style = state.topAppBarStyle,
+                        navigationIcon = {
+                            if (navController.previousBackStackEntry != null) {
+                                IconButton(onClick = { viewModel.dispatchIntent(MainIntent.NavigateBack) }) {
+                                    Icon(
+                                        painter = painterResource(
+                                            Res.drawable.ic_arrow_back,
+                                        ),
+                                        contentDescription = stringResource(Res.string.navigate_back),
+                                    )
+                                }
+                            }
+                        },
+                    )
+                },
+                snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
+                // Support edge-to-edge content, e.g. in Log
+                contentWindowInsets = WindowInsets(top = 0),
+                content = { padding ->
+                    NavHost(
+                        navController = navController,
+                        startDestination = startScreen,
+                        modifier = Modifier.padding(padding),
+                    ) {
+                        navGraph()
+                    }
+                },
+                bottomBar = {
+                    BottomAppBar(
+                        style = state.bottomAppBarStyle,
+                        onMenuClick = { showMenu = true },
+                    )
+                },
+            )
+        }
     }
 
     if (showMenu) {
@@ -194,6 +192,33 @@ fun MainView(
             },
         )
     }
+}
+
+private fun NavGraphBuilder.navGraph() {
+    screen<DashboardScreen>()
+    screen<TimelineScreen>()
+    screen<LogScreen>()
+
+    screen<EntryFormScreen>()
+    screen<EntrySearchScreen>()
+    screen<FoodFormScreen>()
+    screen<FoodSearchScreen>()
+    screen<FoodEatenListScreen>()
+    screen<FoodPreferenceListScreen>()
+
+    screen<StatisticScreen>()
+    screen<ExportFormScreen>()
+
+    screen<OverviewPreferenceListScreen>()
+    screen<WriteBackupFormScreen>()
+    screen<ReadBackupFormScreen>()
+    screen<MeasurementCategoryListScreen>()
+    screen<MeasurementCategoryFormScreen>()
+    screen<MeasurementPropertyFormScreen>()
+    screen<MeasurementUnitListScreen>()
+    screen<TagListScreen>()
+    screen<TagDetailScreen>()
+    screen<LicenseListScreen>()
 }
 
 @Preview

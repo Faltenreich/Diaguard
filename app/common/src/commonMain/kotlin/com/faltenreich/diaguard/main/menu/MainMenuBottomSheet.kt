@@ -1,11 +1,53 @@
 package com.faltenreich.diaguard.main.menu
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import com.faltenreich.diaguard.dashboard.DashboardScreen
 import com.faltenreich.diaguard.data.navigation.NavigationTarget
+import com.faltenreich.diaguard.data.preview.PreviewScaffold
+import com.faltenreich.diaguard.export.form.ExportFormScreen
+import com.faltenreich.diaguard.food.search.FoodSearchScreen
+import com.faltenreich.diaguard.log.LogScreen
+import com.faltenreich.diaguard.preference.overview.OverviewPreferenceListScreen
+import com.faltenreich.diaguard.resource.Res
+import com.faltenreich.diaguard.resource.dashboard
+import com.faltenreich.diaguard.resource.export
+import com.faltenreich.diaguard.resource.food
+import com.faltenreich.diaguard.resource.ic_dashboard
+import com.faltenreich.diaguard.resource.ic_log
+import com.faltenreich.diaguard.resource.ic_timeline
+import com.faltenreich.diaguard.resource.log
+import com.faltenreich.diaguard.resource.preferences
+import com.faltenreich.diaguard.resource.statistic
+import com.faltenreich.diaguard.resource.timeline
+import com.faltenreich.diaguard.statistic.StatisticScreen
+import com.faltenreich.diaguard.timeline.TimelineScreen
+import com.faltenreich.diaguard.view.divider.Divider
+import com.faltenreich.diaguard.view.theme.AppTheme
+import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
+import kotlin.reflect.KClass
 
 @Composable
 fun MainMenuBottomSheet(
@@ -14,17 +56,125 @@ fun MainMenuBottomSheet(
     onItemClick: (target: NavigationTarget, popHistory: Boolean) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val currentDestination = navController.currentDestination?.route
+
     ModalBottomSheet(
         onDismissRequest = onDismissRequest,
         modifier = modifier,
         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
     ) {
-        MainMenu(
-            currentDestination = navController.currentDestination?.route,
-            onItemClick = { target, popHistory ->
-                onDismissRequest()
-                onItemClick(target, popHistory)
-            },
+        Column(
+            modifier = modifier.verticalScroll(rememberScrollState()),
+        ) {
+            Item(
+                label = stringResource(Res.string.dashboard),
+                icon = painterResource(Res.drawable.ic_dashboard),
+                isSelected = currentDestination.isSelecting(DashboardScreen::class),
+                onClick = { onItemClick(NavigationTarget.Dashboard, true) },
+            )
+            Item(
+                label = stringResource(Res.string.timeline),
+                icon = painterResource(Res.drawable.ic_timeline),
+                isSelected = currentDestination.isSelecting(TimelineScreen::class),
+                onClick = { onItemClick(NavigationTarget.Timeline, true) },
+            )
+            Item(
+                label = stringResource(Res.string.log),
+                icon = painterResource(Res.drawable.ic_log),
+                isSelected = currentDestination.isSelecting(LogScreen::class),
+                onClick = { onItemClick(NavigationTarget.Log, true) },
+            )
+
+            Divider(modifier = Modifier.padding(vertical = AppTheme.dimensions.padding.P_2))
+
+            Item(
+                label = stringResource(Res.string.food),
+                icon = null,
+                isSelected = currentDestination.isSelecting(FoodSearchScreen::class),
+                onClick = { onItemClick(NavigationTarget.FoodSearch(
+                    mode = NavigationTarget.FoodSearch.Mode.STROLL), false)
+                },
+            )
+            Item(
+                label = stringResource(Res.string.statistic),
+                icon = null,
+                isSelected = currentDestination.isSelecting(StatisticScreen::class),
+                onClick = { onItemClick(NavigationTarget.Statistic, false) },
+            )
+            Item(
+                label = stringResource(Res.string.export),
+                icon = null,
+                isSelected = currentDestination.isSelecting(ExportFormScreen::class),
+                onClick = { onItemClick(NavigationTarget.ExportForm, false) },
+            )
+            Item(
+                label = stringResource(Res.string.preferences),
+                icon = null,
+                isSelected = currentDestination.isSelecting(OverviewPreferenceListScreen::class),
+                onClick = { onItemClick(NavigationTarget.OverviewPreferenceList, false) },
+            )
+        }
+    }
+}
+
+@Composable
+private fun Item(
+    label: String,
+    icon: Painter?,
+    isSelected: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick)
+            .padding(
+                horizontal = AppTheme.dimensions.padding.P_2,
+                vertical = AppTheme.dimensions.padding.P_1,
+            )
+            .background(
+                color =
+                    if (isSelected && icon != null) AppTheme.colors.scheme.surfaceContainerLowest
+                    else Color.Transparent,
+                shape = AppTheme.shapes.large,
+            )
+            .padding(
+                horizontal = AppTheme.dimensions.padding.P_3,
+                vertical = AppTheme.dimensions.padding.P_2_5,
+            ),
+        horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_3_5),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        val onPrimaryColor =
+            if (isSelected) AppTheme.colors.scheme.primary
+            else AppTheme.colors.scheme.onBackground
+        icon?.let {
+            Icon(
+                painter = icon,
+                contentDescription = null,
+                modifier = Modifier.size(AppTheme.dimensions.padding.P_4),
+                tint = onPrimaryColor,
+            )
+        } ?: Spacer(modifier = Modifier.size(AppTheme.dimensions.padding.P_4))
+        Text(
+            text = label,
+            color = onPrimaryColor,
         )
     }
+}
+
+private fun String?.isSelecting(kClass: KClass<*>): Boolean {
+    val className = kClass.simpleName ?: return false
+    return this?.contains(className) ?: false
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun Preview() = PreviewScaffold {
+    MainMenuBottomSheet(
+        navController = rememberNavController(),
+        onDismissRequest = {},
+        onItemClick = { _, _ -> },
+    )
 }

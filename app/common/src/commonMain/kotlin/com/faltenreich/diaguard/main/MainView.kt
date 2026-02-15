@@ -188,6 +188,7 @@ fun MainView(
             navController = navController,
             onDismissRequest = { showMenu = false },
             onItemClick =  { target, popHistory ->
+                showMenu = false
                 viewModel.dispatchIntent(MainIntent.NavigateTo(target, popHistory))
             },
         )

@@ -4,11 +4,9 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
@@ -36,7 +34,7 @@ import com.faltenreich.diaguard.injection.LocalSharedViewModelStoreOwner
 import com.faltenreich.diaguard.injection.rememberViewModelStoreOwner
 import com.faltenreich.diaguard.injection.viewModel
 import com.faltenreich.diaguard.log.LogScreen
-import com.faltenreich.diaguard.main.menu.MainMenu
+import com.faltenreich.diaguard.main.menu.MainMenuBottomSheet
 import com.faltenreich.diaguard.measurement.category.form.MeasurementCategoryFormScreen
 import com.faltenreich.diaguard.measurement.category.list.MeasurementCategoryListScreen
 import com.faltenreich.diaguard.measurement.property.form.MeasurementPropertyFormScreen
@@ -188,18 +186,13 @@ fun MainView(
     }
 
     if (showMenu) {
-        ModalBottomSheet(
+        MainMenuBottomSheet(
+            navController = navController,
             onDismissRequest = { showMenu = false },
-            sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
-        ) {
-            MainMenu(
-                currentDestination = navController.currentDestination?.route,
-                onItemClick = { target, popHistory ->
-                    showMenu = false
-                    viewModel.dispatchIntent(MainIntent.NavigateTo(target, popHistory))
-                },
-            )
-        }
+            onItemClick =  { target, popHistory ->
+                viewModel.dispatchIntent(MainIntent.NavigateTo(target, popHistory))
+            },
+        )
     }
 }
 

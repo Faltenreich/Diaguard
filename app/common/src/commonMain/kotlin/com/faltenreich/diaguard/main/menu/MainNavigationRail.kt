@@ -6,6 +6,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationRail
 import androidx.compose.material3.NavigationRailItem
+import androidx.compose.material3.NavigationRailItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -22,15 +23,16 @@ fun MainNavigationRail(
     onItemClick: (target: NavigationTarget, popHistory: Boolean) -> Unit,
 ) {
     val currentDestination = navController.currentDestination?.route
-    val isSelected = false // TODO
-    val onPrimaryColor =
-        if (isSelected) AppTheme.colors.scheme.primary
-        else AppTheme.colors.scheme.onBackground
 
-    NavigationRail(modifier = modifier.verticalScroll(rememberScrollState())) {
-        MainMenuItem.entries.forEach { mainMenuItem ->
+    NavigationRail(
+        modifier = modifier.verticalScroll(rememberScrollState()),
+        containerColor = AppTheme.colors.scheme.primaryContainer,
+        contentColor = AppTheme.colors.scheme.onPrimaryContainer,
+    ) {
+        MainMenuItem.entries.forEachIndexed { index, mainMenuItem ->
             NavigationRailItem(
-                selected = isSelected,
+                // TODO
+                selected = index == 0,
                 onClick = {
                     onItemClick(
                         mainMenuItem.navigationTarget,
@@ -43,16 +45,23 @@ fun MainNavigationRail(
                             painter = painterResource(icon),
                             contentDescription = null,
                             modifier = Modifier.size(AppTheme.dimensions.padding.P_4),
-                            tint = onPrimaryColor,
                         )
                     }
                 },
                 label = {
                     Text(
                         text = stringResource(mainMenuItem.label),
-                        color = onPrimaryColor,
                     )
-                }
+                },
+                colors = NavigationRailItemDefaults.colors(
+                    selectedIconColor = AppTheme.colors.scheme.onPrimaryContainer,
+                    selectedTextColor = AppTheme.colors.scheme.onPrimaryContainer,
+                    indicatorColor = AppTheme.colors.scheme.secondaryContainer,
+                    unselectedIconColor = AppTheme.colors.scheme.onPrimaryContainer,
+                    unselectedTextColor = AppTheme.colors.scheme.onPrimaryContainer,
+                    disabledIconColor = AppTheme.colors.scheme.onPrimaryContainer,
+                    disabledTextColor = AppTheme.colors.scheme.onPrimaryContainer,
+                ),
             )
         }
     }

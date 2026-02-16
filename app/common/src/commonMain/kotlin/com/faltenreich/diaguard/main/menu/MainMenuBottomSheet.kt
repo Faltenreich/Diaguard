@@ -28,7 +28,6 @@ import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import com.faltenreich.diaguard.view.theme.AppTheme
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
-import kotlin.reflect.KClass
 
 @Composable
 fun MainMenuBottomSheet(
@@ -37,8 +36,6 @@ fun MainMenuBottomSheet(
     onItemClick: (target: NavigationTarget, popHistory: Boolean) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val currentDestination = navController.currentDestination?.route
-
     ModalBottomSheet(
         onDismissRequest = onDismissRequest,
         modifier = modifier,
@@ -51,7 +48,7 @@ fun MainMenuBottomSheet(
                 Item(
                     label = stringResource(mainMenuItem.label),
                     icon = mainMenuItem.icon?.let { painterResource(it) },
-                    isSelected = false, // TODO
+                    isSelected = mainMenuItem.isSelected(navController),
                     onClick = {
                         onItemClick(
                             mainMenuItem.navigationTarget,
@@ -110,11 +107,6 @@ private fun Item(
             color = onPrimaryColor,
         )
     }
-}
-
-private fun String?.isSelecting(kClass: KClass<*>): Boolean {
-    val className = kClass.simpleName ?: return false
-    return this?.contains(className) ?: false
 }
 
 @Preview(showBackground = true)

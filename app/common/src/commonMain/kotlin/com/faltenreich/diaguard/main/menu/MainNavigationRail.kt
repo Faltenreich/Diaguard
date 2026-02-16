@@ -22,17 +22,14 @@ fun MainNavigationRail(
     modifier: Modifier = Modifier,
     onItemClick: (target: NavigationTarget, popHistory: Boolean) -> Unit,
 ) {
-    val currentDestination = navController.currentDestination?.route
-
     NavigationRail(
         modifier = modifier.verticalScroll(rememberScrollState()),
         containerColor = AppTheme.colors.scheme.primaryContainer,
         contentColor = AppTheme.colors.scheme.onPrimaryContainer,
     ) {
-        MainMenuItem.entries.forEachIndexed { index, mainMenuItem ->
+        MainMenuItem.entries.forEach { mainMenuItem ->
             NavigationRailItem(
-                // TODO
-                selected = index == 0,
+                selected = mainMenuItem.isSelected(navController),
                 onClick = {
                     onItemClick(
                         mainMenuItem.navigationTarget,

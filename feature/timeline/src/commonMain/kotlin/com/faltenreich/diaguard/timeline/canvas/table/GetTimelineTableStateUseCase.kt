@@ -10,6 +10,7 @@ import com.faltenreich.diaguard.data.measurement.property.MeasurementAggregation
 import com.faltenreich.diaguard.data.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.data.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.data.measurement.value.MeasurementValueMapper
+import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.datetime.DateTimeConstants
 import com.faltenreich.diaguard.datetime.TimeUnit
 import com.faltenreich.diaguard.timeline.canvas.TimelineCanvasDimensions
@@ -71,81 +72,105 @@ class GetTimelineTableStateUseCase(
 
                         rowIndex++
 
+                        val valuesForMeasurements = values
+                            .filter { it.property == property }
+                            .groupBy { it.entry.dateTime.normalized(time) }
+                            .map { (dateTime, values) ->
+                                val sum = values.sumOf { it.value }
+                                val value = when (property.aggregationStyle) {
+                                    MeasurementAggregationStyle.CUMULATIVE -> sum
+                                    MeasurementAggregationStyle.AVERAGE -> sum / values.size
+                                }
+                                IntermediateValue(
+                                    dateTime = dateTime,
+                                    value = value,
+                                    property = property,
+                                )
+                            }
+
+                        val valuesForFoodEaten = if (property.key == DatabaseKey.MeasurementProperty.MEAL) {
+                            foodEaten
+                                .groupBy { it.entry.dateTime.normalized(time) }
+                                .map { (dateTime, foodEaten) ->
+                                    val carbohydrates = foodEaten.sumOf(FoodEaten::carbohydrates)
+                                    IntermediateValue(
+                                        dateTime = dateTime,
+                                        value = carbohydrates,
+                                        property = property,
+                                    )
+                                }
+                        } else {
+                            emptyList()
+                        }
+
+                        // TODO: Merge both lists by date time
+                        val values = (valuesForMeasurements + valuesForFoodEaten).map { value ->
+                            val widthPerDay = rectangle.size.width
+                            val widthPerHour = widthPerDay /
+                                (time.hourProgression.last / time.hourProgression.step)
+                            val widthPerMinute =
+                                widthPerHour / DateTimeConstants.MINUTES_PER_HOUR
+
+                            val offsetInMinutes = time.initialDateTime.until(
+                                value.dateTime,
+                                TimeUnit.MINUTE,
+                            ).inWholeMinutes
+                            val offsetOfDateTime =
+                                (offsetInMinutes / time.hourProgression.step) *
+                                    widthPerMinute
+                            val offsetOfHour =
+                                propertyRectangle.left + dimensions.scroll + offsetOfDateTime
+                            val valueRectangle = Rect(
+                                offset = Offset(
+                                    x = offsetOfHour,
+                                    y = propertyRectangle.top,
+                                ),
+                                size = Size(
+                                    width = widthPerHour,
+                                    height = propertyRectangle.height,
+                                )
+                            )
+
+                            TimelineTableState.Value(
+                                rectangle = valueRectangle,
+                                dateTime = value.dateTime,
+                                value = mapValue(
+                                    value = value.value,
+                                    property = property,
+                                    decimalPlaces = decimalPlaces,
+                                ).value,
+                                values = values,
+                            )
+                        }
+
                         TimelineTableState.Property(
                             property = property,
                             rectangle = propertyRectangle,
                             iconRectangle = iconRectangle,
                             name = property.name,
-                            values = values
-                                .filter { it.property == property }
-                                .groupBy { value ->
-                                    val hour = value.entry.dateTime.time.hourOfDay
-                                    val hourNormalized = hour - (hour % time.hourProgression.step)
-                                    value.entry.dateTime.copy(
-                                        hourOfDay = hourNormalized,
-                                        minuteOfHour = 0,
-                                        secondOfMinute = 0,
-                                        millisOfSecond = 0,
-                                        nanosOfMilli = 0,
-                                    )
-                                }
-                                .map { (dateTime, values) ->
-                                    val widthPerDay = rectangle.size.width
-                                    val widthPerHour = widthPerDay /
-                                        (time.hourProgression.last / time.hourProgression.step)
-                                    val widthPerMinute =
-                                        widthPerHour / DateTimeConstants.MINUTES_PER_HOUR
-
-                                    val offsetInMinutes =
-                                        time.initialDateTime.until(dateTime, TimeUnit.MINUTE).inWholeMinutes
-                                    val offsetOfDateTime =
-                                        (offsetInMinutes / time.hourProgression.step) *
-                                            widthPerMinute
-                                    val offsetOfHour =
-                                        propertyRectangle.left + dimensions.scroll + offsetOfDateTime
-                                    val valueRectangle = Rect(
-                                        offset = Offset(
-                                            x = offsetOfHour,
-                                            y = propertyRectangle.top,
-                                        ),
-                                        size = Size(
-                                            width = widthPerHour,
-                                            height = propertyRectangle.height,
-                                        )
-                                    )
-
-                                    val sum = values.sumOf { it.value }
-                                    val value = when (property.aggregationStyle) {
-                                        MeasurementAggregationStyle.CUMULATIVE -> sum
-                                        MeasurementAggregationStyle.AVERAGE -> sum / values.size
-                                    } + if (property.key == DatabaseKey.MeasurementProperty.MEAL) {
-                                        // FIXME: Skipped for FoodEaten without MeasurementValue
-                                        val dateTimeRange = dateTime.time.hourOfDay ..
-                                            dateTime.time.hourOfDay + time.hourProgression.step
-                                        val foodEatenOfHour = foodEaten.filter {
-                                            it.entry.dateTime.time.hourOfDay in dateTimeRange
-                                        }
-                                        val carbohydrates = foodEatenOfHour.sumOf(FoodEaten::carbohydrates)
-                                        carbohydrates.toFloat()
-                                    } else {
-                                        0f
-                                    }
-
-                                    TimelineTableState.Value(
-                                        rectangle = valueRectangle,
-                                        dateTime = dateTime,
-                                        value = mapValue(
-                                            value = value,
-                                            property = property,
-                                            decimalPlaces = decimalPlaces,
-                                        ).value,
-                                        values = values,
-                                    )
-                                },
+                            values = values,
                         )
                     }
                 )
             },
         )
     }
+}
+
+private data class IntermediateValue(
+    val dateTime: DateTime,
+    val value: Double,
+    val property: MeasurementProperty,
+)
+
+private fun DateTime.normalized(timeState: TimelineTimeState): DateTime {
+    val hour = time.hourOfDay
+    val hourNormalized = hour - (hour % timeState.hourProgression.step)
+    return copy(
+        hourOfDay = hourNormalized,
+        minuteOfHour = 0,
+        secondOfMinute = 0,
+        millisOfSecond = 0,
+        nanosOfMilli = 0,
+    )
 }

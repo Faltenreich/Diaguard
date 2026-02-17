@@ -88,22 +88,20 @@ class GetTimelineTableStateUseCase(
                                 )
                             }
 
-                        val valuesForFoodEaten = if (property.key == DatabaseKey.MeasurementProperty.MEAL) {
-                            foodEaten
-                                .groupBy { it.entry.dateTime.normalized(time) }
-                                .map { (dateTime, foodEaten) ->
-                                    val carbohydrates = foodEaten.sumOf(FoodEaten::carbohydrates)
-                                    IntermediateValue(
-                                        dateTime = dateTime,
-                                        value = carbohydrates,
-                                        property = property,
-                                    )
-                                }
-                        } else {
-                            emptyList()
-                        }
+                        val valuesForFoodEaten = foodEaten
+                            .takeIf { property.key == DatabaseKey.MeasurementProperty.MEAL }
+                            ?.groupBy { it.entry.dateTime.normalized(time) }
+                            ?.map { (dateTime, foodEaten) ->
+                                val carbohydrates = foodEaten.sumOf(FoodEaten::carbohydrates)
+                                IntermediateValue(
+                                    dateTime = dateTime,
+                                    value = carbohydrates,
+                                    property = property,
+                                )
+                            }
+                            ?: emptyList()
 
-                        val valuesCombined = (valuesForMeasurements + valuesForFoodEaten)
+                        val valuesMerged = (valuesForMeasurements + valuesForFoodEaten)
                             .groupBy { it.dateTime }
                             .map { (dateTime, values) ->
                                 val sum = values.sumOf { it.value }
@@ -114,11 +112,11 @@ class GetTimelineTableStateUseCase(
                                 IntermediateValue(
                                     dateTime = dateTime,
                                     value = value,
-                                    property = values.first().property,
+                                    property = property,
                                 )
                             }
 
-                        val valuesLocalized = valuesCombined.map { value ->
+                        val valuesLocalized = valuesMerged.map { value ->
                             val widthPerDay = rectangle.size.width
                             val widthPerHour = widthPerDay /
                                 (time.hourProgression.last / time.hourProgression.step)
@@ -130,8 +128,7 @@ class GetTimelineTableStateUseCase(
                                 TimeUnit.MINUTE,
                             ).inWholeMinutes
                             val offsetOfDateTime =
-                                (offsetInMinutes / time.hourProgression.step) *
-                                    widthPerMinute
+                                (offsetInMinutes / time.hourProgression.step) * widthPerMinute
                             val offsetOfHour =
                                 propertyRectangle.left + dimensions.scroll + offsetOfDateTime
                             val valueRectangle = Rect(

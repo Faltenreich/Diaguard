@@ -41,6 +41,15 @@ internal class FoodEatenSqlDelightDao(
         return queries.getByEntry(entryId, mapper::map).asFlow().mapToList(dispatcher)
     }
 
+    override fun observeByDateRange(
+        startDateTime: DateTime,
+        endDateTime: DateTime
+    ): Flow<List<FoodEaten.Local>> {
+        return queries.getByDateRange(startDateTime.isoString, endDateTime.isoString, mapper::map)
+            .asFlow()
+            .mapToList(dispatcher)
+    }
+
     override fun getByEntryId(entryId: Long): List<FoodEaten.Local> {
         return queries.getByEntry(entryId, mapper::map).executeAsList()
     }

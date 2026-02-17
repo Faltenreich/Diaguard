@@ -9,6 +9,7 @@ import com.faltenreich.diaguard.timeline.canvas.TapTimelineCanvasUseCase
 import com.faltenreich.diaguard.timeline.canvas.chart.GetTimelineChartMeasurementPropertyUseCase
 import com.faltenreich.diaguard.timeline.canvas.chart.GetTimelineChartMeasurementValuesUseCase
 import com.faltenreich.diaguard.timeline.canvas.chart.GetTimelineChartStateUseCase
+import com.faltenreich.diaguard.timeline.canvas.table.GetTimelineTableFoodEatenUseCase
 import com.faltenreich.diaguard.timeline.canvas.table.GetTimelineTableMeasurementPropertiesUseCase
 import com.faltenreich.diaguard.timeline.canvas.table.GetTimelineTableMeasurementValuesUseCase
 import com.faltenreich.diaguard.timeline.canvas.table.GetTimelineTableStateUseCase
@@ -31,6 +32,7 @@ fun timelineModule() = module {
     factoryOf(::TapTimelineCanvasUseCase)
     factoryOf(::GetTimelineTableMeasurementPropertiesUseCase)
     factoryOf(::GetTimelineTableMeasurementValuesUseCase)
+    factoryOf(::GetTimelineTableFoodEatenUseCase)
     factoryOf(::GetTimelineCanvasDimensionsUseCase)
     factoryOf(::GetTimelineDateStateUseCase)
     factoryOf(::GetTimelineTimeStateUseCase)

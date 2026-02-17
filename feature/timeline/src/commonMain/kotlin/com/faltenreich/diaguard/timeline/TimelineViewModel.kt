@@ -21,6 +21,7 @@ import com.faltenreich.diaguard.timeline.canvas.TimelineCanvasState
 import com.faltenreich.diaguard.timeline.canvas.chart.GetTimelineChartMeasurementPropertyUseCase
 import com.faltenreich.diaguard.timeline.canvas.chart.GetTimelineChartMeasurementValuesUseCase
 import com.faltenreich.diaguard.timeline.canvas.chart.GetTimelineChartStateUseCase
+import com.faltenreich.diaguard.timeline.canvas.table.GetTimelineTableFoodEatenUseCase
 import com.faltenreich.diaguard.timeline.canvas.table.GetTimelineTableMeasurementPropertiesUseCase
 import com.faltenreich.diaguard.timeline.canvas.table.GetTimelineTableMeasurementValuesUseCase
 import com.faltenreich.diaguard.timeline.canvas.table.GetTimelineTableStateUseCase
@@ -42,6 +43,7 @@ class TimelineViewModel(
     getValuesForChart: GetTimelineChartMeasurementValuesUseCase,
     getPropertiesForTable: GetTimelineTableMeasurementPropertiesUseCase,
     getValuesForTable: GetTimelineTableMeasurementValuesUseCase,
+    getFoodEatenForTable: GetTimelineTableFoodEatenUseCase,
     getPreferenceUseCase: GetPreferenceUseCase,
     private val getDate: GetTimelineDateStateUseCase,
     private val getTime: GetTimelineTimeStateUseCase,
@@ -82,6 +84,7 @@ class TimelineViewModel(
 
     private val table = combine(
         currentDate.flatMapLatest(getValuesForTable::invoke),
+        currentDate.flatMapLatest(getFoodEatenForTable::invoke),
         propertiesForTable,
         decimalPlaces,
         time,

@@ -19,6 +19,11 @@ internal interface FoodEatenDao {
 
     fun observeByEntryId(entryId: Long): Flow<List<FoodEaten.Local>>
 
+    fun observeByDateRange(
+        startDateTime: DateTime,
+        endDateTime: DateTime,
+    ): Flow<List<FoodEaten.Local>>
+
     fun getByEntryId(entryId: Long): List<FoodEaten.Local>
 
     fun update(

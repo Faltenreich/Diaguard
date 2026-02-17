@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.data.food.eaten
 
+import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import kotlinx.coroutines.flow.Flow
 
@@ -37,6 +38,13 @@ class FoodEatenRepository internal constructor(
 
     fun observeByEntryId(entryId: Long): Flow<List<FoodEaten.Local>> {
         return dao.observeByEntryId(entryId)
+    }
+
+    fun observeByDateRange(
+        startDateTime: DateTime,
+        endDateTime: DateTime,
+    ): Flow<List<FoodEaten.Local>> {
+        return dao.observeByDateRange(startDateTime, endDateTime)
     }
 
     fun getByEntryId(entryId: Long): List<FoodEaten.Local> {

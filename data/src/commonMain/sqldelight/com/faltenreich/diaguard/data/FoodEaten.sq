@@ -23,6 +23,13 @@ INNER JOIN Entry ON Entry.id == FoodEaten.entryId
 WHERE FoodEaten.foodId = ?
 ORDER BY FoodEaten.updatedAt DESC;
 
+getByDateRange:
+SELECT * FROM FoodEaten
+INNER JOIN Food ON Food.id == FoodEaten.foodId
+INNER JOIN Entry ON Entry.id == FoodEaten.entryId
+WHERE Entry.dateTime >= :startDateTime AND Entry.dateTime <= :endDateTime
+ORDER BY Entry.dateTime;
+
 getByEntry:
 SELECT * FROM FoodEaten
 INNER JOIN Food ON Food.id == FoodEaten.foodId

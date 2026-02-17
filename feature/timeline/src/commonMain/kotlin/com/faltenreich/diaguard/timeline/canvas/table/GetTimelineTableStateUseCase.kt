@@ -3,6 +3,8 @@ package com.faltenreich.diaguard.timeline.canvas.table
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
+import com.faltenreich.diaguard.data.DatabaseKey
+import com.faltenreich.diaguard.data.food.eaten.FoodEaten
 import com.faltenreich.diaguard.data.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.data.measurement.property.MeasurementAggregationStyle
 import com.faltenreich.diaguard.data.measurement.property.MeasurementProperty
@@ -19,6 +21,7 @@ class GetTimelineTableStateUseCase(
 
     operator fun invoke(
         values: List<MeasurementValue.Local>,
+        foodEaten: List<FoodEaten.Local>,
         properties: List<MeasurementProperty.Local>,
         decimalPlaces: Int,
         time: TimelineTimeState?,
@@ -115,6 +118,20 @@ class GetTimelineTableStateUseCase(
                                     val value = when (property.aggregationStyle) {
                                         MeasurementAggregationStyle.CUMULATIVE -> sum
                                         MeasurementAggregationStyle.AVERAGE -> sum / values.size
+                                    } + if (property.key == DatabaseKey.MeasurementProperty.MEAL) {
+
+                                        val dateTimeRange = dateTime.time.hourOfDay ..
+                                            dateTime.time.hourOfDay + time.hourProgression.step
+                                        val foodEatenOfHour = foodEaten.filter {
+                                            it.entry.dateTime.time.hourOfDay in dateTimeRange
+                                        }
+                                        val carbohydrates = foodEatenOfHour.sumOf {
+                                            it.amountInGrams * it.food.carbohydrates / 100.0
+                                        }
+                                        // TODO: Localize
+                                        carbohydrates.toFloat()
+                                    } else {
+                                        0f
                                     }
 
                                     TimelineTableState.Value(

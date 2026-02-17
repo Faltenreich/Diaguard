@@ -6,6 +6,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.faltenreich.diaguard.data.preview.PreviewScaffold
@@ -26,10 +30,13 @@ fun FoodEatenInput(
     onIntent: (EntryFormIntent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    var input by remember { mutableStateOf(state.amountInGrams) }
+
     TextInput(
-        input = state.amountInGrams,
-        onInputChange = { input ->
-            onIntent(EntryFormIntent.EditFood(state.copy(amountInGrams = input)))
+        input = input,
+        onInputChange = {
+            input = it
+            onIntent(EntryFormIntent.EditFood(state.copy(amountInGrams = it)))
         },
         label = state.food.name,
         modifier = modifier.padding(vertical = AppTheme.dimensions.padding.P_1),

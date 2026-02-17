@@ -103,8 +103,22 @@ class GetTimelineTableStateUseCase(
                             emptyList()
                         }
 
-                        // TODO: Merge both lists by date time
-                        val values = (valuesForMeasurements + valuesForFoodEaten).map { value ->
+                        val valuesCombined = (valuesForMeasurements + valuesForFoodEaten)
+                            .groupBy { it.dateTime }
+                            .map { (dateTime, values) ->
+                                val sum = values.sumOf { it.value }
+                                val value = when (property.aggregationStyle) {
+                                    MeasurementAggregationStyle.CUMULATIVE -> sum
+                                    MeasurementAggregationStyle.AVERAGE -> sum / values.size
+                                }
+                                IntermediateValue(
+                                    dateTime = dateTime,
+                                    value = value,
+                                    property = values.first().property,
+                                )
+                            }
+
+                        val valuesLocalized = valuesCombined.map { value ->
                             val widthPerDay = rectangle.size.width
                             val widthPerHour = widthPerDay /
                                 (time.hourProgression.last / time.hourProgression.step)
@@ -148,7 +162,7 @@ class GetTimelineTableStateUseCase(
                             rectangle = propertyRectangle,
                             iconRectangle = iconRectangle,
                             name = property.name,
-                            values = values,
+                            values = valuesLocalized,
                         )
                     }
                 )

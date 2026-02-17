@@ -119,6 +119,7 @@ class GetTimelineTableStateUseCase(
                                         MeasurementAggregationStyle.CUMULATIVE -> sum
                                         MeasurementAggregationStyle.AVERAGE -> sum / values.size
                                     } + if (property.key == DatabaseKey.MeasurementProperty.MEAL) {
+                                        // FIXME: Skipped for FoodEaten without MeasurementValue
                                         val dateTimeRange = dateTime.time.hourOfDay ..
                                             dateTime.time.hourOfDay + time.hourProgression.step
                                         val foodEatenOfHour = foodEaten.filter {

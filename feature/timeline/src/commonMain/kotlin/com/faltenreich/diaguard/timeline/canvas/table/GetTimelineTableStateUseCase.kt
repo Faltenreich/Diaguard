@@ -119,16 +119,12 @@ class GetTimelineTableStateUseCase(
                                         MeasurementAggregationStyle.CUMULATIVE -> sum
                                         MeasurementAggregationStyle.AVERAGE -> sum / values.size
                                     } + if (property.key == DatabaseKey.MeasurementProperty.MEAL) {
-
                                         val dateTimeRange = dateTime.time.hourOfDay ..
                                             dateTime.time.hourOfDay + time.hourProgression.step
                                         val foodEatenOfHour = foodEaten.filter {
                                             it.entry.dateTime.time.hourOfDay in dateTimeRange
                                         }
-                                        val carbohydrates = foodEatenOfHour.sumOf {
-                                            it.amountInGrams * it.food.carbohydrates / 100.0
-                                        }
-                                        // TODO: Localize
+                                        val carbohydrates = foodEatenOfHour.sumOf(FoodEaten::carbohydrates)
                                         carbohydrates.toFloat()
                                     } else {
                                         0f

@@ -14,6 +14,9 @@ sealed interface FoodEaten {
     val food: Food.Local
     val entry: Entry.Local
 
+    val carbohydrates: Double
+        get() = amountInGrams * food.carbohydrates / 100.0
+
     data class Legacy(
         val createdAt: DateTime,
         val updatedAt: DateTime,

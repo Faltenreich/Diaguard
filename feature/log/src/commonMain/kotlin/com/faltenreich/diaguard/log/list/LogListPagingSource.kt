@@ -7,6 +7,7 @@ import com.faltenreich.diaguard.data.entry.Entry
 import com.faltenreich.diaguard.data.entry.EntryRepository
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.DateProgression
+import com.faltenreich.diaguard.datetime.DateTimeConstants
 import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.factory.GetTodayUseCase
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
@@ -25,16 +26,19 @@ class LogListPagingSource(
 
     private val today = getTodayUseCase()
 
+    // FIXME: Restore scroll offset instead of jumping to page start on refresh
     override fun getRefreshKey(state: PagingState<Date, LogItemState>): Date? {
-        // FIXME: Scroll offset is off by a day when refreshing data
+        // Return startDate of currently visible page
         return state.anchorPosition?.let { anchorPosition ->
-            state.closestItemToPosition(anchorPosition)?.key?.date
+            val page = state.closestPageToPosition(anchorPosition)
+            page?.prevKey?.plus(1, DateUnit.WEEK)
+                ?: page?.nextKey?.minus(1, DateUnit.WEEK)
         }
     }
 
     override suspend fun load(params: LoadParams<Date>): LoadResult<Date, LogItemState> {
         val startDate = params.key ?: today
-        val endDate = startDate.plus(1, DateUnit.WEEK)
+        val endDate = startDate.plus(1, DateUnit.WEEK).minus(1, DateUnit.DAY)
 
         val entries = entryRepository.getByDateRange(
             startDateTime = startDate.atStartOfDay(),
@@ -86,7 +90,7 @@ class LogListPagingSource(
 
         val page = LoadResult.Page(
             data = items,
-            prevKey = startDate.minus(1, DateUnit.WEEK).minus(1, DateUnit.DAY),
+            prevKey = startDate.minus(1, DateUnit.WEEK),
             nextKey = endDate.plus(1, DateUnit.DAY),
         )
         return page
@@ -94,10 +98,13 @@ class LogListPagingSource(
 
     companion object {
 
-        private const val PAGE_SIZE_IN_DAYS = 10
+        private const val PAGE_SIZE_IN_DAYS = DateTimeConstants.DAYS_PER_WEEK
 
         fun newConfig(): PagingConfig {
-            return PagingConfig(pageSize = PAGE_SIZE_IN_DAYS)
+            return PagingConfig(
+                pageSize = PAGE_SIZE_IN_DAYS,
+                enablePlaceholders = true,
+            )
         }
     }
 }

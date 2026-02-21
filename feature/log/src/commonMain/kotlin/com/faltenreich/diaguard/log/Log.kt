@@ -61,7 +61,7 @@ fun Log(
     val lifecycleState = rememberLifecycleState()
     LaunchedEffect(lifecycleState) {
         if (lifecycleState == LifecycleState.RESUMED) {
-            items.refresh()
+            onIntent(LogIntent.RefreshData)
         }
     }
 

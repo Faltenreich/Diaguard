@@ -65,6 +65,11 @@ class LogViewModel(
     override suspend fun handleIntent(intent: LogIntent) {
         with(intent) {
             when (this) {
+                is LogIntent.RefreshData -> {
+                    if (::pagingSource.isInitialized) {
+                        pagingSource.invalidate()
+                    }
+                }
                 is LogIntent.OnScroll -> {
                     currentDate.value = firstItem.dayState.date
                     dayStickyInfo.value = invalidateDayStickyInfo(

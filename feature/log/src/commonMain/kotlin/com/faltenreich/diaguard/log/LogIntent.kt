@@ -8,8 +8,6 @@ import com.faltenreich.diaguard.log.list.item.LogItemState
 
 sealed interface LogIntent {
 
-    data object RefreshData : LogIntent
-
     data class OnScroll(
         val firstItem: LogItemState,
         val nextItems: List<LazyListItemInfo>,

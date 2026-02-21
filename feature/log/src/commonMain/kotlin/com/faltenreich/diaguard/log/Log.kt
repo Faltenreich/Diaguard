@@ -27,6 +27,7 @@ import com.faltenreich.diaguard.log.list.item.LogDay
 import com.faltenreich.diaguard.log.list.item.LogDayState
 import com.faltenreich.diaguard.log.list.item.LogDayStickyInfo
 import com.faltenreich.diaguard.log.list.item.LogDayStyle
+import com.faltenreich.diaguard.logging.Logger
 import com.faltenreich.diaguard.view.lifecycle.LifecycleState
 import com.faltenreich.diaguard.view.lifecycle.rememberLifecycleState
 import com.faltenreich.diaguard.view.theme.AppTheme
@@ -53,7 +54,13 @@ fun Log(
         val visibleItems = listState.layoutInfo.visibleItemsInfo
             .takeIf(List<*>::isNotEmpty)
             ?: return@LaunchedEffect
-        val firstItem = items[visibleItems.first().index] ?: return@LaunchedEffect
+        val visibleItem = visibleItems.firstOrNull() ?: return@LaunchedEffect
+        val firstItem = try {
+            items[visibleItem.index]
+        } catch (exception: Exception) {
+            Logger.error("Failed to get visible item", exception)
+            null
+        } ?: return@LaunchedEffect
         val nextItems = visibleItems.takeLast(visibleItems.size - 1)
         onIntent(LogIntent.OnScroll(firstItem, nextItems, dayHeaderHeight))
     }

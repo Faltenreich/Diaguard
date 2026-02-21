@@ -15,7 +15,6 @@ import com.faltenreich.diaguard.injection.inject
 import com.faltenreich.diaguard.log.list.item.LogDayState
 import com.faltenreich.diaguard.log.list.item.LogDayStyle
 import com.faltenreich.diaguard.log.list.item.LogItemState
-import com.faltenreich.diaguard.view.paging.isPrepending
 
 class LogListPagingSource(
     getTodayUseCase: GetTodayUseCase = inject(),
@@ -27,34 +26,23 @@ class LogListPagingSource(
     private val today = getTodayUseCase()
 
     override fun getRefreshKey(state: PagingState<Date, LogItemState>): Date? {
+        // FIXME: Scroll offset is off by a day when refreshing data
         return state.anchorPosition?.let { anchorPosition ->
-            state.closestPageToPosition(anchorPosition)?.prevKey?.plus(1, DateUnit.DAY)
-                ?: state.closestPageToPosition(anchorPosition)?.nextKey?.minus(1, DateUnit.DAY)
+            state.closestItemToPosition(anchorPosition)?.key?.date
         }
     }
 
     override suspend fun load(params: LoadParams<Date>): LoadResult<Date, LogItemState> {
-        // FIXME: Jumps down on subsequent refreshing, even though key seems correct
-        val key = params.key ?: today
-        val startDate: Date
-        val endDate: Date
-        when {
-            params.isPrepending() -> {
-                startDate = key.minus(params.loadSize, DateUnit.DAY)
-                endDate = key
-            }
-            else -> {
-                startDate = key
-                endDate = key.plus(params.loadSize, DateUnit.DAY)
-            }
-        }
+        val startDate = params.key ?: today
+        val endDate = startDate.plus(1, DateUnit.WEEK)
 
         val entries = entryRepository.getByDateRange(
             startDateTime = startDate.atStartOfDay(),
             endDateTime = endDate.atEndOfDay(),
         )
 
-        val items = DateProgression(startDate, endDate).map { date ->
+        val items = DateProgression(startDate, endDate).flatMap { date ->
+            // FIXME: Gets added twice when prepending start of month
             val monthHeader = LogItemState.MonthHeader(
                 dayState = LogDayState(
                     date = date,
@@ -94,11 +82,11 @@ class LogListPagingSource(
                 ),
             )
             headers + content
-        }.flatten()
+        }
 
         val page = LoadResult.Page(
             data = items,
-            prevKey = startDate.minus(1, DateUnit.DAY),
+            prevKey = startDate.minus(1, DateUnit.WEEK).minus(1, DateUnit.DAY),
             nextKey = endDate.plus(1, DateUnit.DAY),
         )
         return page

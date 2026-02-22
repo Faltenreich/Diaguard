@@ -7,7 +7,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.tooling.preview.Preview
 import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import com.faltenreich.diaguard.resource.Res
@@ -25,8 +24,6 @@ fun FoodSearchField(
     onBackIconClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val focusManager = LocalFocusManager.current
-
     SearchField(
         query = query,
         placeholder = stringResource(Res.string.food_search_prompt),
@@ -44,12 +41,7 @@ fun FoodSearchField(
                 enter = fadeIn(),
                 exit = fadeOut(),
             ) {
-                ClearButton(
-                    onClick = {
-                        onQueryChange("")
-                        focusManager.clearFocus()
-                    },
-                )
+                ClearButton(onClick = { onQueryChange("") })
             }
         },
         onQueryChange = onQueryChange,

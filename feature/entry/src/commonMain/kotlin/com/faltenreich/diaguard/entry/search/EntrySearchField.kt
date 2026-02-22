@@ -8,7 +8,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.tooling.preview.Preview
 import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import com.faltenreich.diaguard.resource.Res
@@ -27,7 +26,6 @@ fun EntrySearchField(
     modifier: Modifier = Modifier,
 ) {
     val focusRequester = rememberFocusRequester(requestFocus = true)
-    val focusManager = LocalFocusManager.current
 
     SearchField(
         query = query,
@@ -44,15 +42,10 @@ fun EntrySearchField(
                 enter = fadeIn(),
                 exit = fadeOut(),
             ) {
-                ClearButton(
-                    onClick = {
-                        onQueryChange("")
-                        focusManager.clearFocus()
-                    },
-                )
+                ClearButton(onClick = { onQueryChange("") })
             }
         },
-        onQueryChange = { query -> onQueryChange(query) },
+        onQueryChange = onQueryChange,
         modifier = modifier
             .fillMaxWidth()
             .focusRequester(focusRequester),

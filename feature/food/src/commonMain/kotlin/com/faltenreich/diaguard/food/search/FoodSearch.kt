@@ -28,11 +28,11 @@ fun FoodSearch(
     onSelect: (Food.Local) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val items = state?.pagingData?.collectAsLazyPagingItems()
-    val isLoading = items == null || items.loadState.refresh == LoadState.Loading
+    val items = state?.pagingData?.collectAsLazyPagingItems() ?: return
+    val isLoading = items.itemCount == 0 && items.loadState.refresh == LoadState.Loading
     var isRefreshing by remember { mutableStateOf(false) }
 
-    LaunchedEffect(isLoading) {
+    LaunchedEffect(items.loadState.refresh) {
         if (!isLoading) {
             isRefreshing = false
         }
@@ -41,7 +41,7 @@ fun FoodSearch(
     val lifecycleState = rememberLifecycleState()
     LaunchedEffect(lifecycleState) {
         if (lifecycleState == LifecycleState.RESUMED) {
-            items?.refresh()
+            items.refresh()
         }
     }
 
@@ -49,10 +49,10 @@ fun FoodSearch(
         FoodSearchHeader()
 
         PullToRefresh(
-            isRefreshing = isRefreshing && isLoading,
+            isRefreshing = isRefreshing,
             onRefresh = {
                 isRefreshing = true
-                items?.refresh()
+                items.refresh()
             },
         ) {
             if (isLoading) {

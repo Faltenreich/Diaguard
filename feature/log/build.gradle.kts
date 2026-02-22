@@ -11,6 +11,7 @@ kotlin {
                 implementation(project(":feature:entry"))
                 implementation(project(":feature:navigation"))
                 implementation(libs.paging)
+                implementation(libs.sqldelight.paging)
             }
         }
     }

@@ -26,13 +26,13 @@ class FoodSearchPagingSource(
         val page = params.key ?: 0
         val pageSize = params.loadSize
 
-        val food = searchFood(searchParams, PagingPage(page, pageSize)).first()
+        val response = searchFood(searchParams, PagingPage(page, pageSize)).first()
         Logger.debug("Loaded food at page $page with page size $pageSize")
 
         return LoadResult.Page(
-            data = food,
+            data = response,
             prevKey = if (page > 0) page - 1 else null,
-            nextKey = if (food.isNotEmpty()) page + 1 else null,
+            nextKey = if (response.isNotEmpty()) page + 1 else null,
         )
     }
 

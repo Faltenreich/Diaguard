@@ -9,6 +9,7 @@ kotlin {
                 implementation(project(":feature:navigation"))
                 implementation(project(":feature:preference"))
                 implementation(libs.paging)
+                implementation(libs.sqldelight.paging)
             }
         }
     }

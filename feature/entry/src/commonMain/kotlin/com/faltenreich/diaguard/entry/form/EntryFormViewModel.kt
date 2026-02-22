@@ -84,7 +84,7 @@ class EntryFormViewModel(
 
     private val note = MutableStateFlow(editing?.note ?: "")
 
-    private val reminderDuration = MutableStateFlow<Duration>(Duration.ZERO)
+    private val reminderDuration = MutableStateFlow(Duration.ZERO)
     private val reminderPicker = MutableStateFlow<EntryFormState.Reminder.Picker?>(null)
     private val reminder = combine(
         reminderDuration,

@@ -17,7 +17,6 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 
-// TODO: Prevent redundant fetch of MeasurementProperty and DecimalPlaces
 class GetFoodEatenInputStateUseCase(
     private val getFoodEatenForEntry: GetFoodEatenForEntryUseCase,
     private val propertyRepository: MeasurementPropertyRepository,

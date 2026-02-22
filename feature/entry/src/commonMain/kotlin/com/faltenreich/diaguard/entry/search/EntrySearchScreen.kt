@@ -29,10 +29,10 @@ data class EntrySearchScreen(private val query: String) : Screen {
     @Composable
     override fun BottomAppBar(): BottomAppBarStyle {
         val viewModel = viewModel<EntrySearchViewModel>(parameters = { parametersOf(query) })
+        val state = viewModel.collectState()
+        var query by remember(state) { mutableStateOf(state?.query ?: query) }
         return BottomAppBarStyle.Visible(
             actions = {
-                // FIXME: Not synchronized with EntrySearch, e.g. onTagClick
-                var query by remember { mutableStateOf(query) }
                 EntrySearchField(
                     query = query,
                     onQueryChange = { input ->

@@ -47,7 +47,8 @@ data class FoodSearchScreen(private val modeOrdinal: Int) :
                 parametersOf(FoodSearchMode.entries.first { it.ordinal == modeOrdinal })
             },
         )
-        var query by remember { mutableStateOf("") }
+        val state = viewModel.collectState()
+        var query by remember(state) { mutableStateOf(state?.query ?: "") }
         return TopAppBarStyle.Custom {
             Box(
                 modifier = Modifier

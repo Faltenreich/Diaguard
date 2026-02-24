@@ -9,9 +9,11 @@ import com.faltenreich.diaguard.export.ExportType
 import com.faltenreich.diaguard.export.ExportUseCase
 import com.faltenreich.diaguard.export.pdf.PdfLayout
 import com.faltenreich.diaguard.measurement.category.usecase.GetActiveMeasurementCategoriesUseCase
+import com.faltenreich.diaguard.measurement.property.usecase.GetMeasurementPropertiesUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
@@ -20,6 +22,7 @@ import kotlinx.coroutines.launch
 class ExportFormViewModel(
     getToday: GetTodayUseCase,
     getCategories: GetActiveMeasurementCategoriesUseCase,
+    getProperties: GetMeasurementPropertiesUseCase,
     private val export: ExportUseCase,
     private val dateTimeFormatter: DateTimeFormatter,
 ) : ViewModel<ExportFormState, ExportFormIntent, Unit>() {
@@ -76,9 +79,17 @@ class ExportFormViewModel(
         scope.launch {
             getCategories().collectLatest { categories ->
                 val exportCategories = categories.map { category ->
+                    val properties = getProperties(category).firstOrNull() ?: emptyList()
                     ExportFormState.Content.Category(
                         category = category,
                         isExported = true,
+                        aggregateProperties = true,
+                        properties = properties.map { property ->
+                            ExportFormState.Content.Category.Property(
+                                property = property,
+                                isExported = true,
+                            )
+                        }
                     )
                 }.sortedBy { it.category.sortIndex }
                 this@ExportFormViewModel.categories.update { exportCategories }

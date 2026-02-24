@@ -21,7 +21,6 @@ import com.faltenreich.diaguard.datetime.DateRange
 import com.faltenreich.diaguard.datetime.DateRangePickerDialog
 import com.faltenreich.diaguard.export.ExportType
 import com.faltenreich.diaguard.export.pdf.PdfLayout
-import com.faltenreich.diaguard.measurement.category.icon.MeasurementCategoryIcon
 import com.faltenreich.diaguard.resource.Res
 import com.faltenreich.diaguard.resource.data
 import com.faltenreich.diaguard.resource.date_range_picker_open
@@ -164,24 +163,10 @@ fun ExportForm(
         TextDivider(stringResource(Res.string.measurement_categories))
 
         state.content.categories.forEach { category ->
-            FormRow(
-                icon = { MeasurementCategoryIcon(category.category) },
-                modifier = Modifier.toggleable(
-                    value = category.isExported,
-                    role = Role.Checkbox,
-                    onValueChange = {
-                        onIntent(ExportFormIntent.SetCategory(category.copy(isExported = !category.isExported)))
-                    },
-                ),
-            ) {
-                TextCheckbox(
-                    title = category.category.name,
-                    checked = category.isExported,
-                    onCheckedChange = null,
-                    modifier = Modifier.fillMaxWidth(),
-                )
-            }
-
+            ExportFormCategoryListItem(
+                category = category,
+                onIntent = onIntent,
+            )
             Divider()
         }
     }
@@ -213,6 +198,13 @@ private fun Preview() = PreviewScaffold {
                     ExportFormState.Content.Category(
                         category = category(),
                         isExported = true,
+                        aggregateProperties = false,
+                        properties = listOf(
+                            ExportFormState.Content.Category.Property(
+                                property = property(),
+                                isExported = true,
+                            )
+                        ),
                     ),
                 ),
                 includeNotes = true,

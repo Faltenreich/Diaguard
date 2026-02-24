@@ -143,6 +143,13 @@ private fun Preview() = PreviewScaffold {
                     ExportFormState.Content.Category(
                         category = category(),
                         isExported = true,
+                        aggregateProperties = false,
+                        properties = listOf(
+                            ExportFormState.Content.Category.Property(
+                                property = property(),
+                                isExported = true,
+                            )
+                        ),
                     ),
                 ),
                 includeNotes = true,

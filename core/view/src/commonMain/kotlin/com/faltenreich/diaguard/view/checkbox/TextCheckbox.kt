@@ -3,6 +3,9 @@ package com.faltenreich.diaguard.view.checkbox
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,7 +23,7 @@ fun TextCheckbox(
     subtitle: String? = null,
 ) {
     Row(
-        modifier = modifier,
+        modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -35,6 +38,7 @@ fun TextCheckbox(
                 )
             }
         }
+        Spacer(modifier = Modifier.width(AppTheme.dimensions.padding.P_3))
         Checkbox(
             checked = checked,
             onCheckedChange = onCheckedChange,

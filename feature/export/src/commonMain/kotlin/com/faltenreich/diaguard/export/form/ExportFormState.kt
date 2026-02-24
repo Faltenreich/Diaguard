@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.export.form
 
 import com.faltenreich.diaguard.data.measurement.category.MeasurementCategory
+import com.faltenreich.diaguard.data.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.datetime.DateRange
 import com.faltenreich.diaguard.export.ExportType
 import com.faltenreich.diaguard.export.pdf.PdfLayout
@@ -40,6 +41,14 @@ data class ExportFormState(
         data class Category(
             val category: MeasurementCategory,
             val isExported: Boolean,
-        )
+            val aggregateProperties: Boolean,
+            val properties: List<Property>,
+        ) {
+
+            data class Property(
+                val property: MeasurementProperty,
+                val isExported: Boolean,
+            )
+        }
     }
 }

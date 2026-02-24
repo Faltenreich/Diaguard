@@ -21,11 +21,13 @@ fun TextCheckbox(
 ) {
     Row(
         modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_3),
+        horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Column(modifier = Modifier.weight(1f)) {
-            Text(title)
+        Column {
+            Text(
+                text = title,
+            )
             subtitle?.let {
                 Text(
                     text = subtitle,

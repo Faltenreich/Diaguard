@@ -17,7 +17,7 @@ import com.faltenreich.diaguard.view.theme.AppTheme
 
 @Composable
 internal fun ExportFormCategoryListItem(
-    category: ExportSettings.Content.Category,
+    category: ExportSettings.Category,
     onIntent: (ExportFormIntent) -> Unit,
     modifier: Modifier = Modifier,
 ) {

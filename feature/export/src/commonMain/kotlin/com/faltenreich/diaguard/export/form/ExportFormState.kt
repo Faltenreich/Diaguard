@@ -12,6 +12,8 @@ import com.faltenreich.diaguard.datetime.DateRange
 internal data class ExportFormState(
     val dateRange: DateRange,
     val dateRangeLocalized: String,
+    val exportTypes: List<ExportType>,
+    val pdfLayouts: List<PdfLayout>,
     val settings: ExportSettings,
 ) {
 
@@ -20,37 +22,29 @@ internal data class ExportFormState(
             ExportFormState(
                 dateRange = today().let { today -> DateRange(today, today) },
                 dateRangeLocalized = "DateRange",
+                exportTypes = ExportType.entries,
+                pdfLayouts = PdfLayout.entries,
                 settings = ExportSettings(
-                    date = ExportSettings.Date(
-                        includeCalendarWeek = true,
-                        includeDateOfExport = true,
-                    ),
-                    type = ExportSettings.Type(
-                        selection = ExportType.PDF,
-                        options = emptyList(),
-                    ),
-                    layout = ExportSettings.Layout(
-                        selection = PdfLayout.TIMELINE,
-                        options = emptyList(),
-                        includePageNumber = true,
-                        includeDaysWithoutEntries = true,
-                    ),
-                    content = ExportSettings.Content(
-                        categories = listOf(
-                            ExportSettings.Content.Category(
-                                category = FakeFactory.category(),
-                                isExported = true,
-                                properties = listOf(
-                                    ExportSettings.Content.Category.Property(
-                                        property = property(),
-                                        isExported = true,
-                                    )
-                                ),
+                    categories = listOf(
+                        ExportSettings.Category(
+                            category = FakeFactory.category(),
+                            isExported = true,
+                            properties = listOf(
+                                ExportSettings.Category.Property(
+                                    property = property(),
+                                    isExported = true,
+                                )
                             ),
                         ),
-                        includeNotes = true,
-                        includeTags = true,
                     ),
+                    exportType = ExportType.PDF,
+                    includeCalendarWeek = true,
+                    includeDateOfExport = true,
+                    includeDaysWithoutEntries = true,
+                    includePageNumber = true,
+                    includeNotes = true,
+                    includeTags = true,
+                    pdfLayout = PdfLayout.TIMELINE,
                 )
             )
         )

@@ -85,21 +85,20 @@ internal fun ExportForm(
                 .fillMaxWidth()
                 .clickable { expandDropdownForType = true },
         ) {
-            Text(stringResource(state.settings.type.selection.title))
+            Text(stringResource(state.settings.exportType.title))
 
             DropdownTextMenu(
                 expanded = expandDropdownForType,
                 onDismissRequest = { expandDropdownForType = false },
-                items = state.settings.type.options.map { type ->
+                items = state.exportTypes.map { type ->
                     stringResource(type.title) to {
-                        val update = state.settings.copy(type = state.settings.type.copy(selection = type))
-                        onIntent(ExportFormIntent.SetSettings(update))
+                        onIntent(ExportFormIntent.SetSettings(state.settings.copy(exportType = type)))
                     }
                 },
             )
         }
 
-        AnimatedVisibility(visible = state.settings.type.selection == ExportType.PDF) {
+        AnimatedVisibility(visible = state.settings.exportType == ExportType.PDF) {
             ExportPdfLayoutForm(
                 state = state,
                 onIntent = onIntent,
@@ -111,17 +110,16 @@ internal fun ExportForm(
         FormRow(
             icon = { ResourceIcon(Res.drawable.ic_note) },
             modifier = Modifier.toggleable(
-                value = state.settings.content.includeNotes,
+                value = state.settings.includeNotes,
                 role = Role.Checkbox,
                 onValueChange = {
-                    val update = state.settings.copy(content = state.settings.content.copy(includeNotes = it))
-                    onIntent(ExportFormIntent.SetSettings(update))
+                    onIntent(ExportFormIntent.SetSettings(state.settings.copy(includeNotes = it)))
                 },
             ),
         ) {
             TextCheckbox(
                 title = stringResource(Res.string.notes),
-                checked = state.settings.content.includeNotes,
+                checked = state.settings.includeNotes,
                 onCheckedChange = null,
                 modifier = Modifier.fillMaxWidth(),
             )
@@ -132,17 +130,16 @@ internal fun ExportForm(
         FormRow(
             icon = { ResourceIcon(Res.drawable.ic_tag) },
             modifier = Modifier.toggleable(
-                value = state.settings.content.includeTags,
+                value = state.settings.includeTags,
                 role = Role.Checkbox,
                 onValueChange = {
-                    val update = state.settings.copy(content = state.settings.content.copy(includeTags = it))
-                    onIntent(ExportFormIntent.SetSettings(update))
+                    onIntent(ExportFormIntent.SetSettings(state.settings.copy(includeTags = it)))
                 },
             ),
         ) {
             TextCheckbox(
                 title = stringResource(Res.string.tags),
-                checked = state.settings.content.includeTags,
+                checked = state.settings.includeTags,
                 onCheckedChange = null,
                 modifier = Modifier.fillMaxWidth(),
             )
@@ -153,19 +150,16 @@ internal fun ExportForm(
         FormRow(
             icon = { ResourceIcon(Res.drawable.ic_skip) },
             modifier = Modifier.toggleable(
-                value = state.settings.layout.includeDaysWithoutEntries,
+                value = state.settings.includeDaysWithoutEntries,
                 role = Role.Checkbox,
                 onValueChange = {
-                    val update = state.settings.copy(
-                        layout = state.settings.layout.copy(includeDaysWithoutEntries = it),
-                    )
-                    onIntent(ExportFormIntent.SetSettings(update))
+                    onIntent(ExportFormIntent.SetSettings(state.settings.copy(includeDaysWithoutEntries = it)))
                 },
             ),
         ) {
             TextCheckbox(
                 title = stringResource(Res.string.days_without_entries),
-                checked = state.settings.layout.includeDaysWithoutEntries,
+                checked = state.settings.includeDaysWithoutEntries,
                 onCheckedChange = null,
                 modifier = Modifier.fillMaxWidth(),
             )
@@ -173,7 +167,7 @@ internal fun ExportForm(
 
         TextDivider(stringResource(Res.string.measurement_categories))
 
-        state.settings.content.categories.forEach { category ->
+        state.settings.categories.forEach { category ->
             ExportFormCategoryListItem(
                 category = category,
                 onIntent = onIntent,

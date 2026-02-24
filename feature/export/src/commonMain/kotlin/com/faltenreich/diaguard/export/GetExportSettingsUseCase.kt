@@ -19,38 +19,27 @@ class GetExportSettingsUseCase(
         val pdfLayouts = PdfLayout.entries
 
         ExportSettings(
-            date = ExportSettings.Date(
-                includeCalendarWeek = true,
-                includeDateOfExport = true,
-            ),
-            type = ExportSettings.Type(
-                selection = exportTypes.first(),
-                options = exportTypes,
-            ),
-            layout = ExportSettings.Layout(
-                selection = pdfLayouts.first(),
-                options = pdfLayouts,
-                includePageNumber = true,
-                includeDaysWithoutEntries = true,
-            ),
-            content = ExportSettings.Content(
-                categories = categories.map { category ->
-                    val properties = propertyRepository.getByCategoryId(category.id)
-                    ExportSettings.Content.Category(
-                        category = category,
-                        isExported = true,
-                        properties = properties.map { property ->
-                            ExportSettings.Content.Category.Property(
-                                property = property,
-                                isExported = true,
-                            )
-                        }
-                    )
-                },
-                includeNotes = true,
-                includeTags = true,
-            ),
-
+            categories = categories.map { category ->
+                val properties = propertyRepository.getByCategoryId(category.id)
+                ExportSettings.Category(
+                    category = category,
+                    isExported = true,
+                    properties = properties.map { property ->
+                        ExportSettings.Category.Property(
+                            property = property,
+                            isExported = true,
+                        )
+                    }
+                )
+            },
+            exportType = exportTypes.first(),
+            includeCalendarWeek = true,
+            includeDateOfExport = true,
+            includeDaysWithoutEntries = true,
+            includePageNumber = true,
+            includeNotes = true,
+            includeTags = true,
+            pdfLayout = pdfLayouts.first(),
         )
     }
 }

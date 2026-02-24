@@ -48,15 +48,14 @@ internal fun ExportPdfLayoutForm(
                 .fillMaxWidth()
                 .clickable { expandDropdownForPdfLayout = true },
         ) {
-            Text(stringResource(settings.layout.selection.title))
+            Text(stringResource(settings.pdfLayout.title))
 
             DropdownTextMenu(
                 expanded = expandDropdownForPdfLayout,
                 onDismissRequest = { expandDropdownForPdfLayout = false },
-                items = settings.layout.options.map { layout ->
+                items = pdfLayouts.map { layout ->
                     stringResource(layout.title) to {
-                        val update = settings.copy(layout = settings.layout.copy(selection = layout))
-                        onIntent(ExportFormIntent.SetSettings(update))
+                        onIntent(ExportFormIntent.SetSettings(settings.copy(pdfLayout = layout)))
                     }
                 },
             )
@@ -67,17 +66,16 @@ internal fun ExportPdfLayoutForm(
         FormRow(
             icon = { ResourceIcon(Res.drawable.ic_position_top_left) },
             modifier = Modifier.toggleable(
-                value = settings.date.includeCalendarWeek,
+                value = settings.includeCalendarWeek,
                 role = Role.Checkbox,
                 onValueChange = {
-                    val update = settings.copy(date = settings.date.copy(includeCalendarWeek = it))
-                    onIntent(ExportFormIntent.SetSettings(update))
+                    onIntent(ExportFormIntent.SetSettings(settings.copy(includeCalendarWeek = it)))
                 },
             ),
         ) {
             TextCheckbox(
                 title = stringResource(Res.string.calendar_week),
-                checked = settings.date.includeCalendarWeek,
+                checked = settings.includeCalendarWeek,
                 onCheckedChange = null,
                 modifier = Modifier.fillMaxWidth(),
             )
@@ -88,17 +86,16 @@ internal fun ExportPdfLayoutForm(
         FormRow(
             icon = { ResourceIcon(Res.drawable.ic_position_bottom_left) },
             modifier = Modifier.toggleable(
-                value = settings.date.includeDateOfExport,
+                value = settings.includeDateOfExport,
                 role = Role.Checkbox,
                 onValueChange = {
-                    val update = settings.copy(date = settings.date.copy(includeDateOfExport = it))
-                    onIntent(ExportFormIntent.SetSettings(update))
+                    onIntent(ExportFormIntent.SetSettings(settings.copy(includeDateOfExport = it)))
                 },
             ),
         ) {
             TextCheckbox(
                 title = stringResource(Res.string.date_of_export),
-                checked = settings.date.includeDateOfExport,
+                checked = settings.includeDateOfExport,
                 onCheckedChange = null,
                 modifier = Modifier.fillMaxWidth(),
             )
@@ -109,17 +106,16 @@ internal fun ExportPdfLayoutForm(
         FormRow(
             icon = { ResourceIcon(Res.drawable.ic_position_bottom_right) },
             modifier = Modifier.toggleable(
-                value = settings.layout.includePageNumber,
+                value = settings.includePageNumber,
                 role = Role.Checkbox,
                 onValueChange = {
-                    val update = settings.copy(layout = settings.layout.copy(includePageNumber = it))
-                    onIntent(ExportFormIntent.SetSettings(update))
+                    onIntent(ExportFormIntent.SetSettings(settings.copy(includePageNumber = it)))
                 },
             ),
         ) {
             TextCheckbox(
                 title = stringResource(Res.string.page_number),
-                checked = settings.layout.includePageNumber,
+                checked = settings.includePageNumber,
                 onCheckedChange = null,
                 modifier = Modifier.fillMaxWidth(),
             )

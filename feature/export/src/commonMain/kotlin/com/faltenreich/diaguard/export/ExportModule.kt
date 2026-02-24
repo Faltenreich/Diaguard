@@ -15,6 +15,8 @@ fun exportModule() = module {
         pdfModule(),
     )
 
+    factoryOf(::GetExportSettingsUseCase)
+    factoryOf(::SetExportSettingsUseCase)
     factoryOf(::ExportUseCase)
 
     viewModelOf(::ExportFormViewModel)

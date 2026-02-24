@@ -13,10 +13,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import com.faltenreich.diaguard.data.preview.PreviewScaffold
-import com.faltenreich.diaguard.datetime.DateRange
-import com.faltenreich.diaguard.export.ExportType
-import com.faltenreich.diaguard.export.pdf.PdfLayout
 import com.faltenreich.diaguard.resource.Res
 import com.faltenreich.diaguard.resource.calendar_week
 import com.faltenreich.diaguard.resource.date_of_export
@@ -35,11 +33,11 @@ import com.faltenreich.diaguard.view.overlay.DropdownTextMenu
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
-fun ExportPdfLayoutForm(
+internal fun ExportPdfLayoutForm(
     state: ExportFormState,
     onIntent: (ExportFormIntent) -> Unit,
     modifier: Modifier = Modifier,
-) {
+) = with(state) {
     Column(modifier = modifier) {
         TextDivider(stringResource(Res.string.layout))
 
@@ -50,13 +48,16 @@ fun ExportPdfLayoutForm(
                 .fillMaxWidth()
                 .clickable { expandDropdownForPdfLayout = true },
         ) {
-            Text(stringResource(state.layout.selection.title))
+            Text(stringResource(settings.layout.selection.title))
 
             DropdownTextMenu(
                 expanded = expandDropdownForPdfLayout,
                 onDismissRequest = { expandDropdownForPdfLayout = false },
-                items = state.layout.options.map { layout ->
-                    stringResource(layout.title) to { onIntent(ExportFormIntent.SelectLayout(layout)) }
+                items = settings.layout.options.map { layout ->
+                    stringResource(layout.title) to {
+                        val update = settings.copy(layout = settings.layout.copy(selection = layout))
+                        onIntent(ExportFormIntent.SetSettings(update))
+                    }
                 },
             )
         }
@@ -66,14 +67,17 @@ fun ExportPdfLayoutForm(
         FormRow(
             icon = { ResourceIcon(Res.drawable.ic_position_top_left) },
             modifier = Modifier.toggleable(
-                value = state.date.includeCalendarWeek,
+                value = settings.date.includeCalendarWeek,
                 role = Role.Checkbox,
-                onValueChange = { onIntent(ExportFormIntent.SetIncludeCalendarWeek(it)) },
+                onValueChange = {
+                    val update = settings.copy(date = settings.date.copy(includeCalendarWeek = it))
+                    onIntent(ExportFormIntent.SetSettings(update))
+                },
             ),
         ) {
             TextCheckbox(
                 title = stringResource(Res.string.calendar_week),
-                checked = state.date.includeCalendarWeek,
+                checked = settings.date.includeCalendarWeek,
                 onCheckedChange = null,
                 modifier = Modifier.fillMaxWidth(),
             )
@@ -84,14 +88,17 @@ fun ExportPdfLayoutForm(
         FormRow(
             icon = { ResourceIcon(Res.drawable.ic_position_bottom_left) },
             modifier = Modifier.toggleable(
-                value = state.date.includeDateOfExport,
+                value = settings.date.includeDateOfExport,
                 role = Role.Checkbox,
-                onValueChange = { onIntent(ExportFormIntent.SetIncludeDateOfExport(it)) },
+                onValueChange = {
+                    val update = settings.copy(date = settings.date.copy(includeDateOfExport = it))
+                    onIntent(ExportFormIntent.SetSettings(update))
+                },
             ),
         ) {
             TextCheckbox(
                 title = stringResource(Res.string.date_of_export),
-                checked = state.date.includeDateOfExport,
+                checked = settings.date.includeDateOfExport,
                 onCheckedChange = null,
                 modifier = Modifier.fillMaxWidth(),
             )
@@ -102,14 +109,17 @@ fun ExportPdfLayoutForm(
         FormRow(
             icon = { ResourceIcon(Res.drawable.ic_position_bottom_right) },
             modifier = Modifier.toggleable(
-                value = state.layout.includePageNumber,
+                value = settings.layout.includePageNumber,
                 role = Role.Checkbox,
-                onValueChange = { onIntent(ExportFormIntent.SetIncludePageNumber(it)) },
+                onValueChange = {
+                    val update = settings.copy(layout = settings.layout.copy(includePageNumber = it))
+                    onIntent(ExportFormIntent.SetSettings(update))
+                },
             ),
         ) {
             TextCheckbox(
                 title = stringResource(Res.string.page_number),
-                checked = state.layout.includePageNumber,
+                checked = settings.layout.includePageNumber,
                 onCheckedChange = null,
                 modifier = Modifier.fillMaxWidth(),
             )
@@ -119,42 +129,12 @@ fun ExportPdfLayoutForm(
 
 @Preview
 @Composable
-private fun Preview() = PreviewScaffold {
+private fun Preview(
+    @PreviewParameter(ExportFormState.Preview::class)
+    state: ExportFormState,
+) = PreviewScaffold {
     ExportPdfLayoutForm(
-        state = ExportFormState(
-            date = ExportFormState.Date(
-                dateRange = today().let { today -> DateRange(today, today) },
-                dateRangeLocalized = "DateRange",
-                includeCalendarWeek = true,
-                includeDateOfExport = true,
-            ),
-            type = ExportFormState.Type(
-                selection = ExportType.PDF,
-                options = emptyList(),
-            ),
-            layout = ExportFormState.Layout(
-                selection = PdfLayout.TIMELINE,
-                options = emptyList(),
-                includePageNumber = true,
-                includeDaysWithoutEntries = true,
-            ),
-            content = ExportFormState.Content(
-                categories = listOf(
-                    ExportFormState.Content.Category(
-                        category = category(),
-                        isExported = true,
-                        properties = listOf(
-                            ExportFormState.Content.Category.Property(
-                                property = property(),
-                                isExported = true,
-                            )
-                        ),
-                    ),
-                ),
-                includeNotes = true,
-                includeTags = true,
-            ),
-        ),
+        state = state,
         onIntent = {},
     )
 }

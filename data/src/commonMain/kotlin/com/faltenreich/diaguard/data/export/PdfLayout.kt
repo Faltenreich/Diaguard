@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.export.pdf
+package com.faltenreich.diaguard.data.export
 
 import com.faltenreich.diaguard.resource.Res
 import com.faltenreich.diaguard.resource.log

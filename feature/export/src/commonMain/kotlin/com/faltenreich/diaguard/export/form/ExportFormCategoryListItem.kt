@@ -9,6 +9,7 @@ import androidx.compose.foundation.selection.toggleable
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
+import com.faltenreich.diaguard.data.export.ExportSettings
 import com.faltenreich.diaguard.measurement.category.icon.MeasurementCategoryIcon
 import com.faltenreich.diaguard.view.checkbox.TextCheckbox
 import com.faltenreich.diaguard.view.layout.FormRow
@@ -16,13 +17,11 @@ import com.faltenreich.diaguard.view.theme.AppTheme
 
 @Composable
 internal fun ExportFormCategoryListItem(
-    category: ExportFormState.Content.Category,
+    category: ExportSettings.Content.Category,
     onIntent: (ExportFormIntent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Column(
-        modifier = modifier.animateContentSize()
-    ) {
+    Column(modifier = modifier.animateContentSize()) {
         FormRow(
             icon = { MeasurementCategoryIcon(category.category) },
             modifier = Modifier
@@ -31,7 +30,8 @@ internal fun ExportFormCategoryListItem(
                     value = category.isExported,
                     role = Role.Checkbox,
                     onValueChange = {
-                        onIntent(ExportFormIntent.SetCategory(category.copy(isExported = !category.isExported)))
+                        val update = category.copy(isExported = it)
+                        // TODO: onIntent(ExportFormIntent.SetSettings(update))
                     },
                 ),
         ) {

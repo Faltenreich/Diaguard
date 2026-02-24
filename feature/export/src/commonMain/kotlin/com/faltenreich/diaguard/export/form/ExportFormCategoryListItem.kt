@@ -42,26 +42,10 @@ internal fun ExportFormCategoryListItem(
             )
         }
 
-        FormRow(
-            icon = { Spacer(modifier = Modifier.width(AppTheme.dimensions.size.ImageMedium)) },
-            modifier = Modifier
-                .fillMaxWidth()
-                .toggleable(
-                    value = category.isExported,
-                    role = Role.Checkbox,
-                    onValueChange = { TODO() },
-                ),
-        ) {
-            TextCheckbox(
-                title = "aggregate",
-                checked = category.aggregateProperties,
-                onCheckedChange = null,
-            )
-        }
-
-        if (category.isExported && !category.aggregateProperties) {
+        if (category.isExported && category.properties.size > 1) {
             category.properties.forEach { property ->
                 FormRow(
+                    icon = { Spacer(modifier = Modifier.width(AppTheme.dimensions.size.ImageMedium)) },
                     modifier = Modifier.toggleable(
                         value = property.isExported,
                         role = Role.Checkbox,

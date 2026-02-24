@@ -83,7 +83,6 @@ class ExportFormViewModel(
                     ExportFormState.Content.Category(
                         category = category,
                         isExported = true,
-                        aggregateProperties = true,
                         properties = properties.map { property ->
                             ExportFormState.Content.Category.Property(
                                 property = property,

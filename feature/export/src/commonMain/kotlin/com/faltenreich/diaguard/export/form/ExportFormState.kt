@@ -41,7 +41,6 @@ data class ExportFormState(
         data class Category(
             val category: MeasurementCategory,
             val isExported: Boolean,
-            val aggregateProperties: Boolean,
             val properties: List<Property>,
         ) {
 

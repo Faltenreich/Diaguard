@@ -3,6 +3,12 @@ package com.faltenreich.diaguard.export
 import com.faltenreich.diaguard.data.export.ExportSettings
 import com.faltenreich.diaguard.data.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.export.preference.ExportTypePreference
+import com.faltenreich.diaguard.export.preference.IncludeCalendarWeekPreference
+import com.faltenreich.diaguard.export.preference.IncludeDateOfExportPreference
+import com.faltenreich.diaguard.export.preference.IncludeDaysWithoutEntriesPreference
+import com.faltenreich.diaguard.export.preference.IncludeNotesPreference
+import com.faltenreich.diaguard.export.preference.IncludePageNumberPreference
+import com.faltenreich.diaguard.export.preference.IncludeTagsPreference
 import com.faltenreich.diaguard.export.preference.PdfLayoutPreference
 import com.faltenreich.diaguard.measurement.category.usecase.GetActiveMeasurementCategoriesUseCase
 import com.faltenreich.diaguard.preference.GetPreferenceUseCase
@@ -19,7 +25,23 @@ class GetExportSettingsUseCase(
         getCategories(),
         getPreference(ExportTypePreference),
         getPreference(PdfLayoutPreference),
-    ) { categories, exportType, pdfLayout ->
+        getPreference(IncludeCalendarWeekPreference),
+        getPreference(IncludeDateOfExportPreference),
+        getPreference(IncludeDaysWithoutEntriesPreference),
+        getPreference(IncludePageNumberPreference),
+        getPreference(IncludeNotesPreference),
+        getPreference(IncludeTagsPreference),
+    ) {
+        categories,
+        exportType,
+        pdfLayout,
+        includeCalendarWeek,
+        includeDateOfExport,
+        includeDaysWithoutEntries,
+        includePageNumber,
+        includeNotes,
+        includeTags,
+        ->
         ExportSettings(
             categories = categories.map { category ->
                 val properties = propertyRepository.getByCategoryId(category.id)
@@ -35,12 +57,12 @@ class GetExportSettingsUseCase(
                 )
             },
             exportType = exportType,
-            includeCalendarWeek = true,
-            includeDateOfExport = true,
-            includeDaysWithoutEntries = true,
-            includePageNumber = true,
-            includeNotes = true,
-            includeTags = true,
+            includeCalendarWeek = includeCalendarWeek,
+            includeDateOfExport = includeDateOfExport,
+            includeDaysWithoutEntries = includeDaysWithoutEntries,
+            includePageNumber = includePageNumber,
+            includeNotes = includeNotes,
+            includeTags = includeTags,
             pdfLayout = pdfLayout,
         )
     }

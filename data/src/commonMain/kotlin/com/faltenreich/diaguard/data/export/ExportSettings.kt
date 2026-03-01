@@ -16,13 +16,13 @@ data class ExportSettings(
 ) {
 
     data class Category(
-        val category: MeasurementCategory,
+        val category: MeasurementCategory.Local,
         val isExported: Boolean,
         val properties: List<Property>,
     ) {
 
         data class Property(
-            val property: MeasurementProperty,
+            val property: MeasurementProperty.Local,
             val isExported: Boolean,
         )
     }

@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.export
 
 import com.faltenreich.diaguard.data.export.ExportSettings
 import com.faltenreich.diaguard.data.measurement.property.MeasurementPropertyRepository
+import com.faltenreich.diaguard.export.preference.ExportCategoryPreference
 import com.faltenreich.diaguard.export.preference.ExportTypePreference
 import com.faltenreich.diaguard.export.preference.IncludeCalendarWeekPreference
 import com.faltenreich.diaguard.export.preference.IncludeDateOfExportPreference
@@ -14,6 +15,8 @@ import com.faltenreich.diaguard.measurement.category.usecase.GetActiveMeasuremen
 import com.faltenreich.diaguard.preference.GetPreferenceUseCase
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flatMapConcat
+import kotlinx.coroutines.flow.map
 
 class GetExportSettingsUseCase(
     private val getCategories: GetActiveMeasurementCategoriesUseCase,
@@ -22,7 +25,26 @@ class GetExportSettingsUseCase(
 ) {
 
     operator fun invoke(): Flow<ExportSettings> = combine(
-        getCategories(),
+        getCategories().flatMapConcat { categories ->
+            val collectCategories = categories.map { category ->
+                val properties = propertyRepository.getByCategoryId(category.id)
+                getPreference(ExportCategoryPreference(category)).map { isExported ->
+                    ExportSettings.Category(
+                        category = category,
+                        isExported = isExported,
+                        properties = properties.map { property ->
+                            ExportSettings.Category.Property(
+                                property = property,
+                                isExported = true,
+                            )
+                        }
+                    )
+                }
+            }
+            combine(collectCategories) { categories ->
+                categories
+            }
+        },
         getPreference(ExportTypePreference),
         getPreference(PdfLayoutPreference),
         getPreference(IncludeCalendarWeekPreference),
@@ -43,19 +65,7 @@ class GetExportSettingsUseCase(
         includeTags,
         ->
         ExportSettings(
-            categories = categories.map { category ->
-                val properties = propertyRepository.getByCategoryId(category.id)
-                ExportSettings.Category(
-                    category = category,
-                    isExported = true,
-                    properties = properties.map { property ->
-                        ExportSettings.Category.Property(
-                            property = property,
-                            isExported = true,
-                        )
-                    }
-                )
-            },
+            categories = categories.toList(),
             exportType = exportType,
             includeCalendarWeek = includeCalendarWeek,
             includeDateOfExport = includeDateOfExport,

@@ -9,5 +9,7 @@ internal sealed interface ExportFormIntent {
 
     data class SetSettings(val settings: ExportSettings) : ExportFormIntent
 
+    data class SetCategory(val category: ExportSettings.Category) : ExportFormIntent
+
     data object Submit : ExportFormIntent
 }

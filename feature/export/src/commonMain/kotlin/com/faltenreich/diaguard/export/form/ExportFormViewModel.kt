@@ -22,6 +22,7 @@ internal class ExportFormViewModel(
     getToday: GetTodayUseCase,
     getSettings: GetExportSettingsUseCase,
     private val setSettings: SetExportSettingsUseCase,
+    private val setCategory: SetExportCategoryUseCase,
     private val export: ExportUseCase,
     private val dateTimeFormatter: DateTimeFormatter,
 ) : ViewModel<ExportFormState, ExportFormIntent, Unit>() {
@@ -44,6 +45,7 @@ internal class ExportFormViewModel(
         when (intent) {
             is ExportFormIntent.SetDateRange -> dateRange.update { intent.dateRange }
             is ExportFormIntent.SetSettings -> setSettings(intent.settings)
+            is ExportFormIntent.SetCategory -> setCategory(intent.category)
             is ExportFormIntent.Submit -> submit()
         }
     }

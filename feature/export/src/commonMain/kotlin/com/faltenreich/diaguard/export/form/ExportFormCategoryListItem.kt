@@ -30,8 +30,7 @@ internal fun ExportFormCategoryListItem(
                     value = category.isExported,
                     role = Role.Checkbox,
                     onValueChange = {
-                        val update = category.copy(isExported = it)
-                        // TODO: onIntent(ExportFormIntent.SetSettings(update))
+                        onIntent(ExportFormIntent.SetCategory(category.copy(isExported = it)))
                     },
                 ),
         ) {

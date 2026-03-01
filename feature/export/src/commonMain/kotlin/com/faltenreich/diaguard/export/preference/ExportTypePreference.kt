@@ -5,7 +5,7 @@ import com.faltenreich.diaguard.data.preference.Preference
 
 data object ExportTypePreference : Preference<Int, ExportType> {
 
-    override val key = "preference_start_screen"
+    override val key = "preference_export_type"
 
     override val default = ExportType.PDF
 

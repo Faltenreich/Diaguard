@@ -1,9 +1,9 @@
 package com.faltenreich.diaguard.export
 
 import com.faltenreich.diaguard.data.export.ExportSettings
-import com.faltenreich.diaguard.data.export.PdfLayout
 import com.faltenreich.diaguard.data.measurement.property.MeasurementPropertyRepository
 import com.faltenreich.diaguard.export.preference.ExportTypePreference
+import com.faltenreich.diaguard.export.preference.PdfLayoutPreference
 import com.faltenreich.diaguard.measurement.category.usecase.GetActiveMeasurementCategoriesUseCase
 import com.faltenreich.diaguard.preference.GetPreferenceUseCase
 import kotlinx.coroutines.flow.Flow
@@ -18,10 +18,8 @@ class GetExportSettingsUseCase(
     operator fun invoke(): Flow<ExportSettings> = combine(
         getCategories(),
         getPreference(ExportTypePreference),
-    ) { categories, exportType ->
-        // TODO: Read everything from KeyValueStore
-        val pdfLayouts = PdfLayout.entries
-
+        getPreference(PdfLayoutPreference),
+    ) { categories, exportType, pdfLayout ->
         ExportSettings(
             categories = categories.map { category ->
                 val properties = propertyRepository.getByCategoryId(category.id)
@@ -43,7 +41,7 @@ class GetExportSettingsUseCase(
             includePageNumber = true,
             includeNotes = true,
             includeTags = true,
-            pdfLayout = pdfLayouts.first(),
+            pdfLayout = pdfLayout,
         )
     }
 }

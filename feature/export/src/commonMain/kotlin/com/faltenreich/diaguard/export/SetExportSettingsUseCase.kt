@@ -1,10 +1,14 @@
 package com.faltenreich.diaguard.export
 
 import com.faltenreich.diaguard.data.export.ExportSettings
+import com.faltenreich.diaguard.export.preference.ExportTypePreference
+import com.faltenreich.diaguard.preference.SetPreferenceUseCase
 
-class SetExportSettingsUseCase {
+class SetExportSettingsUseCase(
+    private val setPreference: SetPreferenceUseCase,
+) {
 
-    operator fun invoke(settings: ExportSettings) {
-        TODO()
+    suspend operator fun invoke(settings: ExportSettings) {
+        setPreference(ExportTypePreference, settings.exportType)
     }
 }

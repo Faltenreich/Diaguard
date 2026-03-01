@@ -1,21 +1,25 @@
 package com.faltenreich.diaguard.export
 
 import com.faltenreich.diaguard.data.export.ExportSettings
-import com.faltenreich.diaguard.data.export.ExportType
 import com.faltenreich.diaguard.data.export.PdfLayout
 import com.faltenreich.diaguard.data.measurement.property.MeasurementPropertyRepository
+import com.faltenreich.diaguard.export.preference.ExportTypePreference
 import com.faltenreich.diaguard.measurement.category.usecase.GetActiveMeasurementCategoriesUseCase
+import com.faltenreich.diaguard.preference.GetPreferenceUseCase
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.combine
 
 class GetExportSettingsUseCase(
     private val getCategories: GetActiveMeasurementCategoriesUseCase,
     private val propertyRepository: MeasurementPropertyRepository,
+    private val getPreference: GetPreferenceUseCase,
 ) {
 
-    operator fun invoke(): Flow<ExportSettings> = getCategories().map { categories ->
+    operator fun invoke(): Flow<ExportSettings> = combine(
+        getCategories(),
+        getPreference(ExportTypePreference),
+    ) { categories, exportType ->
         // TODO: Read everything from KeyValueStore
-        val exportTypes = ExportType.entries
         val pdfLayouts = PdfLayout.entries
 
         ExportSettings(
@@ -32,7 +36,7 @@ class GetExportSettingsUseCase(
                     }
                 )
             },
-            exportType = exportTypes.first(),
+            exportType = exportType,
             includeCalendarWeek = true,
             includeDateOfExport = true,
             includeDaysWithoutEntries = true,

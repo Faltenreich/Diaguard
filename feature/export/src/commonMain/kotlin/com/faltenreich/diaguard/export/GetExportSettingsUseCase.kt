@@ -19,6 +19,7 @@ import com.faltenreich.diaguard.preference.GetPreferenceUseCase
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapConcat
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 
 class GetExportSettingsUseCase(
@@ -63,16 +64,17 @@ class GetExportSettingsUseCase(
 
     private fun getCategories(): Flow<List<ExportSettings.Category>> {
         return getActiveCategories().flatMapConcat { categories ->
-            combine(categories.map { it.toSetting() }) { it.toList() }
+            if (categories.isNotEmpty()) combine(categories.map { it.toSetting() }) { it.toList() }
+            else flowOf(emptyList())
         }
     }
 
     private fun MeasurementCategory.Local.toSetting(): Flow<ExportSettings.Category> {
         return combine(
             getPreference(ExportCategoryPreference(this)),
-            // FIXME: Runs nowhere if category has no properties
             propertyRepository.observeByCategoryId(id).flatMapConcat { properties ->
-                combine(properties.map { it.toSetting() }) { it.toList() }
+                if (properties.isNotEmpty()) combine(properties.map { it.toSetting() }) { it.toList() }
+                else flowOf(emptyList())
             },
         ) { isExported, properties ->
             ExportSettings.Category(

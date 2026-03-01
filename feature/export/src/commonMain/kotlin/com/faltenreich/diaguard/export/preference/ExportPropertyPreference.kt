@@ -7,7 +7,7 @@ data class ExportPropertyPreference(
     private val property: MeasurementProperty.Local,
 ) : Preference<Boolean, Boolean> {
 
-    override val key = "preference_export_property_" + property.id
+    override val key = "preference_export_category_${property.category.id}_property_${property.id}"
 
     override val default = true
 

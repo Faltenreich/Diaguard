@@ -48,7 +48,18 @@ internal fun ExportFormCategoryListItem(
                     modifier = Modifier.toggleable(
                         value = property.isExported,
                         role = Role.Checkbox,
-                        onValueChange = { TODO() },
+                        onValueChange = { isExported ->
+                            val update = category.copy(
+                                properties = category.properties.map {
+                                    if (property.property.id == it.property.id) {
+                                        it.copy(isExported = isExported)
+                                    } else {
+                                        it
+                                    }
+                                }
+                            )
+                            onIntent(ExportFormIntent.SetCategory(update))
+                        },
                     ),
                 ) {
                     TextCheckbox(

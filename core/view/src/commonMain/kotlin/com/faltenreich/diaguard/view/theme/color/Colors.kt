@@ -15,7 +15,9 @@ object Colors {
         get() = MaterialTheme.colorScheme
 
     val Green = Color(0xff478063)
+    val GreenDark = Color(0xff41785a)
     val Red = Color(0xffdd6050)
+    val RedDark = Color(0xffc95a4a)
     val Yellow = Color(0xffFBC02D)
     val YellowDark = Color(0xffa3812a)
     val Blue = Color(0xff5771cd)

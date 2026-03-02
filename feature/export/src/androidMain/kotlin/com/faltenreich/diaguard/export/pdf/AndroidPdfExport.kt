@@ -9,13 +9,14 @@ import android.graphics.Paint
 import android.net.Uri
 import android.os.Environment
 import androidx.core.content.FileProvider
+import com.faltenreich.diaguard.data.export.ExportSettings
 import java.io.File
 import java.io.FileOutputStream
 import android.graphics.pdf.PdfDocument as AndroidPdfDocument
 
 class AndroidPdfExport(private val context: Context) : PdfExport {
 
-    override operator fun invoke(pdfDocument: PdfDocument) {
+    override fun export(settings: ExportSettings) {
         val directory = context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)
         val file = File(directory, "export.pdf")
 

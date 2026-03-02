@@ -1,6 +1,8 @@
 package com.faltenreich.diaguard.export.pdf
 
-fun interface PdfExport {
+import com.faltenreich.diaguard.data.export.ExportSettings
 
-    operator fun invoke(pdfDocument: PdfDocument)
+interface PdfExport {
+
+    fun export(settings: ExportSettings)
 }

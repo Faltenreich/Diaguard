@@ -1,26 +1,15 @@
 package com.faltenreich.diaguard.export
 
-import com.faltenreich.diaguard.export.pdf.PdfExport
-import com.faltenreich.diaguard.export.pdf.document
+import com.faltenreich.diaguard.data.export.ExportSettings
+import com.faltenreich.diaguard.data.export.ExportType
+import com.faltenreich.diaguard.export.pdf.ExportPdfUseCase
 
-class ExportUseCase(private val exportPdf: PdfExport) {
+class ExportUseCase(private val exportPdf: ExportPdfUseCase) {
 
-    operator fun invoke(data: ExportData) {
-        when (data) {
-            // TODO: Use ExportData
-            is ExportData.Pdf -> exportPdf(
-                document {
-                    page {
-                        header {
-
-                        }
-                        footer {
-
-                        }
-                    }
-                }
-            )
-            is ExportData.Csv -> TODO()
+    operator fun invoke(settings: ExportSettings) {
+        when (settings.exportType) {
+            ExportType.PDF -> exportPdf(settings)
+            ExportType.CSV -> TODO()
         }
     }
 }

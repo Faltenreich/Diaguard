@@ -6,7 +6,6 @@ import com.faltenreich.diaguard.data.export.PdfLayout
 import com.faltenreich.diaguard.datetime.DateRange
 import com.faltenreich.diaguard.datetime.factory.GetTodayUseCase
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
-import com.faltenreich.diaguard.export.ExportData
 import com.faltenreich.diaguard.export.ExportUseCase
 import com.faltenreich.diaguard.export.GetExportSettingsUseCase
 import com.faltenreich.diaguard.export.SetExportSettingsUseCase
@@ -51,26 +50,7 @@ internal class ExportFormViewModel(
     }
 
     fun submit() = scope.launch {
-        val data = with (state.first().settings) {
-            when (exportType) {
-                ExportType.PDF -> ExportData.Pdf(
-                    dateRange = dateRange.value,
-                    includeNotes = includeNotes,
-                    includeTags = includeTags,
-                    includeDaysWithoutEntries = includeDaysWithoutEntries,
-                    layout = pdfLayout,
-                    includeCalendarWeek = includeCalendarWeek,
-                    includeDateOfExport = includeDateOfExport,
-                    includePageNumber = includePageNumber,
-                )
-                ExportType.CSV -> ExportData.Csv(
-                    dateRange = dateRange.value,
-                    includeNotes = includeNotes,
-                    includeTags = includeTags,
-                    includeDaysWithoutEntries = includeDaysWithoutEntries,
-                )
-            }
-        }
-        export(data)
+        val settings = state.first().settings
+        export(settings)
     }
 }

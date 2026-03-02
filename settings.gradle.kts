@@ -30,6 +30,7 @@ include(
     ":feature:datetime",
     ":feature:entry",
     ":feature:export",
+    ":feature:export:pdfjet",
     ":feature:food",
     ":feature:log",
     ":feature:measurement",

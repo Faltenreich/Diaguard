@@ -17,5 +17,11 @@ kotlin {
                 implementation(project(":feature:startup"))
             }
         }
+        androidMain {
+            dependencies {
+                implementation(project(":feature:export:pdfjet"))
+                implementation("joda-time:joda-time:2.12.5")
+            }
+        }
     }
 }

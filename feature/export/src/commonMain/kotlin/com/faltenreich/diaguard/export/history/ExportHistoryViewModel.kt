@@ -1,9 +1,11 @@
 package com.faltenreich.diaguard.export.history
 
 import com.faltenreich.diaguard.architecture.viewmodel.ViewModel
-import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
 
-class ExportHistoryViewModel : ViewModel<ExportHistoryState, ExportHistoryIntent, Unit>() {
+internal class ExportHistoryViewModel(
+    getFiles: GetExportFilesUseCase,
+) : ViewModel<ExportHistoryState, ExportHistoryIntent, Unit>() {
 
-    override val state = flowOf(ExportHistoryState(files = emptyList()))
+    override val state = getFiles().map(::ExportHistoryState)
 }

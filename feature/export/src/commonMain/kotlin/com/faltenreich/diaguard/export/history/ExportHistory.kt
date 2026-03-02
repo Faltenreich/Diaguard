@@ -1,10 +1,11 @@
 package com.faltenreich.diaguard.export.history
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.faltenreich.diaguard.view.divider.Divider
 
 @Composable
 internal fun ExportHistory(
@@ -16,7 +17,10 @@ internal fun ExportHistory(
 
     LazyColumn(modifier = modifier) {
         items(items = state.files) { file ->
-            Text(file.dateTime.toString())
+            Column {
+                ExportHistoryListItem(file, onIntent)
+                Divider()
+            }
         }
     }
 }

@@ -1,7 +1,8 @@
 package com.faltenreich.diaguard.export.history
 
-import com.faltenreich.diaguard.datetime.DateTime
+import com.faltenreich.diaguard.data.export.ExportType
 
 data class ExportFile(
-    val dateTime: DateTime,
+    val dateTime: String,
+    val type: ExportType,
 )

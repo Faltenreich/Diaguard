@@ -3,12 +3,14 @@ package com.faltenreich.diaguard.export.form
 import com.faltenreich.diaguard.architecture.viewmodel.ViewModel
 import com.faltenreich.diaguard.data.export.ExportType
 import com.faltenreich.diaguard.data.export.PdfLayout
+import com.faltenreich.diaguard.data.navigation.NavigationTarget
 import com.faltenreich.diaguard.datetime.DateRange
 import com.faltenreich.diaguard.datetime.factory.GetTodayUseCase
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.export.ExportUseCase
 import com.faltenreich.diaguard.export.GetExportSettingsUseCase
 import com.faltenreich.diaguard.export.SetExportSettingsUseCase
+import com.faltenreich.diaguard.navigation.NavigateToUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
@@ -24,6 +26,7 @@ internal class ExportFormViewModel(
     private val setCategory: SetExportCategoryUseCase,
     private val export: ExportUseCase,
     private val dateTimeFormatter: DateTimeFormatter,
+    private val navigateTo: NavigateToUseCase,
 ) : ViewModel<ExportFormState, ExportFormIntent, Unit>() {
 
     private val dateRange = MutableStateFlow(getToday().let(::DateRange))
@@ -46,6 +49,7 @@ internal class ExportFormViewModel(
             is ExportFormIntent.SetSettings -> setSettings(intent.settings)
             is ExportFormIntent.SetCategory -> setCategory(intent.category)
             is ExportFormIntent.Submit -> submit()
+            is ExportFormIntent.OpenHistory -> navigateTo(NavigationTarget.ExportHistory)
         }
     }
 

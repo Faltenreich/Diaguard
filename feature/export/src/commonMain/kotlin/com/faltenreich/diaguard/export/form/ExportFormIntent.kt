@@ -12,4 +12,6 @@ internal sealed interface ExportFormIntent {
     data class SetCategory(val category: ExportSettings.Category) : ExportFormIntent
 
     data object Submit : ExportFormIntent
+
+    data object OpenHistory : ExportFormIntent
 }

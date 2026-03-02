@@ -6,7 +6,10 @@ import com.faltenreich.diaguard.data.navigation.Screen
 import com.faltenreich.diaguard.injection.viewModel
 import com.faltenreich.diaguard.resource.Res
 import com.faltenreich.diaguard.resource.export
+import com.faltenreich.diaguard.resource.export_history_open
 import com.faltenreich.diaguard.resource.ic_check
+import com.faltenreich.diaguard.resource.ic_history
+import com.faltenreich.diaguard.view.bar.BottomAppBarItem
 import com.faltenreich.diaguard.view.bar.BottomAppBarStyle
 import com.faltenreich.diaguard.view.bar.TopAppBarStyle
 import com.faltenreich.diaguard.view.button.TooltipFloatingActionButton
@@ -28,6 +31,13 @@ data object ExportFormScreen : Screen {
     override fun BottomAppBar(): BottomAppBarStyle {
         val viewModel = viewModel<ExportFormViewModel>()
         return BottomAppBarStyle.Visible(
+            actions = {
+                BottomAppBarItem(
+                    painter = painterResource(Res.drawable.ic_history),
+                    contentDescription = stringResource(Res.string.export_history_open),
+                    onClick = { viewModel.dispatchIntent(ExportFormIntent.OpenHistory) },
+                )
+            },
             floatingActionButton = {
                 TooltipFloatingActionButton(
                     painter = painterResource(Res.drawable.ic_check),

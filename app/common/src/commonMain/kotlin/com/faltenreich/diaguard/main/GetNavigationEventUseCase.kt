@@ -10,6 +10,7 @@ import com.faltenreich.diaguard.data.navigation.Screen
 import com.faltenreich.diaguard.entry.form.EntryFormScreen
 import com.faltenreich.diaguard.entry.search.EntrySearchScreen
 import com.faltenreich.diaguard.export.form.ExportFormScreen
+import com.faltenreich.diaguard.export.history.ExportHistoryScreen
 import com.faltenreich.diaguard.food.eaten.list.FoodEatenListScreen
 import com.faltenreich.diaguard.food.form.FoodFormScreen
 import com.faltenreich.diaguard.food.search.FoodSearchMode
@@ -60,6 +61,7 @@ class GetNavigationEventUseCase(
             EntryFormScreen(entryId = entryId, dateTimeIsoString = dateTime?.isoString, foodId = foodId)
         is NavigationTarget.EntrySearch -> EntrySearchScreen(query)
         is NavigationTarget.ExportForm -> ExportFormScreen
+        is NavigationTarget.ExportHistory -> ExportHistoryScreen
         is NavigationTarget.FoodEatenList -> FoodEatenListScreen(foodId = foodId)
         is NavigationTarget.FoodForm -> FoodFormScreen(foodId = foodId)
         is NavigationTarget.FoodPreferenceList -> FoodPreferenceListScreen

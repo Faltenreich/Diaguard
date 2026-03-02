@@ -16,6 +16,8 @@ sealed interface NavigationTarget {
 
     data object ExportForm : NavigationTarget
 
+    data object ExportHistory : NavigationTarget
+
     data class FoodForm(val foodId: Long = -1L) : NavigationTarget
 
     data class FoodEatenList(val foodId: Long) : NavigationTarget

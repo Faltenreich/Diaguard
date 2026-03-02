@@ -94,6 +94,8 @@
     <string name="entry_search_prompt">Notes, tags, &#8230;</string>
     <string name="error_unknown">Something went wrong, please try again</string>
     <string name="export">Export</string>
+    <string name="export_history">Export history</string>
+    <string name="export_history_open">Open export history</string>
     <string name="facebook">Facebook</string>
     <string name="facebook_url">http://www.facebook.com/diaguard.de</string>
     <string name="facebook_url_short">facebook.com/diaguard.de</string>

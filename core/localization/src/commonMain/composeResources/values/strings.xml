@@ -96,6 +96,10 @@
     <string name="export">Export</string>
     <string name="export_history">Export history</string>
     <string name="export_history_open">Open export history</string>
+    <string name="export_history_item_delete">Delete</string>
+    <string name="export_history_item_open">Open</string>
+    <string name="export_history_item_share">Share</string>
+    <string name="export_history_menu_open">Show actions</string>
     <string name="facebook">Facebook</string>
     <string name="facebook_url">http://www.facebook.com/diaguard.de</string>
     <string name="facebook_url_short">facebook.com/diaguard.de</string>

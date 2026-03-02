@@ -8,4 +8,12 @@ internal class ExportHistoryViewModel(
 ) : ViewModel<ExportHistoryState, ExportHistoryIntent, Unit>() {
 
     override val state = getFiles().map(::ExportHistoryState)
+
+    override suspend fun handleIntent(intent: ExportHistoryIntent) {
+        when (intent) {
+            is ExportHistoryIntent.DeleteExport -> TODO()
+            is ExportHistoryIntent.ShareExport -> TODO()
+            is ExportHistoryIntent.OpenExport -> TODO()
+        }
+    }
 }

@@ -17,6 +17,7 @@ data class Size(
     val ListItemHeightMinimum: Dp = 80.dp,
     val ListOffsetWidth: Dp = 60.dp,
     val DashboardTrendHeight: Dp = 100.dp,
+    val DropdownMenuMinWidth: Dp = 160.dp,
     val LogMonthHeight: Dp = 120.dp,
     val LogDayWidth: Dp = 60.dp,
     val TimelineTableRowHeight: Dp = 40.dp,

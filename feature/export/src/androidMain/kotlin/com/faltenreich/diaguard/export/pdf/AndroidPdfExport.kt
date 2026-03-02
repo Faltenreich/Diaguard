@@ -9,13 +9,54 @@ import android.graphics.Paint
 import android.net.Uri
 import android.os.Environment
 import androidx.core.content.FileProvider
+import com.faltenreich.diaguard.feature.export.job.Export
+import com.faltenreich.diaguard.feature.export.job.ExportCallback
+import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfExportConfig
+import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfExportStyle
+import org.joda.time.DateTime
 import java.io.File
 import java.io.FileOutputStream
 import android.graphics.pdf.PdfDocument as AndroidPdfDocument
 
-class AndroidPdfExport(private val context: Context) : PdfExport {
+class AndroidPdfExport(
+    private val context: Context,
+) : PdfExport {
 
     override operator fun invoke(pdfDocument: PdfDocument) {
+        val dateStart = DateTime.now()
+        val dateEnd = DateTime.now()
+        val config = PdfExportConfig(
+            context,
+            object : ExportCallback {
+                override fun onProgress(message: String) {
+                    TODO("Not yet implemented")
+                }
+
+                override fun onSuccess(file: File, mimeType: String) {
+                    TODO("Not yet implemented")
+                }
+
+                override fun onError(message: String) {
+                    TODO("Not yet implemented")
+                }
+            },
+            dateStart,
+            dateEnd,
+            emptyArray(),
+            PdfExportStyle.TIMELINE,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+        )
+        Export.exportPdf(config)
+
+        return
         val directory = context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)
         val file = File(directory, "export.pdf")
 

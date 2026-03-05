@@ -11,15 +11,18 @@ enum class ExportType(
     val stableId: Int,
     val title: StringResource,
     val color: Color,
+    val extension: String,
 ) {
 
     CSV(
         stableId = 0,
+        extension = "csv",
         title = Res.string.csv,
         color = Colors.GreenDark,
     ),
     PDF(
         stableId = 1,
+        extension = "pdf",
         title = Res.string.pdf,
         color = Colors.RedDark,
     ),

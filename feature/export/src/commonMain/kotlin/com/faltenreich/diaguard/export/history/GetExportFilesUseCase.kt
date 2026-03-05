@@ -13,12 +13,17 @@ internal class GetExportFilesUseCase(
 
     operator fun invoke(): Flow<List<ExportFile>> {
         val files = fileRepository.getDocuments()
-        val exportFiles = files.map { file ->
-            ExportFile(
-                file = file,
-                type = ExportType.PDF, // TODO
-                dateTime = file.createdAt?.let(dateTimeFormatter::formatDateTime),
-            )
+        val exportFiles = files.mapNotNull { file ->
+            ExportType.entries
+                .firstOrNull { file.absolutePath.endsWith(it.extension) }
+                ?.let { type ->
+                    ExportFile(
+                        file = file,
+                        type = type,
+                        dateTime = file.createdAt?.let(dateTimeFormatter::formatDateTime),
+                    )
+                }
+
         }
         return flowOf(exportFiles)
     }

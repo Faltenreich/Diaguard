@@ -11,6 +11,7 @@ kotlin {
                 implementation(project(":core:localization"))
                 implementation(project(":core:logging"))
                 implementation(libs.datastore)
+                implementation(libs.filekit)
                 implementation(libs.kotlinx.io)
                 implementation(libs.sqldelight.coroutines)
             }

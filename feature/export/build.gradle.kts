@@ -7,11 +7,12 @@ kotlin {
         commonMain {
             dependencies {
                 implementation(project(":core:config"))
+                implementation(project(":core:persistence"))
                 implementation(project(":feature:datetime"))
                 implementation(project(":feature:measurement"))
                 implementation(project(":feature:navigation"))
                 implementation(project(":feature:preference"))
-                implementation(libs.kotlinx.io)
+                implementation(libs.filekit)
             }
         }
         commonTest {

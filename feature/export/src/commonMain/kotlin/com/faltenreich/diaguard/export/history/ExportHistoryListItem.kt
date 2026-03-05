@@ -27,6 +27,7 @@ import com.faltenreich.diaguard.resource.ic_more_vertical
 import com.faltenreich.diaguard.view.layout.FormRow
 import com.faltenreich.diaguard.view.overlay.DropdownTextMenu
 import com.faltenreich.diaguard.view.theme.AppTheme
+import io.github.vinceglb.filekit.PlatformFile
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
@@ -93,6 +94,7 @@ private fun Preview() = PreviewScaffold {
         file = ExportFile(
             dateTime = now().toString(),
             type = ExportType.PDF,
+            file = PlatformFile(""),
         ),
         onIntent = {},
     )

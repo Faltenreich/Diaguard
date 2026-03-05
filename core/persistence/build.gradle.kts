@@ -7,6 +7,7 @@ kotlin {
         commonMain {
             dependencies {
                 implementation(project(":core:config"))
+                implementation(project(":core:datetime"))
                 implementation(project(":core:injection"))
                 implementation(project(":core:localization"))
                 implementation(project(":core:logging"))

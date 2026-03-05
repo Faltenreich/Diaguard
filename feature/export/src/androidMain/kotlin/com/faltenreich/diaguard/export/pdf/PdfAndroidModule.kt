@@ -7,9 +7,15 @@ import org.koin.dsl.module
 
 actual fun pdfPlatformModule() = module {
     factory<PdfExport> {
-        if (get<BuildConfig>().hasPlatformFramework()) AndroidPdfExport(context = get())
-        else object : PdfExport {
-            override suspend fun export(settings: ExportSettings): File = File("")
+        if (get<BuildConfig>().hasPlatformFramework()) {
+            AndroidPdfExport(
+                context = get(),
+                dateTimeFactory = get(),
+            )
+        } else {
+            object : PdfExport {
+                override suspend fun export(settings: ExportSettings): File? = null
+            }
         }
     }
 }

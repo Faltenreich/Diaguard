@@ -10,16 +10,21 @@ import android.net.Uri
 import android.os.Environment
 import androidx.core.content.FileProvider
 import com.faltenreich.diaguard.data.export.ExportSettings
+import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.persistence.file.File
 import java.io.FileOutputStream
 import android.graphics.pdf.PdfDocument as AndroidPdfDocument
 import java.io.File as JavaFile
 
-class AndroidPdfExport(private val context: Context) : PdfExport {
+class AndroidPdfExport(
+    private val context: Context,
+    private val dateTimeFactory: DateTimeFactory,
+) : PdfExport {
 
     override suspend fun export(settings: ExportSettings): File {
         val directory = context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)
         val file = JavaFile(directory, "export.pdf")
+        val dateTime = dateTimeFactory.now()
 
         val outputStream = FileOutputStream(file)
         val document = AndroidPdfDocument()
@@ -45,7 +50,10 @@ class AndroidPdfExport(private val context: Context) : PdfExport {
         grantUriPermission(uri, intent, context)
         context.startActivity(intent)
 
-        return File(absolutePath = file.absolutePath)
+        return File(
+            absolutePath = file.absolutePath,
+            createdAt = dateTime,
+        )
     }
 
     private fun getSupportingApps(intent: Intent, context: Context): List<ResolveInfo> {

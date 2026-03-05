@@ -60,7 +60,7 @@ internal fun ExportHistoryListItem(
         },
     ) {
         Text(
-            text = file.dateTime,
+            text = file.dateTime ?: "", // TODO
             modifier = Modifier.weight(1f),
         )
         IconButton(onClick = { showMenu = true }) {
@@ -90,11 +90,15 @@ internal fun ExportHistoryListItem(
 @Preview
 @Composable
 private fun Preview() = PreviewScaffold {
+    val dateTime = now()
     ExportHistoryListItem(
         file = ExportFile(
-            dateTime = now().toString(),
+            dateTime = dateTime.toString(),
             type = ExportType.PDF,
-            file = File(""),
+            file = File(
+                absolutePath = "",
+                createdAt = dateTime,
+            ),
         ),
         onIntent = {},
     )

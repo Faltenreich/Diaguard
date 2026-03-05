@@ -7,7 +7,7 @@ import com.faltenreich.diaguard.persistence.file.File
 
 class ExportUseCase(private val exportPdf: ExportPdfUseCase) {
 
-    suspend operator fun invoke(settings: ExportSettings): File {
+    suspend operator fun invoke(settings: ExportSettings): File? {
         return when (settings.exportType) {
             ExportType.PDF -> exportPdf(settings)
             ExportType.CSV -> TODO()

@@ -1,17 +1,8 @@
 package com.faltenreich.diaguard.persistence.file
 
-import io.github.vinceglb.filekit.FileKit
-import io.github.vinceglb.filekit.absolutePath
-import io.github.vinceglb.filekit.list
+import com.faltenreich.diaguard.datetime.DateTime
 
-data class File(val absolutePath: String) {
-
-    companion object {
-
-        fun documents(): List<File> {
-            return FileKit.documentsDir?.list()?.map { file ->
-                File(file.absolutePath())
-            } ?: emptyList()
-        }
-    }
-}
+data class File(
+    val absolutePath: String,
+    val createdAt: DateTime?,
+)

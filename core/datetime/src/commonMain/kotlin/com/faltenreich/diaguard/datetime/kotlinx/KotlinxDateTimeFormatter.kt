@@ -16,7 +16,11 @@ import com.faltenreich.diaguard.resource.date_time_ago_days
 import com.faltenreich.diaguard.resource.date_time_ago_hours
 import com.faltenreich.diaguard.resource.date_time_ago_minutes
 import com.faltenreich.diaguard.resource.date_time_ago_moments
+import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.LocalTime
+import kotlinx.datetime.format
+import kotlinx.datetime.format.FormatStringsInDatetimeFormats
+import kotlinx.datetime.format.byUnicodePattern
 import kotlinx.datetime.format.char
 
 internal class KotlinxDateTimeFormatter(
@@ -51,14 +55,17 @@ internal class KotlinxDateTimeFormatter(
             minutesPassed < 2 -> localization.getString(
                 Res.string.date_time_ago_moments,
             )
+
             minutesPassed < DateTimeConstants.MINUTES_PER_HOUR * 2 -> localization.getString(
                 Res.string.date_time_ago_minutes,
                 minutesPassed,
             )
+
             minutesPassed < DateTimeConstants.MINUTES_PER_DAY * 2 -> localization.getString(
                 Res.string.date_time_ago_hours,
                 minutesPassed / DateTimeConstants.MINUTES_PER_HOUR,
             )
+
             else -> localization.getString(
                 Res.string.date_time_ago_days,
                 minutesPassed / DateTimeConstants.MINUTES_PER_DAY,
@@ -72,6 +79,12 @@ internal class KotlinxDateTimeFormatter(
 
     override fun formatDateTime(dateTime: DateTime): String {
         return "${formatDate(dateTime.date)} ${formatTime(dateTime.time)}"
+    }
+
+    @OptIn(FormatStringsInDatetimeFormats::class)
+    override fun formatDateTime(dateTime: DateTime, pattern: String): String {
+        val format = LocalDateTime.Format { byUnicodePattern(pattern) }
+        return LocalDateTime.parse(dateTime.isoString).format(format)
     }
 
     override fun formatWeek(date: Date): String {

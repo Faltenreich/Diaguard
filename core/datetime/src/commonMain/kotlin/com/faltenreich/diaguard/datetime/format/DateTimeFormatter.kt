@@ -20,6 +20,8 @@ interface DateTimeFormatter {
 
     fun formatDateTime(dateTime: DateTime): String
 
+    fun formatDateTime(dateTime: DateTime, pattern: String): String
+
     fun formatWeek(date: Date): String
 
     fun formatDayOfWeek(date: Date, abbreviated: Boolean): String

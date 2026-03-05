@@ -11,6 +11,7 @@ actual fun pdfPlatformModule() = module {
             AndroidPdfExport(
                 context = get(),
                 dateTimeFactory = get(),
+                dateTimeFormatter = get(),
             )
         } else {
             object : PdfExport {

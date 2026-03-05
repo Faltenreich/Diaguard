@@ -12,6 +12,7 @@ import androidx.core.content.FileProvider
 import com.faltenreich.diaguard.data.export.ExportSettings
 import com.faltenreich.diaguard.data.export.ExportType
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
+import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.persistence.file.File
 import java.io.FileOutputStream
 import android.graphics.pdf.PdfDocument as AndroidPdfDocument
@@ -20,12 +21,12 @@ import java.io.File as JavaFile
 class AndroidPdfExport(
     private val context: Context,
     private val dateTimeFactory: DateTimeFactory,
+    private val dateTimeFormatter: DateTimeFormatter,
 ) : PdfExport {
 
     override suspend fun export(settings: ExportSettings): File {
         val dateTime = dateTimeFactory.now()
-        // FIXME: Use legacy format: yyyy-MM-dd_HH-mm
-        val dateTimeFormatted = dateTime.isoString
+        val dateTimeFormatted = dateTimeFormatter.formatDateTime(dateTime, EXPORT_DATE_TIME_FORMAT)
         val directory = context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)
         val prefix = EXPORT_FILE_NAME_PREFIX
         val extension = ExportType.PDF.extension
@@ -91,6 +92,7 @@ class AndroidPdfExport(
     companion object {
 
         private const val EXPORT_FILE_NAME_PREFIX = "Diaguard"
+        private const val EXPORT_DATE_TIME_FORMAT = "yyyy-MM-dd_HH-mm"
 
         // DIN A4
         private const val PDF_PAGE_WIDTH = 595

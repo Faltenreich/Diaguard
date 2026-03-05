@@ -55,6 +55,6 @@ internal class ExportFormViewModel(
 
     fun submit() = scope.launch {
         val settings = state.first().settings
-        export(settings)
+        val file = export(settings)
     }
 }

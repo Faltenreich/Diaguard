@@ -10,21 +10,24 @@ import android.net.Uri
 import android.os.Environment
 import androidx.core.content.FileProvider
 import com.faltenreich.diaguard.data.export.ExportSettings
-import java.io.File
+import com.faltenreich.diaguard.persistence.file.File
 import java.io.FileOutputStream
 import android.graphics.pdf.PdfDocument as AndroidPdfDocument
+import java.io.File as JavaFile
 
 class AndroidPdfExport(private val context: Context) : PdfExport {
 
-    override fun export(settings: ExportSettings) {
+    override suspend fun export(settings: ExportSettings): File {
         val directory = context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)
-        val file = File(directory, "export.pdf")
+        val file = JavaFile(directory, "export.pdf")
 
         val outputStream = FileOutputStream(file)
         val document = AndroidPdfDocument()
 
         val pageNumber = 1
-        val pageInfo = AndroidPdfDocument.PageInfo.Builder(PDF_PAGE_WIDTH, PDF_PAGE_HEIGHT, pageNumber).create()
+        val pageInfo =
+            AndroidPdfDocument.PageInfo.Builder(PDF_PAGE_WIDTH, PDF_PAGE_HEIGHT, pageNumber)
+                .create()
         val page = document.startPage(pageInfo)
 
         // TODO: Pass content of PdfDocument
@@ -41,10 +44,15 @@ class AndroidPdfExport(private val context: Context) : PdfExport {
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
         grantUriPermission(uri, intent, context)
         context.startActivity(intent)
+
+        return File(absolutePath = file.absolutePath)
     }
 
     private fun getSupportingApps(intent: Intent, context: Context): List<ResolveInfo> {
-        return context.packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY)
+        return context.packageManager.queryIntentActivities(
+            intent,
+            PackageManager.MATCH_DEFAULT_ONLY
+        )
     }
 
     private fun grantUriPermission(uri: Uri, intent: Intent, context: Context) {
@@ -58,8 +66,12 @@ class AndroidPdfExport(private val context: Context) : PdfExport {
         }
     }
 
-    private fun getUriForFile(context: Context, file: File): Uri {
-        return FileProvider.getUriForFile(context, context.applicationContext.packageName + ".provider", file)
+    private fun getUriForFile(context: Context, file: JavaFile): Uri {
+        return FileProvider.getUriForFile(
+            context,
+            context.applicationContext.packageName + ".provider",
+            file
+        )
     }
 
     companion object {

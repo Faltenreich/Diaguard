@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.persistence
 
+import com.faltenreich.diaguard.persistence.file.DeleteFileUseCase
 import com.faltenreich.diaguard.persistence.file.FileReader
 import com.faltenreich.diaguard.persistence.file.FileRepository
 import com.faltenreich.diaguard.persistence.file.OpenFileUseCase
@@ -13,6 +14,7 @@ fun persistenceModule(inMemory: Boolean) = module {
     includes(persistencePlatformModule(inMemory))
     factoryOf(::SystemFileReader) bind FileReader::class
     factoryOf(::OpenFileUseCase)
+    factoryOf(::DeleteFileUseCase)
     factoryOf(::FileRepository)
 }
 

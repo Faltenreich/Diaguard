@@ -5,6 +5,8 @@ import com.faltenreich.diaguard.persistence.database.SqlDelightDiskDriverFactory
 import com.faltenreich.diaguard.persistence.database.SqlDelightDriverFactory
 import com.faltenreich.diaguard.persistence.database.SqlDelightInMemoryDriverFactory
 import com.faltenreich.diaguard.persistence.database.SqliteDatabase
+import com.faltenreich.diaguard.persistence.file.AndroidFileOpener
+import com.faltenreich.diaguard.persistence.file.FileOpener
 import com.faltenreich.diaguard.persistence.keyvalue.DataStore
 import com.faltenreich.diaguard.persistence.keyvalue.FakeKeyValueStore
 import com.faltenreich.diaguard.persistence.keyvalue.KeyValueStore
@@ -13,6 +15,7 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.named
+import org.koin.dsl.bind
 import org.koin.dsl.module
 
 const val KEY_VALUE_STORE_LEGACY = "KEY_VALUE_STORE_LEGACY"
@@ -33,4 +36,6 @@ internal actual fun persistencePlatformModule(inMemory: Boolean) = module {
     }
 
     factory { SqliteDatabase(androidContext().getDatabasePath("diaguard.db")) }
+
+    factoryOf(::AndroidFileOpener) bind FileOpener::class
 }

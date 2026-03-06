@@ -11,6 +11,7 @@ import com.faltenreich.diaguard.export.ExportUseCase
 import com.faltenreich.diaguard.export.GetExportSettingsUseCase
 import com.faltenreich.diaguard.export.SetExportSettingsUseCase
 import com.faltenreich.diaguard.navigation.NavigateToUseCase
+import com.faltenreich.diaguard.persistence.file.OpenFileUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
@@ -25,6 +26,7 @@ internal class ExportFormViewModel(
     private val setSettings: SetExportSettingsUseCase,
     private val setCategory: SetExportCategoryUseCase,
     private val export: ExportUseCase,
+    private val openFile: OpenFileUseCase,
     private val dateTimeFormatter: DateTimeFormatter,
     private val navigateTo: NavigateToUseCase,
 ) : ViewModel<ExportFormState, ExportFormIntent, Unit>() {
@@ -55,6 +57,7 @@ internal class ExportFormViewModel(
 
     fun submit() = scope.launch {
         val settings = state.first().settings
-        val file = export(settings)
+        val file = export(settings)!! // TODO: Error handling
+        openFile(file)
     }
 }

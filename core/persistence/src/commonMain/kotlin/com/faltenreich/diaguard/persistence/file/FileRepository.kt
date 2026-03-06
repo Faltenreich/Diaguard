@@ -5,6 +5,7 @@ import io.github.vinceglb.filekit.FileKit
 import io.github.vinceglb.filekit.absolutePath
 import io.github.vinceglb.filekit.createdAt
 import io.github.vinceglb.filekit.list
+import io.github.vinceglb.filekit.mimeType
 
 class FileRepository(
     private val dateTimeFactory: DateTimeFactory,
@@ -19,6 +20,7 @@ class FileRepository(
                         millis = instant.toEpochMilliseconds(),
                     )
                 },
+                mimeType = file.mimeType()?.primaryType,
             )
         } ?: emptyList()
     }

@@ -47,6 +47,7 @@ class AndroidPdfExport(
         return File(
             absolutePath = file.absolutePath,
             createdAt = dateTime,
+            mimeType = MIME_TYPE_PDF,
         )
     }
 
@@ -54,6 +55,7 @@ class AndroidPdfExport(
 
         private const val EXPORT_FILE_NAME_PREFIX = "Diaguard"
         private const val EXPORT_DATE_TIME_FORMAT = "yyyy-MM-dd_HH-mm"
+        private const val MIME_TYPE_PDF = "application/pdf"
 
         // DIN A4
         private const val PDF_PAGE_WIDTH = 595

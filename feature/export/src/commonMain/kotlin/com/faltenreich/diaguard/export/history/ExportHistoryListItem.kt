@@ -98,6 +98,7 @@ private fun Preview() = PreviewScaffold {
             file = File(
                 absolutePath = "",
                 createdAt = dateTime,
+                mimeType = "",
             ),
         ),
         onIntent = {},

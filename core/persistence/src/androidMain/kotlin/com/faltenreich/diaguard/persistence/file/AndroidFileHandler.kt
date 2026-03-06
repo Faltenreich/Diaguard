@@ -7,7 +7,7 @@ import android.content.pm.ResolveInfo
 import android.net.Uri
 import androidx.core.content.FileProvider
 
-class AndroidFileOpener(private val context: Context) : FileOpener {
+class AndroidFileHandler(private val context: Context) : FileHandler {
 
     override fun open(file: File) {
         val intent = Intent(Intent.ACTION_VIEW)
@@ -16,6 +16,22 @@ class AndroidFileOpener(private val context: Context) : FileOpener {
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
         grantUriPermission(uri, intent, context)
+        context.startActivity(intent)
+    }
+
+    override fun share(file: File) {
+        val intent = Intent.createChooser(
+            Intent(Intent.ACTION_SEND).apply {
+                setType(file.mimeType)
+                putExtra(
+                    Intent.EXTRA_STREAM,
+                    getUriForFile(context, file),
+                )
+            },
+            null,
+        ).apply {
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
         context.startActivity(intent)
     }
 

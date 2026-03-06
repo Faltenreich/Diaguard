@@ -5,8 +5,8 @@ import com.faltenreich.diaguard.persistence.database.SqlDelightDiskDriverFactory
 import com.faltenreich.diaguard.persistence.database.SqlDelightDriverFactory
 import com.faltenreich.diaguard.persistence.database.SqlDelightInMemoryDriverFactory
 import com.faltenreich.diaguard.persistence.database.SqliteDatabase
-import com.faltenreich.diaguard.persistence.file.AndroidFileOpener
-import com.faltenreich.diaguard.persistence.file.FileOpener
+import com.faltenreich.diaguard.persistence.file.AndroidFileHandler
+import com.faltenreich.diaguard.persistence.file.FileHandler
 import com.faltenreich.diaguard.persistence.keyvalue.DataStore
 import com.faltenreich.diaguard.persistence.keyvalue.FakeKeyValueStore
 import com.faltenreich.diaguard.persistence.keyvalue.KeyValueStore
@@ -37,5 +37,5 @@ internal actual fun persistencePlatformModule(inMemory: Boolean) = module {
 
     factory { SqliteDatabase(androidContext().getDatabasePath("diaguard.db")) }
 
-    factoryOf(::AndroidFileOpener) bind FileOpener::class
+    factoryOf(::AndroidFileHandler) bind FileHandler::class
 }

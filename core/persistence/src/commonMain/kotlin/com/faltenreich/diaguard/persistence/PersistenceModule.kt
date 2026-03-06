@@ -4,6 +4,7 @@ import com.faltenreich.diaguard.persistence.file.DeleteFileUseCase
 import com.faltenreich.diaguard.persistence.file.FileReader
 import com.faltenreich.diaguard.persistence.file.FileRepository
 import com.faltenreich.diaguard.persistence.file.OpenFileUseCase
+import com.faltenreich.diaguard.persistence.file.ShareFileUseCase
 import com.faltenreich.diaguard.persistence.file.SystemFileReader
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.factoryOf
@@ -15,6 +16,7 @@ fun persistenceModule(inMemory: Boolean) = module {
     factoryOf(::SystemFileReader) bind FileReader::class
     factoryOf(::OpenFileUseCase)
     factoryOf(::DeleteFileUseCase)
+    factoryOf(::ShareFileUseCase)
     factoryOf(::FileRepository)
 }
 

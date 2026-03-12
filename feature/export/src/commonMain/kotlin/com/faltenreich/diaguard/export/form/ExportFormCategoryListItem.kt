@@ -11,13 +11,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
 import com.faltenreich.diaguard.data.export.ExportSettings
 import com.faltenreich.diaguard.measurement.category.icon.MeasurementCategoryIcon
+import com.faltenreich.diaguard.resource.Res
+import com.faltenreich.diaguard.resource.food
 import com.faltenreich.diaguard.view.checkbox.TextCheckbox
 import com.faltenreich.diaguard.view.layout.FormRow
 import com.faltenreich.diaguard.view.theme.AppTheme
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 internal fun ExportFormCategoryListItem(
     category: ExportSettings.Category,
+    settings: ExportSettings,
     onIntent: (ExportFormIntent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -69,6 +73,26 @@ internal fun ExportFormCategoryListItem(
                         modifier = Modifier.fillMaxWidth(),
                     )
                 }
+            }
+        }
+
+        if (category.category.isMeal) {
+            FormRow(
+                icon = { Spacer(modifier = Modifier.width(AppTheme.dimensions.size.ImageMedium)) },
+                modifier = Modifier.toggleable(
+                    value = settings.includeFoodEaten,
+                    role = Role.Checkbox,
+                    onValueChange = {
+                        onIntent(ExportFormIntent.SetSettings(settings.copy(includeFoodEaten = it)))
+                    },
+                ),
+            ) {
+                TextCheckbox(
+                    title = stringResource(Res.string.food),
+                    checked = settings.includeFoodEaten,
+                    onCheckedChange = null,
+                    modifier = Modifier.fillMaxWidth(),
+                )
             }
         }
     }

@@ -3,9 +3,7 @@ package com.faltenreich.diaguard.export.form
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.verticalScroll
@@ -26,7 +24,6 @@ import com.faltenreich.diaguard.resource.Res
 import com.faltenreich.diaguard.resource.data
 import com.faltenreich.diaguard.resource.date_range_picker_open
 import com.faltenreich.diaguard.resource.days_without_entries
-import com.faltenreich.diaguard.resource.food
 import com.faltenreich.diaguard.resource.ic_document
 import com.faltenreich.diaguard.resource.ic_note
 import com.faltenreich.diaguard.resource.ic_skip
@@ -41,7 +38,6 @@ import com.faltenreich.diaguard.view.divider.TextDivider
 import com.faltenreich.diaguard.view.image.ResourceIcon
 import com.faltenreich.diaguard.view.layout.FormRow
 import com.faltenreich.diaguard.view.overlay.DropdownTextMenu
-import com.faltenreich.diaguard.view.theme.AppTheme
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -157,7 +153,13 @@ internal fun ExportForm(
                 value = state.settings.includeDaysWithoutEntries,
                 role = Role.Checkbox,
                 onValueChange = {
-                    onIntent(ExportFormIntent.SetSettings(state.settings.copy(includeDaysWithoutEntries = it)))
+                    onIntent(
+                        ExportFormIntent.SetSettings(
+                            state.settings.copy(
+                                includeDaysWithoutEntries = it
+                            )
+                        )
+                    )
                 },
             ),
         ) {
@@ -174,27 +176,9 @@ internal fun ExportForm(
         state.settings.categories.forEach { category ->
             ExportFormCategoryListItem(
                 category = category,
+                settings = state.settings,
                 onIntent = onIntent,
             )
-            if (category.category.isMeal) {
-                FormRow(
-                    icon = { Spacer(modifier = Modifier.width(AppTheme.dimensions.size.ImageMedium)) },
-                    modifier = Modifier.toggleable(
-                        value = state.settings.includeFoodEaten,
-                        role = Role.Checkbox,
-                        onValueChange = {
-                            onIntent(ExportFormIntent.SetSettings(state.settings.copy(includeFoodEaten = it)))
-                        },
-                    ),
-                ) {
-                    TextCheckbox(
-                        title = stringResource(Res.string.food),
-                        checked = state.settings.includeFoodEaten,
-                        onCheckedChange = null,
-                        modifier = Modifier.fillMaxWidth(),
-                    )
-                }
-            }
             Divider()
         }
     }

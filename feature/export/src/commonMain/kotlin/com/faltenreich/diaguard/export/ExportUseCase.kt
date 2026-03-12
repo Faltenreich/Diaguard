@@ -22,16 +22,29 @@ class ExportUseCase(
         dateRange: DateRange,
         settings: ExportSettings,
     ): File? {
+        val categoryIds = settings.categories
+            .filter { it.isExported }
+            .map { it.category.id }
+            .toSet()
+        val propertyIds = settings.categories
+            .flatMap { it.properties }
+            .filter { it.isExported }
+            .map { it.property.id }
+            .toSet()
+
         val entries = entryRepository.getByDateRange(
             startDateTime = dateRange.start.atStartOfDay(),
             endDateTime = dateRange.endInclusive.atEndOfDay(),
         ).map { entry ->
             entry.apply {
-                values = valueRepository.getByEntryId(id)
+                values = valueRepository
+                    .getByEntryId(id)
+                    .filter { it.property.category.id in categoryIds && it.property.id in propertyIds }
                 if (settings.includeTags) entryTags = entryTagRepository.getByEntryId(id)
                 if (settings.includeFoodEaten) foodEaten = foodEatenRepository.getByEntryId(id)
             }
         }
+
         return when (settings.exportType) {
             ExportType.PDF -> pdfExport.export(entries, settings)
             ExportType.CSV -> TODO()

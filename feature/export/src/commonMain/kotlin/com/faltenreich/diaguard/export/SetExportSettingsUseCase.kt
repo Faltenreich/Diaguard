@@ -7,6 +7,7 @@ import com.faltenreich.diaguard.export.preference.ExportTypePreference
 import com.faltenreich.diaguard.export.preference.IncludeCalendarWeekPreference
 import com.faltenreich.diaguard.export.preference.IncludeDateOfExportPreference
 import com.faltenreich.diaguard.export.preference.IncludeDaysWithoutEntriesPreference
+import com.faltenreich.diaguard.export.preference.IncludeFoodEatenPreference
 import com.faltenreich.diaguard.export.preference.IncludeNotesPreference
 import com.faltenreich.diaguard.export.preference.IncludePageNumberPreference
 import com.faltenreich.diaguard.export.preference.IncludeTagsPreference
@@ -27,6 +28,7 @@ class SetExportSettingsUseCase(
         setPreference(IncludePageNumberPreference, settings.includePageNumber)
         setPreference(IncludeNotesPreference, settings.includeNotes)
         setPreference(IncludeTagsPreference, settings.includeTags)
+        setPreference(IncludeFoodEatenPreference, settings.includeFoodEaten)
 
         settings.categories.forEach { category ->
             setPreference(ExportCategoryPreference(category.category), category.isExported)

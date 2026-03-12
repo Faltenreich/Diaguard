@@ -44,6 +44,7 @@ internal data class ExportFormState(
                     includePageNumber = true,
                     includeNotes = true,
                     includeTags = true,
+                    includeFoodEaten = true,
                     pdfLayout = PdfLayout.TIMELINE,
                 )
             )

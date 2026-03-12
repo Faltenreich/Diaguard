@@ -12,6 +12,7 @@ data class ExportSettings(
     val includeNotes: Boolean,
     val includePageNumber: Boolean,
     val includeTags: Boolean,
+    val includeFoodEaten: Boolean,
     val pdfLayout: PdfLayout,
 ) {
 

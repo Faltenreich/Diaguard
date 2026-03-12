@@ -10,6 +10,7 @@ import com.faltenreich.diaguard.export.preference.ExportTypePreference
 import com.faltenreich.diaguard.export.preference.IncludeCalendarWeekPreference
 import com.faltenreich.diaguard.export.preference.IncludeDateOfExportPreference
 import com.faltenreich.diaguard.export.preference.IncludeDaysWithoutEntriesPreference
+import com.faltenreich.diaguard.export.preference.IncludeFoodEatenPreference
 import com.faltenreich.diaguard.export.preference.IncludeNotesPreference
 import com.faltenreich.diaguard.export.preference.IncludePageNumberPreference
 import com.faltenreich.diaguard.export.preference.IncludeTagsPreference
@@ -38,6 +39,7 @@ class GetExportSettingsUseCase(
         getPreference(IncludePageNumberPreference),
         getPreference(IncludeNotesPreference),
         getPreference(IncludeTagsPreference),
+        getPreference(IncludeFoodEatenPreference),
     ) {
         categories,
         exportType,
@@ -48,6 +50,7 @@ class GetExportSettingsUseCase(
         includePageNumber,
         includeNotes,
         includeTags,
+        includeFoodEaten,
         ->
         ExportSettings(
             categories = categories,
@@ -58,6 +61,7 @@ class GetExportSettingsUseCase(
             includePageNumber = includePageNumber,
             includeNotes = includeNotes,
             includeTags = includeTags,
+            includeFoodEaten = includeFoodEaten,
             pdfLayout = pdfLayout,
         )
     }

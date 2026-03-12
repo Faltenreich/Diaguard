@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.Paint
 import android.os.Environment
+import com.faltenreich.diaguard.data.entry.Entry
 import com.faltenreich.diaguard.data.export.ExportSettings
 import com.faltenreich.diaguard.data.export.ExportType
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
@@ -19,7 +20,10 @@ class AndroidPdfExport(
     private val dateTimeFormatter: DateTimeFormatter,
 ) : PdfExport {
 
-    override suspend fun export(settings: ExportSettings): File {
+    override suspend fun export(
+        entries: List<Entry>,
+        settings: ExportSettings,
+    ): File? {
         val dateTime = dateTimeFactory.now()
         val dateTimeFormatted = dateTimeFormatter.formatDateTime(dateTime, EXPORT_DATE_TIME_FORMAT)
         val directory = context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)

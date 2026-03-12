@@ -56,8 +56,9 @@ internal class ExportFormViewModel(
     }
 
     fun submit() = scope.launch {
+        val dateRange = dateRange.value
         val settings = state.first().settings
-        val file = export(settings)!! // TODO: Error handling
+        val file = export(dateRange, settings)!! // TODO: Error handling
         openFile(file)
     }
 }

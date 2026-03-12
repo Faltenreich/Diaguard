@@ -1,0 +1,19 @@
+package com.faltenreich.diaguard.food.search.list
+
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import com.faltenreich.diaguard.data.preview.PreviewScaffold
+
+@Composable
+fun FoodListLoadingIndicator(modifier: Modifier = Modifier) {
+    LinearProgressIndicator(modifier.fillMaxWidth())
+}
+
+@Preview
+@Composable
+private fun Preview() = PreviewScaffold {
+    FoodListLoadingIndicator()
+}

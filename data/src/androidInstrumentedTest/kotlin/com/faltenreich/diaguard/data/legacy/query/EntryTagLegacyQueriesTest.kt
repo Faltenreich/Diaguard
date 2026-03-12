@@ -1,0 +1,41 @@
+package com.faltenreich.diaguard.data.legacy.query
+
+import androidx.test.platform.app.InstrumentationRegistry
+import com.faltenreich.diaguard.datetime.DateTimeAndroidApi
+import com.faltenreich.diaguard.datetime.kotlinx.KotlinxDateTimeFactory
+import com.faltenreich.diaguard.data.entry.tag.EntryTag
+import com.faltenreich.diaguard.data.legacy.query.EntryTagLegacyQueries
+import com.faltenreich.diaguard.persistence.database.SqliteDatabase
+import com.faltenreich.diaguard.localization.ComposeLocalization
+import com.faltenreich.diaguard.data.FileFactory
+import org.junit.Assert
+import org.junit.Test
+
+class EntryTagLegacyQueriesTest {
+
+    private val database = SqliteDatabase(file = FileFactory.createFromAssets("diaguard.db"))
+    private val dateTimePlatformApi = DateTimeAndroidApi(
+        localization = ComposeLocalization(),
+        context = InstrumentationRegistry.getInstrumentation().context,
+    )
+    private val dateTimeFactory = KotlinxDateTimeFactory(dateTimePlatformApi)
+
+    private val queries = EntryTagLegacyQueries(
+        database = database,
+        dateTimeFactory = dateTimeFactory,
+    )
+
+    @Test
+    fun readsEntryTags() {
+        val expected = arrayOf(
+            EntryTag.Legacy(
+                createdAt = dateTimeFactory.dateTime(millis = 1717865198200),
+                updatedAt = dateTimeFactory.dateTime(millis = 1717865198200),
+                entryId = 1,
+                tagId = 1,
+            )
+        )
+        val actual = queries.getAll().toTypedArray()
+        Assert.assertArrayEquals(expected, actual)
+    }
+}

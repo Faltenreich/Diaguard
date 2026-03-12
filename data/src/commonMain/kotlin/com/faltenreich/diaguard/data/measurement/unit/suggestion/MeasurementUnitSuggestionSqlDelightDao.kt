@@ -1,0 +1,39 @@
+package com.faltenreich.diaguard.data.measurement.unit.suggestion
+
+import app.cash.sqldelight.coroutines.asFlow
+import app.cash.sqldelight.coroutines.mapToList
+import com.faltenreich.diaguard.data.MeasurementUnitSuggestionQueries
+import com.faltenreich.diaguard.datetime.DateTime
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.Flow
+
+internal class MeasurementUnitSuggestionSqlDelightDao(
+    private val dispatcher: CoroutineDispatcher,
+    private val queries: MeasurementUnitSuggestionQueries,
+    private val mapper: MeasurementUnitSuggestionSqlDelightMapper,
+) : MeasurementUnitSuggestionDao {
+
+    override fun create(
+        createdAt: DateTime,
+        updatedAt: DateTime,
+        factor: Double,
+        propertyId: Long,
+        unitId: Long,
+    ) {
+        queries.create(
+            createdAt = createdAt.isoString,
+            updatedAt = updatedAt.isoString,
+            factor = factor,
+            propertyId = propertyId,
+            unitId = unitId,
+        )
+    }
+
+    override fun getLastId(): Long? {
+        return queries.getLastId().executeAsOneOrNull()
+    }
+
+    override fun observeByProperty(propertyId: Long): Flow<List<MeasurementUnitSuggestion.Local>> {
+        return queries.getByProperty(propertyId, mapper::map).asFlow().mapToList(dispatcher)
+    }
+}

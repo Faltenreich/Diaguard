@@ -1,0 +1,166 @@
+@file:Suppress("MagicNumber")
+
+package com.faltenreich.diaguard.entry.form.reminder
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.FilledTonalButton
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.tooling.preview.Preview
+import com.faltenreich.diaguard.data.preview.PreviewScaffold
+import com.faltenreich.diaguard.resource.Res
+import com.faltenreich.diaguard.resource.hours_abbreviation_short
+import com.faltenreich.diaguard.resource.ic_backspace
+import com.faltenreich.diaguard.resource.minutes_abbreviation_short
+import com.faltenreich.diaguard.resource.seconds_abbreviation_short
+import com.faltenreich.diaguard.view.image.ResourceIcon
+import com.faltenreich.diaguard.view.theme.AppTheme
+import org.jetbrains.compose.resources.stringResource
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.hours
+import kotlin.time.Duration.Companion.minutes
+import kotlin.time.Duration.Companion.seconds
+
+@Composable
+fun ReminderPicker(
+    numbers: List<Int>,
+    onChange: (Duration) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    var latestNumbers by remember(numbers) { mutableStateOf(numbers) }
+
+    val latestOnChange by rememberUpdatedState(onChange)
+    LaunchedEffect(latestNumbers) {
+        val hours = latestNumbers.subList(0, 2).joinToString("").toInt()
+        val minutes = latestNumbers.subList(2, 4).joinToString("").toInt()
+        val seconds = latestNumbers.subList(4, 6).joinToString("").toInt()
+        val duration = hours.hours + minutes.minutes + seconds.seconds
+        latestOnChange(duration)
+    }
+
+    val styleDigit = AppTheme.typography.displayMedium.toSpanStyle().copy(fontFamily = FontFamily.Monospace)
+    val styleLabel = AppTheme.typography.titleMedium.toSpanStyle().copy(fontFamily = FontFamily.Monospace)
+    val styleButton = AppTheme.typography.headlineMedium.copy(fontFamily = FontFamily.Monospace)
+    Column(
+        modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_3),
+    ) {
+        Text(
+            text = buildAnnotatedString {
+                withStyle(styleDigit) {
+                    append(latestNumbers[0].toString())
+                    append(latestNumbers[1].toString())
+                }
+                withStyle(styleLabel) {
+                    append(stringResource(Res.string.hours_abbreviation_short))
+                    append(" ")
+                }
+                withStyle(styleDigit) {
+                    append(latestNumbers[2].toString())
+                    append(latestNumbers[3].toString())
+                }
+                withStyle(styleLabel) {
+                    append(stringResource(Res.string.minutes_abbreviation_short))
+                    append(" ")
+                }
+                withStyle(styleDigit) {
+                    append(latestNumbers[4].toString())
+                    append(latestNumbers[5].toString())
+                }
+                withStyle(styleLabel) {
+                    append(stringResource(Res.string.seconds_abbreviation_short))
+                }
+            },
+        )
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(3),
+            verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_1),
+            horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_1),
+        ) {
+            items(9) { index ->
+                val number = index + 1
+                Button(onClick = { latestNumbers = latestNumbers.add(number) }) {
+                    Text(
+                        text = number.toString(),
+                        style = styleButton,
+                    )
+                }
+            }
+            item {
+                Button(onClick = { latestNumbers = latestNumbers.add(0).add(0) }) {
+                    Text(
+                        text = "00",
+                        style = styleButton,
+                    )
+                }
+            }
+            item {
+                Button(onClick = { latestNumbers = latestNumbers.add(0) }) {
+                    Text(
+                        text = 0.toString(),
+                        style = styleButton,
+                    )
+                }
+            }
+            item {
+                Button(onClick = { latestNumbers = latestNumbers.removeLast() }) {
+                    ResourceIcon(Res.drawable.ic_backspace)
+                }
+            }
+        }
+    }
+}
+
+private fun List<Int>.add(number: Int): List<Int> {
+    return if (first() == 0) subList(1, size) + number else this
+}
+
+private fun List<Int>.removeLast(): List<Int> {
+    return listOf(0) + subList(0, lastIndex)
+}
+
+@Composable
+private fun Button(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    content: @Composable RowScope.() -> Unit,
+) {
+    FilledTonalButton(
+        onClick = onClick,
+        modifier = modifier.aspectRatio(1f),
+        colors = ButtonDefaults.filledTonalButtonColors(
+            containerColor = AppTheme.colors.scheme.surfaceContainerLowest,
+            contentColor = AppTheme.colors.scheme.onSurface,
+        ),
+        shape = CircleShape,
+        content = content,
+    )
+}
+
+@Preview
+@Composable
+private fun Preview() = PreviewScaffold {
+    ReminderPicker(
+        numbers = listOf(1, 2, 3),
+        onChange = {},
+    )
+}

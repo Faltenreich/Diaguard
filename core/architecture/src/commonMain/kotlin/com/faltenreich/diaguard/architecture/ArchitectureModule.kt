@@ -1,0 +1,11 @@
+package com.faltenreich.diaguard.architecture
+
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import org.koin.dsl.module
+import kotlin.coroutines.CoroutineContext
+
+fun architectureModule() = module {
+    single<CoroutineContext> { Dispatchers.Default }
+    single<CoroutineDispatcher> { Dispatchers.Default }
+}

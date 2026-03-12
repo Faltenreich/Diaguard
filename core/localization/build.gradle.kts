@@ -1,0 +1,23 @@
+plugins {
+    id("multiplatform-convention")
+    alias(libs.plugins.compose)
+    alias(libs.plugins.compose.compiler)
+}
+
+kotlin {
+    sourceSets {
+        commonMain {
+            dependencies {
+                implementation(project(":core:config"))
+                implementation(project(":core:injection"))
+                implementation(libs.compose.foundation)
+                implementation(libs.compose.resources)
+            }
+        }
+    }
+}
+
+compose.resources {
+    packageOfResClass = "com.faltenreich.diaguard.resource"
+    publicResClass = true
+}

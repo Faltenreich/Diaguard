@@ -1,0 +1,87 @@
+package com.faltenreich.diaguard.food.search
+
+import androidx.compose.foundation.layout.Column
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.paging.LoadState
+import androidx.paging.PagingData
+import androidx.paging.compose.collectAsLazyPagingItems
+import com.faltenreich.diaguard.data.food.Food
+import com.faltenreich.diaguard.data.preview.PreviewScaffold
+import com.faltenreich.diaguard.food.search.list.FoodList
+import com.faltenreich.diaguard.food.search.list.FoodListEmpty
+import com.faltenreich.diaguard.food.search.list.FoodListSkeleton
+import com.faltenreich.diaguard.view.layout.PullToRefresh
+import com.faltenreich.diaguard.view.lifecycle.LifecycleState
+import com.faltenreich.diaguard.view.lifecycle.rememberLifecycleState
+import kotlinx.coroutines.flow.flowOf
+
+@Composable
+fun FoodSearch(
+    state: FoodSearchState?,
+    onSelect: (Food.Local) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val items = state?.pagingData?.collectAsLazyPagingItems() ?: return
+    val isLoading = items.itemCount == 0 && items.loadState.refresh == LoadState.Loading
+    var isRefreshing by remember { mutableStateOf(false) }
+
+    LaunchedEffect(items.loadState.refresh) {
+        if (!isLoading) {
+            isRefreshing = false
+        }
+    }
+
+    val lifecycleState = rememberLifecycleState()
+    LaunchedEffect(lifecycleState) {
+        if (lifecycleState == LifecycleState.RESUMED) {
+            items.refresh()
+        }
+    }
+
+    Column(modifier = modifier) {
+        FoodSearchHeader()
+
+        PullToRefresh(
+            isRefreshing = isRefreshing,
+            onRefresh = {
+                isRefreshing = true
+                items.refresh()
+            },
+        ) {
+            if (isLoading) {
+                FoodListSkeleton()
+            } else {
+                val isAtTheEnd = items.loadState.refresh !is LoadState.Loading
+                    && items.loadState.prepend !is LoadState.Loading
+                    && items.loadState.append !is LoadState.Loading
+                if (isAtTheEnd && items.itemCount == 0) {
+                    FoodListEmpty()
+                } else {
+                    FoodList(
+                        items = items,
+                        onSelect = onSelect,
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun Preview() = PreviewScaffold {
+    FoodSearch(
+        state = FoodSearchState(
+            query = "Query",
+            pagingData = flowOf(PagingData.from(listOf(food().localized()))),
+        ),
+        onSelect = {},
+    )
+}

@@ -1,0 +1,56 @@
+package com.faltenreich.diaguard.data.seed.query.measurement
+
+import com.faltenreich.diaguard.data.DatabaseKey
+import com.faltenreich.diaguard.data.measurement.category.MeasurementCategory
+import com.faltenreich.diaguard.data.measurement.property.MeasurementAggregationStyle
+import com.faltenreich.diaguard.data.measurement.property.MeasurementProperty
+import com.faltenreich.diaguard.data.measurement.property.MeasurementValueRange
+import com.faltenreich.diaguard.data.measurement.unit.suggestion.MeasurementUnitSuggestion
+import com.faltenreich.diaguard.localization.Localization
+import com.faltenreich.diaguard.resource.Res
+import com.faltenreich.diaguard.resource.meal
+
+class MealSeedQueries(
+    private val localization: Localization,
+) {
+
+    operator fun invoke(): MeasurementCategory.Seed {
+        return MeasurementCategory.Seed(
+            key = DatabaseKey.MeasurementCategory.MEAL,
+            name = localization.getString(Res.string.meal),
+            icon = "\uD83C\uDF5E",
+            sortIndex = 2,
+            isActive = true,
+            properties = listOf(
+                MeasurementProperty.Seed(
+                    key = DatabaseKey.MeasurementProperty.MEAL,
+                    name = localization.getString(Res.string.meal),
+                    sortIndex = 0,
+                    aggregationStyle = MeasurementAggregationStyle.CUMULATIVE,
+                    range = MeasurementValueRange(
+                        minimum = 0.0,
+                        low = null,
+                        target = null,
+                        high = null,
+                        maximum = 1000.0,
+                        isHighlighted = false,
+                    ),
+                    unitSuggestions = listOf(
+                        MeasurementUnitSuggestion.Seed(
+                            factor = MeasurementUnitSuggestion.FACTOR_DEFAULT,
+                            unit = DatabaseKey.MeasurementUnit.CARBOHYDRATES,
+                        ),
+                        MeasurementUnitSuggestion.Seed(
+                            factor = 0.1,
+                            unit = DatabaseKey.MeasurementUnit.CARBOHYDRATE_UNITS,
+                        ),
+                        MeasurementUnitSuggestion.Seed(
+                            factor = 0.0833,
+                            unit = DatabaseKey.MeasurementUnit.BREAD_UNITS,
+                        ),
+                    ),
+                ),
+            ),
+        )
+    }
+}

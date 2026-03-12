@@ -1,0 +1,104 @@
+package com.faltenreich.diaguard.measurement.category.list
+
+import app.cash.turbine.test
+import app.cash.turbine.turbineScope
+import com.faltenreich.diaguard.data.DatabaseKey
+import com.faltenreich.diaguard.data.navigation.Navigation
+import com.faltenreich.diaguard.data.navigation.NavigationEvent
+import com.faltenreich.diaguard.data.navigation.NavigationTarget
+import com.faltenreich.diaguard.measurement.measurementModule
+import com.faltenreich.diaguard.startup.seed.ImportSeedUseCase
+import com.faltenreich.diaguard.startup.startupModule
+import com.faltenreich.diaguard.test.TestSuite
+import kotlinx.coroutines.test.runTest
+import org.koin.test.inject
+import kotlin.test.BeforeTest
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertTrue
+
+class MeasurementCategoryListViewModelTest : TestSuite(measurementModule() + startupModule()) {
+
+    private val importSeed: ImportSeedUseCase by inject()
+    private val navigation: Navigation by inject()
+    private val viewModel: MeasurementCategoryListViewModel by inject()
+
+    @BeforeTest
+    override fun beforeTest() {
+        super.beforeTest()
+        importSeed()
+    }
+
+    @Test
+    fun `launch with categories`() = runTest {
+        viewModel.state.test {
+            assertTrue(awaitItem().categories.isNotEmpty())
+        }
+    }
+
+    @Test
+    fun `launch with category for every database key`() = runTest {
+        viewModel.state.test {
+            val categories = awaitItem().categories
+            DatabaseKey.MeasurementCategory.entries.forEach { key ->
+                assertTrue(categories.any { it.key == key })
+            }
+        }
+    }
+
+    @Test
+    fun `decrement sort index of category`() = runTest {
+        viewModel.state.test {
+            val category = awaitItem().categories.last()
+            viewModel.handleIntent(MeasurementCategoryListIntent.DecrementSortIndex(category))
+
+            val update = awaitItem().categories.first { it.id == category.id }
+            assertEquals(
+                expected = category.sortIndex - 1,
+                actual = update.sortIndex,
+            )
+            awaitItem()
+        }
+    }
+
+    @Test
+    fun `increment sort index of category`() = runTest {
+        viewModel.state.test {
+            val category = awaitItem().categories.first()
+            viewModel.handleIntent(MeasurementCategoryListIntent.IncrementSortIndex(category))
+
+            val update = awaitItem().categories.first { it.id == category.id }
+            assertEquals(
+                expected = category.sortIndex + 1,
+                actual = update.sortIndex,
+            )
+            awaitItem()
+        }
+    }
+
+    @Test
+    fun `push screen when editing category`() = runTest {
+        turbineScope {
+            val state = viewModel.state.testIn(backgroundScope)
+            val navigation = navigation.events.testIn(backgroundScope)
+
+            val category = state.awaitItem().categories.first()
+            viewModel.handleIntent(MeasurementCategoryListIntent.Edit(category))
+
+            val event = navigation.awaitItem()
+            assertTrue(event is NavigationEvent.NavigateTo)
+            assertTrue(event.target is NavigationTarget.MeasurementCategoryForm)
+        }
+    }
+
+    @Test
+    fun `push screen when creating category`() = runTest {
+        navigation.events.test {
+            viewModel.handleIntent(MeasurementCategoryListIntent.Create(name = ""))
+
+            val event = awaitItem()
+            assertTrue(event is NavigationEvent.NavigateTo)
+            assertTrue(event.target is NavigationTarget.MeasurementCategoryForm)
+        }
+    }
+}

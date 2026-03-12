@@ -1,0 +1,3 @@
+plugins {
+    id("feature-convention")
+}

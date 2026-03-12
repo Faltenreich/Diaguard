@@ -1,0 +1,68 @@
+package com.faltenreich.diaguard.log
+
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import com.faltenreich.diaguard.data.navigation.Screen
+import com.faltenreich.diaguard.injection.viewModel
+import com.faltenreich.diaguard.resource.Res
+import com.faltenreich.diaguard.resource.date_picker_open
+import com.faltenreich.diaguard.resource.entry_new_description
+import com.faltenreich.diaguard.resource.ic_add
+import com.faltenreich.diaguard.resource.ic_date
+import com.faltenreich.diaguard.resource.ic_search
+import com.faltenreich.diaguard.resource.search_open
+import com.faltenreich.diaguard.view.bar.BottomAppBarItem
+import com.faltenreich.diaguard.view.bar.BottomAppBarStyle
+import com.faltenreich.diaguard.view.bar.TopAppBarStyle
+import com.faltenreich.diaguard.view.button.TooltipFloatingActionButton
+import kotlinx.serialization.Serializable
+import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
+
+@Serializable
+data object LogScreen : Screen {
+
+    @Composable
+    override fun TopAppBar(): TopAppBarStyle {
+        val viewModel = viewModel<LogViewModel>()
+        val state = viewModel.collectState()
+        return TopAppBarStyle.CenterAligned {
+            Text(state?.monthLocalized ?: "")
+        }
+    }
+
+    @Composable
+    override fun BottomAppBar(): BottomAppBarStyle {
+        val viewModel = viewModel<LogViewModel>()
+        return BottomAppBarStyle.Visible(
+            actions = {
+                BottomAppBarItem(
+                    painter = painterResource(Res.drawable.ic_search),
+                    contentDescription = stringResource(Res.string.search_open),
+                    onClick = { viewModel.dispatchIntent(LogIntent.OpenEntrySearch()) },
+                )
+                BottomAppBarItem(
+                    painter = painterResource(Res.drawable.ic_date),
+                    contentDescription = stringResource(Res.string.date_picker_open),
+                    onClick = { viewModel.dispatchIntent(LogIntent.OpenDatePickerDialog) },
+                )
+            },
+            floatingActionButton = {
+                TooltipFloatingActionButton(
+                    painter = painterResource(Res.drawable.ic_add),
+                    contentDescription = stringResource(Res.string.entry_new_description),
+                    onClick = { viewModel.dispatchIntent(LogIntent.CreateEntry()) },
+                )
+            },
+        )
+    }
+
+    @Composable
+    override fun Content() {
+        val viewModel = viewModel<LogViewModel>()
+        Log(
+            state = viewModel.collectState(),
+            onIntent = viewModel::dispatchIntent,
+        )
+    }
+}

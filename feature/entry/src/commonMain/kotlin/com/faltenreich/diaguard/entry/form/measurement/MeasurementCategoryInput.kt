@@ -1,0 +1,142 @@
+package com.faltenreich.diaguard.entry.form.measurement
+
+import androidx.compose.animation.animateContentSize
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Card
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
+import com.faltenreich.diaguard.data.preview.PreviewScaffold
+import com.faltenreich.diaguard.entry.form.EntryFormIntent
+import com.faltenreich.diaguard.entry.form.food.FoodEatenInput
+import com.faltenreich.diaguard.entry.form.food.FoodEatenInputState
+import com.faltenreich.diaguard.measurement.category.icon.MeasurementCategoryIcon
+import com.faltenreich.diaguard.resource.Res
+import com.faltenreich.diaguard.resource.food_add
+import com.faltenreich.diaguard.resource.ic_search
+import com.faltenreich.diaguard.view.divider.Divider
+import com.faltenreich.diaguard.view.image.ResourceIcon
+import com.faltenreich.diaguard.view.theme.AppTheme
+import org.jetbrains.compose.resources.stringResource
+
+@Composable
+fun MeasurementCategoryInput(
+    state: MeasurementCategoryInputState,
+    foodEaten: List<FoodEatenInputState>,
+    onIntent: (EntryFormIntent) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val keyboardOptionsNext = KeyboardOptions.Default.copy(
+        keyboardType = KeyboardType.Decimal,
+        imeAction = ImeAction.Next,
+    )
+    val keyboardOptionsDone = keyboardOptionsNext.copy(
+        imeAction = ImeAction.Done,
+    )
+
+    Card(modifier = modifier.animateContentSize()) {
+        Row(
+            modifier = Modifier
+                .background(AppTheme.colors.scheme.surfaceContainerLow)
+                .fillMaxWidth()
+                .padding(AppTheme.dimensions.padding.P_2_5),
+            horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_3),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            MeasurementCategoryIcon(state.category)
+            Text(
+                text = state.category.name,
+                color = AppTheme.colors.scheme.onSurface,
+            )
+        }
+        val properties = state.propertyInputStates
+        properties.forEachIndexed { index, property ->
+            if (index != 0) {
+                Divider()
+            }
+            Row(
+                modifier = Modifier.padding(AppTheme.dimensions.padding.P_0_5),
+                horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_3),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                MeasurementPropertyInput(
+                    state = property,
+                    modifier = Modifier.weight(1f),
+                    onIntent = onIntent,
+                    keyboardOptions =
+                        if (property.isLast && (!state.category.isMeal || foodEaten.isEmpty())) keyboardOptionsDone
+                        else keyboardOptionsNext
+                )
+                if (state.category.isMeal) {
+                    IconButton(
+                        onClick = { onIntent(EntryFormIntent.SelectFood) },
+                        modifier = Modifier.padding(end = AppTheme.dimensions.padding.P_1),
+                    ) {
+                        ResourceIcon(
+                            icon = Res.drawable.ic_search,
+                            contentDescription = stringResource(Res.string.food_add),
+                        )
+                    }
+                }
+            }
+            property.error?.let { error ->
+                Text(
+                    text = error,
+                    modifier = Modifier.padding(
+                        start = AppTheme.dimensions.padding.P_3,
+                        end = AppTheme.dimensions.padding.P_3,
+                        bottom = AppTheme.dimensions.padding.P_2,
+                    ),
+                    style = AppTheme.typography.bodySmall,
+                    color = AppTheme.colors.scheme.error,
+                )
+            }
+        }
+        if (state.category.isMeal) {
+            foodEaten.forEachIndexed { index, data ->
+                Divider()
+                FoodEatenInput(
+                    state = data,
+                    keyboardOptions =
+                        if (state.propertyInputStates.any { it.isLast } && index == foodEaten.lastIndex) keyboardOptionsDone
+                        else keyboardOptionsNext,
+                    onIntent = onIntent,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(AppTheme.dimensions.padding.P_1),
+                )
+            }
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun Preview() = PreviewScaffold {
+    MeasurementCategoryInput(
+        state = MeasurementCategoryInputState(
+            category = category(),
+            propertyInputStates = listOf(
+                MeasurementPropertyInputState(
+                    property = property(),
+                    input = "",
+                    isLast = true,
+                    error = null,
+                    decimalPlaces = 3,
+                ),
+            ),
+        ),
+        foodEaten = emptyList(),
+        onIntent = {},
+    )
+}

@@ -12,71 +12,69 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  android:
+  test:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
-    strategy:
-      fail-fast: false
-      matrix:
-        api-level:
-          - 21
-          - 36
-
+    permissions:
+      pull-requests: write
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    - name: Set up JDK
-      uses: actions/setup-java@v4
-      with:
-        distribution: 'zulu'
-        java-version: '17'
-        cache: 'gradle'
+      - name: Setup
+        uses: ./.github/actions/setup
 
-    - name: Set up Android SDK
-      uses: android-actions/setup-android@v3
+      - name: Test
+        run: ./gradlew koverXmlReport
 
-    - name: Validate Gradle wrapper
-      uses: gradle/actions/wrapper-validation@v5
+      - name: Report
+        uses: mi-kas/kover-report@v1
+        with:
+          path: ${{ github.workspace }}/shared/build/reports/kover/report.xml
+          title: Code Coverage
+          update-comment: true
+          min-coverage-changed-files: 80
 
-    - name: Grant execute permission for Gradle wrapper
-      run: chmod +x gradlew
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports
+          path: "**/build/reports"
+        if: always()
 
-    - name: Cache Gradle dependencies
-      uses: actions/cache@v4
-      with:
-        path: |
-          ~/.gradle/caches
-          ~/.gradle/wrapper
-          !~/.gradle/wrapper/dists/**/gradle*.zip
-        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
-        restore-keys: |
-          ${{ runner.os }}-gradle-
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    - name: Build
-      run: ./gradlew build --no-daemon
+      - name: Setup
+        uses: ./.github/actions/setup
 
-    - name: Run unit tests
-      run: ./gradlew testBetaDebugUnitTest
+      - name: Lint
+        run: ./gradlew lintDebug
 
-    - name: Enable KVM group permissions
-      run: |
-        echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
-        sudo udevadm control --reload-rules
-        sudo udevadm trigger --name-match=kvm
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: lint-reports
+          path: "**/build/reports/lint-results-debug.html"
+        if: always()
 
-    - name: Run instrumentation tests
-      uses: reactivecircus/android-emulator-runner@v2
-      with:
-        api-level: ${{ matrix.api-level }}
-        target: google_apis
-        arch: x86_64
-        script: ./gradlew connectedBetaDebugAndroidTest
+  detekt:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    - name: Upload test reports
-      uses: actions/upload-artifact@v4
-      with:
-        name: reports
-        path: app/build/reports
-        overwrite: true
-      if: always()
+      - name: Setup
+        uses: ./.github/actions/setup
+
+      - name: Detekt
+        run: ./gradlew detektMetadataMain
+
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: detekt-reports
+          path: "**/build/reports/detekt"
+        if: always()

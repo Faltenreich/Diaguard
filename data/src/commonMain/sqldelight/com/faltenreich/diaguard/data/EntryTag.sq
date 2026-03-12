@@ -1,0 +1,29 @@
+CREATE TABLE EntryTag (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    createdAt TEXT NOT NULL,
+    updatedAt TEXT NOT NULL,
+    entryId INTEGER NOT NULL,
+    tagId INTEGER NOT NULL,
+    FOREIGN KEY(entryId) REFERENCES Entry(id) ON DELETE CASCADE,
+    FOREIGN KEY(tagId) REFERENCES Tag(id) ON DELETE CASCADE
+);
+
+create:
+INSERT INTO EntryTag(createdAt, updatedAt, entryId, tagId)
+VALUES (?, ?, ?, ?);
+
+getLastId:
+SELECT last_insert_rowid();
+
+getByEntry:
+SELECT * FROM EntryTag
+INNER JOIN Entry ON Entry.id == EntryTag.entryId
+INNER JOIN Tag ON Tag.id == EntryTag.tagId
+WHERE EntryTag.entryId = ?
+ORDER BY EntryTag.updatedAt DESC;
+
+countByTag:
+SELECT COUNT(*) FROM EntryTag WHERE id = ?;
+
+deleteById:
+DELETE FROM EntryTag WHERE id = ?;

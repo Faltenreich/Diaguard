@@ -1,0 +1,47 @@
+package com.faltenreich.diaguard.entry.search
+
+import app.cash.turbine.test
+import com.faltenreich.diaguard.data.entry.Entry
+import com.faltenreich.diaguard.data.entry.EntryRepository
+import com.faltenreich.diaguard.data.navigation.Navigation
+import com.faltenreich.diaguard.data.navigation.NavigationEvent
+import com.faltenreich.diaguard.data.navigation.NavigationTarget
+import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
+import com.faltenreich.diaguard.entry.entryModule
+import com.faltenreich.diaguard.startup.startupModule
+import com.faltenreich.diaguard.test.TestSuite
+import kotlinx.coroutines.test.runTest
+import org.koin.core.component.inject
+import org.koin.core.parameter.parametersOf
+import kotlin.test.Ignore
+import kotlin.test.Test
+import kotlin.test.assertTrue
+
+class EntrySearchViewModelTest : TestSuite(entryModule() + startupModule()) {
+
+    private val navigation: Navigation by inject()
+    private val entryRepository: EntryRepository by inject()
+    private val dateTimeFactory: DateTimeFactory by inject()
+
+    private val viewModel: EntrySearchViewModel by inject(parameters = { parametersOf("") })
+
+    @Test
+    @Ignore
+    fun `push screen when opening entry`() = runTest {
+        // FIXME: lateinit property pagingSource has not been initialized
+        navigation.events.test {
+            val entryId = entryRepository.create(
+                Entry.User(
+                    dateTime = dateTimeFactory.now(),
+                    note = null,
+                )
+            )
+            val entry = entryRepository.getById(entryId)!!
+            viewModel.handleIntent(EntrySearchIntent.OpenEntry(entry))
+
+            val event = awaitItem()
+            assertTrue(event is NavigationEvent.NavigateTo)
+            assertTrue(event.target is NavigationTarget.EntryForm)
+        }
+    }
+}

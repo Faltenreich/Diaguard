@@ -1,0 +1,42 @@
+package com.faltenreich.diaguard.startup.legacy
+
+import com.faltenreich.diaguard.data.legacy.LegacyRepository
+import com.faltenreich.diaguard.data.preference.Preference
+import com.faltenreich.diaguard.data.preference.color.ColorSchemePreference
+import com.faltenreich.diaguard.data.preference.decimal.DecimalPlacesPreference
+import com.faltenreich.diaguard.data.preference.food.ShowBrandedFoodPreference
+import com.faltenreich.diaguard.data.preference.food.ShowCommonFoodPreference
+import com.faltenreich.diaguard.data.preference.food.ShowCustomFoodPreference
+import com.faltenreich.diaguard.data.preference.startscreen.StartScreenPreference
+import com.faltenreich.diaguard.logging.Logger
+import com.faltenreich.diaguard.preference.SetPreferenceUseCase
+
+class ImportLegacyPreferencesUseCase(
+    private val legacyRepository: LegacyRepository,
+    private val setPreference: SetPreferenceUseCase,
+) {
+
+    suspend operator fun invoke() {
+        if (legacyRepository.hasPreferences()) {
+            Logger.info("Importing data from legacy preferences")
+            importPreference(ColorSchemePreference)
+            importPreference(DecimalPlacesPreference)
+            importPreference(ShowBrandedFoodPreference)
+            importPreference(ShowCommonFoodPreference)
+            importPreference(ShowCustomFoodPreference)
+            importPreference(StartScreenPreference)
+        } else {
+            Logger.info("Importing no legacy preferences")
+        }
+    }
+
+    private suspend inline fun <reified Store: Any, Domain> importPreference(preference: Preference<Store, Domain>) {
+        val import = legacyRepository.getPreference(preference)
+        if (import != null) {
+            setPreference(preference, import)
+            Logger.info("Imported legacy for $preference: $import")
+        } else {
+            Logger.info("Imported legacy for $preference: nothing found")
+        }
+    }
+}

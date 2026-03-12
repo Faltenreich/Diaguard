@@ -1,0 +1,42 @@
+package com.faltenreich.diaguard.entry.form.tag
+
+import androidx.compose.animation.animateContentSize
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import com.faltenreich.diaguard.data.preview.PreviewScaffold
+import com.faltenreich.diaguard.data.tag.Tag
+import com.faltenreich.diaguard.view.theme.AppTheme
+
+@Composable
+fun EntryTagList(
+    tags: Collection<Tag>,
+    onTagClick: (Tag) -> Unit,
+    modifier: Modifier = Modifier,
+    trailingIcon: @Composable (Tag) -> Unit = {},
+) {
+    FlowRow(
+        modifier = modifier.animateContentSize(),
+        horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_3),
+    ) {
+        tags.forEach { tag ->
+            EntryTagListItem(
+                tag = tag,
+                onClick = onTagClick,
+                trailingIcon = trailingIcon,
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun Preview() = PreviewScaffold {
+    EntryTagList(
+        tags = listOf(tag()),
+        onTagClick = {},
+        trailingIcon = {},
+    )
+}

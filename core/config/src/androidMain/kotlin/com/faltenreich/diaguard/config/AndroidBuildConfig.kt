@@ -1,0 +1,29 @@
+package com.faltenreich.diaguard.config
+
+import android.content.Context
+import android.content.pm.PackageInfo
+import androidx.core.content.pm.PackageInfoCompat
+
+internal class AndroidBuildConfig(private val context: Context) : BuildConfig {
+
+    private fun getPackageInfo(): PackageInfo {
+        @Suppress("DEPRECATION")
+        return context.packageManager.getPackageInfo(context.packageName, 0)
+    }
+
+    override fun getPackageName(): String {
+        return getPackageInfo().packageName
+    }
+
+    override fun getVersionCode(): Long {
+        return PackageInfoCompat.getLongVersionCode(getPackageInfo())
+    }
+
+    override fun getVersionName(): String {
+        return getPackageInfo().versionName ?: "-"
+    }
+
+    override fun hasPlatformFramework(): Boolean {
+        return true
+    }
+}

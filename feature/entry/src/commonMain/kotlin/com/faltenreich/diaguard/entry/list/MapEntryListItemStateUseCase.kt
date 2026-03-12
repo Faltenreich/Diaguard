@@ -1,0 +1,71 @@
+package com.faltenreich.diaguard.entry.list
+
+import com.faltenreich.diaguard.data.entry.Entry
+import com.faltenreich.diaguard.data.entry.tag.EntryTagRepository
+import com.faltenreich.diaguard.data.food.eaten.FoodEatenRepository
+import com.faltenreich.diaguard.data.measurement.value.MeasurementValueMapper
+import com.faltenreich.diaguard.data.measurement.value.MeasurementValueRepository
+import com.faltenreich.diaguard.data.preference.decimal.DecimalPlacesPreference
+import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
+import com.faltenreich.diaguard.localization.Localization
+import com.faltenreich.diaguard.localization.NumberFormatter
+import com.faltenreich.diaguard.preference.GetPreferenceUseCase
+import com.faltenreich.diaguard.resource.Res
+import com.faltenreich.diaguard.resource.grams_abbreviation
+import kotlinx.coroutines.flow.firstOrNull
+
+class MapEntryListItemStateUseCase(
+    private val valueRepository: MeasurementValueRepository,
+    private val entryTagRepository: EntryTagRepository,
+    private val foodEatenRepository: FoodEatenRepository,
+    private val getPreference: GetPreferenceUseCase,
+    private val dateTimeFormatter: DateTimeFormatter,
+    private val numberFormatter: NumberFormatter,
+    private val measurementValueMapper: MeasurementValueMapper,
+    private val localization: Localization,
+) {
+
+    suspend operator fun invoke(
+        entry: Entry.Local,
+        includeDate: Boolean,
+    ): EntryListItemState {
+        val decimalPlaces = getPreference(DecimalPlacesPreference).firstOrNull() ?: DecimalPlacesPreference.default
+        return EntryListItemState(
+            entry = entry.apply {
+                values = valueRepository.getByEntryId(entry.id)
+                entryTags = entryTagRepository.getByEntryId(entry.id)
+                foodEaten = foodEatenRepository.getByEntryId(entry.id)
+            },
+            dateTimeLocalized = dateTimeFormatter.run {
+                if (includeDate) formatDateTime(entry.dateTime)
+                else formatTime(entry.dateTime.time)
+            },
+            foodEatenLocalized = entry.foodEaten.map { foodEaten ->
+                val amountInGrams = numberFormatter(
+                    number = foodEaten.amountInGrams,
+                    scale = decimalPlaces,
+                )
+                val gramsAbbreviation = localization.getString(Res.string.grams_abbreviation)
+                val foodName = foodEaten.food.name
+                "$amountInGrams $gramsAbbreviation $foodName"
+            },
+            categories = entry.values
+                .sortedBy { it.property.category.sortIndex }
+                .groupBy { it.property.category }
+                .map { (category, values) ->
+                    EntryListItemState.Category(
+                        category = category,
+                        values = values
+                            .sortedBy { it.property.sortIndex }
+                            .map { value ->
+                                EntryListItemState.Value(
+                                    property = value.property,
+                                    value = value,
+                                    valueLocalized = measurementValueMapper(value, decimalPlaces).value,
+                                )
+                            },
+                    )
+                },
+        )
+    }
+}

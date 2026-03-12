@@ -1,0 +1,60 @@
+package com.faltenreich.diaguard.measurement.property.list
+
+import androidx.compose.foundation.layout.Column
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import com.faltenreich.diaguard.data.measurement.property.MeasurementProperty
+import com.faltenreich.diaguard.data.preview.PreviewScaffold
+import com.faltenreich.diaguard.resource.Res
+import com.faltenreich.diaguard.resource.ic_arrow_down
+import com.faltenreich.diaguard.resource.ic_arrow_up
+import com.faltenreich.diaguard.view.image.ResourceIcon
+import com.faltenreich.diaguard.view.layout.FormRow
+import com.faltenreich.diaguard.view.theme.AppTheme
+
+@Composable
+fun MeasurementPropertyListItem(
+    property: MeasurementProperty.Local,
+    onArrowUp: (MeasurementProperty) -> Unit,
+    showArrowUp: Boolean,
+    onArrowDown: (MeasurementProperty) -> Unit,
+    showArrowDown: Boolean,
+    modifier: Modifier = Modifier,
+) {
+    FormRow(modifier = modifier) {
+        Column(modifier = Modifier.weight(1f)) {
+            Text(property.name)
+            Text(
+                text = property.unit.name,
+                style = AppTheme.typography.bodySmall,
+            )
+        }
+        IconButton(
+            onClick = { onArrowUp(property) },
+            enabled = showArrowUp,
+        ) {
+            ResourceIcon(Res.drawable.ic_arrow_up)
+        }
+        IconButton(
+            onClick = { onArrowDown(property) },
+            enabled = showArrowDown,
+        ) {
+            ResourceIcon(Res.drawable.ic_arrow_down)
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun Preview() = PreviewScaffold {
+    MeasurementPropertyListItem(
+        property = property(),
+        onArrowUp = {},
+        showArrowUp = true,
+        onArrowDown = {},
+        showArrowDown = true,
+    )
+}

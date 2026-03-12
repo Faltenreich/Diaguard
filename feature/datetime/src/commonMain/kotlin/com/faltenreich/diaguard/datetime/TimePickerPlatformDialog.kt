@@ -1,0 +1,31 @@
+@file:JvmName("TimePickerPlatformDialogCommon")
+
+package com.faltenreich.diaguard.datetime
+
+import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import com.faltenreich.diaguard.data.preview.PreviewScaffold
+import kotlin.jvm.JvmName
+
+@Composable
+expect fun TimePickerPlatformDialog(
+    onDismissRequest: () -> Unit,
+    confirmButton: @Composable () -> Unit,
+    modifier: Modifier = Modifier,
+    dismissButton: @Composable (() -> Unit)? = null,
+    content: @Composable ColumnScope.() -> Unit,
+)
+
+@Preview
+@Composable
+private fun Preview() = PreviewScaffold {
+    TimePickerPlatformDialog(
+        onDismissRequest = {},
+        confirmButton = {},
+    ) {
+        Text("TimePickerPlatformDialog")
+    }
+}

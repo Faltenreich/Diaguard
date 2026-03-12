@@ -1,0 +1,48 @@
+package com.faltenreich.diaguard.data.seed.query.measurement
+
+import com.faltenreich.diaguard.data.DatabaseKey
+import com.faltenreich.diaguard.data.measurement.category.MeasurementCategory
+import com.faltenreich.diaguard.data.measurement.property.MeasurementAggregationStyle
+import com.faltenreich.diaguard.data.measurement.property.MeasurementProperty
+import com.faltenreich.diaguard.data.measurement.property.MeasurementValueRange
+import com.faltenreich.diaguard.data.measurement.unit.suggestion.MeasurementUnitSuggestion
+import com.faltenreich.diaguard.localization.Localization
+import com.faltenreich.diaguard.resource.Res
+import com.faltenreich.diaguard.resource.activity
+
+class ActivitySeedQueries(
+    private val localization: Localization,
+) {
+
+    operator fun invoke(): MeasurementCategory.Seed {
+        return MeasurementCategory.Seed(
+            key = DatabaseKey.MeasurementCategory.ACTIVITY,
+            name = localization.getString(Res.string.activity),
+            icon = "\uD83C\uDFC3",
+            sortIndex = 3,
+            isActive = true,
+            properties = listOf(
+                MeasurementProperty.Seed(
+                    key = DatabaseKey.MeasurementProperty.ACTIVITY,
+                    name = localization.getString(Res.string.activity),
+                    sortIndex = 0,
+                    aggregationStyle = MeasurementAggregationStyle.CUMULATIVE,
+                    range = MeasurementValueRange(
+                        minimum = 1.0,
+                        low = null,
+                        target = null,
+                        high = null,
+                        maximum = 1000.0,
+                        isHighlighted = false,
+                    ),
+                    unitSuggestions = listOf(
+                        MeasurementUnitSuggestion.Seed(
+                            factor = MeasurementUnitSuggestion.FACTOR_DEFAULT,
+                            unit = DatabaseKey.MeasurementUnit.MINUTES,
+                        ),
+                    ),
+                ),
+            ),
+        )
+    }
+}

@@ -1,0 +1,71 @@
+package com.faltenreich.diaguard.food.search
+
+import androidx.paging.Pager
+import androidx.paging.cachedIn
+import com.faltenreich.diaguard.architecture.viewmodel.ViewModel
+import com.faltenreich.diaguard.data.food.search.FoodSearchParams
+import com.faltenreich.diaguard.data.navigation.NavigationTarget
+import com.faltenreich.diaguard.data.preference.food.ShowBrandedFoodPreference
+import com.faltenreich.diaguard.data.preference.food.ShowCommonFoodPreference
+import com.faltenreich.diaguard.data.preference.food.ShowCustomFoodPreference
+import com.faltenreich.diaguard.injection.inject
+import com.faltenreich.diaguard.navigation.NavigateBackUseCase
+import com.faltenreich.diaguard.navigation.NavigateToUseCase
+import com.faltenreich.diaguard.preference.GetPreferenceUseCase
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.mapLatest
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import kotlin.time.Duration.Companion.seconds
+
+class FoodSearchViewModel(
+    val mode: FoodSearchMode,
+    getPreference: GetPreferenceUseCase = inject(),
+    private val searchFood: SearchFoodUseCase = inject(),
+    private val navigateTo: NavigateToUseCase = inject(),
+    private val navigateBack: NavigateBackUseCase = inject(),
+) : ViewModel<FoodSearchState, FoodSearchIntent, Unit>() {
+
+    private val _query = MutableStateFlow("")
+    private val query = MutableStateFlow(_query.value)
+
+    override val state = combine(
+        query,
+        getPreference(ShowCommonFoodPreference),
+        getPreference(ShowCustomFoodPreference),
+        getPreference(ShowBrandedFoodPreference),
+        ::FoodSearchParams,
+    ).mapLatest { params ->
+        FoodSearchState(
+            query = params.query,
+            pagingData = Pager(
+                config = FoodSearchPagingSource.newConfig(),
+                pagingSourceFactory = { FoodSearchPagingSource(params, searchFood) },
+            ).flow.cachedIn(scope),
+        )
+    }
+
+    init {
+        scope.launch {
+            _query
+                .debounce(1.seconds)
+                .distinctUntilChanged()
+                .collect { update ->
+                    query.update { update }
+                }
+        }
+    }
+
+    override suspend fun handleIntent(intent: FoodSearchIntent) {
+        when (intent) {
+            is FoodSearchIntent.SetQuery -> _query.update { intent.query }
+            is FoodSearchIntent.Close -> navigateBack()
+            is FoodSearchIntent.Create -> navigateTo(NavigationTarget.FoodForm())
+            is FoodSearchIntent.OpenFood -> navigateTo(NavigationTarget.FoodForm(foodId = intent.food.id))
+            is FoodSearchIntent.OpenPreferences -> navigateTo(NavigationTarget.FoodPreferenceList)
+        }
+    }
+}

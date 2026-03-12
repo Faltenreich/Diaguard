@@ -1,0 +1,109 @@
+package com.faltenreich.diaguard.tag.detail
+
+import app.cash.turbine.test
+import com.faltenreich.diaguard.data.DatabaseKey
+import com.faltenreich.diaguard.data.entry.EntryRepository
+import com.faltenreich.diaguard.data.navigation.Navigation
+import com.faltenreich.diaguard.data.navigation.NavigationEvent
+import com.faltenreich.diaguard.data.navigation.NavigationTarget
+import com.faltenreich.diaguard.data.tag.Tag
+import com.faltenreich.diaguard.data.tag.TagRepository
+import com.faltenreich.diaguard.entry.form.measurement.StoreMeasurementValueUseCase
+import com.faltenreich.diaguard.startup.seed.ImportSeedUseCase
+import com.faltenreich.diaguard.startup.startupModule
+import com.faltenreich.diaguard.tag.tagModule
+import com.faltenreich.diaguard.test.TestSuite
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.test.runTest
+import org.koin.core.parameter.parametersOf
+import org.koin.test.get
+import org.koin.test.inject
+import kotlin.test.BeforeTest
+import kotlin.test.Test
+import kotlin.test.assertNotNull
+import kotlin.test.assertTrue
+
+class TagDetailViewModelTest : TestSuite(tagModule() + startupModule()) {
+
+    private val importSeed: ImportSeedUseCase by inject()
+    private val storeValue: StoreMeasurementValueUseCase by inject()
+    private val navigation: Navigation by inject()
+    private val entryRepository: EntryRepository by inject()
+    private val tagRepository: TagRepository by inject()
+
+    private lateinit var viewModel: TagDetailViewModel
+    private lateinit var tag: Tag.Local
+
+    @BeforeTest
+    override fun beforeTest() {
+        super.beforeTest()
+
+        importSeed()
+
+        val tagId = tagRepository.create(TAG_BY_USER)
+        tag = checkNotNull(tagRepository.getById(tagId))
+        viewModel = get(parameters = { parametersOf(tagId) })
+    }
+
+    @Test
+    fun `pop screen tag when intending to update tag with new and unique name`() = runTest {
+        navigation.events.test {
+            viewModel.handleIntent(TagDetailIntent.SetName("update"))
+            viewModel.handleIntent(TagDetailIntent.UpdateTag)
+
+            assertTrue(awaitItem() is NavigationEvent.NavigateBack)
+        }
+    }
+
+    @Test
+    fun `pop screen tag when intending to update tag with same but unique name`() = runTest {
+        navigation.events.test {
+            viewModel.handleIntent(TagDetailIntent.UpdateTag)
+
+            assertTrue(awaitItem() is NavigationEvent.NavigateBack)
+        }
+    }
+
+    @Test
+    fun `show error when intending to update tag with same name but redundant name`() = runTest {
+        val name = "update"
+        tagRepository.create(Tag.User(name = name))
+
+        viewModel.handleIntent(TagDetailIntent.SetName(name))
+        viewModel.handleIntent(TagDetailIntent.UpdateTag)
+
+        viewModel.state.test {
+            assertNotNull(awaitItem().error)
+        }
+    }
+
+    @Test
+    fun `push screen when intending to open entry`() = runTest {
+        storeValue(120.0, DatabaseKey.MeasurementProperty.BLOOD_SUGAR)
+        val entry = entryRepository.getAll().first().first()
+
+        navigation.events.test {
+            viewModel.handleIntent(TagDetailIntent.OpenEntry(entry))
+
+            val event = awaitItem()
+            assertTrue(event is NavigationEvent.NavigateTo)
+            assertTrue(event.target is NavigationTarget.EntryForm)
+        }
+    }
+
+    @Test
+    fun `push screen when intending to open entry search`() = runTest {
+        navigation.events.test {
+            viewModel.handleIntent(TagDetailIntent.OpenEntrySearch(query = ""))
+
+            val event = awaitItem()
+            assertTrue(event is NavigationEvent.NavigateTo)
+            assertTrue(event.target is NavigationTarget.EntrySearch)
+        }
+    }
+
+    companion object {
+
+        private val TAG_BY_USER = Tag.User(name = "name")
+    }
+}

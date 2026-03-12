@@ -1,0 +1,106 @@
+package com.faltenreich.diaguard.food.eaten
+
+import app.cash.turbine.test
+import com.faltenreich.diaguard.data.entry.Entry
+import com.faltenreich.diaguard.data.entry.EntryRepository
+import com.faltenreich.diaguard.data.fake.FakeFactory
+import com.faltenreich.diaguard.data.food.Food
+import com.faltenreich.diaguard.data.food.FoodRepository
+import com.faltenreich.diaguard.data.food.eaten.FoodEaten
+import com.faltenreich.diaguard.data.food.eaten.FoodEatenRepository
+import com.faltenreich.diaguard.data.navigation.Navigation
+import com.faltenreich.diaguard.data.navigation.NavigationEvent
+import com.faltenreich.diaguard.data.navigation.NavigationTarget
+import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
+import com.faltenreich.diaguard.food.eaten.list.FoodEatenListIntent
+import com.faltenreich.diaguard.food.eaten.list.FoodEatenListState
+import com.faltenreich.diaguard.food.eaten.list.FoodEatenListViewModel
+import com.faltenreich.diaguard.food.foodModule
+import com.faltenreich.diaguard.test.TestSuite
+import kotlinx.coroutines.test.runTest
+import org.koin.core.component.get
+import org.koin.core.component.inject
+import org.koin.core.parameter.parametersOf
+import kotlin.test.BeforeTest
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertTrue
+
+class FoodEatenListViewModelTest : TestSuite(foodModule()) {
+
+    private val foodRepository: FoodRepository by inject()
+    private val entryRepository: EntryRepository by inject()
+    private val foodEatenRepository: FoodEatenRepository by inject()
+    private val navigation: Navigation by inject()
+    private val dateTimeFactory: DateTimeFactory by inject()
+
+    private lateinit var viewModel: FoodEatenListViewModel
+
+    private lateinit var food: Food.Local
+    private lateinit var entry: Entry.Local
+
+    @BeforeTest
+    override fun beforeTest() {
+        super.beforeTest()
+
+        val foodId = foodRepository.create(FakeFactory.foodByUser())
+        food = foodRepository.getById(foodId)!!
+
+        val entryId = entryRepository.create(
+            Entry.User(
+                dateTime = dateTimeFactory.now(),
+                note = null,
+            )
+        )
+        entry = entryRepository.getById(entryId)!!
+
+        val foodEaten = FoodEaten.Intermediate(
+            amountInGrams = 10.0,
+            food = food,
+            entry = entry,
+        )
+        foodEatenRepository.create(foodEaten)
+
+        viewModel = get(parameters = { parametersOf(food.id) })
+    }
+
+    @Test
+    fun `show food eaten for food`() = runTest {
+        viewModel.state.test {
+            val state = awaitItem()
+            assertTrue(state is FoodEatenListState.NonEmpty)
+
+            val foodEaten = state.results.first().local
+            assertEquals(
+                expected = foodEaten.food,
+                actual = food,
+            )
+            assertEquals(
+                expected = foodEaten.entry,
+                actual = entry,
+            )
+        }
+    }
+
+    @Test
+    fun `push screen when creating entry`() = runTest {
+        navigation.events.test {
+            viewModel.handleIntent(FoodEatenListIntent.CreateEntry)
+
+            val event = awaitItem()
+            assertTrue(event is NavigationEvent.NavigateTo)
+            assertTrue(event.target is NavigationTarget.EntryForm)
+        }
+    }
+
+    @Test
+    fun `push screen when opening entry`() = runTest {
+        navigation.events.test {
+            viewModel.handleIntent(FoodEatenListIntent.OpenEntry(entry))
+
+            val event = awaitItem()
+            assertTrue(event is NavigationEvent.NavigateTo)
+            assertTrue(event.target is NavigationTarget.EntryForm)
+        }
+    }
+}

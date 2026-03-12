@@ -1,0 +1,58 @@
+@file:Suppress("UnstableApiUsage")
+
+
+pluginManagement {
+    repositories {
+        google()
+        gradlePluginPortal()
+        mavenCentral()
+        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+    }
+}
+
+dependencyResolutionManagement {
+    includeBuild("plugin")
+    repositories {
+        google()
+        mavenCentral()
+        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+    }
+}
+
+rootProject.name = "diaguard"
+
+include(
+    ":app:common",
+    ":app:android",
+
+    ":feature:backup",
+    ":feature:dashboard",
+    ":feature:datetime",
+    ":feature:entry",
+    ":feature:export",
+    ":feature:food",
+    ":feature:log",
+    ":feature:measurement",
+    ":feature:navigation",
+    ":feature:preference",
+    ":feature:startup",
+    ":feature:statistic",
+    ":feature:tag",
+    ":feature:timeline",
+    
+    ":data",
+
+    ":core:architecture",
+    ":core:config",
+    ":core:injection",
+    ":core:localization",
+    ":core:logging",
+    ":core:datetime",
+    ":core:network",
+    ":core:persistence",
+    ":core:quality",
+    ":core:serialization",
+    ":core:system",
+    ":core:test",
+    ":core:view",
+)

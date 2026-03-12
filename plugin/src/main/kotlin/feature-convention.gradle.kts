@@ -1,0 +1,48 @@
+val libs = extensions.getByType<org.gradle.accessors.dm.LibrariesForLibs>()
+
+plugins {
+    kotlin("multiplatform")
+    id("multiplatform-convention")
+    id("org.jetbrains.compose")
+    id("org.jetbrains.kotlin.plugin.compose")
+    id("org.jetbrains.kotlin.plugin.serialization")
+}
+
+kotlin {
+    sourceSets {
+        commonMain {
+            dependencies {
+                implementation(project(":core:architecture"))
+                implementation(project(":core:datetime"))
+                implementation(project(":core:injection"))
+                implementation(project(":core:localization"))
+                implementation(project(":core:logging"))
+                implementation(project(":core:view"))
+                implementation(project(":data"))
+                implementation(libs.compose.foundation)
+                implementation(libs.compose.material3)
+                implementation(libs.compose.navigation)
+                implementation(libs.compose.preview)
+                implementation(libs.compose.resources)
+                implementation(libs.compose.runtime)
+                implementation(libs.compose.ui)
+                implementation(project.dependencies.platform(libs.koin.bom))
+                implementation(libs.koin.core)
+                implementation(libs.koin.compose)
+                implementation(libs.koin.compose.viewmodel)
+                implementation(libs.koin.viewmodel)
+            }
+        }
+        commonTest {
+            dependencies {
+                implementation(project(":core:test"))
+            }
+        }
+        all {
+            languageSettings {
+                optIn("androidx.compose.material3.ExperimentalMaterial3Api")
+                optIn("kotlinx.coroutines.ExperimentalCoroutinesApi")
+            }
+        }
+    }
+}

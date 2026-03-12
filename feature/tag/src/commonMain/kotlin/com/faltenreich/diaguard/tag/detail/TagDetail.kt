@@ -1,0 +1,121 @@
+package com.faltenreich.diaguard.tag.detail
+
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.Card
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.paging.PagingData
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
+import com.faltenreich.diaguard.data.preview.PreviewScaffold
+import com.faltenreich.diaguard.entry.list.EntryList
+import com.faltenreich.diaguard.entry.list.EntryListItemState
+import com.faltenreich.diaguard.resource.Res
+import com.faltenreich.diaguard.resource.entries
+import com.faltenreich.diaguard.resource.entry_search_empty
+import com.faltenreich.diaguard.resource.ic_tag
+import com.faltenreich.diaguard.resource.name
+import com.faltenreich.diaguard.view.divider.TextDivider
+import com.faltenreich.diaguard.view.image.ResourceIcon
+import com.faltenreich.diaguard.view.input.TextInput
+import com.faltenreich.diaguard.view.layout.FormRow
+import com.faltenreich.diaguard.view.overlay.DeleteDialog
+import com.faltenreich.diaguard.view.overlay.DeleteSeverity
+import kotlinx.coroutines.flow.flowOf
+import org.jetbrains.compose.resources.stringResource
+
+@Composable
+fun TagDetail(
+    state: TagDetailState?,
+    entries: LazyPagingItems<EntryListItemState>,
+    onIntent: (TagDetailIntent) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    state ?: return
+
+    var name by remember { mutableStateOf(state.name) }
+
+    Column(modifier = modifier) {
+        Card(shape = RectangleShape) {
+            FormRow(icon = { ResourceIcon(Res.drawable.ic_tag) }) {
+                TextInput(
+                    input = name,
+                    onInputChange = { input ->
+                        onIntent(TagDetailIntent.SetName(input))
+                        name = input
+                    },
+                    label = stringResource(Res.string.name),
+                    modifier = Modifier.fillMaxWidth(),
+                    supportingText = state.error?.let { error -> { Text(error) } },
+                    isError = state.error != null,
+                )
+            }
+        }
+
+        TextDivider(stringResource(Res.string.entries))
+
+        EntryList(
+            items = entries,
+            emptyContent = { Text(stringResource(Res.string.entry_search_empty)) },
+            onEntryClick = { entry -> onIntent(TagDetailIntent.OpenEntry(entry)) },
+            onEntryDelete = { entry -> onIntent(TagDetailIntent.DeleteEntry(entry)) },
+            onEntryRestore = { entry -> onIntent(TagDetailIntent.RestoreEntry(entry)) },
+            onTagClick = { tag -> onIntent(TagDetailIntent.OpenEntrySearch(query = tag.name)) },
+        )
+    }
+
+    if (state.deleteDialog != null) {
+        DeleteDialog(
+            severity = DeleteSeverity.MEDIUM,
+            onDismissRequest = { onIntent(TagDetailIntent.CloseDeleteDialog) },
+            onConfirmRequest = {
+                onIntent(TagDetailIntent.CloseDeleteDialog)
+                onIntent(TagDetailIntent.DeleteTag)
+            }
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun Preview() = PreviewScaffold {
+    TagDetail(
+        state = TagDetailState(
+            name = tag().name,
+            error = null,
+            deleteDialog = null,
+        ),
+        entries = flowOf(
+            PagingData.from(
+                listOf(
+                    EntryListItemState(
+                        entry = entry(),
+                        dateTimeLocalized = now().toString(),
+                        foodEatenLocalized = emptyList(),
+                        categories = listOf(
+                            EntryListItemState.Category(
+                                category = category(),
+                                values = listOf(
+                                    EntryListItemState.Value(
+                                        property = property(),
+                                        value = value(),
+                                        valueLocalized = value().value.toString(),
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+        ).collectAsLazyPagingItems(),
+        onIntent = {},
+    )
+}

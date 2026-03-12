@@ -1,0 +1,99 @@
+package com.faltenreich.diaguard.export.form
+
+import androidx.compose.animation.animateContentSize
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.selection.toggleable
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.Role
+import com.faltenreich.diaguard.data.export.ExportSettings
+import com.faltenreich.diaguard.measurement.category.icon.MeasurementCategoryIcon
+import com.faltenreich.diaguard.resource.Res
+import com.faltenreich.diaguard.resource.food
+import com.faltenreich.diaguard.view.checkbox.TextCheckbox
+import com.faltenreich.diaguard.view.layout.FormRow
+import com.faltenreich.diaguard.view.theme.AppTheme
+import org.jetbrains.compose.resources.stringResource
+
+@Composable
+internal fun ExportFormCategoryListItem(
+    category: ExportSettings.Category,
+    settings: ExportSettings,
+    onIntent: (ExportFormIntent) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Column(modifier = modifier.animateContentSize()) {
+        FormRow(
+            icon = { MeasurementCategoryIcon(category.category) },
+            modifier = Modifier
+                .fillMaxWidth()
+                .toggleable(
+                    value = category.isExported,
+                    role = Role.Checkbox,
+                    onValueChange = {
+                        onIntent(ExportFormIntent.SetCategory(category.copy(isExported = it)))
+                    },
+                ),
+        ) {
+            TextCheckbox(
+                title = category.category.name,
+                checked = category.isExported,
+                onCheckedChange = null,
+            )
+        }
+
+        if (category.isExported && category.properties.size > 1) {
+            category.properties.forEach { property ->
+                FormRow(
+                    icon = { Spacer(modifier = Modifier.width(AppTheme.dimensions.size.ImageMedium)) },
+                    modifier = Modifier.toggleable(
+                        value = property.isExported,
+                        role = Role.Checkbox,
+                        onValueChange = { isExported ->
+                            val update = category.copy(
+                                properties = category.properties.map {
+                                    if (property.property.id == it.property.id) {
+                                        it.copy(isExported = isExported)
+                                    } else {
+                                        it
+                                    }
+                                }
+                            )
+                            onIntent(ExportFormIntent.SetCategory(update))
+                        },
+                    ),
+                ) {
+                    TextCheckbox(
+                        title = property.property.name,
+                        checked = property.isExported,
+                        onCheckedChange = null,
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+                }
+            }
+        }
+
+        if (category.category.isMeal) {
+            FormRow(
+                icon = { Spacer(modifier = Modifier.width(AppTheme.dimensions.size.ImageMedium)) },
+                modifier = Modifier.toggleable(
+                    value = settings.includeFoodEaten,
+                    role = Role.Checkbox,
+                    onValueChange = {
+                        onIntent(ExportFormIntent.SetSettings(settings.copy(includeFoodEaten = it)))
+                    },
+                ),
+            ) {
+                TextCheckbox(
+                    title = stringResource(Res.string.food),
+                    checked = settings.includeFoodEaten,
+                    onCheckedChange = null,
+                    modifier = Modifier.fillMaxWidth(),
+                )
+            }
+        }
+    }
+}

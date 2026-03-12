@@ -1,0 +1,290 @@
+package com.faltenreich.diaguard.entry.form
+
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.fadeIn
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.InputChipDefaults
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.tooling.preview.Preview
+import com.faltenreich.diaguard.data.preview.PreviewScaffold
+import com.faltenreich.diaguard.datetime.DatePickerDialog
+import com.faltenreich.diaguard.datetime.TimePickerDialog
+import com.faltenreich.diaguard.entry.form.measurement.MeasurementCategoryInput
+import com.faltenreich.diaguard.entry.form.measurement.MeasurementCategoryInputState
+import com.faltenreich.diaguard.entry.form.measurement.MeasurementPropertyInputState
+import com.faltenreich.diaguard.entry.form.reminder.ReminderPermissionDialog
+import com.faltenreich.diaguard.entry.form.reminder.ReminderPickerDialog
+import com.faltenreich.diaguard.entry.form.tag.EntryTagInput
+import com.faltenreich.diaguard.entry.form.tag.EntryTagList
+import com.faltenreich.diaguard.resource.Res
+import com.faltenreich.diaguard.resource.ic_alarm
+import com.faltenreich.diaguard.resource.ic_clear
+import com.faltenreich.diaguard.resource.ic_note
+import com.faltenreich.diaguard.resource.ic_tag
+import com.faltenreich.diaguard.resource.ic_time
+import com.faltenreich.diaguard.resource.note
+import com.faltenreich.diaguard.resource.reminder_picker_open
+import com.faltenreich.diaguard.resource.tag_remove_description
+import com.faltenreich.diaguard.view.divider.Divider
+import com.faltenreich.diaguard.view.image.ResourceIcon
+import com.faltenreich.diaguard.view.input.TextInput
+import com.faltenreich.diaguard.view.layout.FormRow
+import com.faltenreich.diaguard.view.overlay.DeleteDialog
+import com.faltenreich.diaguard.view.overlay.DeleteSeverity
+import com.faltenreich.diaguard.view.theme.AppTheme
+import org.jetbrains.compose.resources.stringResource
+import kotlin.time.Duration.Companion.seconds
+
+@Composable
+fun EntryForm(
+    state: EntryFormState?,
+    onIntent: (EntryFormIntent) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    state ?: return
+
+    var note by remember { mutableStateOf(state.note) }
+    var tagQuery by remember { mutableStateOf(state.tags.query) }
+
+    var showDatePicker by remember { mutableStateOf(false) }
+    var showTimePicker by remember { mutableStateOf(false) }
+
+    Column(modifier = modifier.verticalScroll(rememberScrollState())) {
+        Card(
+            modifier = Modifier.animateContentSize(),
+            shape = RectangleShape,
+        ) {
+            FormRow(icon = { ResourceIcon(Res.drawable.ic_time) }) {
+                TextButton(
+                    onClick = { showDatePicker = true },
+                    colors = ButtonDefaults.textButtonColors(
+                        contentColor = AppTheme.colors.scheme.onSurfaceVariant,
+                    ),
+                ) {
+                    Text(state.dateTime.dateLocalized)
+                }
+                TextButton(
+                    onClick = { showTimePicker = true },
+                    colors = ButtonDefaults.textButtonColors(
+                        contentColor = AppTheme.colors.scheme.onSurfaceVariant,
+                    ),
+                ) {
+                    Text(state.dateTime.timeLocalized)
+                }
+            }
+
+            Divider()
+
+            FormRow(icon = { ResourceIcon(Res.drawable.ic_tag) }) {
+                EntryTagInput(
+                    input = tagQuery,
+                    onInputChange = { input ->
+                        tagQuery = input
+                        onIntent(EntryFormIntent.SetTagQuery(input))
+                    },
+                    suggestions = state.tags.suggestions,
+                    onSuggestionSelect = { tag ->
+                        tagQuery = ""
+                        onIntent(EntryFormIntent.SetTagQuery(""))
+                        onIntent(EntryFormIntent.AddTag(tag))
+                    }
+                )
+            }
+
+            state.tags.selection.takeIf(Collection<*>::isNotEmpty)?.let { tags ->
+                EntryTagList(
+                    tags = tags,
+                    onTagClick = { tag -> onIntent(EntryFormIntent.RemoveTag(tag)) },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(
+                            start = AppTheme.dimensions.padding.P_3 +
+                                AppTheme.dimensions.padding.P_3 +
+                                AppTheme.dimensions.padding.P_3 +
+                                AppTheme.dimensions.size.ImageMedium,
+                            end = AppTheme.dimensions.padding.P_3,
+                            bottom = AppTheme.dimensions.padding.P_2,
+                        ),
+                    trailingIcon = { tag ->
+                        ResourceIcon(
+                            icon = Res.drawable.ic_clear,
+                            contentDescription = stringResource(Res.string.tag_remove_description, tag.name),
+                            modifier = Modifier.size(InputChipDefaults.AvatarSize),
+                        )
+                    },
+                )
+            }
+
+            Divider()
+
+            FormRow(icon = { ResourceIcon(Res.drawable.ic_note) }) {
+                TextInput(
+                    input = note,
+                    onInputChange = { input ->
+                        note = input
+                        onIntent(EntryFormIntent.SetNote(input))
+                    },
+                    placeholder = { Text(stringResource(Res.string.note)) },
+                    modifier = Modifier.fillMaxWidth(),
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next ),
+                )
+            }
+
+            Divider()
+
+            FormRow(
+                icon = { ResourceIcon(Res.drawable.ic_alarm) },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable(
+                        onClickLabel = stringResource(Res.string.reminder_picker_open),
+                        role = Role.Button,
+                        onClick = { onIntent(EntryFormIntent.OpenReminderPicker) },
+                    ),
+            ) {
+                Text(
+                    text = state.reminder.label,
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(start = AppTheme.dimensions.padding.P_3),
+                )
+            }
+        }
+
+        AnimatedVisibility(
+            visible = state.measurements.isNotEmpty(),
+            enter = fadeIn(),
+        ) {
+            Column(
+                modifier = Modifier.padding(AppTheme.dimensions.padding.P_2_5),
+                verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_2_5),
+            ) {
+                state.measurements.forEach { measurement ->
+                    MeasurementCategoryInput(
+                        state = measurement,
+                        foodEaten = state.foodEaten,
+                        onIntent = onIntent,
+                    )
+                }
+            }
+        }
+    }
+
+    if (showDatePicker) {
+        DatePickerDialog(
+            date = state.dateTime.date,
+            onDismissRequest = { showDatePicker = false },
+            onConfirmRequest = { date ->
+                showDatePicker = false
+                onIntent(EntryFormIntent.SetDate(date))
+            },
+        )
+    }
+
+    if (showTimePicker) {
+        TimePickerDialog(
+            time = state.dateTime.time,
+            onDismissRequest = { showTimePicker = false },
+            onConfirmRequest = { time ->
+                showTimePicker = false
+                onIntent(EntryFormIntent.SetTime(time))
+            },
+        )
+    }
+
+    state.reminder.picker?.let { picker ->
+        if (picker.isPermissionGranted) {
+            ReminderPickerDialog(
+                state = picker,
+                onDismissRequest = { onIntent(EntryFormIntent.CloseReminderPicker) },
+                onConfirmRequest = { delayInMinutes ->
+                    onIntent(EntryFormIntent.SetReminder(delayInMinutes))
+                    onIntent(EntryFormIntent.CloseReminderPicker)
+                },
+            )
+        } else {
+            ReminderPermissionDialog(
+                onDismissRequest = { onIntent(EntryFormIntent.CloseReminderPicker) },
+                onPermissionRequest = { onIntent(EntryFormIntent.RequestNotificationPermission) },
+            )
+        }
+    }
+
+    if (state.deleteDialog != null) {
+        DeleteDialog(
+            severity = DeleteSeverity.LOW,
+            onDismissRequest = {
+                onIntent(EntryFormIntent.CloseDeleteDialog)
+            },
+            onConfirmRequest = {
+                onIntent(EntryFormIntent.CloseDeleteDialog)
+                onIntent(EntryFormIntent.Delete(needsConfirmation = false))
+            },
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun Preview() = PreviewScaffold {
+    val dateTime = now()
+    EntryForm(
+        state = EntryFormState(
+            dateTime = EntryFormState.DateTime(
+                date = dateTime.date,
+                dateLocalized = dateTime.date.toString(),
+                time = dateTime.time,
+                timeLocalized = dateTime.time.toString(),
+            ),
+            note = "Note",
+            measurements = listOf(
+                MeasurementCategoryInputState(
+                    category = category(),
+                    propertyInputStates = listOf(
+                        MeasurementPropertyInputState(
+                            property = property(),
+                            input = "Value",
+                            isLast = true,
+                            error = null,
+                            decimalPlaces = 3,
+                        ),
+                    ),
+                ),
+            ),
+            foodEaten = emptyList(),
+            tags = EntryFormState.Tags(
+                query = "",
+                suggestions = emptyList(),
+                selection = listOf(tag()),
+            ),
+            reminder = EntryFormState.Reminder(
+                duration = 10.seconds,
+                label = "In 10 Minutes",
+                picker = null,
+            ),
+            deleteDialog = null,
+        ),
+        onIntent = {},
+    )
+}

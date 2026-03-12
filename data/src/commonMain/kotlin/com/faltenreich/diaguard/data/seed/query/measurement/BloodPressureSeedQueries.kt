@@ -1,0 +1,70 @@
+package com.faltenreich.diaguard.data.seed.query.measurement
+
+import com.faltenreich.diaguard.data.DatabaseKey
+import com.faltenreich.diaguard.data.measurement.category.MeasurementCategory
+import com.faltenreich.diaguard.data.measurement.property.MeasurementAggregationStyle
+import com.faltenreich.diaguard.data.measurement.property.MeasurementProperty
+import com.faltenreich.diaguard.data.measurement.property.MeasurementValueRange
+import com.faltenreich.diaguard.data.measurement.unit.suggestion.MeasurementUnitSuggestion
+import com.faltenreich.diaguard.localization.Localization
+import com.faltenreich.diaguard.resource.Res
+import com.faltenreich.diaguard.resource.blood_pressure
+import com.faltenreich.diaguard.resource.diastolic
+import com.faltenreich.diaguard.resource.systolic
+
+class BloodPressureSeedQueries(
+    private val localization: Localization,
+) {
+
+    operator fun invoke(): MeasurementCategory.Seed {
+        return MeasurementCategory.Seed(
+            key = DatabaseKey.MeasurementCategory.BLOOD_PRESSURE,
+            name = localization.getString(Res.string.blood_pressure),
+            icon = "⛽",
+            sortIndex = 7,
+            isActive = true,
+            properties = listOf(
+                MeasurementProperty.Seed(
+                    key = DatabaseKey.MeasurementProperty.BLOOD_PRESSURE_SYSTOLIC,
+                    name = localization.getString(Res.string.systolic),
+                    sortIndex = 0,
+                    aggregationStyle = MeasurementAggregationStyle.AVERAGE,
+                    range = MeasurementValueRange(
+                        minimum = 1.0,
+                        low = 100.0,
+                        target = 120.0,
+                        high = 140.0,
+                        maximum = 300.0,
+                        isHighlighted = true,
+                    ),
+                    unitSuggestions = listOf(
+                        MeasurementUnitSuggestion.Seed(
+                            factor = MeasurementUnitSuggestion.FACTOR_DEFAULT,
+                            unit = DatabaseKey.MeasurementUnit.MILLIMETERS_OF_MERCURY,
+                        ),
+                    ),
+                ),
+                MeasurementProperty.Seed(
+                    key = DatabaseKey.MeasurementProperty.BLOOD_PRESSURE_DIASTOLIC,
+                    name = localization.getString(Res.string.diastolic),
+                    sortIndex = 1,
+                    aggregationStyle = MeasurementAggregationStyle.AVERAGE,
+                    range = MeasurementValueRange(
+                        minimum = 1.0,
+                        low = 60.0,
+                        target = 80.0,
+                        high = 90.0,
+                        maximum = 300.0,
+                        isHighlighted = true,
+                    ),
+                    unitSuggestions = listOf(
+                        MeasurementUnitSuggestion.Seed(
+                            factor = MeasurementUnitSuggestion.FACTOR_DEFAULT,
+                            unit = DatabaseKey.MeasurementUnit.MILLIMETERS_OF_MERCURY,
+                        ),
+                    ),
+                ),
+            ),
+        )
+    }
+}

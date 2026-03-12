@@ -1,0 +1,60 @@
+package com.faltenreich.diaguard.food.search
+
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import com.faltenreich.diaguard.data.preview.PreviewScaffold
+import com.faltenreich.diaguard.resource.Res
+import com.faltenreich.diaguard.resource.food_search_prompt
+import com.faltenreich.diaguard.resource.ic_arrow_back
+import com.faltenreich.diaguard.view.button.ClearButton
+import com.faltenreich.diaguard.view.input.SearchField
+import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
+
+@Composable
+fun FoodSearchField(
+    query: String,
+    onQueryChange: (String) -> Unit,
+    onBackIconClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    SearchField(
+        query = query,
+        placeholder = stringResource(Res.string.food_search_prompt),
+        leadingIcon = {
+            IconButton(onClick = onBackIconClick) {
+                Icon(
+                    painter = painterResource(Res.drawable.ic_arrow_back),
+                    contentDescription = null,
+                )
+            }
+        },
+        trailingIcon = {
+            AnimatedVisibility(
+                visible = query.isNotEmpty(),
+                enter = fadeIn(),
+                exit = fadeOut(),
+            ) {
+                ClearButton(onClick = { onQueryChange("") })
+            }
+        },
+        onQueryChange = onQueryChange,
+        modifier = modifier,
+    )
+}
+
+@Preview
+@Composable
+private fun Preview() = PreviewScaffold {
+    FoodSearchField(
+        query = "Query",
+        onQueryChange = {},
+        onBackIconClick = {},
+    )
+}

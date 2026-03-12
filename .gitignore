@@ -47,3 +47,5 @@ captures/
 *.aab
 output.json
 output-metadata.json
+
+.kotlin/

@@ -1,0 +1,67 @@
+package com.faltenreich.diaguard.dashboard.trend
+
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Card
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import com.faltenreich.diaguard.data.preview.PreviewScaffold
+import com.faltenreich.diaguard.resource.Res
+import com.faltenreich.diaguard.resource.trend
+import com.faltenreich.diaguard.statistic.trend.StatisticTrendChart
+import com.faltenreich.diaguard.statistic.trend.StatisticTrendState
+import com.faltenreich.diaguard.statistic.trend.StatisticTrendState.Interval
+import com.faltenreich.diaguard.view.theme.AppTheme
+import org.jetbrains.compose.resources.stringResource
+
+@Composable
+fun DashboardTrend(
+    state: StatisticTrendState?,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Card(
+        onClick = onClick,
+        modifier = modifier,
+    ) {
+        Column(modifier = Modifier.padding(all = AppTheme.dimensions.padding.P_3)) {
+            Text(
+                text = stringResource(Res.string.trend),
+                style = AppTheme.typography.labelMedium,
+            )
+            if (state != null) {
+                StatisticTrendChart(
+                    state = state,
+                    modifier = Modifier.height(AppTheme.dimensions.size.DashboardTrendHeight),
+                )
+            } else {
+                Spacer(modifier = Modifier.height(AppTheme.dimensions.size.DashboardTrendHeight))
+            }
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun Preview() = PreviewScaffold {
+    DashboardTrend(
+        state = StatisticTrendState(
+            intervals = listOf(
+                today().let { date ->
+                    Interval(
+                        dateRange = date .. date,
+                        label = date.dayOfWeek.localized(),
+                        average = null,
+                    )
+                }
+            ),
+            targetValue = 120.0,
+            maximumValue = 200.0,
+        ),
+        onClick = {},
+    )
+}

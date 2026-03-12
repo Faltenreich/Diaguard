@@ -1,0 +1,61 @@
+package com.faltenreich.diaguard.datetime
+
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.TimePicker
+import androidx.compose.material3.rememberTimePickerState
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import com.faltenreich.diaguard.data.preview.PreviewScaffold
+import com.faltenreich.diaguard.resource.Res
+import com.faltenreich.diaguard.resource.cancel
+import com.faltenreich.diaguard.resource.ok
+import org.jetbrains.compose.resources.stringResource
+
+@Composable
+fun TimePickerDialog(
+    time: Time,
+    onDismissRequest: () -> Unit,
+    onConfirmRequest: (Time) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val state = rememberTimePickerState(
+        initialHour = time.hourOfDay,
+        initialMinute = time.minuteOfHour,
+    )
+    TimePickerPlatformDialog(
+        onDismissRequest = onDismissRequest,
+        confirmButton = {
+            TextButton(
+                onClick = {
+                    val update = time.copy(
+                        hourOfDay = state.hour,
+                        minuteOfHour = state.minute,
+                    )
+                    onConfirmRequest(update)
+                },
+            ) {
+                Text(stringResource(Res.string.ok))
+            }
+        },
+        modifier = modifier,
+        dismissButton = {
+            TextButton(onClick = onDismissRequest) {
+                Text(stringResource(Res.string.cancel))
+            }
+        },
+    ) {
+        TimePicker(state = state)
+    }
+}
+
+@Preview
+@Composable
+private fun Preview() = PreviewScaffold {
+    TimePickerDialog(
+        time = now().time,
+        onDismissRequest = {},
+        onConfirmRequest = {},
+    )
+}

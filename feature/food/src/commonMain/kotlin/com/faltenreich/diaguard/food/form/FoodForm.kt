@@ -1,0 +1,178 @@
+package com.faltenreich.diaguard.food.form
+
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Card
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
+import com.faltenreich.diaguard.data.preview.PreviewScaffold
+import com.faltenreich.diaguard.food.nutrient.FoodNutrientListItem
+import com.faltenreich.diaguard.resource.Res
+import com.faltenreich.diaguard.resource.brand
+import com.faltenreich.diaguard.resource.ic_brand
+import com.faltenreich.diaguard.resource.ic_food
+import com.faltenreich.diaguard.resource.ic_note
+import com.faltenreich.diaguard.resource.ingredients
+import com.faltenreich.diaguard.resource.name
+import com.faltenreich.diaguard.resource.nutrients_per_100g
+import com.faltenreich.diaguard.view.divider.Divider
+import com.faltenreich.diaguard.view.divider.TextDivider
+import com.faltenreich.diaguard.view.image.ResourceIcon
+import com.faltenreich.diaguard.view.info.NoticeBar
+import com.faltenreich.diaguard.view.info.NoticeBarStyle
+import com.faltenreich.diaguard.view.input.TextInput
+import com.faltenreich.diaguard.view.layout.FormRow
+import com.faltenreich.diaguard.view.overlay.DeleteDialog
+import com.faltenreich.diaguard.view.overlay.DeleteSeverity
+import org.jetbrains.compose.resources.stringResource
+
+@Composable
+fun FoodForm(
+    state: FoodFormState?,
+    onIntent: (FoodFormIntent) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    state ?: return
+
+    var name by remember { mutableStateOf(state.input.name) }
+    var brand by remember { mutableStateOf(state.input.brand) }
+    var ingredients by remember { mutableStateOf(state.input.ingredients) }
+
+    Column(modifier = modifier.fillMaxSize()) {
+        Column(
+            modifier = Modifier
+                .verticalScroll(rememberScrollState())
+                .weight(1f),
+        ) {
+            Card(shape = RectangleShape) {
+                FormRow(icon = { ResourceIcon(Res.drawable.ic_food) }) {
+                    TextInput(
+                        input = name,
+                        onInputChange = { input ->
+                            name = input
+                            val update = state.input.copy(name = input)
+                            onIntent(FoodFormIntent.SetInput(update))
+                        },
+                        placeholder = { Text(stringResource(Res.string.name)) },
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Text,
+                            imeAction = ImeAction.Next,
+                        ),
+                    )
+                }
+
+                Divider()
+
+                FormRow(icon = { ResourceIcon(Res.drawable.ic_brand) }) {
+                    TextInput(
+                        input = brand,
+                        onInputChange = { input ->
+                            brand = input
+                            val update = state.input.copy(brand = input)
+                            onIntent(FoodFormIntent.SetInput(update))
+                        },
+                        placeholder = { Text(stringResource(Res.string.brand)) },
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Text,
+                            imeAction = ImeAction.Next,
+                        ),
+                    )
+                }
+
+                Divider()
+
+                FormRow(icon = { ResourceIcon(Res.drawable.ic_note) }) {
+                    TextInput(
+                        input = ingredients,
+                        onInputChange = { input ->
+                            ingredients = input
+                            val update = state.input.copy(ingredients = input)
+                            onIntent(FoodFormIntent.SetInput(update))
+                        },
+                        placeholder = { Text(stringResource(Res.string.ingredients)) },
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Text,
+                            imeAction = ImeAction.Next,
+                        ),
+                    )
+                }
+            }
+
+            TextDivider(stringResource(Res.string.nutrients_per_100g))
+
+            state.input.nutrients.forEachIndexed { index, data ->
+                if (index != 0) {
+                    Divider()
+                }
+                FoodNutrientListItem(
+                    data = data,
+                    onUpdate = { update ->
+                        onIntent(FoodFormIntent.SetNutrient(update))
+                    },
+                )
+            }
+        }
+
+        NoticeBar(
+            text = state.error ?: "",
+            isVisible = state.error != null,
+            style = NoticeBarStyle.ERROR,
+        )
+    }
+
+    if (state.deleteDialog != null) {
+        DeleteDialog(
+            severity = DeleteSeverity.MEDIUM,
+            onDismissRequest = {
+                onIntent(FoodFormIntent.CloseDeleteDialog)
+            },
+            onConfirmRequest = {
+                onIntent(FoodFormIntent.CloseDeleteDialog)
+                onIntent(FoodFormIntent.Delete(needsConfirmation = false))
+            },
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun Preview() = PreviewScaffold {
+    val food = food()
+    FoodForm(
+        state = FoodFormState(
+            food = food,
+            input = with (food) {
+                FoodFormInput(
+                    name = name,
+                    brand = brand ?: "",
+                    ingredients = ingredients ?: "",
+                    labels = labels ?: "",
+                    carbohydrates = carbohydrates.toString(),
+                    energy = energy?.toString() ?: "",
+                    fat = fat?.toString() ?: "",
+                    fatSaturated = fatSaturated?.toString() ?: "",
+                    fiber = fiber?.toString() ?: "",
+                    proteins = proteins?.toString() ?: "",
+                    salt = salt?.toString() ?: "",
+                    sodium = sodium?.toString() ?: "",
+                    sugar = sugar?.toString() ?: "",
+                )
+            },
+            error = null,
+            deleteDialog = null,
+        ),
+        onIntent = {},
+    )
+}

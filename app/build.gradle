@@ -8,8 +8,8 @@ android {
     defaultConfig {
         minSdk 21
         targetSdk 36
-        versionCode 68
-        versionName "3.15.1"
+        versionCode 69
+        versionName "3.15.2"
         vectorDrawables.useSupportLibrary true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArguments clearPackageData: "true"
@@ -18,13 +18,13 @@ android {
     buildTypes {
         debug {
             shrinkResources false
-            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro", "proguard-rules-dontobfuscate.pro"
+            proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro", "proguard-rules-dontobfuscate.pro"
             testProguardFiles "proguard-rules.pro"
         }
         release {
             minifyEnabled true
             shrinkResources true
-            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
         }
     }
 
@@ -46,6 +46,7 @@ android {
 
     buildFeatures {
         buildConfig true
+        resValues true
         viewBinding true
     }
 

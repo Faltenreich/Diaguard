@@ -17,7 +17,6 @@ android {
 
     buildTypes {
         debug {
-            shrinkResources false
             proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro", "proguard-rules-dontobfuscate.pro"
             testProguardFiles "proguard-rules.pro"
         }
@@ -138,13 +137,4 @@ tasks.register("applyVersionToReadme") {
     ant.replaceregexp(file: "${rootProject.projectDir}/README.md", match: regex, flags: "g", replace: with)
 }
 
-tasks.register("applyDateToReadme") {
-    def string = "2013-"
-    def regex = "$string([0-9.]+)"
-    int year = new Date().getYear() + 1900
-    def with = "$string$year"
-    ant.replaceregexp(file: "${rootProject.projectDir}/README.md", match: regex, flags: "g", replace: with)
-}
-
 assemble.dependsOn applyVersionToReadme
-assemble.dependsOn applyDateToReadme

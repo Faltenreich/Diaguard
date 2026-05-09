@@ -134,3 +134,7 @@
     <fields>;
 }
 ##---------------End: AboutLibraries ----------
+
+##---------------Begin: Hamcrest ----------
+-keep class org.hamcrest.** { *; }
+##---------------End: Hamcrest ----------

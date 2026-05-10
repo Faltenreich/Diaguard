@@ -1,0 +1,518 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+    <string name="app_name" translatable="false">Diaguard</string>
+    <string name="app_facebook" translatable="false">http://www.facebook.com/diaguard.de</string>
+    <string name="app_facebook_short" translatable="false">facebook.com/diaguard.de</string>
+    <string name="app_homepage" translatable="false">http://www.diaguard.wordpress.com</string>
+    <string name="app_homepage_short" translatable="false">diaguard.wordpress.com</string>
+    <string name="app_mail" translatable="false">mailto:diaguard.de@gmail.com</string>
+    <string name="app_mail_short" translatable="false">diaguard.de@gmail.com</string>
+    <string name="app_sourcecode" translatable="false">https://github.com/Faltenreich/Diaguard</string>
+    <string name="app_sourcecode_short" translatable="false">github.com/Faltenreich/Diaguard</string>
+    <string name="app_privacy_policy">https://github.com/Faltenreich/Diaguard/tree/master/resource/legal/privacy/PRIVACY_POLICY_EN.md</string>
+    <string name="app_terms_and_conditions">https://github.com/Faltenreich/Diaguard/tree/master/resource/legal/terms/TERMS_AND_CONDITIONS_EN.md</string>
+
+    <string name="food_source_common_provider" translatable="false">瑞士营养成分数据库</string>
+    <string name="food_source_common_url" translatable="false">https://www.naehrwertdaten.ch</string>
+    <string name="food_source_common_url_short" translatable="false">naehrwertdaten.ch</string>
+
+    <string name="food_source_branded_provider" translatable="false">Open Food Facts</string>
+    <string name="food_source_branded_url" translatable="false">http://world.openfoodfacts.org</string>
+    <string name="food_source_branded_url_short" translatable="false">openfoodfacts.org</string>
+
+    <!-- GENERAL -->
+
+    <string name="about">关于</string>
+    <string name="active">激活</string>
+    <string name="activity">活动</string>
+    <string name="all">全部</string>
+    <string name="alarm">测量血糖</string>
+    <string name="alarm_delete">移除提醒</string>
+    <string name="alarm_deleted">已移除提醒</string>
+    <string name="alarm_desc">%s 自上次测量以来</string>
+    <string name="alarm_desc_first">还没想起来吗？</string>
+    <string name="alarm_reminder">提醒</string>
+    <string name="alarm_reminder_none">无提醒</string>
+    <string name="alarm_reminder_in">提醒在</string>
+    <string name="amount">数量 …</string>
+    <string name="average">平均</string>
+    <string name="average_symbol" translatable="false">Ø</string>
+    <string name="back">返回</string>
+    <string name="backup_create">创建备份</string>
+    <string name="backup_complete">备份完成</string>
+    <string name="backup_import">导入备份</string>
+    <string name="backup_import_progress">正在恢复备份 …</string>
+    <string name="backup_store">存储备份</string>
+    <string name="backup_title">选择备份</string>
+    <string name="basal">基础胰岛素</string>
+    <string name="bloodsugar">血糖</string>
+    <string name="bloodsugar_acronym">血糖</string>
+    <string name="bolus">餐时胰岛素（Bolus）</string>
+    <string name="bolus_no1">建议不要注射餐时胰岛素。</string>
+    <string name="bolus_no2">相反，应摄入一些含碳水化合物较高的食物以防止血糖过低。</string>
+    <string name="brand">品牌</string>
+    <string name="calculator">计算器</string>
+    <string name="cancel">取消</string>
+    <string name="categories">分类</string>
+    <string name="category">类别</string>
+    <string name="category_pin">固定类别</string>
+    <string name="category_pin_confirm">%s 已被固定</string>
+    <string name="category_unpin_confirm">%s 已被取消固定</string>
+    <string name="cleanup">清理</string>
+    <string name="cleanup_desc">这将永久删除所选日期及之前的所有数据。</string>
+    <string name="contact">联系</string>
+    <string name="correction">校正</string>
+    <string name="correction_value">校正系数</string>
+    <string name="correction_value_desc">1 单位胰岛素降低的血糖值</string>
+    <string name="data">数据</string>
+    <string name="date_select">选择日期</string>
+    <string name="day_next">下一天</string>
+    <string name="day_previous">前一天</string>
+    <string name="delete">删除</string>
+    <string name="diastolic">舒张压</string>
+    <string name="diastolic_acronym">舒张</string>
+    <string name="distribution">分布</string>
+    <string name="drawer_close">关闭导航</string>
+    <string name="drawer_open">打开导航</string>
+    <string name="edit">编辑</string>
+    <string name="empty_days_skip">跳过没有条目的天</string>
+    <string name="energy_acronym">kcal</string>
+    <string name="energy_acronym_2">kJ</string>
+    <string name="entries">条目</string>
+    <string name="entry">条目</string>
+    <string name="entry_added">已添加条目</string>
+    <string name="entry_count_per_day">每天条目数</string>
+    <string name="entry_edit">编辑条目</string>
+    <string name="entry_delete">删除条目</string>
+    <string name="entry_deleted">已删除条目</string>
+    <string name="entry_new">新建条目</string>
+    <string name="export">导出</string>
+    <string name="export_complete">已保存至 %s</string>
+    <string name="export_progress">正在生成 PDF</string>
+    <string name="export_page">第 %d 页</string>
+    <string name="export_stamp">报告生成于</string>
+    <string name="facebook" translatable="false">Facebook</string>
+    <string name="first_visit">第一次访问？</string>
+    <string name="first_visit_desc">输入您的第一个数值</string>
+    <string name="food">食物</string>
+    <string name="food_add">添加食物</string>
+    <string name="food_add_desc">添加食物</string>
+    <string name="food_common">常见食物</string>
+    <string name="food_delete">删除食物</string>
+    <string name="food_deleted">食物已删除</string>
+    <string name="food_eaten_placeholder">%d 已食用的餐点将受影响</string>
+    <string name="food_edit">编辑食物</string>
+    <string name="food_new">新食物</string>
+    <string name="food_search">搜索食物</string>
+    <string name="format">格式</string>
+    <string name="general">通用</string>
+    <string name="grams_acronym">g</string>
+    <string name="milligrams_acronym">mg</string>
+    <string name="grams_milliliters_acronym">g</string>
+    <string name="hba1c">糖化血红蛋白（HbA1c）</string>
+    <string name="hba1c_estimated">估算 HbA1c</string>
+    <string name="hba1c_on">%s 的 HbA1c</string>
+    <string name="hba1c_formula" translatable="false">HbA1c = 0,031 * %s 3-%s-%s + 2,393</string>
+    <string name="home">主页</string>
+    <string name="homepage">网站</string>
+    <string name="hyper">高血糖</string>
+    <string name="hyper_per_day">每日高血糖次数</string>
+    <string name="hyphen" translatable="false">-</string>
+    <string name="hypo">低血糖</string>
+    <string name="hypo_per_day">每日低血糖次数</string>
+    <string name="in">在</string>
+    <string name="info">信息</string>
+    <string name="ingredients">成分</string>
+    <string name="insulin">胰岛素</string>
+    <string name="interval">间隔</string>
+    <string name="latest">[值] [单位] 之前</string>
+    <string name="latest_moments">几秒钟前</string>
+    <string name="licenses">开源许可</string>
+    <string name="log">日志</string>
+    <string name="mail">电子邮件</string>
+    <string name="meal">餐食</string>
+    <string name="meal_optional">餐（可选）</string>
+    <string name="measurement_add">添加测量</string>
+    <string name="measurement_latest">最新</string>
+    <string name="measurements">测量</string>
+    <string name="name">名称</string>
+    <string name="no_data">无可用数据</string>
+    <string name="note">记录</string>
+    <string name="notes">记录</string>
+    <string name="nutriments">营养成分</string>
+    <string name="nutriments_per_100g">每100克营养成分</string>
+    <string name="ok">确定</string>
+    <string name="overview">总览</string>
+    <string name="per">每</string>
+    <string name="per_day">每天</string>
+    <string name="placeholder" translatable="false">-</string>
+    <string name="pressure">血压</string>
+    <string name="pressure_acronym">血压</string>
+    <string name="pulse">脉搏</string>
+    <string name="remove_placeholder">移除 %s</string>
+    <string name="settings">设置</string>
+    <string name="sound">声音</string>
+    <string name="startscreen">启动界面</string>
+    <string name="statistics">统计</string>
+    <string name="store_values">存储</string>
+    <string name="systolic">收缩压</string>
+    <string name="systolic_acronym">收缩</string>
+    <string name="target_area">目标范围</string>
+    <string name="timeline">时间线</string>
+    <string name="to">至</string>
+    <string name="today">今天</string>
+    <string name="trend">趋势</string>
+    <string name="try_again">重试</string>
+    <string name="undo">撤销</string>
+    <string name="units">单位</string>
+    <string name="weight">体重</string>
+    <string name="version">版本</string>
+    <string name="vibration">振动</string>
+    <string name="change_none">恒定</string>
+    <string name="change_every_six_hours">随时间段变化</string>
+    <string name="change_every_four_hours">每四小时变化</string>
+    <string name="change_every_second_hour">每两小时变化</string>
+    <string name="change_every_hour">每小时变化</string>
+
+    <string name="carbohydrates">碳水化合物</string>
+    <string name="carbohydrates_per_100g">每100克碳水化合物</string>
+    <string name="energy">能量</string>
+    <string name="fat">脂肪</string>
+    <string name="fat_saturated">饱和脂肪</string>
+    <string name="fiber">纤维</string>
+    <string name="proteins">蛋白质</string>
+    <string name="salt">盐</string>
+    <string name="sodium">钠</string>
+    <string name="sugar">糖</string>
+
+    <string-array name="time_rhythm" translatable="false">
+        <item>@string/change_none</item>
+        <item>@string/change_every_six_hours</item>
+        <item>@string/change_every_four_hours</item>
+        <item>@string/change_every_second_hour</item>
+        <item>@string/change_every_hour</item>
+    </string-array>
+
+    <string-array name="startscreens" translatable="false">
+        <item>@string/home</item>
+        <item>@string/timeline</item>
+        <item>@string/log</item>
+    </string-array>
+    <string-array name="startscreens_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <!-- DATE -->
+
+    <string name="calendarweek">日历周</string>
+    <string name="dateend">结束日期</string>
+    <string name="dateformat">日期格式</string>
+    <string name="datestart">开始日期</string>
+    <string name="minute">分钟</string>
+    <string name="minutes">分钟</string>
+    <string name="hour">小时</string>
+    <string name="hours">小时</string>
+    <string name="day">天</string>
+    <string name="days">天</string>
+    <string name="week">周</string>
+    <string name="month">月</string>
+    <string name="months">月</string>
+    <string name="quarter">季度</string>
+    <string name="year">年</string>
+    <string name="morning">早晨</string>
+    <string name="noon">中午</string>
+    <string name="evening">傍晚</string>
+    <string name="night">夜间</string>
+    <string name="day_half_midnight" translatable="false">AM</string>
+    <string name="day_half_noon" translatable="false">PM</string>
+
+    <!-- EXPORT -->
+
+    <string-array name="formats" translatable="false">
+        <item>PDF</item>
+        <item>CSV</item>
+    </string-array>
+
+    <string-array name="styles" translatable="false">
+        <item>@string/table</item>
+        <item>@string/timeline</item>
+        <item>@string/log</item>
+    </string-array>
+
+    <!-- CATEGORIES -->
+
+    <string name="bloodsugar_units_default">mmol/L</string>
+    <string-array name="bloodsugar_units">
+        <item>mg/dL</item>
+        <item>mmol/L</item>
+    </string-array>
+    <string-array name="bloodsugar_units_values" translatable="false">
+        <item>1</item>
+        <item>0.0555</item>
+    </string-array>
+    <integer-array name="bloodsugar_extrema">
+        <item name="minimum">1</item>
+        <item name="maximum">1000</item>
+    </integer-array>
+
+    <string name="insulin_units_default">胰岛素单位</string>
+    <string-array name="insulin_units">
+        <item>胰岛素单位</item>
+    </string-array>
+    <string-array name="insulin_units_acronyms">
+        <item>IU</item>
+    </string-array>
+    <string-array name="insulin_units_values" translatable="false">
+        <item>1</item>
+    </string-array>
+    <integer-array name="insulin_extrema" translatable="false">
+        <item name="minimum">0</item>
+        <item name="maximum">100</item>
+    </integer-array>
+
+    <string name="meal_units_default">碳水化合物</string>
+    <string-array name="meal_units">
+        <item>碳水化合物</item>
+        <item>碳水化合物单位</item>
+        <item>面包单位</item>
+    </string-array>
+    <string-array name="meal_units_acronyms">
+        <item>CHO</item>
+        <item>CU</item>
+        <item>BU</item>
+    </string-array>
+    <string-array name="meal_units_values" translatable="false">
+        <item>1</item>
+        <item>0.1</item>
+        <item>0.0833</item>
+    </string-array>
+    <integer-array name="meal_extrema">
+        <item name="minimum">0</item>
+        <item name="maximum">1000</item>
+    </integer-array>
+
+    <string name="activity_units_default">分钟</string>
+    <string-array name="activity_units">
+        <item>分钟</item>
+    </string-array>
+    <string-array name="activity_units_acronyms">
+        <item>min</item>
+    </string-array>
+    <string-array name="activity_units_values" translatable="false">
+        <item>1</item>
+    </string-array>
+    <integer-array name="activity_extrema" translatable="false">
+        <item name="minimum">1</item>
+        <item name="maximum">1000</item>
+    </integer-array>
+
+    <string name="hba1c_units_default">百分比</string>
+    <string-array name="hba1c_units">
+        <item>百分比</item>
+        <item>mmol/mol</item>
+    </string-array>
+    <string-array name="hba1c_units_acronyms" translatable="false">
+        <item>%</item>
+    </string-array>
+    <string-array name="hba1c_units_values" translatable="false">
+        <item>1</item>
+        <item>0.00001</item>
+    </string-array>
+    <integer-array name="hba1c_extrema" translatable="false">
+        <item name="minimum">1</item>
+        <item name="maximum">25</item>
+    </integer-array>
+
+    <string name="weight_units_default">磅</string>
+    <string-array name="weight_units">
+        <item>千克</item>
+        <item>磅</item>
+    </string-array>
+    <string-array name="weight_units_acronyms">
+        <item>kg</item>
+        <item>lbs</item>
+    </string-array>
+    <string-array name="weight_units_values" translatable="false">
+        <item>1</item>
+        <item>2.20462262185</item>
+    </string-array>
+    <integer-array name="weight_extrema" translatable="false">
+        <item name="minimum">0</item>
+        <item name="maximum">1400</item>
+    </integer-array>
+
+    <string name="pulse_units_default">次/分钟</string>
+    <string-array name="pulse_units">
+        <item>次/分钟</item>
+    </string-array>
+    <string-array name="pulse_units_acronyms">
+        <item>bpm</item>
+    </string-array>
+    <string-array name="pulse_units_values" translatable="false">
+        <item>1</item>
+    </string-array>
+    <integer-array name="pulse_extrema" translatable="false">
+        <item name="minimum">10</item>
+        <item name="maximum">200</item>
+    </integer-array>
+
+    <string name="pressure_units_default">毫米汞柱</string>
+    <string-array name="pressure_units">
+        <item>毫米汞柱</item>
+    </string-array>
+    <string-array name="pressure_units_acronyms">
+        <item>mm Hg</item>
+    </string-array>
+    <string-array name="pressure_units_values" translatable="false">
+        <item>1</item>
+    </string-array>
+    <integer-array name="pressure_extrema" translatable="false">
+        <item name="minimum">10</item>
+        <item name="maximum">300</item>
+    </integer-array>
+
+    <string name="oxygen_saturation_units_default" translatable="false">@string/oxygen_saturation</string>
+    <string-array name="oxygen_saturation_units" translatable="false">
+        <item>@string/oxygen_saturation_units_default</item>
+    </string-array>
+    <string-array name="oxygen_saturation_units_acronyms" translatable="false">
+        <item>SpO2</item>
+    </string-array>
+    <string-array name="oxygen_saturation_units_values" translatable="false">
+        <item>1</item>
+    </string-array>
+    <integer-array name="oxygen_saturation_extrema" translatable="false">
+        <item name="minimum">50</item>
+        <item name="maximum">100</item>
+    </integer-array>
+
+    <!-- VALIDATORS -->
+    <string name="validator_value_number">只允许数字</string>
+    <string name="validator_value_infuture">事件不能发生在未来</string>
+    <string name="validator_value_empty">请输入一个数值</string>
+    <string name="validator_value_empty_list">至少必须选择一个类别</string>
+    <string name="validator_value_none">条目不包含任何事件</string>
+    <string name="validator_value_unrealistic">不现实的数值</string>
+
+    <!-- ERRORS -->
+    <string name="error_unexpected">发生了错误</string>
+    <string name="error_no_connection">没有连接？</string>
+    <string name="error_no_connection_desc">联网以获取更多信息</string>
+    <string name="error_no_data">空空如也？</string>
+    <string name="error_no_data_desc">尝试其他查询以改善结果或</string>
+    <string name="error_no_data_settings_desc">更改设置以获取更多结果</string>
+    <string name="error_no_mail">未找到发送电子邮件的应用</string>
+    <string name="error_no_app">未找到打开文件的应用</string>
+    <string name="error_sd_card">SD 卡不可用</string>
+    <string name="error_no_backups">未找到备份于</string>
+    <string name="error_import">文件格式无效</string>
+    <string name="error_missing_permission">需要授予权限以启用此功能</string>
+
+    <!-- SETTINGS -->
+    <string name="pref_factor" translatable="false">pref_factor</string>
+    <string name="pref_therapy_targets">目标值</string>
+    <string name="pref_therapy_targets_target">目标值</string>
+    <string name="pref_therapy_targets_target_default" translatable="false">120.0</string>
+    <string name="pref_therapy_limits">限制</string>
+    <string name="pref_therapy_targets_highlight">突出显示限制？</string>
+    <string name="pref_therapy_targets_highlight_desc">将高血糖标红、低血糖标蓝</string>
+    <string name="pref_therapy_targets_hyperclycemia">高血糖阈值</string>
+    <string name="pref_therapy_targets_hyperclycemia_default" translatable="false">180.0</string>
+    <string name="pref_therapy_targets_hypoclycemia">低血糖阈值</string>
+    <string name="pref_therapy_targets_hypoclycemia_default" translatable="false">60.0</string>
+
+    <string name="privacy_policy">隐私政策</string>
+    <string name="terms_and_conditions">条款和条件</string>
+
+    <string name="oxygen_saturation">血氧饱和度</string>
+    <string name="oxygen_saturation_acronym">血氧</string>
+
+    <string name="meal_factor">餐时胰岛素系数</string>
+    <string name="meal_factors">餐时胰岛素系数</string>
+    <string name="meal_factor_desc">一次餐食所需的胰岛素量</string>
+    <string name="unit_factor_carbohydrates_unit">CU 系数</string>
+    <string name="unit_factor_bread_unit">BU 系数</string>
+
+    <string-array name="meal_factor_units_entries">
+        <item>@string/unit_factor_carbohydrates_unit</item>
+        <item>@string/unit_factor_bread_unit</item>
+    </string-array>
+    <string-array name="meal_factor_units_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
+    <string name="tag">标签</string>
+    <string name="tags">标签</string>
+    <string name="search">搜索</string>
+    <string name="search_hint">记录, 标签, …</string>
+    <string name="no_results_found">未找到结果</string>
+    <string name="tag_delete">删除标签</string>
+    <string name="tag_delete_confirmation">%d 条目将失去此标签</string>
+    <string name="tag_new">新标签</string>
+    <string name="tag_duplicate">标签已存在</string>
+    <string name="food_append">追加食物</string>
+    <string name="available_placeholder">%d 可用</string>
+    <string name="backup_desc">在您选择的存储中保存数据备份（不会自动发送数据到外部服务）</string>
+    <string name="import_desc">从先前创建的备份文件恢复数据</string>
+    <string name="show_branded_food">搜索品牌食品</string>
+    <string name="show_branded_food_desc">包括通过网络请求的数千种包装食品（可能导致重复，例如不同生产商的同一产品）</string>
+    <string name="search_prompt">开始输入以搜索</string>
+    <string name="pinned">已固定</string>
+    <string name="change_now">现在更改</string>
+    <string name="help">帮助</string>
+    <string name="category_preference_desc">Active:\n类别已显示\n\nFixed:\n类别在新条目中自动预选\n\nSort:\n长按六点图标并向上或向下拖动[...]</string>
+    <string name="insulin_split">拆分为餐时、校正和基础</string>
+    <string name="highlight_limits">突出显示限制</string>
+
+    <string name="theme">配色主题</string>
+    <string name="theme_light">浅色</string>
+    <string name="theme_dark">深色</string>
+    <string name="theme_time_based">按时间段</string>
+    <string name="theme_system">系统设置</string>
+    <string name="table">表格</string>
+    <string name="export_date">导出日期</string>
+    <string name="page_number">页码</string>
+    <string name="export_history">导出历史</string>
+    <string name="share">分享</string>
+    <string name="open">打开</string>
+    <string name="export_delete">删除导出</string>
+    <string name="export_delete_desc">这将不可恢复地从设备删除该文件</string>
+    <string name="export_share">分享导出</string>
+    <string name="actions">操作</string>
+    <string name="week_current">本周</string>
+    <string name="weeks_two">最近两周</string>
+    <string name="weeks_four">最近四周</string>
+    <string name="month_current">本月</string>
+    <string name="quarter_current">本季度</string>
+    <string name="therapy">治疗</string>
+    <string name="powered_by">提供支持</string>
+    <string name="sourcecode">源代码</string>
+    <string name="query_clear">清除查询</string>
+    <string name="menu_open">打开菜单</string>
+    <string name="food_branded">品牌食品</string>
+    <string name="show_common_food">显示内置常见食物</string>
+    <string name="show_common_food_desc">包括应用内捆绑的数百种基础食物</string>
+    <string name="food_preferences">食物设置</string>
+    <string name="food_custom">自定义食物</string>
+    <string name="show_custom_food">显示自定义食物</string>
+    <string name="show_custom_food_desc">包含用户手动添加的所有食物</string>
+    <string name="factors">系数</string>
+    <string name="close">关闭</string>
+    <string name="basal_rate">基础率</string>
+    <string name="basal_rate_desc">基础胰岛素需求</string>
+    <string name="settings_open">打开设置</string>
+    <string name="decimal_places">小数位数</string>
+    <string name="decimal_places_desc">浮点数小数部分的位数</string>
+    <string name="decimal_places_example">%s 将显示为 %s</string>
+    <string name="timeline_show_dots">显示点</string>
+    <string name="timeline_show_dots_desc">用点标记测量（禁用后将停止突出显示限制）</string>
+    <string name="timeline_show_lines">显示线条</string>
+    <string name="timeline_show_lines_desc">用线连接测量值</string>
+    <string name="layout">布局</string>
+
+</resources>

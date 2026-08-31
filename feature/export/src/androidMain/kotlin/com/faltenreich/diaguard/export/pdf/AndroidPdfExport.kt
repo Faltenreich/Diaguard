@@ -9,12 +9,17 @@ import com.faltenreich.diaguard.data.export.ExportSettings
 import com.faltenreich.diaguard.data.export.ExportType
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
+import com.faltenreich.diaguard.export.pdf.print.PdfHeader
+import com.faltenreich.diaguard.logging.Logger
 import com.faltenreich.diaguard.persistence.file.File
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.withContext
 import java.io.FileOutputStream
 import android.graphics.pdf.PdfDocument as AndroidPdfDocument
 import java.io.File as JavaFile
 
 class AndroidPdfExport(
+    private val dispatcher: CoroutineDispatcher,
     private val context: Context,
     private val dateTimeFactory: DateTimeFactory,
     private val dateTimeFormatter: DateTimeFormatter,
@@ -23,36 +28,44 @@ class AndroidPdfExport(
     override suspend fun export(
         entries: List<Entry>,
         settings: ExportSettings,
-    ): File? {
-        val dateTime = dateTimeFactory.now()
-        val dateTimeFormatted = dateTimeFormatter.formatDateTime(dateTime, EXPORT_DATE_TIME_FORMAT)
-        val directory = context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)
-        val prefix = EXPORT_FILE_NAME_PREFIX
-        val extension = ExportType.PDF.extension
-        val fileName = "${prefix}_$dateTimeFormatted.$extension"
-        val file = JavaFile(directory, fileName)
+    ): File? = withContext(dispatcher) {
+        try {
+            val dateTime = dateTimeFactory.now()
+            val dateTimeFormatted =
+                dateTimeFormatter.formatDateTime(dateTime, EXPORT_DATE_TIME_FORMAT)
+            val directory = context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)
+            val prefix = EXPORT_FILE_NAME_PREFIX
+            val extension = ExportType.PDF.extension
+            val fileName = "${prefix}_$dateTimeFormatted.$extension"
+            val file = JavaFile(directory, fileName)
 
-        val outputStream = FileOutputStream(file)
-        val document = AndroidPdfDocument()
+            val outputStream = FileOutputStream(file)
+            val document = AndroidPdfDocument()
 
-        val pageNumber = 1
-        val pageInfo =
-            AndroidPdfDocument.PageInfo.Builder(PDF_PAGE_WIDTH, PDF_PAGE_HEIGHT, pageNumber)
-                .create()
-        val page = document.startPage(pageInfo)
+            val pageNumber = 1
+            val pageInfo =
+                AndroidPdfDocument.PageInfo.Builder(PDF_PAGE_WIDTH, PDF_PAGE_HEIGHT, pageNumber)
+                    .create()
+            val page = document.startPage(pageInfo)
 
-        // TODO: Pass content of PdfDocument
-        page.canvas.drawText("Hello, World!", 100f, 100f, Paint().apply { color = Color.BLACK })
+            // TODO: Pass content of PdfDocument
+            val header = PdfHeader()
+            header.drawOn(page.canvas)
+            page.canvas.drawText("Hello, World!", 100f, 100f, Paint().apply { color = Color.BLACK })
 
-        document.finishPage(page)
-        document.writeTo(outputStream)
-        document.close()
+            document.finishPage(page)
+            document.writeTo(outputStream)
+            document.close()
 
-        return File(
-            absolutePath = file.absolutePath,
-            createdAt = dateTime,
-            mimeType = MIME_TYPE_PDF,
-        )
+            File(
+                absolutePath = file.absolutePath,
+                createdAt = dateTime,
+                mimeType = MIME_TYPE_PDF,
+            )
+        } catch (exception: Exception) {
+            Logger.error("Export failed", exception)
+            null
+        }
     }
 
     companion object {

@@ -5,6 +5,7 @@ import com.faltenreich.diaguard.data.export.ExportType
 import com.faltenreich.diaguard.data.export.PdfLayout
 import com.faltenreich.diaguard.data.navigation.NavigationTarget
 import com.faltenreich.diaguard.datetime.DateRange
+import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.factory.GetTodayUseCase
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.export.ExportUseCase
@@ -31,7 +32,10 @@ internal class ExportFormViewModel(
     private val navigateTo: NavigateToUseCase,
 ) : ViewModel<ExportFormState, ExportFormIntent, Unit>() {
 
-    private val dateRange = MutableStateFlow(getToday().let(::DateRange))
+    // TODO: Localized start of week until today
+    private val dateRange = MutableStateFlow(
+        getToday().let { DateRange(it.minus(1, DateUnit.WEEK), it) },
+    )
     private val dateRangeLocalized = dateRange.map(dateTimeFormatter::formatDateRange)
     private val exportTypes = listOf(ExportType.PDF, ExportType.CSV)
     private val pdfLayouts = listOf(PdfLayout.TABLE, PdfLayout.TIMELINE, PdfLayout.LOG)

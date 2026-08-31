@@ -10,6 +10,7 @@ actual fun pdfPlatformModule() = module {
     factory<PdfExport> {
         if (get<BuildConfig>().hasPlatformFramework()) {
             AndroidPdfExport(
+                dispatcher = get(),
                 context = get(),
                 dateTimeFactory = get(),
                 dateTimeFormatter = get(),

@@ -19,7 +19,7 @@ internal fun LicenseList(
     LibrariesContainer(
         libraries = libraries,
         modifier = modifier.fillMaxSize(),
-        onLibraryClick = { library -> onIntent(LicenseListIntent.OpenWebsite(library)) },
+        onLibraryClick = { library -> onIntent(LicenseListIntent.OpenWebsite(library)); true },
     )
 }
 

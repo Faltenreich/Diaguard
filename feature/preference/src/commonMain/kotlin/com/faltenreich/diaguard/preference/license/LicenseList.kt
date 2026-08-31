@@ -15,7 +15,11 @@ internal fun LicenseList(
     onIntent: (LicenseListIntent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val libraries by produceLibraries { Res.readBytes("files/aboutlibraries.json").decodeToString() }
+    // ./gradlew exportLibraryDefinitions -PexportPath=src/commonMain/composeResources/files/
+    // FIXME: Missing resource with path: composeResources/com.faltenreich.diaguard.resource/files/aboutlibraries.json
+    val libraries by produceLibraries {
+        Res.readBytes("files/aboutlibraries.json").decodeToString()
+    }
     LibrariesContainer(
         libraries = libraries,
         modifier = modifier.fillMaxSize(),

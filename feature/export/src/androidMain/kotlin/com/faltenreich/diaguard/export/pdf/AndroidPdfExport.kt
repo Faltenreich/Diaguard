@@ -1,13 +1,17 @@
 package com.faltenreich.diaguard.export.pdf
 
 import android.content.Context
+import android.graphics.Color
+import android.graphics.Paint
 import android.os.Environment
+import androidx.compose.ui.geometry.Offset
 import com.faltenreich.diaguard.data.entry.Entry
 import com.faltenreich.diaguard.data.export.ExportSettings
 import com.faltenreich.diaguard.data.export.ExportType
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.export.pdf.print.PdfHeader
+import com.faltenreich.diaguard.export.pdf.print.PdfState
 import com.faltenreich.diaguard.logging.Logger
 import com.faltenreich.diaguard.persistence.file.File
 import kotlinx.coroutines.CoroutineDispatcher
@@ -50,8 +54,20 @@ class AndroidPdfExport(
             ).create()
             val page = document.startPage(pageInfo)
 
+            val state = PdfState(
+                page = page,
+                // TODO: Adjust
+                offset = Offset(100f, 100f),
+                paint = PdfState.Paint(
+                    // TODO: Adjust
+                    normal = Paint().apply { color = Color.BLACK },
+                    bold = Paint().apply { color = Color.BLACK },
+                    header = Paint().apply { color = Color.BLACK },
+                )
+            )
+
             if (settings.includeCalendarWeek) {
-                PdfHeader(dateTime, dateTimeFormatter).drawOn(page.canvas)
+                PdfHeader(dateTime, dateTimeFormatter).draw(state)
             }
 
             document.finishPage(page)

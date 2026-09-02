@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.export.pdf
 import android.content.Context
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.Typeface
 import android.os.Environment
 import androidx.compose.ui.geometry.Offset
 import com.faltenreich.diaguard.data.entry.Entry
@@ -56,13 +57,21 @@ class AndroidPdfExport(
 
             val state = PdfState(
                 page = page,
-                // TODO: Adjust
-                offset = Offset(100f, 100f),
+                offset = Offset(60f, 60f),
                 paint = PdfState.Paint(
-                    // TODO: Adjust
-                    normal = Paint().apply { color = Color.BLACK },
-                    bold = Paint().apply { color = Color.BLACK },
-                    header = Paint().apply { color = Color.BLACK },
+                    normal = Paint().apply {
+                        color = Color.BLACK
+                        typeface = Typeface.DEFAULT
+                    },
+                    bold = Paint().apply {
+                        color = Color.BLACK
+                        typeface = Typeface.DEFAULT_BOLD
+                    },
+                    header = Paint().apply {
+                        color = Color.BLACK
+                        typeface = Typeface.DEFAULT_BOLD
+                        textSize = 14f
+                    },
                 )
             )
 

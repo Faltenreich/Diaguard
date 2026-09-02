@@ -3,13 +3,13 @@ plugins {
     alias(libs.plugins.compose.compiler)
 }
 
-val appNamespace: String by rootProject.extra
-val appVersionCode: Int by rootProject.extra
-val appVersionName: String by rootProject.extra
-val appMinSdk: Int by rootProject.extra
-val appTargetSdk: Int by rootProject.extra
-val appCompileSdk: Int by rootProject.extra
-val javaVersion: Int by rootProject.extra
+val appNamespace = rootProject.extra["appNamespace"] as String
+val appVersionCode = rootProject.extra["appVersionCode"] as Int
+val appVersionName = rootProject.extra["appVersionName"] as String
+val appMinSdk = rootProject.extra["appMinSdk"] as Int
+val appTargetSdk = rootProject.extra["appTargetSdk"] as Int
+val appCompileSdk = rootProject.extra["appCompileSdk"] as Int
+val javaVersion = rootProject.extra["javaVersion"] as Int
 
 android {
     namespace = appNamespace
@@ -27,7 +27,6 @@ android {
     buildTypes {
         getByName("debug") {
             isMinifyEnabled = false
-            isShrinkResources = false
         }
         getByName("release") {
             isMinifyEnabled = true

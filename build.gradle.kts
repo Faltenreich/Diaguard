@@ -11,14 +11,12 @@ plugins {
     alias(libs.plugins.kover)
 }
 
-val appNamespace by extra("com.faltenreich.diaguard")
-val appVersionCode by extra(66)
-val appVersionName by extra("4.0.0")
-val appMinSdk by extra(23)
-val appTargetSdk by extra(37)
-val appCompileSdk by extra(37)
-val javaVersion by extra(21)
-
-tasks.register("clean", Delete::class) {
-    delete(rootProject.layout.buildDirectory)
+extra.apply {
+    set("appNamespace", "com.faltenreich.diaguard")
+    set("appVersionCode", 66)
+    set("appVersionName", "4.0.0")
+    set("appMinSdk", 23)
+    set("appTargetSdk", 37)
+    set("appCompileSdk", 37)
+    set("javaVersion", 21)
 }

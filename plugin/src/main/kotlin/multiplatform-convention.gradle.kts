@@ -6,11 +6,13 @@ plugins {
     id("com.android.kotlin.multiplatform.library")
 }
 
+val appNamespace = rootProject.extra["appNamespace"] as String
+val appMinSdk = rootProject.extra["appMinSdk"] as Int
+val appCompileSdk = rootProject.extra["appCompileSdk"] as Int
+val javaVersion = rootProject.extra["javaVersion"] as Int
+
 kotlin {
     android {
-        val appNamespace: String by rootProject.extra
-        val appCompileSdk: Int by rootProject.extra
-        val appMinSdk: Int by rootProject.extra
         namespace = appNamespace + project.path.replace(":", ".")
         compileSdk = appCompileSdk
         minSdk = appMinSdk
@@ -75,6 +77,5 @@ kotlin {
         }
     }
 
-    val javaVersion: Int by rootProject.extra
     jvmToolchain(javaVersion)
 }

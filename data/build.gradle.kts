@@ -40,7 +40,7 @@ kotlin {
 sqldelight {
     databases {
         create("SqlDelightApi") {
-            val appNamespace: String by rootProject.extra
+            val appNamespace = rootProject.extra["appNamespace"] as String
             packageName.set("$appNamespace.data")
         }
     }

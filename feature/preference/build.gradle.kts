@@ -18,4 +18,8 @@ kotlin {
     }
 }
 
-compose.resources.publicResClass = true
+compose.resources {
+    generateResClass = always
+    packageOfResClass = "com.faltenreich.diaguard.preference.resource"
+    publicResClass = false
+}

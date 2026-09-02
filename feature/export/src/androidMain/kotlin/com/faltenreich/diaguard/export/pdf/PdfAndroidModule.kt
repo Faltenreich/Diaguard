@@ -17,7 +17,10 @@ actual fun pdfPlatformModule() = module {
             )
         } else {
             object : PdfExport {
-                override suspend fun export(entries: List<Entry>, settings: ExportSettings): File? =
+                override suspend fun export(
+                    entries: List<Entry.Local>,
+                    settings: ExportSettings
+                ): File? =
                     null
             }
         }

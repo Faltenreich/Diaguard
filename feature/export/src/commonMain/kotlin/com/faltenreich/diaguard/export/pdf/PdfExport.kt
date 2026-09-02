@@ -7,7 +7,7 @@ import com.faltenreich.diaguard.persistence.file.File
 interface PdfExport {
 
     suspend fun export(
-        entries: List<Entry>,
+        entries: List<Entry.Local>,
         settings: ExportSettings,
     ): File?
 }

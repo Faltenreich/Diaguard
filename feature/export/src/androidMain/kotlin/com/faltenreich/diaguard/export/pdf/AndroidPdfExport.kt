@@ -1,8 +1,6 @@
 package com.faltenreich.diaguard.export.pdf
 
 import android.content.Context
-import android.graphics.Color
-import android.graphics.Paint
 import android.os.Environment
 import com.faltenreich.diaguard.data.entry.Entry
 import com.faltenreich.diaguard.data.export.ExportSettings
@@ -26,13 +24,15 @@ class AndroidPdfExport(
 ) : PdfExport {
 
     override suspend fun export(
-        entries: List<Entry>,
+        entries: List<Entry.Local>,
         settings: ExportSettings,
     ): File? = withContext(dispatcher) {
         try {
             val dateTime = dateTimeFactory.now()
-            val dateTimeFormatted =
-                dateTimeFormatter.formatDateTime(dateTime, EXPORT_DATE_TIME_FORMAT)
+            val dateTimeFormatted = dateTimeFormatter.formatDateTime(
+                dateTime,
+                EXPORT_DATE_TIME_FORMAT,
+            )
             val directory = context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)
             val prefix = EXPORT_FILE_NAME_PREFIX
             val extension = ExportType.PDF.extension
@@ -43,15 +43,16 @@ class AndroidPdfExport(
             val document = AndroidPdfDocument()
 
             val pageNumber = 1
-            val pageInfo =
-                AndroidPdfDocument.PageInfo.Builder(PDF_PAGE_WIDTH, PDF_PAGE_HEIGHT, pageNumber)
-                    .create()
+            val pageInfo = AndroidPdfDocument.PageInfo.Builder(
+                PDF_PAGE_WIDTH,
+                PDF_PAGE_HEIGHT,
+                pageNumber,
+            ).create()
             val page = document.startPage(pageInfo)
 
-            // TODO: Pass content of PdfDocument
-            val header = PdfHeader()
-            header.drawOn(page.canvas)
-            page.canvas.drawText("Hello, World!", 100f, 100f, Paint().apply { color = Color.BLACK })
+            if (settings.includeCalendarWeek) {
+                PdfHeader(dateTime, dateTimeFormatter).drawOn(page.canvas)
+            }
 
             document.finishPage(page)
             document.writeTo(outputStream)

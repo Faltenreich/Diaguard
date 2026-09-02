@@ -1,5 +1,3 @@
-import com.android.build.gradle.tasks.factory.AndroidUnitTest
-
 val libs = extensions.getByType<org.gradle.accessors.dm.LibrariesForLibs>()
 
 plugins {
@@ -14,7 +12,8 @@ detekt {
 
 tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
     exclude {
-        it.file.relativeTo(projectDir).startsWith(project.layout.buildDirectory.asFile.get().relativeTo(projectDir))
+        it.file.relativeTo(projectDir)
+            .startsWith(project.layout.buildDirectory.asFile.get().relativeTo(projectDir))
     }
     reports {
         html.required.set(true)
@@ -38,10 +37,4 @@ kover {
             }
         }
     }
-}
-
-// Workaround for KoverCriticalException: Kover error: Non-nullable 'variantName' property has null value
-// https://github.com/Kotlin/kotlinx-kover/issues/772
-tasks.withType<Test>().configureEach {
-    (this as? AndroidUnitTest)?.variantName = "android"
 }

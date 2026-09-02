@@ -11,6 +11,7 @@ repositories {
 dependencies {
     // Workaround for supporting type-safe version catalog accessors in precompiled script plugin
     // https://github.com/gradle/gradle/issues/15383#issuecomment-779893192
+    // https://github.com/radoslaw-panuszewski/typesafe-conventions-gradle-plugin
     implementation(files((libs as Any).javaClass.superclass.protectionDomain.codeSource.location))
 
     implementation(libs.android.multiplatform.plugin)

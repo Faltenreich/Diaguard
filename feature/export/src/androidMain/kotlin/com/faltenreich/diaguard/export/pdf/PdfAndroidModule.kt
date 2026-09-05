@@ -13,6 +13,7 @@ actual fun pdfPlatformModule() = module {
             AndroidPdfExport(
                 dispatcher = get(),
                 context = get(),
+                localization = get(),
                 dateTimeFactory = get(),
                 dateTimeFormatter = get(),
             )

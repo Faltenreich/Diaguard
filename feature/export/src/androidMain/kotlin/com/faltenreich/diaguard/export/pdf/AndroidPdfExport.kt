@@ -10,7 +10,8 @@ import com.faltenreich.diaguard.datetime.DateRangeProgression
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.export.pdf.print.Pdf
-import com.faltenreich.diaguard.export.pdf.print.PdfHeader
+import com.faltenreich.diaguard.export.pdf.print.PdfPaint
+import com.faltenreich.diaguard.export.pdf.print.PdfText
 import com.faltenreich.diaguard.logging.Logger
 import com.faltenreich.diaguard.persistence.file.File
 import kotlinx.coroutines.CoroutineDispatcher
@@ -46,7 +47,18 @@ class AndroidPdfExport(
             pdf.addPage()
 
             if (settings.includeCalendarWeek) {
-                pdf.draw(PdfHeader(dateTime, dateTimeFormatter))
+                val title = PdfText(
+                    text = dateTimeFormatter.formatDate(dateTime.date),
+                    paint = PdfPaint.header,
+                )
+                pdf.draw(title)
+                pdf.moveY(title.getSize().height)
+                
+                val subtitle = PdfText(
+                    text = dateTimeFormatter.formatDate(dateTime.date),
+                    paint = PdfPaint.normal,
+                )
+                pdf.draw(subtitle)
             }
 
             for (date in DateRangeProgression(dateRange)) {

@@ -4,28 +4,19 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Typeface
 
-data class PdfPaint(
-    val normal: Paint,
-    val bold: Paint,
-    val header: Paint,
-) {
+internal object PdfPaint {
 
-    companion object {
-
-        val default = PdfPaint(
-            normal = Paint().apply {
-                color = Color.BLACK
-                typeface = Typeface.DEFAULT
-            },
-            bold = Paint().apply {
-                color = Color.BLACK
-                typeface = Typeface.DEFAULT_BOLD
-            },
-            header = Paint().apply {
-                color = Color.BLACK
-                typeface = Typeface.DEFAULT_BOLD
-                textSize = 14f
-            },
-        )
+    val normal: Paint = Paint().apply {
+        color = Color.BLACK
+        typeface = Typeface.DEFAULT
+    }
+    val bold: Paint = Paint().apply {
+        color = Color.BLACK
+        typeface = Typeface.DEFAULT_BOLD
+    }
+    val header: Paint = Paint().apply {
+        color = Color.BLACK
+        typeface = Typeface.DEFAULT_BOLD
+        textSize = 14f
     }
 }

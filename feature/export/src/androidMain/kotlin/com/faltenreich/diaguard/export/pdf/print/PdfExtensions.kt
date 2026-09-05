@@ -2,10 +2,10 @@ package com.faltenreich.diaguard.export.pdf.print
 
 import android.graphics.Canvas
 import android.graphics.Paint
-import androidx.compose.ui.geometry.Offset
+import android.graphics.PointF
 
 fun Canvas.drawText(
     text: String,
-    offset: Offset,
+    position: PointF,
     paint: Paint,
-) = drawText(text, offset.x, offset.y, paint)
+) = drawText(text, position.x, position.y, paint)

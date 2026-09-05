@@ -9,6 +9,8 @@ import androidx.compose.ui.geometry.Offset
 import com.faltenreich.diaguard.data.entry.Entry
 import com.faltenreich.diaguard.data.export.ExportSettings
 import com.faltenreich.diaguard.data.export.ExportType
+import com.faltenreich.diaguard.datetime.DateRange
+import com.faltenreich.diaguard.datetime.DateRangeProgression
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.export.pdf.print.PdfHeader
@@ -29,6 +31,7 @@ class AndroidPdfExport(
 ) : PdfExport {
 
     override suspend fun export(
+        dateRange: DateRange,
         entries: List<Entry.Local>,
         settings: ExportSettings,
     ): File? = withContext(dispatcher) {
@@ -79,7 +82,12 @@ class AndroidPdfExport(
                 PdfHeader(dateTime, dateTimeFormatter).draw(state)
             }
 
+            for (date in DateRangeProgression(dateRange)) {
+
+            }
+
             document.finishPage(page)
+
             document.writeTo(outputStream)
             document.close()
 

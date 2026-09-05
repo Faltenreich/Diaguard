@@ -46,7 +46,7 @@ class ExportUseCase(
         }
 
         return when (settings.exportType) {
-            ExportType.PDF -> pdfExport.export(entries, settings)
+            ExportType.PDF -> pdfExport.export(dateRange, entries, settings)
             ExportType.CSV -> TODO()
         }
     }

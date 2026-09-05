@@ -83,7 +83,11 @@ class AndroidPdfExport(
             }
 
             for (date in DateRangeProgression(dateRange)) {
+                val entriesOfDate = entries.filter { it.dateTime == date }
+                val exportDay = entriesOfDate.isNotEmpty() || settings.includeDaysWithoutEntries
+                if (exportDay) {
 
+                }
             }
 
             document.finishPage(page)

@@ -12,7 +12,7 @@ class MainApplication : Application() {
         super.onCreate()
         startKoin {
             androidContext(this@MainApplication)
-            androidLogger(if (BuildConfig.DEBUG) Level.INFO else Level.NONE)
+            androidLogger(if (BuildConfig.DEBUG) Level.ERROR else Level.NONE)
             modules(appModule())
         }
     }

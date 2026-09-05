@@ -6,13 +6,13 @@ import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 internal class PdfHeader(
     private val dateTime: DateTime,
     private val dateTimeFormatter: DateTimeFormatter,
-) : PdfPrintable {
+) : PdfDrawable {
 
-    override fun draw(state: PdfState) = with(state) {
-        page.canvas.drawText(
+    override fun drawOn(pdf: Pdf) {
+        pdf.page.canvas.drawText(
             dateTimeFormatter.formatDate(dateTime.date),
-            offset,
-            paint.normal,
+            pdf.offset,
+            pdf.paint.normal,
         )
     }
 }

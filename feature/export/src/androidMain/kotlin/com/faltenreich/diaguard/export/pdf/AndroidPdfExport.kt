@@ -1,11 +1,7 @@
 package com.faltenreich.diaguard.export.pdf
 
 import android.content.Context
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.Typeface
 import android.os.Environment
-import androidx.compose.ui.geometry.Offset
 import com.faltenreich.diaguard.data.entry.Entry
 import com.faltenreich.diaguard.data.export.ExportSettings
 import com.faltenreich.diaguard.data.export.ExportType
@@ -13,14 +9,12 @@ import com.faltenreich.diaguard.datetime.DateRange
 import com.faltenreich.diaguard.datetime.DateRangeProgression
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
+import com.faltenreich.diaguard.export.pdf.print.Pdf
 import com.faltenreich.diaguard.export.pdf.print.PdfHeader
-import com.faltenreich.diaguard.export.pdf.print.PdfState
 import com.faltenreich.diaguard.logging.Logger
 import com.faltenreich.diaguard.persistence.file.File
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
-import java.io.FileOutputStream
-import android.graphics.pdf.PdfDocument as AndroidPdfDocument
 import java.io.File as JavaFile
 
 class AndroidPdfExport(
@@ -47,39 +41,12 @@ class AndroidPdfExport(
             val fileName = "${prefix}_$dateTimeFormatted.$extension"
             val file = JavaFile(directory, fileName)
 
-            val outputStream = FileOutputStream(file)
-            val document = AndroidPdfDocument()
-
-            val pageNumber = 1
-            val pageInfo = AndroidPdfDocument.PageInfo.Builder(
-                PDF_PAGE_WIDTH,
-                PDF_PAGE_HEIGHT,
-                pageNumber,
-            ).create()
-            val page = document.startPage(pageInfo)
-
-            val state = PdfState(
-                page = page,
-                offset = Offset(60f, 60f),
-                paint = PdfState.Paint(
-                    normal = Paint().apply {
-                        color = Color.BLACK
-                        typeface = Typeface.DEFAULT
-                    },
-                    bold = Paint().apply {
-                        color = Color.BLACK
-                        typeface = Typeface.DEFAULT_BOLD
-                    },
-                    header = Paint().apply {
-                        color = Color.BLACK
-                        typeface = Typeface.DEFAULT_BOLD
-                        textSize = 14f
-                    },
-                )
-            )
+            val pdf = Pdf()
+            pdf.open(file)
+            pdf.addPage()
 
             if (settings.includeCalendarWeek) {
-                PdfHeader(dateTime, dateTimeFormatter).draw(state)
+                pdf.draw(PdfHeader(dateTime, dateTimeFormatter))
             }
 
             for (date in DateRangeProgression(dateRange)) {
@@ -90,10 +57,8 @@ class AndroidPdfExport(
                 }
             }
 
-            document.finishPage(page)
-
-            document.writeTo(outputStream)
-            document.close()
+            pdf.closePage()
+            pdf.close()
 
             File(
                 absolutePath = file.absolutePath,
@@ -111,9 +76,5 @@ class AndroidPdfExport(
         private const val EXPORT_FILE_NAME_PREFIX = "Diaguard"
         private const val EXPORT_DATE_TIME_FORMAT = "yyyy-MM-dd_HH-mm"
         private const val MIME_TYPE_PDF = "application/pdf"
-
-        // DIN A4
-        private const val PDF_PAGE_WIDTH = 595
-        private const val PDF_PAGE_HEIGHT = 842
     }
 }

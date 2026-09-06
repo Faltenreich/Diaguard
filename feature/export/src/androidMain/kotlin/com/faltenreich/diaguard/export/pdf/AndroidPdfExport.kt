@@ -13,6 +13,7 @@ import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.export.pdf.print.Pdf
 import com.faltenreich.diaguard.export.pdf.print.PdfLog
+import com.faltenreich.diaguard.export.pdf.print.PdfPage
 import com.faltenreich.diaguard.export.pdf.print.PdfPaint
 import com.faltenreich.diaguard.export.pdf.print.PdfTable
 import com.faltenreich.diaguard.export.pdf.print.PdfText
@@ -54,7 +55,7 @@ class AndroidPdfExport(
 
             val pdf = Pdf()
             pdf.open(file)
-            pdf.addPage()
+            pdf.addPage(PdfPage())
             // TODO: Iterate by calendar week
             addHeader(pdf, dateTime, settings)
 
@@ -62,22 +63,17 @@ class AndroidPdfExport(
                 val entriesOfDate = entries.filter { it.dateTime == date }
                 val exportDay = entriesOfDate.isNotEmpty() || settings.includeDaysWithoutEntries
                 if (exportDay) {
-                    val day = when (settings.pdfLayout) {
-                        PdfLayout.LOG -> PdfLog()
-                        PdfLayout.TABLE -> PdfTable()
-                        PdfLayout.TIMELINE -> PdfTimeline()
-                    }
-                    val dayHeight = day.getSize().height
-                    if (pdf.isAboveBottom(dayHeight)) {
-                        pdf.addPage()
-                        addHeader(pdf, dateTime, settings)
-                    }
-                    pdf.draw(day)
-                    pdf.moveY(dayHeight)
+                    pdf.draw(
+                        when (settings.pdfLayout) {
+                            PdfLayout.LOG -> PdfLog()
+                            PdfLayout.TABLE -> PdfTable()
+                            PdfLayout.TIMELINE -> PdfTimeline()
+                        }
+                    )
                 }
             }
 
-            pdf.closePage()
+            pdf.finishPage()
             pdf.close()
 
             File(
@@ -106,14 +102,12 @@ class AndroidPdfExport(
                 paint = PdfPaint.header,
             )
             pdf.draw(title)
-            pdf.moveY(title.getSize().height)
 
             val subtitle = PdfText(
                 text = dateTimeFormatter.formatDate(dateTime.date),
                 paint = PdfPaint.normal,
             )
             pdf.draw(subtitle)
-            pdf.moveY(subtitle.getSize().height)
         }
     }
 

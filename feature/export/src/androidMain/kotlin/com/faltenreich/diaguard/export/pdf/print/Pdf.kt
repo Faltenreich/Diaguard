@@ -36,7 +36,7 @@ internal class Pdf {
             page.move(height)
         } else {
             finishPage()
-            addPage(PdfPage())
+            addPage(PdfPage(page.header, page.footer))
         }
     }
 }

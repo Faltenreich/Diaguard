@@ -5,7 +5,10 @@ import android.graphics.RectF
 import android.graphics.pdf.PdfDocument
 import android.util.Size
 
-internal class PdfPage {
+internal class PdfPage(
+    val header: PdfHeader?,
+    val footer: PdfFooter?,
+) {
 
     private lateinit var page: PdfDocument.Page
 

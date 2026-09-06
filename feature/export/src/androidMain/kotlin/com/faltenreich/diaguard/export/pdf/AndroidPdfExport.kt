@@ -6,12 +6,14 @@ import com.faltenreich.diaguard.data.entry.Entry
 import com.faltenreich.diaguard.data.export.ExportSettings
 import com.faltenreich.diaguard.data.export.ExportType
 import com.faltenreich.diaguard.data.export.PdfLayout
+import com.faltenreich.diaguard.datetime.DateProgression
 import com.faltenreich.diaguard.datetime.DateRange
-import com.faltenreich.diaguard.datetime.DateRangeProgression
-import com.faltenreich.diaguard.datetime.DateTime
+import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.export.pdf.print.Pdf
+import com.faltenreich.diaguard.export.pdf.print.PdfFooter
+import com.faltenreich.diaguard.export.pdf.print.PdfHeader
 import com.faltenreich.diaguard.export.pdf.print.PdfLog
 import com.faltenreich.diaguard.export.pdf.print.PdfPage
 import com.faltenreich.diaguard.export.pdf.print.PdfPaint
@@ -42,24 +44,54 @@ class AndroidPdfExport(
         settings: ExportSettings,
     ): File? = withContext(dispatcher) {
         try {
-            val dateTime = dateTimeFactory.now()
-            val dateTimeFormatted = dateTimeFormatter.formatDateTime(
-                dateTime,
+            val now = dateTimeFactory.now()
+            val nowLocalized = dateTimeFormatter.formatDateTime(
+                now,
                 EXPORT_DATE_TIME_FORMAT,
             )
             val directory = context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)
             val prefix = EXPORT_FILE_NAME_PREFIX
             val extension = ExportType.PDF.extension
-            val fileName = "${prefix}_$dateTimeFormatted.$extension"
+            val fileName = "${prefix}_$nowLocalized.$extension"
             val file = JavaFile(directory, fileName)
 
             val pdf = Pdf()
             pdf.open(file)
-            pdf.addPage(PdfPage())
-            // TODO: Iterate by calendar week
-            addHeader(pdf, dateTime, settings)
 
-            for (date in DateRangeProgression(dateRange)) {
+            DateProgression(dateRange).forEachIndexed { index, date ->
+                val isNewPage =
+                    index == 0 || date == dateTimeFactory.dateAtStartOf(date, DateUnit.WEEK)
+                if (isNewPage) {
+                    val header = PdfHeader(
+                        calendarWeek = PdfText(
+                            text = "%s %s".format(
+                                localization.getString(Res.string.calendar_week),
+                                dateTimeFormatter.formatWeek(date),
+                            ),
+                            paint = PdfPaint.header,
+                        ),
+                        dateRange = PdfText(
+                            text = dateTimeFormatter.formatDate(now.date), // TODO: Range
+                            paint = PdfPaint.normal,
+                        )
+                    ).takeIf { settings.includeCalendarWeek }
+                    val footer = PdfFooter(
+                        dateOfExport = PdfText(
+                            text = dateTimeFormatter.formatDate(now.date), // TODO
+                            paint = PdfPaint.normal,
+                        ).takeIf { settings.includeDateOfExport },
+                        pageNumber = PdfText(
+                            text = 0.toString(), // TODO
+                            paint = PdfPaint.normal,
+                        ).takeIf { settings.includePageNumber },
+                    ).takeIf { settings.includeDateOfExport || settings.includePageNumber }
+
+                    pdf.addPage(PdfPage(header, footer))
+
+                    header?.let(pdf::draw)
+                    footer?.let(pdf::draw)
+                }
+
                 val entriesOfDate = entries.filter { it.dateTime == date }
                 val exportDay = entriesOfDate.isNotEmpty() || settings.includeDaysWithoutEntries
                 if (exportDay) {
@@ -78,36 +110,12 @@ class AndroidPdfExport(
 
             File(
                 absolutePath = file.absolutePath,
-                createdAt = dateTime,
+                createdAt = now,
                 mimeType = MIME_TYPE_PDF,
             )
         } catch (exception: Exception) {
             Logger.error("Export failed", exception)
             null
-        }
-    }
-
-    // TODO: Merge with footer into page creation
-    private fun addHeader(
-        pdf: Pdf,
-        dateTime: DateTime,
-        settings: ExportSettings,
-    ) {
-        if (settings.includeCalendarWeek) {
-            val title = PdfText(
-                text = "%s %s".format(
-                    localization.getString(Res.string.calendar_week),
-                    dateTimeFormatter.formatWeek(dateTime.date),
-                ),
-                paint = PdfPaint.header,
-            )
-            pdf.draw(title)
-
-            val subtitle = PdfText(
-                text = dateTimeFormatter.formatDate(dateTime.date),
-                paint = PdfPaint.normal,
-            )
-            pdf.draw(subtitle)
         }
     }
 

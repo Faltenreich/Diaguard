@@ -6,12 +6,14 @@ class DateProgression(
     private val stepInDays: Int = 1,
 ) : Iterable<Date>, ClosedRange<Date> {
 
+    constructor(dateRange: DateRange) : this(dateRange.start, dateRange.endInclusive)
+
     override fun iterator(): Iterator<Date> {
         return DateIterator(start, endInclusive, stepInDays)
     }
 
     fun toDateRange(): DateRange {
-        return start .. endInclusive
+        return start..endInclusive
     }
 
     private class DateIterator(

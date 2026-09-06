@@ -8,12 +8,15 @@ import com.faltenreich.diaguard.data.export.ExportType
 import com.faltenreich.diaguard.data.export.PdfLayout
 import com.faltenreich.diaguard.datetime.DateRange
 import com.faltenreich.diaguard.datetime.DateRangeProgression
+import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.export.pdf.print.Pdf
+import com.faltenreich.diaguard.export.pdf.print.PdfLog
 import com.faltenreich.diaguard.export.pdf.print.PdfPaint
 import com.faltenreich.diaguard.export.pdf.print.PdfTable
 import com.faltenreich.diaguard.export.pdf.print.PdfText
+import com.faltenreich.diaguard.export.pdf.print.PdfTimeline
 import com.faltenreich.diaguard.localization.Localization
 import com.faltenreich.diaguard.logging.Logger
 import com.faltenreich.diaguard.persistence.file.File
@@ -23,6 +26,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import java.io.File as JavaFile
 
+// TODO: Merge with ExportUseCase and make platform-agnostic
 class AndroidPdfExport(
     private val dispatcher: CoroutineDispatcher,
     private val context: Context,
@@ -51,39 +55,25 @@ class AndroidPdfExport(
             val pdf = Pdf()
             pdf.open(file)
             pdf.addPage()
-
             // TODO: Iterate by calendar week
-
-            if (settings.includeCalendarWeek) {
-                val title = PdfText(
-                    text = "%s %s".format(
-                        localization.getString(Res.string.calendar_week),
-                        dateTimeFormatter.formatWeek(dateTime.date),
-                    ),
-                    paint = PdfPaint.header,
-                )
-                pdf.draw(title)
-                pdf.moveY(title.getSize().height)
-
-                val subtitle = PdfText(
-                    text = dateTimeFormatter.formatDate(dateTime.date),
-                    paint = PdfPaint.normal,
-                )
-                pdf.draw(subtitle)
-                pdf.moveY(subtitle.getSize().height)
-            }
+            addHeader(pdf, dateTime, settings)
 
             for (date in DateRangeProgression(dateRange)) {
                 val entriesOfDate = entries.filter { it.dateTime == date }
                 val exportDay = entriesOfDate.isNotEmpty() || settings.includeDaysWithoutEntries
                 if (exportDay) {
                     val day = when (settings.pdfLayout) {
-                        PdfLayout.LOG -> TODO()
-                        PdfLayout.TABLE -> PdfTable(entriesOfDate)
-                        PdfLayout.TIMELINE -> TODO()
+                        PdfLayout.LOG -> PdfLog()
+                        PdfLayout.TABLE -> PdfTable()
+                        PdfLayout.TIMELINE -> PdfTimeline()
+                    }
+                    val dayHeight = day.getSize().height
+                    if (pdf.isAboveBottom(dayHeight)) {
+                        pdf.addPage()
+                        addHeader(pdf, dateTime, settings)
                     }
                     pdf.draw(day)
-                    pdf.moveY(day.getSize().height)
+                    pdf.moveY(dayHeight)
                 }
             }
 
@@ -98,6 +88,32 @@ class AndroidPdfExport(
         } catch (exception: Exception) {
             Logger.error("Export failed", exception)
             null
+        }
+    }
+
+    // TODO: Merge with footer into page creation
+    private fun addHeader(
+        pdf: Pdf,
+        dateTime: DateTime,
+        settings: ExportSettings,
+    ) {
+        if (settings.includeCalendarWeek) {
+            val title = PdfText(
+                text = "%s %s".format(
+                    localization.getString(Res.string.calendar_week),
+                    dateTimeFormatter.formatWeek(dateTime.date),
+                ),
+                paint = PdfPaint.header,
+            )
+            pdf.draw(title)
+            pdf.moveY(title.getSize().height)
+
+            val subtitle = PdfText(
+                text = dateTimeFormatter.formatDate(dateTime.date),
+                paint = PdfPaint.normal,
+            )
+            pdf.draw(subtitle)
+            pdf.moveY(subtitle.getSize().height)
         }
     }
 

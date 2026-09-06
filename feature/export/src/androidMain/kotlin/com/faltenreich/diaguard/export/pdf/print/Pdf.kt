@@ -41,6 +41,10 @@ internal class Pdf {
         document.writeTo(outputStream)
     }
 
+    fun isAboveBottom(height: Int): Boolean {
+        return offset.y + height <= viewport.bottom
+    }
+
     fun draw(drawable: PdfDrawable) {
         drawable.drawOn(page.canvas, offset)
     }

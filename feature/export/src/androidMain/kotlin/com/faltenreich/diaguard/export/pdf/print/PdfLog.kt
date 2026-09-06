@@ -4,7 +4,7 @@ import android.graphics.Canvas
 import android.graphics.PointF
 import android.util.Size
 
-internal class PdfTable : PdfDrawable {
+internal class PdfLog : PdfDrawable {
 
     override fun drawOn(canvas: Canvas, position: PointF) = Unit
 

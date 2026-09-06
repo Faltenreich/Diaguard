@@ -5,12 +5,14 @@ import android.os.Environment
 import com.faltenreich.diaguard.data.entry.Entry
 import com.faltenreich.diaguard.data.export.ExportSettings
 import com.faltenreich.diaguard.data.export.ExportType
+import com.faltenreich.diaguard.data.export.PdfLayout
 import com.faltenreich.diaguard.datetime.DateRange
 import com.faltenreich.diaguard.datetime.DateRangeProgression
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.export.pdf.print.Pdf
 import com.faltenreich.diaguard.export.pdf.print.PdfPaint
+import com.faltenreich.diaguard.export.pdf.print.PdfTable
 import com.faltenreich.diaguard.export.pdf.print.PdfText
 import com.faltenreich.diaguard.localization.Localization
 import com.faltenreich.diaguard.logging.Logger
@@ -50,6 +52,8 @@ class AndroidPdfExport(
             pdf.open(file)
             pdf.addPage()
 
+            // TODO: Iterate by calendar week
+
             if (settings.includeCalendarWeek) {
                 val title = PdfText(
                     text = "%s %s".format(
@@ -73,7 +77,13 @@ class AndroidPdfExport(
                 val entriesOfDate = entries.filter { it.dateTime == date }
                 val exportDay = entriesOfDate.isNotEmpty() || settings.includeDaysWithoutEntries
                 if (exportDay) {
-
+                    val day = when (settings.pdfLayout) {
+                        PdfLayout.LOG -> TODO()
+                        PdfLayout.TABLE -> PdfTable(entriesOfDate)
+                        PdfLayout.TIMELINE -> TODO()
+                    }
+                    pdf.draw(day)
+                    pdf.moveY(day.getSize().height)
                 }
             }
 

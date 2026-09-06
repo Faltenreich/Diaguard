@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.export.pdf.print
 
 import android.graphics.Point
 import android.graphics.PointF
+import android.graphics.RectF
 import android.graphics.pdf.PdfDocument
 import android.util.Size
 import java.io.File
@@ -11,9 +12,11 @@ import java.io.OutputStream
 internal class Pdf {
 
     private val document = PdfDocument()
+    private lateinit var page: PdfDocument.Page
     private lateinit var outputStream: OutputStream
-    lateinit var page: PdfDocument.Page
-    private var offset: PointF = PAGE_PADDING
+
+    private val viewport: RectF = PAGE_PADDING.let { RectF(it, it, it, it) }
+    private var offset: PointF = PointF(viewport.left, viewport.top)
 
     fun open(file: File) {
         outputStream = FileOutputStream(file)
@@ -30,7 +33,7 @@ internal class Pdf {
             document.pages.size,
         ).create()
         page = document.startPage(pageInfo)
-        offset = PAGE_PADDING
+        offset = PointF(viewport.left, viewport.top)
     }
 
     fun closePage() {
@@ -43,7 +46,6 @@ internal class Pdf {
     }
 
     fun move(offset: PointF) {
-        // TODO: Check bounds and add page if needed
         this.offset.set(this.offset.x + offset.x, this.offset.y + offset.y)
     }
 
@@ -70,6 +72,6 @@ internal class Pdf {
     private companion object {
 
         private val DIN_A4 = Size(595, 842)
-        private val PAGE_PADDING = PointF(60f, 60f)
+        private const val PAGE_PADDING = 60f
     }
 }

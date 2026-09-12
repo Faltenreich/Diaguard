@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.export.pdf.print
+package com.faltenreich.diaguard.export.pdf
 
 import android.graphics.pdf.PdfDocument
 import java.io.File

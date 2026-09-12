@@ -10,7 +10,7 @@ import com.faltenreich.diaguard.datetime.DateRange
 import com.faltenreich.diaguard.export.pdf.ExportPdfUseCase
 import com.faltenreich.diaguard.persistence.file.File
 
-class ExportUseCase(
+internal class ExportUseCase(
     private val entryRepository: EntryRepository,
     private val valueRepository: MeasurementValueRepository,
     private val entryTagRepository: EntryTagRepository,

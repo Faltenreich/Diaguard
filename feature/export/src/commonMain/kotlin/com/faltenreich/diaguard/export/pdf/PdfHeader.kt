@@ -1,7 +1,5 @@
-package com.faltenreich.diaguard.export.pdf.print
+package com.faltenreich.diaguard.export.pdf
 
-import android.graphics.PointF
-import android.util.Size
 import kotlin.math.max
 
 internal data class PdfHeader(
@@ -9,15 +7,18 @@ internal data class PdfHeader(
     private val dateRange: PdfText,
 ) : PdfDrawable {
 
-    override fun drawOn(page: PdfPage, position: PointF) {
+    override fun drawOn(page: PdfPage, position: PdfPosition) {
         calendarWeek.drawOn(page, position)
-        dateRange.drawOn(page, PointF(position.x, position.y + calendarWeek.getSize(page).height))
+        dateRange.drawOn(
+            page,
+            PdfPosition(position.x, position.y + calendarWeek.getSize(page).height)
+        )
     }
 
-    override fun getSize(page: PdfPage): Size {
+    override fun getSize(page: PdfPage): PdfSize {
         val calendarWeekSize = calendarWeek.getSize(page)
         val dateRangeSize = calendarWeek.getSize(page)
-        return Size(
+        return PdfSize(
             max(calendarWeekSize.width, dateRangeSize.width),
             calendarWeekSize.height + dateRangeSize.height,
         )

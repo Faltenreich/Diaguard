@@ -1,22 +1,20 @@
-package com.faltenreich.diaguard.export.pdf.print
+package com.faltenreich.diaguard.export.pdf
 
 import android.graphics.Paint
-import android.graphics.PointF
 import android.graphics.Rect
-import android.util.Size
 
 internal class PdfText(
     private val text: String,
     private val paint: Paint,
 ) : PdfDrawable {
 
-    override fun getSize(page: PdfPage): Size {
+    override fun getSize(page: PdfPage): PdfSize {
         val bounds = Rect()
         paint.getTextBounds(text, 0, text.length, bounds)
-        return Size(bounds.width(), bounds.height())
+        return PdfSize(bounds.width(), bounds.height())
     }
 
-    override fun drawOn(page: PdfPage, position: PointF) {
+    override fun drawOn(page: PdfPage, position: PdfPosition) {
         page.draw { drawText(text, position, paint) }
     }
 }

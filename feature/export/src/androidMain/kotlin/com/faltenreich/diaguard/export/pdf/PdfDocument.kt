@@ -11,6 +11,10 @@ internal actual class PdfDocument actual constructor(file: File) {
 
     actual val pageCount: Int get() = platform.pages.size
 
+    actual fun finishPage(page: PdfPage) {
+        platform.finishPage(page.platformPage.platform)
+    }
+
     actual fun close() {
         platform.writeTo(outputStream)
         platform.close()

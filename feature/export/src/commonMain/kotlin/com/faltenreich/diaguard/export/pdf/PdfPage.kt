@@ -6,7 +6,7 @@ internal class PdfPage(
     footer: PdfFooter?,
 ) {
 
-    private var platformPage: PdfPlatformPage
+    var platformPage: PdfPlatformPage
 
     var viewport: PdfRectangle
     var offset: PdfPosition
@@ -44,10 +44,6 @@ internal class PdfPage(
             footer.drawOn(this, position)
             viewport = viewport.copy(bottom = viewport.bottom - height)
         }
-    }
-
-    fun finish() {
-        platformPage.finish()
     }
 
     fun canMove(by: Float): Boolean {

@@ -59,14 +59,14 @@ internal class ExportPdfUseCase(
             val file = fileRepository.createDocument(fileName, MIME_TYPE_PDF)
                 ?: return@withContext null
 
-            val pdfDocument = PdfDocument(file)
-            var page = createPage(pdfDocument, dateRange.start, settings)
+            val document = PdfDocument(file)
+            var page = createPage(document, dateRange.start, settings)
 
             DateProgression(dateRange).forEachIndexed { index, date ->
                 val isNewPage = index != 0 &&
                     date == dateTimeFactory.dateAtStartOf(date, DateUnit.WEEK)
                 if (isNewPage) {
-                    page = createPage(pdfDocument, date, settings)
+                    page = createPage(document, date, settings)
                 }
 
                 val entriesOfDate = entries.filter { it.dateTime == date }
@@ -82,16 +82,16 @@ internal class ExportPdfUseCase(
                     if (page.canMove(height)) {
                         page.move(height)
                     } else {
-                        page.finish()
-                        page = createPage(pdfDocument, date, settings)
+                        document.finishPage(page)
+                        page = createPage(document, date, settings)
                     }
 
                     day.drawOn(page, page.offset)
                 }
             }
 
-            page.finish()
-            pdfDocument.close()
+            document.finishPage(page)
+            document.close()
 
             file
         } catch (exception: Exception) {

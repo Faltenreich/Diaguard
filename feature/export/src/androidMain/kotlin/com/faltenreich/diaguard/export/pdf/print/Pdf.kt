@@ -9,7 +9,7 @@ internal class Pdf {
 
     private val document = PdfDocument()
     private lateinit var outputStream: OutputStream
-    private lateinit var page: PdfPage
+    lateinit var page: PdfPage
 
     fun open(file: File) {
         outputStream = FileOutputStream(file)

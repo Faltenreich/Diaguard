@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.export.pdf.print
 
+import android.graphics.Canvas
 import android.graphics.PointF
 import android.graphics.RectF
 import android.graphics.pdf.PdfDocument
@@ -15,6 +16,8 @@ internal class PdfPage(
     private lateinit var viewport: RectF
     private lateinit var offset: PointF
 
+    val canvas: Canvas get() = page.canvas
+
     fun start(document: PdfDocument) {
         val pageWidth = DIN_A4.width
         val pageHeight = DIN_A4.height
@@ -26,9 +29,9 @@ internal class PdfPage(
         page = document.startPage(pageInfo)
         viewport = RectF(
             PAGE_PADDING,
-            PAGE_PADDING + (header?.getSize()?.height ?: 0),
+            PAGE_PADDING + (header?.getSize(this)?.height ?: 0),
             pageWidth - PAGE_PADDING,
-            pageHeight - PAGE_PADDING - (footer?.getSize()?.height ?: 0),
+            pageHeight - PAGE_PADDING - (footer?.getSize(this)?.height ?: 0),
         )
         offset = PointF(viewport.left, viewport.top)
 
@@ -49,7 +52,7 @@ internal class PdfPage(
     }
 
     fun draw(drawable: PdfDrawable) {
-        drawable.drawOn(page.canvas, offset)
+        drawable.drawOn(this, offset)
     }
 
     private companion object {

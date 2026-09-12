@@ -75,7 +75,7 @@ class AndroidPdfExport(
                         PdfLayout.TIMELINE -> PdfTimeline()
                     }
 
-                    val height = day.getSize().height
+                    val height = day.getSize(pdf.page).height
                     if (pdf.canMove(height)) {
                         pdf.move(height)
                     } else {

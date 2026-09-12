@@ -5,5 +5,7 @@ internal expect class PdfPlatformPage(
     size: PdfSize,
 ) {
 
+    fun finish()
+
     fun drawText(text: String, position: PdfPosition, paint: PdfPaint)
 }

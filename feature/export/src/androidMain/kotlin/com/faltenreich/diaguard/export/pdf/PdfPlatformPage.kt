@@ -10,7 +10,11 @@ internal actual data class PdfPlatformPage actual constructor(
         size.height.toInt(),
         document.pageCount,
     ).create()
-    val platform = document.platform.startPage(pageInfo)
+    private val platform = document.platform.startPage(pageInfo)
+
+    actual fun finish() {
+        document.platform.finishPage(platform)
+    }
 
     actual fun drawText(text: String, position: PdfPosition, paint: PdfPaint) {
         platform.canvas.drawText(text, position.x, position.y, paint.platform)

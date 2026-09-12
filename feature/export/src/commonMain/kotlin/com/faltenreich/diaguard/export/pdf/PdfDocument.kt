@@ -6,7 +6,5 @@ internal expect class PdfDocument(file: File) {
 
     val pageCount: Int
 
-    fun finishPage(page: PdfPage)
-
     fun close()
 }

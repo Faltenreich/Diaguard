@@ -28,15 +28,15 @@ internal class Pdf {
         document.writeTo(outputStream)
     }
 
+    fun canMove(by: Int): Boolean {
+        return page.canMove(by)
+    }
+
+    fun move(by: Int) {
+        page.move(by)
+    }
+
     fun draw(drawable: PdfDrawable) {
         page.draw(drawable)
-
-        val height = drawable.getSize().height
-        if (page.canMove(height)) {
-            page.move(height)
-        } else {
-            finishPage()
-            addPage(PdfPage(page.header, page.footer))
-        }
     }
 }

@@ -37,16 +37,16 @@ internal class PdfPage(
         document.finishPage(page)
     }
 
-    fun draw(drawable: PdfDrawable) {
-        drawable.drawOn(page.canvas, offset)
-    }
-
     fun canMove(by: Int): Boolean {
         return offset.y + by <= viewport.bottom
     }
 
     fun move(by: Int) {
         offset.set(offset.x, offset.y + by.toFloat())
+    }
+
+    fun draw(drawable: PdfDrawable) {
+        drawable.drawOn(page.canvas, offset)
     }
 
     private companion object {

@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.export.pdf
 
-import androidx.compose.ui.graphics.Color
 import com.faltenreich.diaguard.data.entry.Entry
 import com.faltenreich.diaguard.data.export.ExportSettings
 import com.faltenreich.diaguard.data.export.ExportType
@@ -19,19 +18,6 @@ import com.faltenreich.diaguard.resource.Res
 import com.faltenreich.diaguard.resource.calendar_week
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
-
-internal val paintNormal: PdfPaint = PdfPaint(
-    color = Color.Black,
-    typeface = PdfTypeface.NORMAL,
-)
-internal val paintBold: PdfPaint = PdfPaint(
-    color = Color.Black,
-    typeface = PdfTypeface.BOLD,
-)
-internal val paintHeader: PdfPaint = PdfPaint(
-    color = Color.Black,
-    typeface = PdfTypeface.HEADER,
-)
 
 internal class ExportPdfUseCase(
     private val dispatcher: CoroutineDispatcher,
@@ -110,22 +96,22 @@ internal class ExportPdfUseCase(
                 text = "${localization.getString(Res.string.calendar_week)} ${
                     dateTimeFormatter.formatWeek(date)
                 }",
-                paint = paintHeader,
+                paint = PdfPaint.header,
             ),
             dateRange = PdfText(
                 text = dateTimeFormatter.formatDate(date), // TODO: Range
-                paint = paintNormal,
+                paint = PdfPaint.normal,
             )
         ).takeIf { settings.includeCalendarWeek }
 
         val footer = PdfFooter(
             dateOfExport = PdfText(
                 text = dateTimeFormatter.formatDate(date), // TODO
-                paint = paintNormal,
+                paint = PdfPaint.normal,
             ).takeIf { settings.includeDateOfExport },
             pageNumber = PdfText(
                 text = document.pageCount.toString(),
-                paint = paintNormal,
+                paint = PdfPaint.normal,
             ).takeIf { settings.includePageNumber },
         ).takeIf { settings.includeDateOfExport || settings.includePageNumber }
 

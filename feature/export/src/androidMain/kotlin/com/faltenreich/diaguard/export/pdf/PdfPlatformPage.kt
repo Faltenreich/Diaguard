@@ -1,9 +1,6 @@
 package com.faltenreich.diaguard.export.pdf
 
-import android.graphics.Paint
 import android.graphics.Rect
-import android.graphics.Typeface
-import androidx.compose.ui.graphics.toArgb
 
 internal actual data class PdfPlatformPage actual constructor(
     private val document: PdfDocument,
@@ -29,20 +26,5 @@ internal actual data class PdfPlatformPage actual constructor(
         val bounds = Rect()
         paint.toPlatform().getTextBounds(text, 0, text.length, bounds)
         return PdfSize(bounds.width().toFloat(), bounds.height().toFloat())
-    }
-
-    private fun PdfPaint.toPlatform(): Paint {
-        val paint = this
-        return Paint().apply {
-            color = paint.color.toArgb()
-            typeface = when (paint.typeface) {
-                PdfTypeface.NORMAL -> Typeface.DEFAULT
-                PdfTypeface.BOLD,
-                PdfTypeface.HEADER -> Typeface.DEFAULT_BOLD
-            }
-            if (paint.typeface == PdfTypeface.HEADER) {
-                textSize = 14f
-            }
-        }
     }
 }

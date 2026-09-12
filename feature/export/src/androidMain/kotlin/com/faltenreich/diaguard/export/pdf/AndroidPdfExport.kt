@@ -83,7 +83,8 @@ class AndroidPdfExport(
                         createPage(pdf, date, settings)
                     }
 
-                    pdf.draw(day)
+                    val page = pdf.page
+                    day.drawOn(page, page.offset)
                 }
             }
 

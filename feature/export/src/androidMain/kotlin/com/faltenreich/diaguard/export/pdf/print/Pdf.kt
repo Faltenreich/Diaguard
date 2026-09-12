@@ -35,8 +35,4 @@ internal class Pdf {
     fun move(by: Int) {
         page.move(by)
     }
-
-    fun draw(drawable: PdfDrawable) {
-        page.draw(drawable)
-    }
 }

@@ -13,8 +13,8 @@ internal class PdfPage(
 
     private lateinit var page: PdfDocument.Page
 
-    private lateinit var viewport: RectF
-    private lateinit var offset: PointF
+    lateinit var viewport: RectF
+    lateinit var offset: PointF
 
     val canvas: Canvas get() = page.canvas
 
@@ -27,16 +27,36 @@ internal class PdfPage(
             document.pages.size,
         ).create()
         page = document.startPage(pageInfo)
+
         viewport = RectF(
             PAGE_PADDING,
-            PAGE_PADDING + (header?.getSize(this)?.height ?: 0),
+            PAGE_PADDING,
             pageWidth - PAGE_PADDING,
-            pageHeight - PAGE_PADDING - (footer?.getSize(this)?.height ?: 0),
+            pageHeight - PAGE_PADDING,
         )
+
         offset = PointF(viewport.left, viewport.top)
 
-        header?.let(::draw)
-        footer?.let(::draw)
+        header?.let { header ->
+            val height = header.getSize(this).height
+            val position = PointF(
+                viewport.left,
+                viewport.top,
+            )
+            header.drawOn(this, position)
+            viewport.top += height
+            move(height)
+        }
+
+        footer?.let { footer ->
+            val height = footer.getSize(this).height
+            val position = PointF(
+                viewport.left,
+                viewport.bottom - height,
+            )
+            footer.drawOn(this, position)
+            viewport.bottom -= height
+        }
     }
 
     fun finish(document: PdfDocument) {
@@ -49,10 +69,6 @@ internal class PdfPage(
 
     fun move(by: Int) {
         offset.set(offset.x, offset.y + by.toFloat())
-    }
-
-    fun draw(drawable: PdfDrawable) {
-        drawable.drawOn(this, offset)
     }
 
     private companion object {

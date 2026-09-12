@@ -11,10 +11,13 @@ internal class PdfFooter(
 
     override fun drawOn(page: PdfPage, position: PointF) {
         dateOfExport?.drawOn(page, position)
-        pageNumber?.let {
-            // TODO: Get parent width
-            val x = 500f - pageNumber.getSize(page).width
-            pageNumber.drawOn(page, PointF(x, position.y))
+
+        pageNumber?.let { pageNumber ->
+            val position = PointF(
+                page.viewport.width() - pageNumber.getSize(page).width,
+                position.y,
+            )
+            pageNumber.drawOn(page, position)
         }
     }
 
@@ -22,7 +25,7 @@ internal class PdfFooter(
         val dateOfExportSize = dateOfExport?.getSize(page) ?: Size(0, 0)
         val pageNumberSize = pageNumber?.getSize(page) ?: Size(0, 0)
         return Size(
-            page.canvas.width,
+            page.viewport.width().toInt(),
             max(dateOfExportSize.height, pageNumberSize.height),
         )
     }

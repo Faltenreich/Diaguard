@@ -119,6 +119,7 @@ class AndroidPdfExport(
                 paint = PdfPaint.normal,
             )
         ).takeIf { settings.includeCalendarWeek }
+
         val footer = PdfFooter(
             dateOfExport = PdfText(
                 text = dateTimeFormatter.formatDate(date), // TODO
@@ -131,9 +132,6 @@ class AndroidPdfExport(
         ).takeIf { settings.includeDateOfExport || settings.includePageNumber }
 
         pdf.addPage(PdfPage(header, footer))
-
-        header?.let(pdf::draw)
-        footer?.let(pdf::draw)
     }
 
     companion object {

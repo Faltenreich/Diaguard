@@ -6,8 +6,8 @@ import android.graphics.pdf.PdfDocument
 import android.util.Size
 
 internal class PdfPage(
-    val header: PdfHeader?,
-    val footer: PdfFooter?,
+    private val header: PdfHeader?,
+    private val footer: PdfFooter?,
 ) {
 
     private lateinit var page: PdfDocument.Page
@@ -26,11 +26,14 @@ internal class PdfPage(
         page = document.startPage(pageInfo)
         viewport = RectF(
             PAGE_PADDING,
-            PAGE_PADDING,
+            PAGE_PADDING + (header?.getSize()?.height ?: 0),
             pageWidth - PAGE_PADDING,
-            pageHeight - PAGE_PADDING,
+            pageHeight - PAGE_PADDING - (footer?.getSize()?.height ?: 0),
         )
         offset = PointF(viewport.left, viewport.top)
+
+        header?.let(::draw)
+        footer?.let(::draw)
     }
 
     fun finish(document: PdfDocument) {

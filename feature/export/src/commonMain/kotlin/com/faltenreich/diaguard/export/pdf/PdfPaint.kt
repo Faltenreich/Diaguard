@@ -1,22 +1,15 @@
 package com.faltenreich.diaguard.export.pdf
 
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.Typeface
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.Typeface
 
-internal object PdfPaint {
+internal expect class PdfPaint(
+    color: Color,
+    typeface: Typeface,
+    textSize: Float = 12f,
+) {
 
-    val normal: Paint = Paint().apply {
-        color = Color.BLACK
-        typeface = Typeface.DEFAULT
-    }
-    val bold: Paint = Paint().apply {
-        color = Color.BLACK
-        typeface = Typeface.DEFAULT_BOLD
-    }
-    val header: Paint = Paint().apply {
-        color = Color.BLACK
-        typeface = Typeface.DEFAULT_BOLD
-        textSize = 14f
-    }
+    fun getTextBounds(text: String): PdfSize
+
+    fun drawText(text: String, position: PdfPosition)
 }

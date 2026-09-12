@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.export.pdf
 
+import androidx.compose.ui.graphics.Color
 import com.faltenreich.diaguard.data.entry.Entry
 import com.faltenreich.diaguard.data.export.ExportSettings
 import com.faltenreich.diaguard.data.export.ExportType
@@ -18,6 +19,20 @@ import com.faltenreich.diaguard.resource.Res
 import com.faltenreich.diaguard.resource.calendar_week
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
+
+internal val paintNormal: PdfPaint = PdfPaint(
+    color = Color.Black,
+    typeface = TODO("Default"),
+)
+internal val paintBold: PdfPaint = PdfPaint(
+    color = Color.Black,
+    typeface = TODO("DefaultBold"),
+)
+internal val paintHeader: PdfPaint = PdfPaint(
+    color = Color.Black,
+    typeface = TODO("DefaultBold"),
+    textSize = 14f,
+)
 
 internal class ExportPdfUseCase(
     private val dispatcher: CoroutineDispatcher,
@@ -45,14 +60,14 @@ internal class ExportPdfUseCase(
             val file = fileRepository.createDocument(fileName, MIME_TYPE_PDF)
                 ?: return@withContext null
 
-            val pdf = Pdf()
-            pdf.open(file)
+            val pdfDocument = PdfDocument()
+            pdfDocument.open(file)
 
             DateProgression(dateRange).forEachIndexed { index, date ->
                 val isNewPage = index == 0 ||
                     date == dateTimeFactory.dateAtStartOf(date, DateUnit.WEEK)
                 if (isNewPage) {
-                    createPage(pdf, date, settings)
+                    createPage(pdfDocument, date, settings)
                 }
 
                 val entriesOfDate = entries.filter { it.dateTime == date }
@@ -64,21 +79,21 @@ internal class ExportPdfUseCase(
                         PdfLayout.TIMELINE -> PdfTimeline()
                     }
 
-                    val height = day.getSize(pdf.page).height
-                    if (pdf.canMove(height)) {
-                        pdf.move(height)
+                    val height = day.getSize(pdfDocument.page).height
+                    if (pdfDocument.canMove(height)) {
+                        pdfDocument.move(height)
                     } else {
-                        pdf.finishPage()
-                        createPage(pdf, date, settings)
+                        pdfDocument.finishPage()
+                        createPage(pdfDocument, date, settings)
                     }
 
-                    val page = pdf.page
+                    val page = pdfDocument.page
                     day.drawOn(page, page.offset)
                 }
             }
 
-            pdf.finishPage()
-            pdf.close()
+            pdfDocument.finishPage()
+            pdfDocument.close()
 
             file
         } catch (exception: Exception) {
@@ -88,7 +103,7 @@ internal class ExportPdfUseCase(
     }
 
     private fun createPage(
-        pdf: Pdf,
+        document: PdfDocument,
         date: Date,
         settings: ExportSettings,
     ) {
@@ -97,26 +112,26 @@ internal class ExportPdfUseCase(
                 text = "${localization.getString(Res.string.calendar_week)} ${
                     dateTimeFormatter.formatWeek(date)
                 }",
-                paint = PdfPaint.header,
+                paint = paintHeader,
             ),
             dateRange = PdfText(
                 text = dateTimeFormatter.formatDate(date), // TODO: Range
-                paint = PdfPaint.normal,
+                paint = paintNormal,
             )
         ).takeIf { settings.includeCalendarWeek }
 
         val footer = PdfFooter(
             dateOfExport = PdfText(
                 text = dateTimeFormatter.formatDate(date), // TODO
-                paint = PdfPaint.normal,
+                paint = paintNormal,
             ).takeIf { settings.includeDateOfExport },
             pageNumber = PdfText(
                 text = 0.toString(), // TODO
-                paint = PdfPaint.normal,
+                paint = paintNormal,
             ).takeIf { settings.includePageNumber },
         ).takeIf { settings.includeDateOfExport || settings.includePageNumber }
 
-        pdf.addPage(PdfPage(header, footer))
+        document.addPage(PdfPage(document, header, footer))
     }
 
     companion object {

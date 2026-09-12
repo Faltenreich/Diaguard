@@ -23,7 +23,7 @@ internal class PdfFooter(
         val dateOfExportSize = dateOfExport?.getSize(page) ?: PdfSize.Zero
         val pageNumberSize = pageNumber?.getSize(page) ?: PdfSize.Zero
         return PdfSize(
-            page.viewport.width.toInt(),
+            page.viewport.width,
             max(dateOfExportSize.height, pageNumberSize.height),
         )
     }

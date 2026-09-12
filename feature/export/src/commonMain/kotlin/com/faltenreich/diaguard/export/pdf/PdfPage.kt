@@ -62,6 +62,10 @@ internal class PdfPage(
         platformPage.drawText(text, position, paint)
     }
 
+    fun getTextBounds(text: String, paint: PdfPaint): PdfSize {
+        return platformPage.getTextBounds(text, paint)
+    }
+
     private companion object {
 
         private val DIN_A4 = PdfSize(595f, 842f)

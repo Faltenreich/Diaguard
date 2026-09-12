@@ -6,7 +6,7 @@ internal class PdfText(
 ) : PdfDrawable {
 
     override fun getSize(page: PdfPage): PdfSize {
-        return paint.getTextBounds(text)
+        return page.getTextBounds(text, paint)
     }
 
     override fun drawOn(page: PdfPage, position: PdfPosition) {

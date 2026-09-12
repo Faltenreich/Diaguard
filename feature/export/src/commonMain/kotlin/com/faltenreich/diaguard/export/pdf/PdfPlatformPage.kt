@@ -8,4 +8,6 @@ internal expect class PdfPlatformPage(
     fun finish()
 
     fun drawText(text: String, position: PdfPosition, paint: PdfPaint)
+
+    fun getTextBounds(text: String, paint: PdfPaint): PdfSize
 }

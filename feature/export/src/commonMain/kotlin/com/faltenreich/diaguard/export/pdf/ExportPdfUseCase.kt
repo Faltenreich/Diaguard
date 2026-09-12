@@ -110,7 +110,7 @@ internal class ExportPdfUseCase(
                 paint = PdfPaint.normal,
             ).takeIf { settings.includeDateOfExport },
             pageNumber = PdfText(
-                text = document.pageCount.toString(),
+                text = document.countPages().toString(),
                 paint = PdfPaint.normal,
             ).takeIf { settings.includePageNumber },
         ).takeIf { settings.includeDateOfExport || settings.includePageNumber }

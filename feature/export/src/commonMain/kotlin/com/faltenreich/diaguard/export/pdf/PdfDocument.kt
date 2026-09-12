@@ -4,7 +4,7 @@ import com.faltenreich.diaguard.persistence.file.File
 
 internal expect class PdfDocument(file: File) {
 
-    val pageCount: Int
+    fun countPages(): Int
 
     fun close()
 }

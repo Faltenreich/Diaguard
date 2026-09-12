@@ -6,13 +6,19 @@ import java.io.FileOutputStream
 
 internal actual class PdfDocument actual constructor(file: File) {
 
-    val platform = PdfDocument()
+    private val document = PdfDocument()
     private val outputStream = FileOutputStream(java.io.File(file.absolutePath))
 
-    actual val pageCount: Int get() = platform.pages.size
+    actual fun countPages(): Int {
+        return document.pages.size
+    }
 
     actual fun close() {
-        platform.writeTo(outputStream)
-        platform.close()
+        document.writeTo(outputStream)
+        document.close()
+    }
+
+    fun <T> runNative(block: PdfDocument.() -> T): T {
+        return document.run(block)
     }
 }

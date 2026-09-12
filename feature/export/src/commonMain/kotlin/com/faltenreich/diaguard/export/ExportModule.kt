@@ -5,7 +5,7 @@ import com.faltenreich.diaguard.export.form.ExportFormViewModel
 import com.faltenreich.diaguard.export.form.SetExportCategoryUseCase
 import com.faltenreich.diaguard.export.history.ExportHistoryViewModel
 import com.faltenreich.diaguard.export.history.GetExportFilesUseCase
-import com.faltenreich.diaguard.export.pdf.pdfModule
+import com.faltenreich.diaguard.export.pdf.ExportPdfUseCase
 import com.faltenreich.diaguard.measurement.measurementModule
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.viewModelOf
@@ -15,14 +15,14 @@ fun exportModule() = module {
     includes(
         dataModule(),
         measurementModule(),
-        pdfModule(),
     )
 
+    factoryOf(::GetExportFilesUseCase)
     factoryOf(::GetExportSettingsUseCase)
     factoryOf(::SetExportSettingsUseCase)
     factoryOf(::SetExportCategoryUseCase)
     factoryOf(::ExportUseCase)
-    factoryOf(::GetExportFilesUseCase)
+    factoryOf(::ExportPdfUseCase)
 
     viewModelOf(::ExportFormViewModel)
     viewModelOf(::ExportHistoryViewModel)

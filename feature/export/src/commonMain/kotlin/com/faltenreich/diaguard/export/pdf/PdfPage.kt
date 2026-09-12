@@ -9,7 +9,6 @@ internal class PdfPage(
     private var platformPage: PdfPlatformPage
 
     var viewport: PdfRectangle
-    val width: Float get() = viewport.width
     var offset: PdfPosition
 
     init {
@@ -47,12 +46,20 @@ internal class PdfPage(
         }
     }
 
+    fun finish() {
+        platformPage.finish()
+    }
+
     fun canMove(by: Float): Boolean {
         return offset.y + by <= viewport.bottom
     }
 
     fun move(by: Float) {
         offset = offset.copy(x = offset.x, y = offset.y + by)
+    }
+
+    fun drawText(text: String, position: PdfPosition, paint: PdfPaint) {
+        platformPage.drawText(text, position, paint)
     }
 
     private companion object {

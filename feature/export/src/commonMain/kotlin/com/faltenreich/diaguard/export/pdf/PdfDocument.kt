@@ -2,14 +2,10 @@ package com.faltenreich.diaguard.export.pdf
 
 import com.faltenreich.diaguard.persistence.file.File
 
-internal class PdfDocument {
+internal class PdfDocument(file: File) {
 
-    private val platformDocument = PdfPlatformDocument()
+    val platformDocument = PdfPlatformDocument(file)
     lateinit var page: PdfPage
-
-    fun open(file: File) {
-        platformDocument.open(file)
-    }
 
     fun close() {
         platformDocument.close()
@@ -20,7 +16,8 @@ internal class PdfDocument {
     }
 
     fun finishPage() {
-        platformDocument.finishPage(page)
+        page.finish()
+        platformDocument.write()
     }
 
     fun canMove(by: Float): Boolean {

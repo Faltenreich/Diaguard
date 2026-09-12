@@ -10,6 +10,6 @@ internal class PdfText(
     }
 
     override fun drawOn(page: PdfPage, position: PdfPosition) {
-        paint.drawText(text, position)
+        page.drawText(text, position, paint)
     }
 }

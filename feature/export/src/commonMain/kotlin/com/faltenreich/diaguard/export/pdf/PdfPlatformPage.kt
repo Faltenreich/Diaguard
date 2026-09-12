@@ -1,9 +1,11 @@
 package com.faltenreich.diaguard.export.pdf
 
-expect internal class PdfPlatformPage(
+internal expect class PdfPlatformPage(
     document: PdfDocument,
     size: PdfSize,
 ) {
 
+    fun finish()
 
+    fun drawText(text: String, position: PdfPosition, paint: PdfPaint)
 }

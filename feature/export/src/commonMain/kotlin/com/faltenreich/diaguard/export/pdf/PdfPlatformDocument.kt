@@ -2,11 +2,9 @@ package com.faltenreich.diaguard.export.pdf
 
 import com.faltenreich.diaguard.persistence.file.File
 
-internal expect class PdfPlatformDocument() {
+internal expect class PdfPlatformDocument(file: File) {
 
-    fun open(file: File)
+    fun write()
 
     fun close()
-
-    fun finishPage(page: PdfPage)
 }

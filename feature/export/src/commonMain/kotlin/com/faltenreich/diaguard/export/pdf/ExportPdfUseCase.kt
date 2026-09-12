@@ -22,15 +22,15 @@ import kotlinx.coroutines.withContext
 
 internal val paintNormal: PdfPaint = PdfPaint(
     color = Color.Black,
-    typeface = TODO("Default"),
+    // TODO: typeface = TODO("Default"),
 )
 internal val paintBold: PdfPaint = PdfPaint(
     color = Color.Black,
-    typeface = TODO("DefaultBold"),
+    // TODO: typeface = TODO("DefaultBold"),
 )
 internal val paintHeader: PdfPaint = PdfPaint(
     color = Color.Black,
-    typeface = TODO("DefaultBold"),
+    // TODO: typeface = TODO("DefaultBold"),
     textSize = 14f,
 )
 
@@ -60,8 +60,7 @@ internal class ExportPdfUseCase(
             val file = fileRepository.createDocument(fileName, MIME_TYPE_PDF)
                 ?: return@withContext null
 
-            val pdfDocument = PdfDocument()
-            pdfDocument.open(file)
+            val pdfDocument = PdfDocument(file)
 
             DateProgression(dateRange).forEachIndexed { index, date ->
                 val isNewPage = index == 0 ||

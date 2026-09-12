@@ -8,16 +8,15 @@ internal actual data class PdfPlatformPage actual constructor(
     private val pageInfo = android.graphics.pdf.PdfDocument.PageInfo.Builder(
         size.width.toInt(),
         size.height.toInt(),
-        0, // TODO
+        document.pageCount,
     ).create()
-    private val page: android.graphics.pdf.PdfDocument.Page =
-        document.platformDocument.document.startPage(pageInfo)
+    private val platform = document.platformDocument.platform.startPage(pageInfo)
 
     actual fun finish() {
-        document.platformDocument.document.finishPage(page)
+        document.platformDocument.platform.finishPage(platform)
     }
 
     actual fun drawText(text: String, position: PdfPosition, paint: PdfPaint) {
-        page.canvas.drawText(text, position.x, position.y, paint.platformPaint)
+        platform.canvas.drawText(text, position.x, position.y, paint.platform)
     }
 }

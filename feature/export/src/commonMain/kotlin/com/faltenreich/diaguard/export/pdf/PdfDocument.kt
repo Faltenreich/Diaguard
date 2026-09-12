@@ -7,6 +7,8 @@ internal class PdfDocument(file: File) {
     val platformDocument = PdfPlatformDocument(file)
     lateinit var page: PdfPage
 
+    val pageCount: Int get() = platformDocument.pageCount
+
     fun close() {
         platformDocument.close()
     }

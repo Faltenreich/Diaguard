@@ -22,16 +22,15 @@ import kotlinx.coroutines.withContext
 
 internal val paintNormal: PdfPaint = PdfPaint(
     color = Color.Black,
-    // TODO: typeface = TODO("Default"),
+    typeface = PdfTypeface.NORMAL,
 )
 internal val paintBold: PdfPaint = PdfPaint(
     color = Color.Black,
-    // TODO: typeface = TODO("DefaultBold"),
+    typeface = PdfTypeface.BOLD,
 )
 internal val paintHeader: PdfPaint = PdfPaint(
     color = Color.Black,
-    // TODO: typeface = TODO("DefaultBold"),
-    textSize = 14f,
+    typeface = PdfTypeface.HEADER,
 )
 
 internal class ExportPdfUseCase(
@@ -125,7 +124,7 @@ internal class ExportPdfUseCase(
                 paint = paintNormal,
             ).takeIf { settings.includeDateOfExport },
             pageNumber = PdfText(
-                text = 0.toString(), // TODO
+                text = document.pageCount.toString(),
                 paint = paintNormal,
             ).takeIf { settings.includePageNumber },
         ).takeIf { settings.includeDateOfExport || settings.includePageNumber }

@@ -4,7 +4,7 @@ import androidx.compose.ui.graphics.Color
 
 internal expect class PdfPaint(
     color: Color,
-    textSize: Float = 12f,
+    typeface: PdfTypeface,
 ) {
 
     fun getTextBounds(text: String): PdfSize

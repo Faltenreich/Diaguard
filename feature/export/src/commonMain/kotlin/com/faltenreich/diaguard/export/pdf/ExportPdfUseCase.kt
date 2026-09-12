@@ -91,6 +91,7 @@ internal class ExportPdfUseCase(
             }
 
             page.finish()
+            pdfDocument.write()
             pdfDocument.close()
 
             file

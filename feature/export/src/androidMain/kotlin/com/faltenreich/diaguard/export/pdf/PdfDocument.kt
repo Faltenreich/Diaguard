@@ -4,7 +4,7 @@ import android.graphics.pdf.PdfDocument
 import com.faltenreich.diaguard.persistence.file.File
 import java.io.FileOutputStream
 
-internal actual class PdfPlatformDocument actual constructor(file: File) {
+internal actual class PdfDocument actual constructor(file: File) {
 
     val platform = PdfDocument()
     private val outputStream = FileOutputStream(java.io.File(file.absolutePath))

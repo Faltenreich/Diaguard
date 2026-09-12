@@ -59,12 +59,12 @@ internal class PdfPage(
         document.finishPage(page)
     }
 
-    fun canMove(by: Int): Boolean {
+    fun canMove(by: Float): Boolean {
         return offset.y + by <= viewport.bottom
     }
 
-    fun move(by: Int) {
-        offset.set(offset.x, offset.y + by.toFloat())
+    fun move(by: Float) {
+        offset.set(offset.x, offset.y + by)
     }
 
     fun draw(block: Canvas.() -> Unit) {

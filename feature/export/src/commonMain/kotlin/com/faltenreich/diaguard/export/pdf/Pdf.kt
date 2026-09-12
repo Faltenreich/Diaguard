@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.export.pdf
 
 import android.graphics.pdf.PdfDocument
-import java.io.File
+import com.faltenreich.diaguard.persistence.file.File
 import java.io.FileOutputStream
 import java.io.OutputStream
 
@@ -28,11 +28,11 @@ internal class Pdf {
         document.writeTo(outputStream)
     }
 
-    fun canMove(by: Int): Boolean {
+    fun canMove(by: Float): Boolean {
         return page.canMove(by)
     }
 
-    fun move(by: Int) {
+    fun move(by: Float) {
         page.move(by)
     }
 }

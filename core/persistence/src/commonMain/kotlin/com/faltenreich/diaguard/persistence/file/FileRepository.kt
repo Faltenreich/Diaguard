@@ -4,6 +4,7 @@ import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import io.github.vinceglb.filekit.FileKit
 import io.github.vinceglb.filekit.absolutePath
 import io.github.vinceglb.filekit.createdAt
+import io.github.vinceglb.filekit.div
 import io.github.vinceglb.filekit.list
 import io.github.vinceglb.filekit.mimeType
 
@@ -23,5 +24,18 @@ class FileRepository(
                 mimeType = file.mimeType()?.primaryType,
             )
         } ?: emptyList()
+    }
+
+    fun createDocument(
+        name: String,
+        mimeType: String,
+    ): File? {
+        val directory = FileKit.documentsDir ?: return null
+        val file = directory / name
+        return File(
+            absolutePath = file.absolutePath(),
+            createdAt = dateTimeFactory.now(),
+            mimeType = mimeType,
+        )
     }
 }

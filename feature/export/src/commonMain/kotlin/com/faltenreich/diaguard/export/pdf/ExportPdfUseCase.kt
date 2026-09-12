@@ -13,6 +13,7 @@ import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.localization.Localization
 import com.faltenreich.diaguard.logging.Logger
 import com.faltenreich.diaguard.persistence.file.File
+import com.faltenreich.diaguard.persistence.file.FileRepository
 import com.faltenreich.diaguard.resource.Res
 import com.faltenreich.diaguard.resource.calendar_week
 import kotlinx.coroutines.CoroutineDispatcher
@@ -21,6 +22,7 @@ import kotlinx.coroutines.withContext
 internal class ExportPdfUseCase(
     private val dispatcher: CoroutineDispatcher,
     private val localization: Localization,
+    private val fileRepository: FileRepository,
     private val dateTimeFactory: DateTimeFactory,
     private val dateTimeFormatter: DateTimeFormatter,
 ) {
@@ -36,11 +38,12 @@ internal class ExportPdfUseCase(
                 now,
                 EXPORT_DATE_TIME_FORMAT,
             )
-            val directory = context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)
             val prefix = EXPORT_FILE_NAME_PREFIX
             val extension = ExportType.PDF.extension
             val fileName = "${prefix}_$nowLocalized.$extension"
-            val file = JavaFile(directory, fileName)
+
+            val file = fileRepository.createDocument(fileName, MIME_TYPE_PDF)
+                ?: return@withContext null
 
             val pdf = Pdf()
             pdf.open(file)
@@ -77,11 +80,7 @@ internal class ExportPdfUseCase(
             pdf.finishPage()
             pdf.close()
 
-            File(
-                absolutePath = file.absolutePath,
-                createdAt = now,
-                mimeType = MIME_TYPE_PDF,
-            )
+            file
         } catch (exception: Exception) {
             Logger.error("Export failed", exception)
             null
@@ -95,10 +94,9 @@ internal class ExportPdfUseCase(
     ) {
         val header = PdfHeader(
             calendarWeek = PdfText(
-                text = "%s %s".format(
-                    localization.getString(Res.string.calendar_week),
-                    dateTimeFormatter.formatWeek(date),
-                ),
+                text = "${localization.getString(Res.string.calendar_week)} ${
+                    dateTimeFormatter.formatWeek(date)
+                }",
                 paint = PdfPaint.header,
             ),
             dateRange = PdfText(

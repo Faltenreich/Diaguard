@@ -60,12 +60,13 @@ internal class ExportPdfUseCase(
                 ?: return@withContext null
 
             val pdfDocument = PdfDocument(file)
+            var page = createPage(pdfDocument, dateRange.start, settings)
 
             DateProgression(dateRange).forEachIndexed { index, date ->
-                val isNewPage = index == 0 ||
+                val isNewPage = index != 0 &&
                     date == dateTimeFactory.dateAtStartOf(date, DateUnit.WEEK)
                 if (isNewPage) {
-                    createPage(pdfDocument, date, settings)
+                    page = createPage(pdfDocument, date, settings)
                 }
 
                 val entriesOfDate = entries.filter { it.dateTime == date }
@@ -77,20 +78,19 @@ internal class ExportPdfUseCase(
                         PdfLayout.TIMELINE -> PdfTimeline()
                     }
 
-                    val height = day.getSize(pdfDocument.page).height
-                    if (pdfDocument.canMove(height)) {
-                        pdfDocument.move(height)
+                    val height = day.getSize(page).height
+                    if (page.canMove(height)) {
+                        page.move(height)
                     } else {
-                        pdfDocument.finishPage()
-                        createPage(pdfDocument, date, settings)
+                        page.finish()
+                        page = createPage(pdfDocument, date, settings)
                     }
 
-                    val page = pdfDocument.page
                     day.drawOn(page, page.offset)
                 }
             }
 
-            pdfDocument.finishPage()
+            page.finish()
             pdfDocument.close()
 
             file
@@ -104,7 +104,7 @@ internal class ExportPdfUseCase(
         document: PdfDocument,
         date: Date,
         settings: ExportSettings,
-    ) {
+    ): PdfPage {
         val header = PdfHeader(
             calendarWeek = PdfText(
                 text = "${localization.getString(Res.string.calendar_week)} ${
@@ -129,7 +129,7 @@ internal class ExportPdfUseCase(
             ).takeIf { settings.includePageNumber },
         ).takeIf { settings.includeDateOfExport || settings.includePageNumber }
 
-        document.addPage(PdfPage(document, header, footer))
+        return PdfPage(document, header, footer)
     }
 
     companion object {

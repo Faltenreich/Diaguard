@@ -37,9 +37,9 @@ class AndroidPdfExport(
     private val localization: Localization,
     private val dateTimeFactory: DateTimeFactory,
     private val dateTimeFormatter: DateTimeFormatter,
-) : PdfExport {
+) : ExportPdfUseCase {
 
-    override suspend fun export(
+    override suspend operator fun invoke(
         dateRange: DateRange,
         entries: List<Entry.Local>,
         settings: ExportSettings,

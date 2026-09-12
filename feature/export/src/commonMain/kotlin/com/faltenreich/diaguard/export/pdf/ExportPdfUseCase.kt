@@ -5,9 +5,9 @@ import com.faltenreich.diaguard.data.export.ExportSettings
 import com.faltenreich.diaguard.datetime.DateRange
 import com.faltenreich.diaguard.persistence.file.File
 
-interface PdfExport {
+interface ExportPdfUseCase {
 
-    suspend fun export(
+    suspend operator fun invoke(
         dateRange: DateRange,
         entries: List<Entry.Local>,
         settings: ExportSettings,

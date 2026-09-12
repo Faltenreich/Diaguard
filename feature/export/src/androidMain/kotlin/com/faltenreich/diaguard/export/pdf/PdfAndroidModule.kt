@@ -8,7 +8,7 @@ import com.faltenreich.diaguard.persistence.file.File
 import org.koin.dsl.module
 
 actual fun pdfPlatformModule() = module {
-    factory<PdfExport> {
+    factory<ExportPdfUseCase> {
         if (get<BuildConfig>().hasPlatformFramework()) {
             AndroidPdfExport(
                 dispatcher = get(),
@@ -18,8 +18,8 @@ actual fun pdfPlatformModule() = module {
                 dateTimeFormatter = get(),
             )
         } else {
-            object : PdfExport {
-                override suspend fun export(
+            object : ExportPdfUseCase {
+                override suspend operator fun invoke(
                     dateRange: DateRange,
                     entries: List<Entry.Local>,
                     settings: ExportSettings

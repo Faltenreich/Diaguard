@@ -7,7 +7,7 @@ import com.faltenreich.diaguard.data.export.ExportType
 import com.faltenreich.diaguard.data.food.eaten.FoodEatenRepository
 import com.faltenreich.diaguard.data.measurement.value.MeasurementValueRepository
 import com.faltenreich.diaguard.datetime.DateRange
-import com.faltenreich.diaguard.export.pdf.PdfExport
+import com.faltenreich.diaguard.export.pdf.ExportPdfUseCase
 import com.faltenreich.diaguard.persistence.file.File
 
 class ExportUseCase(
@@ -15,7 +15,7 @@ class ExportUseCase(
     private val valueRepository: MeasurementValueRepository,
     private val entryTagRepository: EntryTagRepository,
     private val foodEatenRepository: FoodEatenRepository,
-    private val pdfExport: PdfExport,
+    private val exportPdf: ExportPdfUseCase,
 ) {
 
     suspend operator fun invoke(
@@ -46,7 +46,7 @@ class ExportUseCase(
         }
 
         return when (settings.exportType) {
-            ExportType.PDF -> pdfExport.export(dateRange, entries, settings)
+            ExportType.PDF -> exportPdf(dateRange, entries, settings)
             ExportType.CSV -> TODO()
         }
     }

@@ -15,8 +15,7 @@ internal class PdfPage(
 
     lateinit var viewport: RectF
     lateinit var offset: PointF
-
-    val canvas: Canvas get() = page.canvas
+    val width: Float = viewport.width()
 
     fun start(document: PdfDocument) {
         val pageWidth = DIN_A4.width
@@ -69,6 +68,10 @@ internal class PdfPage(
 
     fun move(by: Int) {
         offset.set(offset.x, offset.y + by.toFloat())
+    }
+
+    fun draw(block: Canvas.() -> Unit) {
+        page.canvas.run(block)
     }
 
     private companion object {

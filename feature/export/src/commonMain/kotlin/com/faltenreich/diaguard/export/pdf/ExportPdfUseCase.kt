@@ -16,6 +16,7 @@ import com.faltenreich.diaguard.persistence.file.File
 import com.faltenreich.diaguard.persistence.file.FileRepository
 import com.faltenreich.diaguard.resource.Res
 import com.faltenreich.diaguard.resource.calendar_week
+import com.faltenreich.diaguard.resource.export_date_time
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 
@@ -91,6 +92,10 @@ internal class ExportPdfUseCase(
         date: Date,
         settings: ExportSettings,
     ): PdfPage {
+        val dateRange = DateRange(
+            dateTimeFactory.dateAtStartOf(date, DateUnit.WEEK),
+            dateTimeFactory.dateAtEndOf(date, DateUnit.WEEK),
+        )
         val header = PdfHeader(
             calendarWeek = PdfText(
                 text = "${localization.getString(Res.string.calendar_week)} ${
@@ -99,18 +104,22 @@ internal class ExportPdfUseCase(
                 paint = PdfPaint.header,
             ),
             dateRange = PdfText(
-                text = dateTimeFormatter.formatDate(date), // TODO: Range
+                text = dateTimeFormatter.formatDateRange(dateRange),
                 paint = PdfPaint.normal,
             )
         ).takeIf { settings.includeCalendarWeek }
 
+        val pageNumber = document.countPages() + 1 // Increment beforehand
         val footer = PdfFooter(
             dateOfExport = PdfText(
-                text = dateTimeFormatter.formatDate(date), // TODO
+                text = localization.getString(
+                    Res.string.export_date_time,
+                    dateTimeFormatter.formatDate(date),
+                ),
                 paint = PdfPaint.normal,
             ).takeIf { settings.includeDateOfExport },
             pageNumber = PdfText(
-                text = document.countPages().toString(),
+                text = pageNumber.toString(),
                 paint = PdfPaint.normal,
             ).takeIf { settings.includePageNumber },
         ).takeIf { settings.includeDateOfExport || settings.includePageNumber }

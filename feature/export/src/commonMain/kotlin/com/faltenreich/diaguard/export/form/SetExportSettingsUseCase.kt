@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.export
+package com.faltenreich.diaguard.export.form
 
 import com.faltenreich.diaguard.data.export.ExportSettings
 import com.faltenreich.diaguard.export.preference.ExportCategoryPreference

@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.export
+package com.faltenreich.diaguard.export.form
 
 import com.faltenreich.diaguard.data.export.ExportSettings
 import com.faltenreich.diaguard.data.measurement.category.MeasurementCategory
@@ -41,16 +41,16 @@ class GetExportSettingsUseCase(
         getPreference(IncludeTagsPreference),
         getPreference(IncludeFoodEatenPreference),
     ) {
-        categories,
-        exportType,
-        pdfLayout,
-        includeCalendarWeek,
-        includeDateOfExport,
-        includeDaysWithoutEntries,
-        includePageNumber,
-        includeNotes,
-        includeTags,
-        includeFoodEaten,
+            categories,
+            exportType,
+            pdfLayout,
+            includeCalendarWeek,
+            includeDateOfExport,
+            includeDaysWithoutEntries,
+            includePageNumber,
+            includeNotes,
+            includeTags,
+            includeFoodEaten,
         ->
         ExportSettings(
             categories = categories,

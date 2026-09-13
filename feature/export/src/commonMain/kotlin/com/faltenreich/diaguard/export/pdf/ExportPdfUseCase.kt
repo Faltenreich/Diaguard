@@ -17,6 +17,7 @@ import com.faltenreich.diaguard.persistence.file.FileRepository
 import com.faltenreich.diaguard.resource.Res
 import com.faltenreich.diaguard.resource.calendar_week
 import com.faltenreich.diaguard.resource.export_date_time
+import com.faltenreich.diaguard.resource.export_empty
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 
@@ -30,7 +31,7 @@ internal class ExportPdfUseCase(
 
     suspend operator fun invoke(
         dateRange: DateRange,
-        entries: List<Entry.Local>,
+        entries: List<Entry>,
         settings: ExportSettings,
     ): File? = withContext(dispatcher) {
         try {
@@ -57,24 +58,37 @@ internal class ExportPdfUseCase(
                 }
 
                 val entriesOfDate = entries.filter { it.dateTime == date }
-                val exportDay = entriesOfDate.isNotEmpty() || settings.includeDaysWithoutEntries
-                if (exportDay) {
-                    val day = when (settings.pdfLayout) {
+                val day = PdfText(
+                    text = dateTimeFormatter.formatDate(date),
+                    paint = PdfPaint.bold,
+                )
+                val dayHeight = day.getSize(page).height
+
+                val content = when {
+                    entriesOfDate.isNotEmpty() -> when (settings.pdfLayout) {
                         PdfLayout.LOG -> PdfLog()
-                        PdfLayout.TABLE -> PdfTable()
+                        PdfLayout.TABLE -> PdfTable(date, entries)
                         PdfLayout.TIMELINE -> PdfTimeline()
                     }
 
-                    val height = day.getSize(page).height
-                    if (page.canMove(height)) {
-                        page.move(height)
-                    } else {
-                        page.finish()
-                        page = createPage(pdfDocument, date, settings)
-                    }
+                    settings.includeDaysWithoutEntries -> PdfEmpty(
+                        text = localization.getString(Res.string.export_empty),
+                    )
 
-                    day.drawOn(page, page.offset)
+                    else -> return@forEachIndexed
                 }
+                val contentHeight = content.getSize(page).height
+
+                if (!page.canMove(dayHeight + contentHeight)) {
+                    page.finish()
+                    page = createPage(pdfDocument, date, settings)
+                }
+
+                day.drawOn(page, page.offset)
+                page.move(dayHeight)
+
+                content.drawOn(page, page.offset)
+                page.move(contentHeight)
             }
 
             page.finish()

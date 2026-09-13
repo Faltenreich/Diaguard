@@ -95,6 +95,7 @@
     <string name="error_unknown">Something went wrong, please try again</string>
     <string name="export">Export</string>
     <string name="export_date_time">Report generated on %1$s</string>
+    <string name="export_empty">No data available</string>
     <string name="export_history">Export history</string>
     <string name="export_history_open">Open export history</string>
     <string name="export_history_item_delete">Delete</string>

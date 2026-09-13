@@ -7,7 +7,16 @@ internal data class PdfHeader(
     private val dateRange: PdfText,
 ) : PdfDrawable {
 
-    private val spacing = PdfSpacing.SMALL
+    private val spacing = PdfSpacing.P_8
+
+    override fun getSize(page: PdfPage): PdfSize {
+        val calendarWeekSize = calendarWeek.getSize(page)
+        val dateRangeSize = calendarWeek.getSize(page)
+        return PdfSize(
+            max(calendarWeekSize.width, dateRangeSize.width),
+            calendarWeekSize.height + spacing.points + dateRangeSize.height,
+        )
+    }
 
     override fun drawOn(page: PdfPage, position: PdfPosition) {
         calendarWeek.drawOn(page, position)
@@ -17,15 +26,6 @@ internal data class PdfHeader(
                 position.x,
                 position.y + spacing.points + calendarWeek.getSize(page).height,
             )
-        )
-    }
-
-    override fun getSize(page: PdfPage): PdfSize {
-        val calendarWeekSize = calendarWeek.getSize(page)
-        val dateRangeSize = calendarWeek.getSize(page)
-        return PdfSize(
-            max(calendarWeekSize.width, dateRangeSize.width),
-            calendarWeekSize.height + spacing.points + dateRangeSize.height,
         )
     }
 }

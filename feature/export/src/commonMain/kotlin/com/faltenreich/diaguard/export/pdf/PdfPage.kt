@@ -25,7 +25,7 @@ internal class PdfPage(
         offset = PdfPosition(viewport.left, viewport.top)
 
         header?.let { header ->
-            val height = header.getSize(this).height
+            val height = header.getSize(this).height + PdfSpacing.P_32.points
             val position = PdfPosition(
                 viewport.left,
                 viewport.top,

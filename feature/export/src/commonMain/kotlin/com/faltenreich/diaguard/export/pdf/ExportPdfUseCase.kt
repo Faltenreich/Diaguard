@@ -107,7 +107,7 @@ internal class ExportPdfUseCase(
             dateTimeFactory.dateAtStartOf(date, DateUnit.WEEK),
             dateTimeFactory.dateAtEndOf(date, DateUnit.WEEK),
         )
-        val header = PdfHeader(
+        val header = PdfCalendarWeek(
             calendarWeek = PdfText(
                 text = "${localization.getString(Res.string.calendar_week)} ${
                     dateTimeFormatter.formatWeek(date)

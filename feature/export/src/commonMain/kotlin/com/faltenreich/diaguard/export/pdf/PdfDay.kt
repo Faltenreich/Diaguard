@@ -3,7 +3,7 @@ package com.faltenreich.diaguard.export.pdf
 internal class PdfDay(text: String) : PdfDrawable {
 
     private val text = PdfText(text, PdfPaint.bold)
-    private val padding = PdfSpacing.CELL_PADDING.points
+    private val padding = PdfSpacing.P_4.points
 
     override fun getSize(page: PdfPage): PdfSize {
         val size = text.getSize(page)
@@ -15,6 +15,6 @@ internal class PdfDay(text: String) : PdfDrawable {
 
     override fun drawOn(page: PdfPage, position: PdfPosition) {
         text.drawOn(page, position.copy(x = position.x + padding, y = position.y + padding))
-        // TODO: Outsource in component, add padding and hours
+        // TODO: Add hours
     }
 }

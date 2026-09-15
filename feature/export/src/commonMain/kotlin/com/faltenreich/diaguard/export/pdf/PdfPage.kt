@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.export.pdf
 
 internal class PdfPage(
     document: PdfDocument,
-    header: PdfHeader?,
+    header: PdfCalendarWeek?,
     footer: PdfFooter?,
 ) {
 

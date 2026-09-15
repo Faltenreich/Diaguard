@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.export.pdf
 
 import kotlin.math.max
 
-internal data class PdfHeader(
+internal data class PdfCalendarWeek(
     private val calendarWeek: PdfText,
     private val dateRange: PdfText,
 ) : PdfDrawable {

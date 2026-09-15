@@ -14,6 +14,10 @@ internal data class PdfPaint(
             color = Color.Black,
             typeface = PdfTypeface.NORMAL,
         )
+        val label: PdfPaint = PdfPaint(
+            color = Color.DarkGray,
+            typeface = PdfTypeface.NORMAL,
+        )
         val bold: PdfPaint = PdfPaint(
             color = Color.Black,
             typeface = PdfTypeface.BOLD,

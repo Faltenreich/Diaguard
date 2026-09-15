@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.export.pdf
 
 internal class PdfEmpty(text: String) : PdfDrawable {
 
-    private val text = PdfText(text, PdfPaint.normal)
+    private val text = PdfText(text, PdfPaint.label)
     private val padding = PdfSpacing.CELL_PADDING.points
 
     override fun getSize(page: PdfPage): PdfSize {

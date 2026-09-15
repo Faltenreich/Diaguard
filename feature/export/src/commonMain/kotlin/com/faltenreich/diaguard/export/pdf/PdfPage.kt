@@ -62,6 +62,10 @@ internal class PdfPage(
         platformPage.drawText(text, position, paint)
     }
 
+    fun drawRectangle(rectangle: PdfRectangle, paint: PdfPaint) {
+        platformPage.drawRectangle(rectangle, paint)
+    }
+
     fun getTextBounds(text: String, paint: PdfPaint): PdfSize {
         return platformPage.getTextBounds(text, paint)
     }

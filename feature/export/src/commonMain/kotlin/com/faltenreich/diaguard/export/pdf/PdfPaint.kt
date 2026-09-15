@@ -4,7 +4,7 @@ import androidx.compose.ui.graphics.Color
 
 internal data class PdfPaint(
     val color: Color,
-    val typeface: PdfTypeface,
+    val typeface: PdfTypeface = PdfTypeface.NORMAL,
     val textSize: Float = 12f,
 ) {
 
@@ -22,6 +22,9 @@ internal data class PdfPaint(
             color = Color.Black,
             typeface = PdfTypeface.HEADER,
             textSize = 14f,
+        )
+        val background: PdfPaint = PdfPaint(
+            color = Color(0xFFF3F3F3),
         )
     }
 }

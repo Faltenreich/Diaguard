@@ -58,6 +58,7 @@ internal class ExportPdfUseCase(
                 }
 
                 val entriesOfDate = entries.filter { it.dateTime == date }
+                // TODO: Outsource in component, add padding and hours
                 val day = PdfText(
                     text = dateTimeFormatter.formatDate(date),
                     paint = PdfPaint.bold,

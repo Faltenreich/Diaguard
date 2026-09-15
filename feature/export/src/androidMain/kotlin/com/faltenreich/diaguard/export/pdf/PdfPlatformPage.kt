@@ -5,6 +5,7 @@ import android.graphics.Rect
 import android.graphics.Typeface
 import android.graphics.pdf.PdfDocument.Page
 import android.graphics.pdf.PdfDocument.PageInfo
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 
 internal actual class PdfPlatformPage actual constructor(
@@ -36,10 +37,24 @@ internal actual class PdfPlatformPage actual constructor(
         return PdfSize(bounds.width().toFloat(), bounds.height().toFloat())
     }
 
+    actual fun drawRectangle(rectangle: PdfRectangle, paint: PdfPaint) {
+        page.canvas.drawRect(
+            rectangle.left,
+            rectangle.top,
+            rectangle.right,
+            rectangle.bottom,
+            paint.toPlatform()
+        )
+    }
+
+    private fun Color.toPlatform(): Int {
+        return toArgb()
+    }
+
     private fun PdfPaint.toPlatform(): Paint {
         val paint = this
         return Paint().apply {
-            color = paint.color.toArgb()
+            color = paint.color.toPlatform()
             typeface = when (paint.typeface) {
                 PdfTypeface.NORMAL -> Typeface.DEFAULT
                 PdfTypeface.BOLD,

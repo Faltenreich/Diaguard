@@ -9,6 +9,8 @@ data class PdfRectangle(
 
     val width: Float = right - left
     val height: Float = bottom - top
+    val size: PdfSize = PdfSize(width, height)
+    val position: PdfPosition = PdfPosition(left, top)
 
     constructor(position: PdfPosition, size: PdfSize) : this(
         left = position.x,

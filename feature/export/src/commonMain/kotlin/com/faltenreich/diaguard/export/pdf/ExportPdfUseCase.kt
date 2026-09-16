@@ -57,14 +57,14 @@ internal class ExportPdfUseCase(
                     page = createPage(pdfDocument, date, settings)
                 }
 
-                val entriesOfDate = entries.filter { it.dateTime == date }
+                val entriesOfDate = entries.filter { it.dateTime.date == date }
                 val day = PdfDay(text = dateTimeFormatter.formatDate(date))
                 val dayHeight = day.getSize(page).height
 
                 val content = when {
                     entriesOfDate.isNotEmpty() -> when (settings.pdfLayout) {
                         PdfLayout.LOG -> PdfLog()
-                        PdfLayout.TABLE -> PdfTable(date, entries)
+                        PdfLayout.TABLE -> PdfTable(date, entries, settings)
                         PdfLayout.TIMELINE -> PdfTimeline()
                     }
 

@@ -13,17 +13,18 @@ internal class PdfTable(
     private val text = PdfText("Placeholder", PdfPaint.normal)
     private val padding = PdfSpacing.CELL_PADDING.points
     private val rowCount = settings.categories.size
+    private val bottomSpacing = PdfSpacing.DAY_PADDING_BOTTOM.points
 
     override fun getSize(page: PdfPage): PdfSize {
         val rowHeight = text.getSize(page).height + (padding * 2)
         return PdfSize(
             width = page.viewport.width,
-            height = rowHeight * rowCount,
+            height = rowHeight * rowCount + bottomSpacing,
         )
     }
 
     override fun drawOn(page: PdfPage, position: PdfPosition) {
-        val rowHeight = getSize(page).height / rowCount
+        val rowHeight = (getSize(page).height - bottomSpacing) / rowCount
         settings.categories.forEachIndexed { index, category ->
             val y = position.y + (rowHeight * index)
             if (index % 2 == 0) {

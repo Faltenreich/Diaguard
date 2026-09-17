@@ -4,12 +4,13 @@ internal class PdfEmpty(text: String) : PdfDrawable {
 
     private val text = PdfText(text, PdfPaint.label)
     private val padding = PdfSpacing.CELL_PADDING.points
+    private val bottomSpacing = PdfSpacing.DAY_PADDING_BOTTOM.points
 
     override fun getSize(page: PdfPage): PdfSize {
         val size = text.getSize(page)
         return size.copy(
             width = size.width + padding * 2,
-            height = size.height + padding * 2,
+            height = size.height + padding * 2 + bottomSpacing,
         )
     }
 
@@ -19,7 +20,10 @@ internal class PdfEmpty(text: String) : PdfDrawable {
     }
 
     private fun drawBackground(page: PdfPage, position: PdfPosition) {
-        val size = PdfSize(width = page.viewport.width, height = getSize(page).height)
+        val size = PdfSize(
+            width = page.viewport.width,
+            height = getSize(page).height - bottomSpacing,
+        )
         val background = PdfBackground(size, PdfPaint.background)
         background.drawOn(page, position)
     }

@@ -107,32 +107,20 @@ internal class ExportPdfUseCase(
             dateTimeFactory.dateAtStartOf(date, DateUnit.WEEK),
             dateTimeFactory.dateAtEndOf(date, DateUnit.WEEK),
         )
-        val header = PdfCalendarWeek(
-            calendarWeek = PdfText(
-                text = "${localization.getString(Res.string.calendar_week)} ${
-                    dateTimeFormatter.formatWeek(date)
-                }",
-                paint = PdfPaint.header,
-            ),
-            dateRange = PdfText(
-                text = dateTimeFormatter.formatDateRange(dateRange),
-                paint = PdfPaint.normal,
-            )
+        val header = PdfHeader(
+            calendarWeek = "${localization.getString(Res.string.calendar_week)} ${
+                dateTimeFormatter.formatWeek(date)
+            }",
+            dateRange = dateTimeFormatter.formatDateRange(dateRange),
         ).takeIf { settings.includeCalendarWeek }
 
         val pageNumber = document.countPages() + 1 // Increment beforehand
         val footer = PdfFooter(
-            dateOfExport = PdfText(
-                text = localization.getString(
-                    Res.string.export_date_time,
-                    dateTimeFormatter.formatDate(date),
-                ),
-                paint = PdfPaint.normal,
+            dateOfExport = localization.getString(
+                Res.string.export_date_time,
+                dateTimeFormatter.formatDate(date),
             ).takeIf { settings.includeDateOfExport },
-            pageNumber = PdfText(
-                text = pageNumber.toString(),
-                paint = PdfPaint.normal,
-            ).takeIf { settings.includePageNumber },
+            pageNumber = pageNumber.toString().takeIf { settings.includePageNumber },
         ).takeIf { settings.includeDateOfExport || settings.includePageNumber }
 
         return PdfPage(document, header, footer)

@@ -7,24 +7,24 @@ internal class PdfFooter(
     private val pageNumber: PdfText?,
 ) : PdfDrawable {
 
+    override fun getSize(page: PdfPage): PdfSize {
+        val dateOfExportSize = dateOfExport?.getSize(page) ?: PdfSize.Zero
+        val pageNumberSize = pageNumber?.getSize(page) ?: PdfSize.Zero
+        return PdfSize(
+            width = page.viewport.width,
+            height = max(dateOfExportSize.height, pageNumberSize.height),
+        )
+    }
+
     override fun drawOn(page: PdfPage, position: PdfPosition) {
         dateOfExport?.drawOn(page, position)
 
         pageNumber?.let { pageNumber ->
             val position = PdfPosition(
-                page.viewport.width - pageNumber.getSize(page).width,
-                position.y,
+                x = page.viewport.right - pageNumber.getSize(page).width,
+                y = position.y,
             )
             pageNumber.drawOn(page, position)
         }
-    }
-
-    override fun getSize(page: PdfPage): PdfSize {
-        val dateOfExportSize = dateOfExport?.getSize(page) ?: PdfSize.Zero
-        val pageNumberSize = pageNumber?.getSize(page) ?: PdfSize.Zero
-        return PdfSize(
-            page.viewport.width,
-            max(dateOfExportSize.height, pageNumberSize.height),
-        )
     }
 }

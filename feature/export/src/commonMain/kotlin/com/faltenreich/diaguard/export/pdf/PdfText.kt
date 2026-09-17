@@ -12,8 +12,7 @@ internal class PdfText(
     override fun drawOn(page: PdfPage, position: PdfPosition) {
         page.drawText(
             text = text,
-            // Text has a bottom baseline
-            position = position.copy(y = position.y + getSize(page).height),
+            position = position,
             paint = paint,
         )
     }

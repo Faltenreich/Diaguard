@@ -28,7 +28,10 @@ internal actual class PdfPlatformPage actual constructor(
     }
 
     actual fun drawText(text: String, position: PdfPosition, paint: PdfPaint) {
-        page.canvas.drawText(text, position.x, position.y, paint.toPlatform())
+        val paint = paint.toPlatform()
+        val x = position.x
+        val y = position.y - paint.fontMetrics.ascent
+        page.canvas.drawText(text, x, y, paint)
     }
 
     actual fun getTextBounds(text: String, paint: PdfPaint): PdfSize {
@@ -43,7 +46,7 @@ internal actual class PdfPlatformPage actual constructor(
             rectangle.top,
             rectangle.right,
             rectangle.bottom,
-            paint.toPlatform()
+            paint.toPlatform(),
         )
     }
 

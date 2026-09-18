@@ -15,7 +15,9 @@ internal class PdfDay(text: String) : PdfDrawable {
     override fun drawOn(page: PdfPage, position: PdfPosition) {
         val dayPosition = position.copy(x = position.x + padding, y = position.y + padding)
         day.drawOn(page, dayPosition)
-        drawHours(page, PdfPosition(x = dayPosition.x + DAY_WIDTH, y = dayPosition.y))
+
+        val hourPosition = PdfPosition(x = dayPosition.x + DAY_WIDTH, y = dayPosition.y)
+        drawHours(page, hourPosition)
     }
 
     private fun drawHours(page: PdfPage, position: PdfPosition) {
@@ -25,14 +27,9 @@ internal class PdfDay(text: String) : PdfDrawable {
         for (hour in progression) {
             val index = hour / progression.step
             val text = PdfText(hour.toString(), PdfPaint.normal)
-            text.drawOn(
-                page = page,
-                position = PdfPosition(
-                    x = position.x + (index * hourWidth) + hourWidth / 2 - text.getSize(page).width / 2,
-                    // FIXME: Off every fourth hour
-                    y = position.y,
-                ),
-            )
+            val x = position.x + (index * hourWidth) + hourWidth / 2 - text.getSize(page).width / 2
+            val y = position.y
+            text.drawOn(page, PdfPosition(x, y))
         }
     }
 

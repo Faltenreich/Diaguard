@@ -6,33 +6,43 @@ import com.faltenreich.diaguard.data.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 
 internal class PdfTable(
+    day: String,
     private val entries: List<Entry.Local>,
     private val settings: ExportSettings,
     private val dateTimeFactory: DateTimeFactory,
 ) : PdfDrawable {
 
+    private val day = PdfDay(day)
     private val text = PdfText("Placeholder", PdfPaint.normal)
     private val padding = PdfSpacing.CELL_PADDING.points
     private val rowCount = settings.categories.size
     private val bottomSpacing = PdfSpacing.DAY_PADDING_BOTTOM.points
 
     override fun getSize(page: PdfPage): PdfSize {
-        val rowHeight = text.getSize(page).height + (padding * 2)
+        val dayHeight = day.getSize(page).height + padding * 2
+        val rowHeight = text.getSize(page).height + padding * 2
         return PdfSize(
             width = page.viewport.width,
-            height = rowHeight * rowCount + bottomSpacing,
+            height = dayHeight + (rowHeight * rowCount) + bottomSpacing,
         )
     }
 
     override fun drawOn(page: PdfPage, position: PdfPosition) {
-        val rowHeight = (getSize(page).height - bottomSpacing) / rowCount
+        val dayPosition = position.copy(
+            x = position.x + padding,
+            y = position.y + padding,
+        )
+        day.drawOn(page, dayPosition)
+
+        val tablePosition = position.copy(y = position.y + day.getSize(page).height + padding * 2)
+        val rowHeight = text.getSize(page).height + (padding * 2)
         settings.categories.forEachIndexed { index, category ->
-            val y = position.y + (rowHeight * index)
+            val y = tablePosition.y + (rowHeight * index)
             if (index % 2 == 0) {
-                val rectangle = PdfRectangle(position.x, y, page.viewport.right, y + rowHeight)
+                val rectangle = PdfRectangle(tablePosition.x, y, page.viewport.right, y + rowHeight)
                 drawBackground(page, rectangle)
             }
-            val labelPosition = PdfPosition(position.x + padding, y + padding)
+            val labelPosition = PdfPosition(tablePosition.x + padding, y + padding)
             val label = PdfText(category.category.name, PdfPaint.normal)
             label.drawOn(page, labelPosition)
 

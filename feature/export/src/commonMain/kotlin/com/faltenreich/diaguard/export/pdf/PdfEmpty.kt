@@ -18,19 +18,28 @@ internal class PdfEmpty(
     }
 
     override fun drawOn(page: PdfPage, position: PdfPosition) {
-        day.drawOn(page, position.copy(x = position.x + padding, y = position.y + padding))
-
-        val dayOffset = position.y + day.getSize(page).height + (padding * 2)
-        drawBackground(page, position.copy(y = dayOffset))
-        label.drawOn(page, position.copy(x = position.x + padding, y = dayOffset + padding))
-    }
-
-    private fun drawBackground(page: PdfPage, position: PdfPosition) {
-        val size = PdfSize(
-            width = page.viewport.width,
-            height = label.getSize(page).height + padding * 2,
+        val dayPosition = position.copy(
+            x = position.x + padding,
+            y = position.y + padding,
         )
-        val background = PdfBackground(size, PdfPaint.background)
-        background.drawOn(page, position)
+        day.drawOn(page, dayPosition)
+
+        val backgroundPosition = position.copy(
+            y = position.y + day.getSize(page).height + padding * 2,
+        )
+        val background = let {
+            val size = PdfSize(
+                width = page.viewport.width,
+                height = label.getSize(page).height + padding * 2,
+            )
+            PdfBackground(size, PdfPaint.background)
+        }
+        background.drawOn(page, backgroundPosition)
+
+        val labelPosition = backgroundPosition.copy(
+            x = position.x + padding,
+            y = backgroundPosition.y + padding,
+        )
+        label.drawOn(page, labelPosition)
     }
 }

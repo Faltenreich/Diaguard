@@ -58,16 +58,17 @@ internal class ExportPdfUseCase(
                 }
 
                 val entriesOfDate = entries.filter { it.dateTime.date == date }
+                val day = dateTimeFormatter.formatDate(date)
 
                 val content = when {
                     entriesOfDate.isNotEmpty() -> when (settings.pdfLayout) {
                         PdfLayout.LOG -> PdfLog()
-                        PdfLayout.TABLE -> PdfTable(entries, settings, dateTimeFactory)
+                        PdfLayout.TABLE -> PdfTable(day, entries, settings, dateTimeFactory)
                         PdfLayout.TIMELINE -> PdfTimeline()
                     }
 
                     settings.includeDaysWithoutEntries -> PdfEmpty(
-                        day = dateTimeFormatter.formatDate(date),
+                        day = day,
                         label = localization.getString(Res.string.export_empty),
                     )
 

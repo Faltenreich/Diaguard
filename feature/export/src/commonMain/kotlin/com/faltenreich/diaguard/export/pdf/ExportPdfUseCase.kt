@@ -58,8 +58,6 @@ internal class ExportPdfUseCase(
                 }
 
                 val entriesOfDate = entries.filter { it.dateTime.date == date }
-                val day = PdfDay(text = dateTimeFormatter.formatDate(date))
-                val dayHeight = day.getSize(page).height
 
                 val content = when {
                     entriesOfDate.isNotEmpty() -> when (settings.pdfLayout) {
@@ -69,20 +67,18 @@ internal class ExportPdfUseCase(
                     }
 
                     settings.includeDaysWithoutEntries -> PdfEmpty(
-                        text = localization.getString(Res.string.export_empty),
+                        day = dateTimeFormatter.formatDate(date),
+                        label = localization.getString(Res.string.export_empty),
                     )
 
                     else -> return@forEachIndexed
                 }
                 val contentHeight = content.getSize(page).height
 
-                if (!page.canMove(dayHeight + contentHeight)) {
+                if (!page.canMove(contentHeight)) {
                     page.finish()
                     page = createPage(pdfDocument, date, settings)
                 }
-
-                day.drawOn(page, page.offset)
-                page.move(dayHeight)
 
                 content.drawOn(page, page.offset)
                 page.move(contentHeight)

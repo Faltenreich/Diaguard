@@ -41,6 +41,19 @@ internal class PdfTable(
         }
     }
 
+    private fun drawHours(page: PdfPage, position: PdfPosition) {
+        val progression = 0..<DAY_HOURS step DAY_STEP
+        val hoursWidth = page.viewport.right - position.x
+        val hourWidth = hoursWidth / progression.count()
+        for (hour in progression) {
+            val index = hour / progression.step
+            val text = PdfText(hour.toString(), PdfPaint.normal)
+            val x = position.x + (index * hourWidth) + hourWidth / 2 - text.getSize(page).width / 2
+            val y = position.y
+            text.drawOn(page, PdfPosition(x, y))
+        }
+    }
+
     private fun drawHours(page: PdfPage, position: PdfPosition, category: MeasurementCategory) {
         val progression = 0..<DAY_HOURS step DAY_STEP
         val hoursWidth = page.viewport.right - position.x

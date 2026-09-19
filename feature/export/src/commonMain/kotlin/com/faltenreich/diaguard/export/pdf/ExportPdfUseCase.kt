@@ -31,7 +31,7 @@ internal class ExportPdfUseCase(
 
     suspend operator fun invoke(
         dateRange: DateRange,
-        entries: List<Entry>,
+        entries: List<Entry.Local>,
         settings: ExportSettings,
     ): File? = withContext(dispatcher) {
         try {
@@ -64,7 +64,7 @@ internal class ExportPdfUseCase(
                 val content = when {
                     entriesOfDate.isNotEmpty() -> when (settings.pdfLayout) {
                         PdfLayout.LOG -> PdfLog()
-                        PdfLayout.TABLE -> PdfTable(date, entries, settings)
+                        PdfLayout.TABLE -> PdfTable(entries, settings, dateTimeFactory)
                         PdfLayout.TIMELINE -> PdfTimeline()
                     }
 

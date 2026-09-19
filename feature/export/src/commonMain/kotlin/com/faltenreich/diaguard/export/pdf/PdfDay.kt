@@ -21,7 +21,7 @@ internal class PdfDay(text: String) : PdfDrawable {
     }
 
     private fun drawHours(page: PdfPage, position: PdfPosition) {
-        val progression = 0..DAY_HOURS step DAY_STEP
+        val progression = 0..<DAY_HOURS step DAY_STEP
         val hoursWidth = page.viewport.right - position.x
         val hourWidth = hoursWidth / progression.count()
         for (hour in progression) {

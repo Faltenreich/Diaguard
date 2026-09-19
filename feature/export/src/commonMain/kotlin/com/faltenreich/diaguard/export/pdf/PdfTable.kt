@@ -28,27 +28,13 @@ internal class PdfTable(
     }
 
     override fun drawOn(page: PdfPage, position: PdfPosition) {
-        val dayPosition = position.copy(
-            x = position.x + padding,
-            y = position.y + padding,
-        )
-        day.drawOn(page, dayPosition)
+        drawDay(page, position.copy(x = position.x + padding, y = position.y + padding))
+        drawHours(page, position.copy(x = position.x + DAY_WIDTH, y = position.y + padding))
+        drawCategories(page, position.copy(y = position.y + day.getSize(page).height + padding * 2))
+    }
 
-        val tablePosition = position.copy(y = position.y + day.getSize(page).height + padding * 2)
-        val rowHeight = text.getSize(page).height + (padding * 2)
-        settings.categories.forEachIndexed { index, category ->
-            val y = tablePosition.y + (rowHeight * index)
-            if (index % 2 == 0) {
-                val rectangle = PdfRectangle(tablePosition.x, y, page.viewport.right, y + rowHeight)
-                drawBackground(page, rectangle)
-            }
-            val labelPosition = PdfPosition(tablePosition.x + padding, y + padding)
-            val label = PdfText(category.category.name, PdfPaint.normal)
-            label.drawOn(page, labelPosition)
-
-            val hoursPosition = PdfPosition(x = labelPosition.x + DAY_WIDTH, y = labelPosition.y)
-            drawHours(page, hoursPosition, category.category)
-        }
+    private fun drawDay(page: PdfPage, position: PdfPosition) {
+        day.drawOn(page, position)
     }
 
     private fun drawHours(page: PdfPage, position: PdfPosition) {
@@ -64,7 +50,24 @@ internal class PdfTable(
         }
     }
 
-    private fun drawHours(page: PdfPage, position: PdfPosition, category: MeasurementCategory) {
+    private fun drawCategories(page: PdfPage, position: PdfPosition) {
+        val rowHeight = text.getSize(page).height + (padding * 2)
+        settings.categories.forEachIndexed { index, category ->
+            val y = position.y + (rowHeight * index)
+            if (index % 2 == 0) {
+                val rectangle = PdfRectangle(position.x, y, page.viewport.right, y + rowHeight)
+                drawBackground(page, rectangle)
+            }
+            val labelPosition = PdfPosition(position.x + padding, y + padding)
+            val label = PdfText(category.category.name, PdfPaint.normal)
+            label.drawOn(page, labelPosition)
+
+            val hoursPosition = PdfPosition(x = labelPosition.x + DAY_WIDTH, y = labelPosition.y)
+            drawCategory(page, hoursPosition, category.category)
+        }
+    }
+
+    private fun drawCategory(page: PdfPage, position: PdfPosition, category: MeasurementCategory) {
         val progression = 0..<DAY_HOURS step DAY_STEP
         val hoursWidth = page.viewport.right - position.x
         val hourWidth = hoursWidth / progression.count()

@@ -33,6 +33,10 @@ interface Time : Serializable, Comparable<Time> {
 
     fun atDate(date: Date): DateTime
 
+    fun minus(value: Int, unit: TimeUnit): Time
+
+    fun plus(value: Int, unit: TimeUnit): Time
+
     //region Any
 
     fun copy(

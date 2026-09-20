@@ -4,9 +4,18 @@ import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.datetime.DateTimeConstants
 import com.faltenreich.diaguard.datetime.Time
+import com.faltenreich.diaguard.datetime.TimeUnit
 import com.faltenreich.diaguard.serialization.ObjectInputStream
 import com.faltenreich.diaguard.serialization.ObjectOutputStream
+import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.LocalTime
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.minus
+import kotlinx.datetime.plus
+import kotlinx.datetime.toInstant
+import kotlinx.datetime.toLocalDateTime
+import kotlinx.datetime.todayIn
+import kotlin.time.Clock
 
 internal class KotlinxTime(private var delegate: LocalTime) : Time {
 
@@ -42,6 +51,24 @@ internal class KotlinxTime(private var delegate: LocalTime) : Time {
             millisOfSecond = millisOfSecond,
             nanosOfMilli = nanosOfMilli,
         )
+    }
+
+    override fun minus(value: Int, unit: TimeUnit): Time {
+        val localDate = Clock.System.todayIn(TimeZone.currentSystemDefault())
+        val dateTime = LocalDateTime(localDate, delegate)
+            .toInstant(TimeZone.currentSystemDefault())
+            .minus(value, unit.fromDomain())
+            .toLocalDateTime(TimeZone.currentSystemDefault()).time
+        return KotlinxTime(dateTime)
+    }
+
+    override fun plus(value: Int, unit: TimeUnit): Time {
+        val localDate = Clock.System.todayIn(TimeZone.currentSystemDefault())
+        val dateTime = LocalDateTime(localDate, delegate)
+            .toInstant(TimeZone.currentSystemDefault())
+            .plus(value, unit.fromDomain())
+            .toLocalDateTime(TimeZone.currentSystemDefault()).time
+        return KotlinxTime(dateTime)
     }
 
     override fun copy(

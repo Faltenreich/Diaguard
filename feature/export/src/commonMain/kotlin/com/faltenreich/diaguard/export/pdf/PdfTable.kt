@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.export.pdf
 import com.faltenreich.diaguard.data.entry.Entry
 import com.faltenreich.diaguard.data.export.ExportSettings
 import com.faltenreich.diaguard.data.measurement.category.MeasurementCategory
+import com.faltenreich.diaguard.datetime.TimeUnit
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.persistence.pdf.PdfDrawable
 import com.faltenreich.diaguard.persistence.pdf.PdfPage
@@ -83,8 +84,10 @@ internal class PdfTable(
             val values = entries.flatMap { entry ->
                 val entryTime = entry.dateTime.time
                 val startTime = dateTimeFactory.time(hourOfDay = hour, minuteOfHour = 0)
-                // TODO: dateTimeFactory.time(hourOfDay = hour + DAY_STEP, minuteOfHour = 0)
-                val endTime = startTime
+                val endTime = dateTimeFactory.timeAtEndOf(
+                    time = startTime.copy(hourOfDay = hour + DAY_STEP - 1),
+                    unit = TimeUnit.HOUR,
+                )
                 if (entryTime in startTime..<endTime) {
                     entry.values.filter { value ->
                         value.property.category == category

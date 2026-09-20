@@ -5,6 +5,7 @@ import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.datetime.DateTimePlatformApi
 import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.Time
+import com.faltenreich.diaguard.datetime.TimeUnit
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.offsetAt
@@ -106,25 +107,56 @@ internal class KotlinxDateTimeFactory(
                 }
                 date
             }
+
             DateUnit.MONTH -> KotlinxDate(
                 year = year,
                 monthNumber = monthNumber,
                 dayOfMonth = 1,
             )
+
             DateUnit.QUARTER -> KotlinxDate(
                 year = year,
                 monthNumber = (((monthNumber - 1) / 3) * 3) + 1,
                 dayOfMonth = 1,
             )
+
             DateUnit.YEAR -> KotlinxDate(
                 year = year,
                 monthNumber = 1,
                 dayOfMonth = 1,
             )
+
             DateUnit.CENTURY -> KotlinxDate(
                 year = 100 * floor(year / 100.0).toInt(),
                 monthNumber = 1,
                 dayOfMonth = 1,
+            )
+        }
+    }
+
+    override fun timeAtStartOf(time: Time, unit: TimeUnit): Time {
+        return when (unit) {
+            TimeUnit.NANOSECOND -> time
+            TimeUnit.MILLISECOND -> time.copy(
+                nanosOfMilli = 0,
+            )
+
+            TimeUnit.SECOND -> time.copy(
+                nanosOfMilli = 0,
+                millisOfSecond = 0,
+            )
+
+            TimeUnit.MINUTE -> time.copy(
+                nanosOfMilli = 0,
+                millisOfSecond = 0,
+                secondOfMinute = 0,
+            )
+
+            TimeUnit.HOUR -> time.copy(
+                nanosOfMilli = 0,
+                millisOfSecond = 0,
+                secondOfMinute = 0,
+                minuteOfHour = 0,
             )
         }
     }

@@ -5,6 +5,7 @@ import com.faltenreich.diaguard.datetime.DateProgression
 import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.Time
+import com.faltenreich.diaguard.datetime.TimeUnit
 
 interface DateTimeFactory {
 
@@ -63,5 +64,13 @@ interface DateTimeFactory {
         return dateAtStartOf(date, unit)
             .plus(1, unit)
             .minus(1, DateUnit.DAY)
+    }
+
+    fun timeAtStartOf(time: Time, unit: TimeUnit): Time
+
+    fun timeAtEndOf(time: Time, unit: TimeUnit): Time {
+        return timeAtStartOf(time, unit)
+            .plus(1, unit)
+            .minus(1, TimeUnit.NANOSECOND)
     }
 }

@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.data.preview
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.DateTime
 import com.faltenreich.diaguard.datetime.Time
+import com.faltenreich.diaguard.datetime.TimeUnit
 import com.faltenreich.diaguard.serialization.ObjectInputStream
 import com.faltenreich.diaguard.serialization.ObjectOutputStream
 
@@ -15,6 +16,16 @@ class PreviewTime(
 ) : Time {
 
     override fun atDate(date: Date): DateTime = PreviewDateTime(date = date, time = this)
+
+    override fun minus(
+        value: Int,
+        unit: TimeUnit
+    ): Time = this
+
+    override fun plus(
+        value: Int,
+        unit: TimeUnit
+    ): Time = this
 
     override fun copy(
         hourOfDay: Int,

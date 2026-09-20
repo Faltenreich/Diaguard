@@ -2,7 +2,9 @@ package com.faltenreich.diaguard.export.pdf
 
 import com.faltenreich.diaguard.data.entry.Entry
 import com.faltenreich.diaguard.data.export.ExportSettings.Category
-import com.faltenreich.diaguard.data.measurement.category.MeasurementCategory
+import com.faltenreich.diaguard.data.measurement.property.MeasurementAggregationStyle
+import com.faltenreich.diaguard.data.measurement.property.MeasurementProperty
+import com.faltenreich.diaguard.data.measurement.value.MeasurementValueMapper
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.TimeUnit
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
@@ -21,6 +23,7 @@ internal class PdfTable(
     private val width: Float,
     private val dateTimeFactory: DateTimeFactory,
     dateTimeFormatter: DateTimeFormatter,
+    private val valueMapper: MeasurementValueMapper,
 ) : PdfDrawable {
 
     private val date = PdfDate(date, dateTimeFormatter)
@@ -41,7 +44,7 @@ internal class PdfTable(
     override fun drawOn(page: PdfPage, position: PdfPosition) {
         drawDate(page, position.copy(x = position.x + padding, y = position.y + padding))
         drawHours(page, position.copy(x = position.x + DAY_WIDTH, y = position.y + padding))
-        drawCategories(page, position.copy(y = position.y + date.getSize().height + padding * 2))
+        drawValues(page, position.copy(y = position.y + date.getSize().height + padding * 2))
     }
 
     private fun drawDate(page: PdfPage, position: PdfPosition) {
@@ -61,24 +64,30 @@ internal class PdfTable(
         }
     }
 
-    private fun drawCategories(page: PdfPage, position: PdfPosition) {
+    private fun drawValues(page: PdfPage, position: PdfPosition) {
         val rowHeight = text.getSize().height + (padding * 2)
-        categories.forEachIndexed { index, category ->
+        val properties = categories.flatMap { it.properties }
+        properties.forEachIndexed { index, property ->
             val y = position.y + (rowHeight * index)
             if (index % 2 == 0) {
                 val rectangle = PdfRectangle(position.x, y, page.viewport.right, y + rowHeight)
                 drawBackground(page, rectangle)
             }
             val labelPosition = PdfPosition(position.x + padding, y + padding)
-            val label = PdfText(category.category.name, PdfPaint.normal)
+            val label = PdfText(property.property.name, PdfPaint.normal)
             label.drawOn(page, labelPosition)
 
             val hoursPosition = PdfPosition(x = labelPosition.x + DAY_WIDTH, y = labelPosition.y)
-            drawCategory(page, hoursPosition, category.category)
+            // TODO: Label categories and properties
+            drawCategory(page, hoursPosition, property.property)
         }
     }
 
-    private fun drawCategory(page: PdfPage, position: PdfPosition, category: MeasurementCategory) {
+    private fun drawCategory(
+        page: PdfPage,
+        position: PdfPosition,
+        property: MeasurementProperty.Local
+    ) {
         val progression = 0..<DAY_HOURS step DAY_STEP
         val hoursWidth = page.viewport.right - position.x
         val hourWidth = hoursWidth / progression.count()
@@ -92,16 +101,21 @@ internal class PdfTable(
                     unit = TimeUnit.HOUR,
                 )
                 if (entryTime in startTime..<endTime) {
-                    entry.values.filter { value ->
-                        value.property.category == category
-                    }
+                    entry.values.filter { value -> value.property == property }
                 } else {
                     emptyList()
                 }
             }
             if (values.isNotEmpty()) {
-                val value = values.sumOf { it.value }
-                val text = PdfText(value.toString(), PdfPaint.normal)
+                val sum = values.sumOf { it.value }
+                val aggregation = when (property.aggregationStyle) {
+                    MeasurementAggregationStyle.CUMULATIVE -> sum
+                    MeasurementAggregationStyle.AVERAGE -> sum / values.size
+                }
+                // TODO: Pass decimalPlaces
+                val value = valueMapper(aggregation, property, 1).value
+
+                val text = PdfText(value, PdfPaint.normal)
                 val x =
                     position.x + (index * hourWidth) + hourWidth / 2 - text.getSize().width / 2
                 val y = position.y

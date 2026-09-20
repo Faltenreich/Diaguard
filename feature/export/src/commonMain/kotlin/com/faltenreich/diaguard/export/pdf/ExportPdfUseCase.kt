@@ -4,7 +4,6 @@ import com.faltenreich.diaguard.data.entry.Entry
 import com.faltenreich.diaguard.data.export.ExportSettings
 import com.faltenreich.diaguard.data.export.ExportType
 import com.faltenreich.diaguard.data.export.PdfLayout
-import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.DateProgression
 import com.faltenreich.diaguard.datetime.DateRange
 import com.faltenreich.diaguard.datetime.DateUnit
@@ -15,8 +14,6 @@ import com.faltenreich.diaguard.logging.Logger
 import com.faltenreich.diaguard.persistence.file.File
 import com.faltenreich.diaguard.persistence.file.FileRepository
 import com.faltenreich.diaguard.resource.Res
-import com.faltenreich.diaguard.resource.calendar_week
-import com.faltenreich.diaguard.resource.export_date_time
 import com.faltenreich.diaguard.resource.export_empty
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
@@ -27,6 +24,7 @@ internal class ExportPdfUseCase(
     private val fileRepository: FileRepository,
     private val dateTimeFactory: DateTimeFactory,
     private val dateTimeFormatter: DateTimeFormatter,
+    private val createPage: CreatePdfPageUseCase,
 ) {
 
     suspend operator fun invoke(
@@ -101,34 +99,6 @@ internal class ExportPdfUseCase(
             Logger.error("Export failed", exception)
             null
         }
-    }
-
-    private fun createPage(
-        document: PdfDocument,
-        date: Date,
-        settings: ExportSettings,
-    ): PdfPage {
-        val dateRange = DateRange(
-            dateTimeFactory.dateAtStartOf(date, DateUnit.WEEK),
-            dateTimeFactory.dateAtEndOf(date, DateUnit.WEEK),
-        )
-        val header = PdfHeader(
-            calendarWeek = "${localization.getString(Res.string.calendar_week)} ${
-                dateTimeFormatter.formatWeek(date)
-            }",
-            dateRange = dateTimeFormatter.formatDateRange(dateRange),
-        ).takeIf { settings.includeCalendarWeek }
-
-        val pageNumber = document.countPages() + 1 // Increment beforehand
-        val footer = PdfFooter(
-            dateOfExport = localization.getString(
-                Res.string.export_date_time,
-                dateTimeFormatter.formatDate(date),
-            ).takeIf { settings.includeDateOfExport },
-            pageNumber = pageNumber.toString().takeIf { settings.includePageNumber },
-        ).takeIf { settings.includeDateOfExport || settings.includePageNumber }
-
-        return PdfPage(document, header, footer)
     }
 
     companion object {

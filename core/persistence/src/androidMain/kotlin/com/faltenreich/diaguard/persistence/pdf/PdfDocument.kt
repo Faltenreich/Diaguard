@@ -1,10 +1,10 @@
-package com.faltenreich.diaguard.export.pdf.core
+package com.faltenreich.diaguard.persistence.pdf
 
 import android.graphics.pdf.PdfDocument
 import com.faltenreich.diaguard.persistence.file.File
 import java.io.FileOutputStream
 
-internal actual class PdfDocument actual constructor(file: File) {
+actual class PdfDocument actual constructor(file: File) {
 
     private val actual = PdfDocument()
     private val outputStream = FileOutputStream(java.io.File(file.absolutePath))

@@ -1,6 +1,12 @@
-package com.faltenreich.diaguard.export.pdf.core
+package com.faltenreich.diaguard.export.pdf
 
-internal class PdfText(
+import com.faltenreich.diaguard.persistence.pdf.PdfDrawable
+import com.faltenreich.diaguard.persistence.pdf.PdfPage
+import com.faltenreich.diaguard.persistence.pdf.PdfPaint
+import com.faltenreich.diaguard.persistence.pdf.PdfPosition
+import com.faltenreich.diaguard.persistence.pdf.PdfSize
+
+class PdfText(
     private val text: String,
     private val paint: PdfPaint,
 ) : PdfDrawable {

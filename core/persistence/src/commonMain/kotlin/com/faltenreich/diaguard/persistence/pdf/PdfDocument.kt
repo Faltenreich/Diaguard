@@ -1,8 +1,8 @@
-package com.faltenreich.diaguard.export.pdf.core
+package com.faltenreich.diaguard.persistence.pdf
 
 import com.faltenreich.diaguard.persistence.file.File
 
-internal expect class PdfDocument(file: File) {
+expect class PdfDocument(file: File) {
 
     fun countPages(): Int
 

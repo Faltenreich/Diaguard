@@ -1,9 +1,9 @@
-package com.faltenreich.diaguard.export.pdf.core
+package com.faltenreich.diaguard.persistence.pdf
 
 import android.graphics.pdf.PdfDocument.Page
 import android.graphics.pdf.PdfDocument.PageInfo
 
-internal actual class PdfPage actual constructor(
+actual class PdfPage actual constructor(
     private val document: PdfDocument,
     size: PdfSize,
     actual val viewport: PdfRectangle,

@@ -1,6 +1,6 @@
-package com.faltenreich.diaguard.export.pdf.core
+package com.faltenreich.diaguard.persistence.pdf
 
-internal actual class PdfPage actual constructor(
+actual class PdfPage actual constructor(
     document: PdfDocument,
     size: PdfSize,
     actual val viewport: PdfRectangle,

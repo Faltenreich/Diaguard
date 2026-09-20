@@ -1,6 +1,6 @@
-package com.faltenreich.diaguard.export.pdf.core
+package com.faltenreich.diaguard.persistence.pdf
 
-internal actual class PdfPaint {
+actual class PdfPaint {
 
     actual fun getTextBounds(text: String): PdfSize {
         TODO("Not yet implemented")

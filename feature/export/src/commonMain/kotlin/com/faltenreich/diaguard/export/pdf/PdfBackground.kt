@@ -4,17 +4,19 @@ import com.faltenreich.diaguard.persistence.pdf.PdfDrawable
 import com.faltenreich.diaguard.persistence.pdf.PdfPage
 import com.faltenreich.diaguard.persistence.pdf.PdfPaint
 import com.faltenreich.diaguard.persistence.pdf.PdfPosition
+import com.faltenreich.diaguard.persistence.pdf.PdfRectangle
 import com.faltenreich.diaguard.persistence.pdf.PdfSize
 
-internal class PdfDay(text: String) : PdfDrawable {
-
-    private val text = PdfText(text, PdfPaint.bold)
+data class PdfBackground(
+    private val size: PdfSize,
+    private val paint: PdfPaint,
+) : PdfDrawable {
 
     override fun getSize(): PdfSize {
-        return text.getSize()
+        return size
     }
 
     override fun drawOn(page: PdfPage, position: PdfPosition) {
-        text.drawOn(page, position)
+        page.drawRectangle(PdfRectangle(position, size), paint)
     }
 }

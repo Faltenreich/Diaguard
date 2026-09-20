@@ -1,6 +1,6 @@
-package com.faltenreich.diaguard.export.pdf.core
+package com.faltenreich.diaguard.persistence.pdf
 
-internal expect class PdfPaint {
+expect class PdfPaint {
 
     fun getTextBounds(text: String): PdfSize
 

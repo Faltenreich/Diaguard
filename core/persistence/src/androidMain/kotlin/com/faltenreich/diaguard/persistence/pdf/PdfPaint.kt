@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.export.pdf.core
+package com.faltenreich.diaguard.persistence.pdf
 
 import android.graphics.Paint
 import android.graphics.Rect
@@ -6,7 +6,7 @@ import android.graphics.Typeface
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 
-internal actual class PdfPaint(
+actual class PdfPaint(
     val color: Color,
     val typeface: PdfTypeface = PdfTypeface.NORMAL,
     val textSize: Float = 12f,

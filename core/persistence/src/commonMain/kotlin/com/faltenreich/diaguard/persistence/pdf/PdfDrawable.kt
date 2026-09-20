@@ -1,6 +1,6 @@
-package com.faltenreich.diaguard.export.pdf.core
+package com.faltenreich.diaguard.persistence.pdf
 
-internal interface PdfDrawable {
+interface PdfDrawable {
 
     fun getSize(): PdfSize
 

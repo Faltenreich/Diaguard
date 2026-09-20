@@ -1,8 +1,8 @@
-package com.faltenreich.diaguard.export.pdf.core
+package com.faltenreich.diaguard.persistence.pdf
 
 import com.faltenreich.diaguard.persistence.file.File
 
-internal actual class PdfDocument actual constructor(file: File) {
+actual class PdfDocument actual constructor(file: File) {
 
     actual fun countPages(): Int {
         TODO("Not yet implemented")

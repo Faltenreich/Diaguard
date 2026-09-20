@@ -14,6 +14,7 @@ import com.faltenreich.diaguard.logging.Logger
 import com.faltenreich.diaguard.persistence.file.File
 import com.faltenreich.diaguard.persistence.file.FileRepository
 import com.faltenreich.diaguard.persistence.pdf.PdfDocument
+import com.faltenreich.diaguard.persistence.pdf.PdfPaint
 import com.faltenreich.diaguard.resource.Res
 import com.faltenreich.diaguard.resource.export_empty
 import kotlinx.coroutines.CoroutineDispatcher
@@ -57,26 +58,28 @@ internal class ExportPdfUseCase(
                 }
 
                 val entriesOfDate = entries.filter { it.dateTime.date == date }
-                val day = dateTimeFormatter.formatDate(date)
 
                 val content = when {
                     entriesOfDate.isNotEmpty() -> when (settings.pdfLayout) {
                         PdfLayout.LOG -> PdfLog()
                         PdfLayout.TABLE -> PdfTable(
-                            day,
-                            entries,
-                            settings,
+                            date = PdfDate(date, dateTimeFormatter),
+                            entries = entries,
+                            categories = settings.categories,
+                            width = page.viewport.width,
                             dateTimeFactory,
-                            page.viewport
                         )
 
                         PdfLayout.TIMELINE -> PdfTimeline()
                     }
 
                     settings.includeDaysWithoutEntries -> PdfEmpty(
-                        day = day,
-                        label = localization.getString(Res.string.export_empty),
-                        viewport = page.viewport,
+                        date = PdfDate(date, dateTimeFormatter),
+                        label = PdfText(
+                            localization.getString(Res.string.export_empty),
+                            PdfPaint.label
+                        ),
+                        width = page.viewport.width,
                     )
 
                     else -> return@forEachIndexed

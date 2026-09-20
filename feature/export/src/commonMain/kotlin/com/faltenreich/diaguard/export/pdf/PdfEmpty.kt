@@ -4,24 +4,21 @@ import com.faltenreich.diaguard.persistence.pdf.PdfDrawable
 import com.faltenreich.diaguard.persistence.pdf.PdfPage
 import com.faltenreich.diaguard.persistence.pdf.PdfPaint
 import com.faltenreich.diaguard.persistence.pdf.PdfPosition
-import com.faltenreich.diaguard.persistence.pdf.PdfRectangle
 import com.faltenreich.diaguard.persistence.pdf.PdfSize
 
 internal class PdfEmpty(
-    day: String,
-    label: String,
-    private val viewport: PdfRectangle,
+    private val date: PdfDrawable,
+    private val label: PdfDrawable,
+    private val width: Float,
 ) : PdfDrawable {
 
-    private val day = PdfDay(day)
-    private val label = PdfText(label, PdfPaint.label)
     private val padding = PdfSpacing.CELL_PADDING.points
     private val bottomSpacing = PdfSpacing.DAY_PADDING_BOTTOM.points
 
     override fun getSize(): PdfSize {
         return PdfSize(
-            width = viewport.width,
-            height = day.getSize().height + label.getSize().height + (padding * 4) + bottomSpacing,
+            width = width,
+            height = date.getSize().height + label.getSize().height + (padding * 4) + bottomSpacing,
         )
     }
 
@@ -30,10 +27,10 @@ internal class PdfEmpty(
             x = position.x + padding,
             y = position.y + padding,
         )
-        day.drawOn(page, dayPosition)
+        date.drawOn(page, dayPosition)
 
         val backgroundPosition = position.copy(
-            y = position.y + day.getSize().height + padding * 2,
+            y = position.y + date.getSize().height + padding * 2,
         )
         val background = let {
             val size = PdfSize(

@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.export.pdf
 
 import com.faltenreich.diaguard.data.entry.Entry
-import com.faltenreich.diaguard.data.export.ExportSettings
+import com.faltenreich.diaguard.data.export.ExportSettings.Category
 import com.faltenreich.diaguard.data.measurement.category.MeasurementCategory
 import com.faltenreich.diaguard.datetime.TimeUnit
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
@@ -13,36 +13,35 @@ import com.faltenreich.diaguard.persistence.pdf.PdfRectangle
 import com.faltenreich.diaguard.persistence.pdf.PdfSize
 
 internal class PdfTable(
-    day: String,
+    private val date: PdfDrawable,
     private val entries: List<Entry.Local>,
-    private val settings: ExportSettings,
+    private val categories: List<Category>,
+    private val width: Float,
     private val dateTimeFactory: DateTimeFactory,
-    private val viewport: PdfRectangle,
 ) : PdfDrawable {
 
-    private val day = PdfDay(day)
     private val text = PdfText("Placeholder", PdfPaint.normal)
     private val padding = PdfSpacing.CELL_PADDING.points
-    private val rowCount = settings.categories.size
+    private val rowCount = categories.size
     private val bottomSpacing = PdfSpacing.DAY_PADDING_BOTTOM.points
 
     override fun getSize(): PdfSize {
-        val dayHeight = day.getSize().height + padding * 2
+        val dateHeight = date.getSize().height + padding * 2
         val rowHeight = text.getSize().height + padding * 2
         return PdfSize(
-            width = viewport.width,
-            height = dayHeight + (rowHeight * rowCount) + bottomSpacing,
+            width = width,
+            height = dateHeight + (rowHeight * rowCount) + bottomSpacing,
         )
     }
 
     override fun drawOn(page: PdfPage, position: PdfPosition) {
-        drawDay(page, position.copy(x = position.x + padding, y = position.y + padding))
+        drawDate(page, position.copy(x = position.x + padding, y = position.y + padding))
         drawHours(page, position.copy(x = position.x + DAY_WIDTH, y = position.y + padding))
-        drawCategories(page, position.copy(y = position.y + day.getSize().height + padding * 2))
+        drawCategories(page, position.copy(y = position.y + date.getSize().height + padding * 2))
     }
 
-    private fun drawDay(page: PdfPage, position: PdfPosition) {
-        day.drawOn(page, position)
+    private fun drawDate(page: PdfPage, position: PdfPosition) {
+        date.drawOn(page, position)
     }
 
     private fun drawHours(page: PdfPage, position: PdfPosition) {
@@ -60,7 +59,7 @@ internal class PdfTable(
 
     private fun drawCategories(page: PdfPage, position: PdfPosition) {
         val rowHeight = text.getSize().height + (padding * 2)
-        settings.categories.forEachIndexed { index, category ->
+        categories.forEachIndexed { index, category ->
             val y = position.y + (rowHeight * index)
             if (index % 2 == 0) {
                 val rectangle = PdfRectangle(position.x, y, page.viewport.right, y + rowHeight)

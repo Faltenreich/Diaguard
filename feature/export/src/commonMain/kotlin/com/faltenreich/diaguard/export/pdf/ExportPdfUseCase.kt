@@ -60,6 +60,7 @@ internal class ExportPdfUseCase(
                 val isNewPage = index != 0 &&
                     date == dateTimeFactory.dateAtStartOf(date, DateUnit.WEEK)
                 if (isNewPage) {
+                    page.finish()
                     page = createPage(pdfDocument, date, settings)
                 }
 

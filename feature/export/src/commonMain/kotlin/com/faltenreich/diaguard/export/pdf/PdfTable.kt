@@ -63,7 +63,7 @@ internal class PdfTable(
         val hourWidth = hoursWidth / progression.count()
         for (hour in progression) {
             val index = hour / progression.step
-            val text = PdfText(hour.toString(), PdfPaint.normal)
+            val text = PdfText(hour.toString(), PdfPaint.label)
             val x = position.x + (index * hourWidth) + hourWidth / 2 - text.getSize().width / 2
             val y = position.y
             text.drawOn(page, PdfPosition(x, y))

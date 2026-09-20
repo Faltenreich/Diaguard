@@ -35,7 +35,7 @@ actual class PdfPaint actual constructor(
             typeface = PdfTypeface.NORMAL,
         )
         actual val label: PdfPaint = PdfPaint(
-            color = Color.DarkGray,
+            color = Color.Gray,
             typeface = PdfTypeface.NORMAL,
         )
         actual val bold: PdfPaint = PdfPaint(

@@ -12,7 +12,7 @@ internal actual class PdfPaint(
     val textSize: Float = 12f,
 ) {
 
-    val paint: Paint = Paint().apply {
+    val actual: Paint = Paint().apply {
         val paint = this@PdfPaint
         color = paint.color.toArgb()
         typeface = when (paint.typeface) {
@@ -25,7 +25,7 @@ internal actual class PdfPaint(
 
     actual fun getTextBounds(text: String): PdfSize {
         val bounds = Rect()
-        paint.getTextBounds(text, 0, text.length, bounds)
+        actual.getTextBounds(text, 0, text.length, bounds)
         return PdfSize(bounds.width().toFloat(), bounds.height().toFloat())
     }
 

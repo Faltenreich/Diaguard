@@ -8,7 +8,7 @@ internal actual class PdfPlatformPage actual constructor(
     size: PdfSize,
 ) {
 
-    private val page: Page = document.runNative {
+    private val actual: Page = document.runNative {
         startPage(
             PageInfo.Builder(
                 size.width.toInt(),
@@ -19,23 +19,23 @@ internal actual class PdfPlatformPage actual constructor(
     }
 
     actual fun finish() {
-        document.runNative { finishPage(page) }
+        document.runNative { finishPage(actual) }
     }
 
     actual fun drawText(text: String, position: PdfPosition, paint: PdfPaint) {
-        val paint = paint.paint
+        val paint = paint.actual
         val x = position.x
         val y = position.y - paint.fontMetrics.ascent
-        page.canvas.drawText(text, x, y, paint)
+        actual.canvas.drawText(text, x, y, paint)
     }
 
     actual fun drawRectangle(rectangle: PdfRectangle, paint: PdfPaint) {
-        page.canvas.drawRect(
+        actual.canvas.drawRect(
             rectangle.left,
             rectangle.top,
             rectangle.right,
             rectangle.bottom,
-            paint.paint,
+            paint.actual,
         )
     }
 }

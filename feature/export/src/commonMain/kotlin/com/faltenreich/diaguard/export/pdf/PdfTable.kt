@@ -98,7 +98,7 @@ internal class PdfTable(
                     categoryName,
                     propertyName.takeIf { it != categoryName },
                 ).joinToString(" ")
-                val label = PdfText(labelText, PdfPaint.normal)
+                val label = PdfText(labelText, PdfPaint.label)
                 label.drawOn(page, labelPosition)
 
                 drawValues(

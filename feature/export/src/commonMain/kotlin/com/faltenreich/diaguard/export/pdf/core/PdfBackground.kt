@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.export.pdf
+package com.faltenreich.diaguard.export.pdf.core
 
 internal data class PdfBackground(
     private val size: PdfSize,

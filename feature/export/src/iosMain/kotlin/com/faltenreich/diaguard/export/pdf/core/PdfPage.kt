@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.export.pdf
+package com.faltenreich.diaguard.export.pdf.core
 
 internal actual class PdfPage actual constructor(
     document: PdfDocument,

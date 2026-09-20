@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.export.pdf
+package com.faltenreich.diaguard.export.pdf.core
 
 @Suppress("MagicNumber")
 internal enum class PdfSpacing(val points: Float) {

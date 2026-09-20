@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.export.pdf
+package com.faltenreich.diaguard.export.pdf.core
 
 data class PdfRectangle(
     val left: Float,

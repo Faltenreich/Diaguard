@@ -6,6 +6,11 @@ import com.faltenreich.diaguard.datetime.DateRange
 import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
+import com.faltenreich.diaguard.export.pdf.core.PdfDocument
+import com.faltenreich.diaguard.export.pdf.core.PdfPage
+import com.faltenreich.diaguard.export.pdf.core.PdfPosition
+import com.faltenreich.diaguard.export.pdf.core.PdfRectangle
+import com.faltenreich.diaguard.export.pdf.core.PdfSize
 import com.faltenreich.diaguard.localization.Localization
 import com.faltenreich.diaguard.resource.Res
 import com.faltenreich.diaguard.resource.calendar_week

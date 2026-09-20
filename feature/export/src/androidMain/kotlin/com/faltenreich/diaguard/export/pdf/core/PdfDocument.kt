@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.export.pdf
+package com.faltenreich.diaguard.export.pdf.core
 
 import android.graphics.pdf.PdfDocument
 import com.faltenreich.diaguard.persistence.file.File

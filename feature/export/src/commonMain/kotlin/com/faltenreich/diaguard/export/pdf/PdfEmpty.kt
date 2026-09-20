@@ -1,5 +1,7 @@
 package com.faltenreich.diaguard.export.pdf
 
+import com.faltenreich.diaguard.datetime.Date
+import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.persistence.pdf.PdfDrawable
 import com.faltenreich.diaguard.persistence.pdf.PdfPage
 import com.faltenreich.diaguard.persistence.pdf.PdfPaint
@@ -7,11 +9,14 @@ import com.faltenreich.diaguard.persistence.pdf.PdfPosition
 import com.faltenreich.diaguard.persistence.pdf.PdfSize
 
 internal class PdfEmpty(
-    private val date: PdfDrawable,
-    private val label: PdfDrawable,
+    date: Date,
+    label: String,
     private val width: Float,
+    dateTimeFormatter: DateTimeFormatter,
 ) : PdfDrawable {
 
+    private val date = PdfDate(date, dateTimeFormatter)
+    private val label = PdfText(label, PdfPaint.label)
     private val padding = PdfSpacing.CELL_PADDING.points
     private val bottomSpacing = PdfSpacing.DAY_PADDING_BOTTOM.points
 

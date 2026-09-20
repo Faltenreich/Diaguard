@@ -14,7 +14,6 @@ import com.faltenreich.diaguard.logging.Logger
 import com.faltenreich.diaguard.persistence.file.File
 import com.faltenreich.diaguard.persistence.file.FileRepository
 import com.faltenreich.diaguard.persistence.pdf.PdfDocument
-import com.faltenreich.diaguard.persistence.pdf.PdfPaint
 import com.faltenreich.diaguard.resource.Res
 import com.faltenreich.diaguard.resource.export_empty
 import kotlinx.coroutines.CoroutineDispatcher
@@ -63,23 +62,22 @@ internal class ExportPdfUseCase(
                     entriesOfDate.isNotEmpty() -> when (settings.pdfLayout) {
                         PdfLayout.LOG -> PdfLog()
                         PdfLayout.TABLE -> PdfTable(
-                            date = PdfDate(date, dateTimeFormatter),
+                            date = date,
                             entries = entries,
                             categories = settings.categories,
                             width = page.viewport.width,
-                            dateTimeFactory,
+                            dateTimeFactory = dateTimeFactory,
+                            dateTimeFormatter = dateTimeFormatter,
                         )
 
                         PdfLayout.TIMELINE -> PdfTimeline()
                     }
 
                     settings.includeDaysWithoutEntries -> PdfEmpty(
-                        date = PdfDate(date, dateTimeFormatter),
-                        label = PdfText(
-                            localization.getString(Res.string.export_empty),
-                            PdfPaint.label
-                        ),
+                        date = date,
+                        label = localization.getString(Res.string.export_empty),
                         width = page.viewport.width,
+                        dateTimeFormatter = dateTimeFormatter,
                     )
 
                     else -> return@forEachIndexed

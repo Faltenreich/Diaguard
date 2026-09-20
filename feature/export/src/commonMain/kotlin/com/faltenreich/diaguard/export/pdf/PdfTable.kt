@@ -3,8 +3,10 @@ package com.faltenreich.diaguard.export.pdf
 import com.faltenreich.diaguard.data.entry.Entry
 import com.faltenreich.diaguard.data.export.ExportSettings.Category
 import com.faltenreich.diaguard.data.measurement.category.MeasurementCategory
+import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.TimeUnit
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
+import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.persistence.pdf.PdfDrawable
 import com.faltenreich.diaguard.persistence.pdf.PdfPage
 import com.faltenreich.diaguard.persistence.pdf.PdfPaint
@@ -13,13 +15,15 @@ import com.faltenreich.diaguard.persistence.pdf.PdfRectangle
 import com.faltenreich.diaguard.persistence.pdf.PdfSize
 
 internal class PdfTable(
-    private val date: PdfDrawable,
+    date: Date,
     private val entries: List<Entry.Local>,
     private val categories: List<Category>,
     private val width: Float,
     private val dateTimeFactory: DateTimeFactory,
+    dateTimeFormatter: DateTimeFormatter,
 ) : PdfDrawable {
 
+    private val date = PdfDate(date, dateTimeFormatter)
     private val text = PdfText("Placeholder", PdfPaint.normal)
     private val padding = PdfSpacing.CELL_PADDING.points
     private val rowCount = categories.size

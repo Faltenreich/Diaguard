@@ -5,6 +5,7 @@ import com.faltenreich.diaguard.data.export.ExportSettings
 import com.faltenreich.diaguard.data.export.ExportType
 import com.faltenreich.diaguard.data.export.PdfLayout
 import com.faltenreich.diaguard.data.measurement.value.MeasurementValueMapper
+import com.faltenreich.diaguard.data.measurement.value.MeasurementValueTintMapper
 import com.faltenreich.diaguard.data.preference.decimal.DecimalPlacesPreference
 import com.faltenreich.diaguard.datetime.DateProgression
 import com.faltenreich.diaguard.datetime.DateRange
@@ -30,6 +31,7 @@ internal class ExportPdfUseCase(
     private val dateTimeFactory: DateTimeFactory,
     private val dateTimeFormatter: DateTimeFormatter,
     private val valueMapper: MeasurementValueMapper,
+    private val tintMapper: MeasurementValueTintMapper,
     private val getPreference: GetPreferenceUseCase,
     private val createPage: CreatePdfPageUseCase,
 ) {
@@ -78,6 +80,7 @@ internal class ExportPdfUseCase(
                             dateTimeFactory = dateTimeFactory,
                             dateTimeFormatter = dateTimeFormatter,
                             valueMapper = valueMapper,
+                            tintMapper = tintMapper,
                         )
 
                         PdfLayout.TIMELINE -> PdfTimeline()

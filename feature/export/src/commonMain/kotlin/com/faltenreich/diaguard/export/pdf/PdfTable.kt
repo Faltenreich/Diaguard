@@ -4,7 +4,9 @@ import com.faltenreich.diaguard.data.entry.Entry
 import com.faltenreich.diaguard.data.export.ExportSettings.Category
 import com.faltenreich.diaguard.data.measurement.property.MeasurementAggregationStyle
 import com.faltenreich.diaguard.data.measurement.property.MeasurementProperty
+import com.faltenreich.diaguard.data.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.data.measurement.value.MeasurementValueMapper
+import com.faltenreich.diaguard.data.measurement.value.MeasurementValueTintMapper
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.TimeUnit
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
@@ -25,6 +27,7 @@ internal class PdfTable(
     private val dateTimeFactory: DateTimeFactory,
     dateTimeFormatter: DateTimeFormatter,
     private val valueMapper: MeasurementValueMapper,
+    private val tintMapper: MeasurementValueTintMapper,
 ) : PdfDrawable {
 
     private val date = PdfDate(date, dateTimeFormatter)
@@ -131,13 +134,17 @@ internal class PdfTable(
             }
             if (values.isNotEmpty()) {
                 val sum = values.sumOf { it.value }
-                val aggregation = when (property.aggregationStyle) {
-                    MeasurementAggregationStyle.CUMULATIVE -> sum
-                    MeasurementAggregationStyle.AVERAGE -> sum / values.size
-                }
-                val value = valueMapper(aggregation, property, decimalPlaces).value
+                val value = MeasurementValue.Average(
+                    value = when (property.aggregationStyle) {
+                        MeasurementAggregationStyle.CUMULATIVE -> sum
+                        MeasurementAggregationStyle.AVERAGE -> sum / values.size
+                    },
+                    property = property,
+                )
+                val valueLocalized = valueMapper(value, decimalPlaces).value
+                val tint = tintMapper(value)
 
-                val text = PdfText(value, PdfPaint.normal)
+                val text = PdfText(valueLocalized, PdfPaint.normal)
                 val x = position.x + (index * hourWidth) + hourWidth / 2 - text.getSize().width / 2
                 val y = position.y
                 text.drawOn(page, PdfPosition(x, y))

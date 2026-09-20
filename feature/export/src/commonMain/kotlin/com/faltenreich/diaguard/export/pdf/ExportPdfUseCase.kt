@@ -5,6 +5,7 @@ import com.faltenreich.diaguard.data.export.ExportSettings
 import com.faltenreich.diaguard.data.export.ExportType
 import com.faltenreich.diaguard.data.export.PdfLayout
 import com.faltenreich.diaguard.data.measurement.value.MeasurementValueMapper
+import com.faltenreich.diaguard.data.preference.decimal.DecimalPlacesPreference
 import com.faltenreich.diaguard.datetime.DateProgression
 import com.faltenreich.diaguard.datetime.DateRange
 import com.faltenreich.diaguard.datetime.DateUnit
@@ -15,9 +16,11 @@ import com.faltenreich.diaguard.logging.Logger
 import com.faltenreich.diaguard.persistence.file.File
 import com.faltenreich.diaguard.persistence.file.FileRepository
 import com.faltenreich.diaguard.persistence.pdf.PdfDocument
+import com.faltenreich.diaguard.preference.GetPreferenceUseCase
 import com.faltenreich.diaguard.resource.Res
 import com.faltenreich.diaguard.resource.export_empty
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 
 internal class ExportPdfUseCase(
@@ -27,6 +30,7 @@ internal class ExportPdfUseCase(
     private val dateTimeFactory: DateTimeFactory,
     private val dateTimeFormatter: DateTimeFormatter,
     private val valueMapper: MeasurementValueMapper,
+    private val getPreference: GetPreferenceUseCase,
     private val createPage: CreatePdfPageUseCase,
 ) {
 
@@ -50,6 +54,7 @@ internal class ExportPdfUseCase(
 
             val pdfDocument = PdfDocument(file)
             var page = createPage(pdfDocument, dateRange.start, settings)
+            val decimalPlaces = getPreference(DecimalPlacesPreference).first()
 
             DateProgression(dateRange).forEachIndexed { index, date ->
                 val isNewPage = index != 0 &&
@@ -68,6 +73,7 @@ internal class ExportPdfUseCase(
                             entries = entries,
                             categories = settings.categories,
                             width = page.viewport.width,
+                            decimalPlaces = decimalPlaces,
                             dateTimeFactory = dateTimeFactory,
                             dateTimeFormatter = dateTimeFormatter,
                             valueMapper = valueMapper,

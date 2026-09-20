@@ -21,6 +21,7 @@ internal class PdfTable(
     private val entries: List<Entry.Local>,
     private val categories: List<Category>,
     private val width: Float,
+    private val decimalPlaces: Int,
     private val dateTimeFactory: DateTimeFactory,
     dateTimeFormatter: DateTimeFormatter,
     private val valueMapper: MeasurementValueMapper,
@@ -66,24 +67,46 @@ internal class PdfTable(
 
     private fun drawValues(page: PdfPage, position: PdfPosition) {
         val rowHeight = text.getSize().height + (padding * 2)
-        val properties = categories.flatMap { it.properties }
-        properties.forEachIndexed { index, property ->
-            val y = position.y + (rowHeight * index)
-            if (index % 2 == 0) {
-                val rectangle = PdfRectangle(position.x, y, page.viewport.right, y + rowHeight)
-                drawBackground(page, rectangle)
-            }
-            val labelPosition = PdfPosition(position.x + padding, y + padding)
-            val label = PdfText(property.property.name, PdfPaint.normal)
-            label.drawOn(page, labelPosition)
+        var index = 0
+        categories.forEachIndexed { categoryIndex, category ->
+            category.properties.forEach { property ->
+                val y = position.y + (rowHeight * index)
+                if (categoryIndex % 2 == 0) {
+                    drawBackground(
+                        page = page,
+                        rectangle = PdfRectangle(
+                            left = position.x,
+                            top = y,
+                            right = page.viewport.right,
+                            bottom = y + rowHeight,
+                        ),
+                    )
+                }
+                val labelPosition = PdfPosition(
+                    x = position.x + padding,
+                    y = y + padding,
+                )
+                val categoryName = property.property.category.name
+                val propertyName = property.property.name
 
-            val hoursPosition = PdfPosition(x = labelPosition.x + DAY_WIDTH, y = labelPosition.y)
-            // TODO: Label categories and properties
-            drawCategory(page, hoursPosition, property.property)
+                val labelText = listOfNotNull(
+                    categoryName,
+                    propertyName.takeIf { it != categoryName },
+                ).joinToString(" ")
+                val label = PdfText(labelText, PdfPaint.normal)
+                label.drawOn(page, labelPosition)
+
+                drawValues(
+                    page = page,
+                    position = PdfPosition(x = labelPosition.x + DAY_WIDTH, y = labelPosition.y),
+                    property = property.property,
+                )
+                index += 1
+            }
         }
     }
 
-    private fun drawCategory(
+    private fun drawValues(
         page: PdfPage,
         position: PdfPosition,
         property: MeasurementProperty.Local
@@ -112,12 +135,10 @@ internal class PdfTable(
                     MeasurementAggregationStyle.CUMULATIVE -> sum
                     MeasurementAggregationStyle.AVERAGE -> sum / values.size
                 }
-                // TODO: Pass decimalPlaces
-                val value = valueMapper(aggregation, property, 1).value
+                val value = valueMapper(aggregation, property, decimalPlaces).value
 
                 val text = PdfText(value, PdfPaint.normal)
-                val x =
-                    position.x + (index * hourWidth) + hourWidth / 2 - text.getSize().width / 2
+                val x = position.x + (index * hourWidth) + hourWidth / 2 - text.getSize().width / 2
                 val y = position.y
                 text.drawOn(page, PdfPosition(x, y))
             }

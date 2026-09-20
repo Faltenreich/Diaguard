@@ -3,10 +3,13 @@ package com.faltenreich.diaguard.export.pdf
 import android.graphics.pdf.PdfDocument.Page
 import android.graphics.pdf.PdfDocument.PageInfo
 
-internal actual class PdfPlatformPage actual constructor(
+internal actual class PdfPage actual constructor(
     private val document: PdfDocument,
     size: PdfSize,
+    actual val viewport: PdfRectangle,
 ) {
+
+    actual var offset: PdfPosition = PdfPosition(x = viewport.left, y = viewport.top)
 
     private val actual: Page = document.runNative {
         startPage(
@@ -20,6 +23,14 @@ internal actual class PdfPlatformPage actual constructor(
 
     actual fun finish() {
         document.runNative { finishPage(actual) }
+    }
+
+    actual fun canMove(by: Float): Boolean {
+        return offset.y + by <= viewport.bottom
+    }
+
+    actual fun move(by: Float) {
+        offset = offset.copy(x = offset.x, y = offset.y + by)
     }
 
     actual fun drawText(text: String, position: PdfPosition, paint: PdfPaint) {

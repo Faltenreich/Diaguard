@@ -25,7 +25,7 @@ internal class PdfPage(
         offset = PdfPosition(x = viewport.left, y = viewport.top)
 
         header?.let { header ->
-            val height = header.getSize(this).height
+            val height = header.getSize().height
             val position = PdfPosition(x = viewport.left, y = viewport.top)
             header.drawOn(this, position)
             viewport = viewport.copy(top = viewport.top + height)
@@ -33,7 +33,7 @@ internal class PdfPage(
         }
 
         footer?.let { footer ->
-            val height = footer.getSize(this).height
+            val height = footer.getSize().height
             val position = PdfPosition(x = viewport.left, y = viewport.bottom - height)
             footer.drawOn(this, position)
             viewport = viewport.copy(bottom = viewport.bottom - height)

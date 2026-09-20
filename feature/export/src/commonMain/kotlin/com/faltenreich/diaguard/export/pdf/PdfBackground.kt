@@ -5,7 +5,7 @@ internal data class PdfBackground(
     private val paint: PdfPaint,
 ) : PdfDrawable {
 
-    override fun getSize(page: PdfPage): PdfSize {
+    override fun getSize(): PdfSize {
         return size
     }
 

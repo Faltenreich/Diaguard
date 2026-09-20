@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.export.pdf
 internal class PdfEmpty(
     day: String,
     label: String,
+    private val viewport: PdfRectangle,
 ) : PdfDrawable {
 
     private val day = PdfDay(day)
@@ -10,10 +11,10 @@ internal class PdfEmpty(
     private val padding = PdfSpacing.CELL_PADDING.points
     private val bottomSpacing = PdfSpacing.DAY_PADDING_BOTTOM.points
 
-    override fun getSize(page: PdfPage): PdfSize {
+    override fun getSize(): PdfSize {
         return PdfSize(
-            width = page.viewport.width,
-            height = day.getSize(page).height + label.getSize(page).height + (padding * 4) + bottomSpacing,
+            width = viewport.width,
+            height = day.getSize().height + label.getSize().height + (padding * 4) + bottomSpacing,
         )
     }
 
@@ -25,12 +26,12 @@ internal class PdfEmpty(
         day.drawOn(page, dayPosition)
 
         val backgroundPosition = position.copy(
-            y = position.y + day.getSize(page).height + padding * 2,
+            y = position.y + day.getSize().height + padding * 2,
         )
         val background = let {
             val size = PdfSize(
                 width = page.viewport.width,
-                height = label.getSize(page).height + padding * 2,
+                height = label.getSize().height + padding * 2,
             )
             PdfBackground(size, PdfPaint.background)
         }

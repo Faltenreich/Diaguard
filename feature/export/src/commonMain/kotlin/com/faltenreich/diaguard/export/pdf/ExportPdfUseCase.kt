@@ -63,18 +63,26 @@ internal class ExportPdfUseCase(
                 val content = when {
                     entriesOfDate.isNotEmpty() -> when (settings.pdfLayout) {
                         PdfLayout.LOG -> PdfLog()
-                        PdfLayout.TABLE -> PdfTable(day, entries, settings, dateTimeFactory)
+                        PdfLayout.TABLE -> PdfTable(
+                            day,
+                            entries,
+                            settings,
+                            dateTimeFactory,
+                            page.viewport
+                        )
+
                         PdfLayout.TIMELINE -> PdfTimeline()
                     }
 
                     settings.includeDaysWithoutEntries -> PdfEmpty(
                         day = day,
                         label = localization.getString(Res.string.export_empty),
+                        viewport = page.viewport,
                     )
 
                     else -> return@forEachIndexed
                 }
-                val contentHeight = content.getSize(page).height
+                val contentHeight = content.getSize().height
 
                 if (!page.canMove(contentHeight)) {
                     page.finish()

@@ -5,7 +5,7 @@ internal class PdfText(
     private val paint: PdfPaint,
 ) : PdfDrawable {
 
-    override fun getSize(page: PdfPage): PdfSize {
+    override fun getSize(): PdfSize {
         return paint.getTextBounds(text)
     }
 

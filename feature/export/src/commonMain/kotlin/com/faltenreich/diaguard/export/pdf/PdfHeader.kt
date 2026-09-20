@@ -12,9 +12,9 @@ internal class PdfHeader(
 
     private val spacing = PdfSpacing.P_8.points
 
-    override fun getSize(page: PdfPage): PdfSize {
-        val calendarWeekSize = calendarWeek.getSize(page)
-        val dateRangeSize = calendarWeek.getSize(page)
+    override fun getSize(): PdfSize {
+        val calendarWeekSize = calendarWeek.getSize()
+        val dateRangeSize = calendarWeek.getSize()
         return PdfSize(
             width = max(calendarWeekSize.width, dateRangeSize.width),
             height = calendarWeekSize.height + spacing + dateRangeSize.height + PdfSpacing.HEADER_PADDING_BOTTOM.points,
@@ -27,7 +27,7 @@ internal class PdfHeader(
             page,
             PdfPosition(
                 position.x,
-                position.y + spacing + calendarWeek.getSize(page).height,
+                position.y + spacing + calendarWeek.getSize().height,
             )
         )
     }

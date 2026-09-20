@@ -26,12 +26,27 @@ internal class CreatePdfPageUseCase(
             dateTimeFactory.dateAtStartOf(date, DateUnit.WEEK),
             dateTimeFactory.dateAtEndOf(date, DateUnit.WEEK),
         )
+
+        val size = DIN_A4
+
+        var viewport = PdfRectangle(
+            PAGE_PADDING,
+            PAGE_PADDING,
+            size.width - PAGE_PADDING,
+            size.height - PAGE_PADDING,
+        )
+
         val header = PdfHeader(
             calendarWeek = "${localization.getString(Res.string.calendar_week)} ${
                 dateTimeFormatter.formatWeek(date)
             }",
             dateRange = dateTimeFormatter.formatDateRange(dateRange),
-        ).takeIf { settings.includeCalendarWeek }
+        ).takeIf { settings.includeCalendarWeek }?.let { header ->
+            val height = header.getSize().height
+            val position = PdfPosition(x = viewport.left, y = viewport.top)
+            viewport = viewport.copy(top = position.y + height)
+            header to position
+        }
 
         val pageNumber = document.countPages() + 1 // Increment beforehand
         val footer = PdfFooter(
@@ -40,8 +55,27 @@ internal class CreatePdfPageUseCase(
                 dateTimeFormatter.formatDate(date),
             ).takeIf { settings.includeDateOfExport },
             pageNumber = pageNumber.toString().takeIf { settings.includePageNumber },
-        ).takeIf { settings.includeDateOfExport || settings.includePageNumber }
+        ).takeIf { settings.includeDateOfExport || settings.includePageNumber }?.let { footer ->
+            val height = footer.getSize().height
+            val position = PdfPosition(x = viewport.left, y = viewport.bottom - height)
+            viewport = viewport.copy(bottom = position.y)
+            footer to position
+        }
 
-        return PdfPage(document, header, footer)
+        val page = PdfPage(document, size, viewport)
+        header?.let { (header, position) ->
+            header.drawOn(page, position)
+        }
+        footer?.let { (footer, position) ->
+            footer.drawOn(page, position)
+        }
+
+        return page
+    }
+
+    private companion object {
+
+        private val DIN_A4 = PdfSize(595f, 842f)
+        private const val PAGE_PADDING = 60f
     }
 }

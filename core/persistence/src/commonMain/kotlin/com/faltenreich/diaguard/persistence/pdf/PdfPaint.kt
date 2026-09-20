@@ -1,6 +1,12 @@
 package com.faltenreich.diaguard.persistence.pdf
 
-expect class PdfPaint {
+import androidx.compose.ui.graphics.Color
+
+expect class PdfPaint(
+    color: Color,
+    typeface: PdfTypeface = PdfTypeface.NORMAL,
+    textSize: Float = 12f,
+) {
 
     fun getTextBounds(text: String): PdfSize
 

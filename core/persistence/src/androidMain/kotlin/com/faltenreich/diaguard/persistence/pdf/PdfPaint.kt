@@ -6,21 +6,20 @@ import android.graphics.Typeface
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 
-actual class PdfPaint(
-    val color: Color,
-    val typeface: PdfTypeface = PdfTypeface.NORMAL,
-    val textSize: Float = 12f,
+actual class PdfPaint actual constructor(
+    color: Color,
+    typeface: PdfTypeface,
+    textSize: Float,
 ) {
 
     val actual: Paint = Paint().apply {
-        val paint = this@PdfPaint
-        color = paint.color.toArgb()
-        typeface = when (paint.typeface) {
+        this.color = color.toArgb()
+        this.typeface = when (typeface) {
             PdfTypeface.NORMAL -> Typeface.DEFAULT
             PdfTypeface.BOLD,
             PdfTypeface.HEADER -> Typeface.DEFAULT_BOLD
         }
-        textSize = paint.textSize
+        this.textSize = textSize
     }
 
     actual fun getTextBounds(text: String): PdfSize {

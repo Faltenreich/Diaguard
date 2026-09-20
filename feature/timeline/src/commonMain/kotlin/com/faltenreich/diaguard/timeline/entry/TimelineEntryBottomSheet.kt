@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.faltenreich.diaguard.data.entry.Entry
+import com.faltenreich.diaguard.data.measurement.value.MeasurementValueTint
 import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import com.faltenreich.diaguard.data.tag.Tag
 import com.faltenreich.diaguard.entry.list.EntryListItem
@@ -60,6 +61,7 @@ private fun Preview() = PreviewScaffold {
                                 property = property(),
                                 value = value(),
                                 valueLocalized = value().value.toString(),
+                                tint = MeasurementValueTint.NORMAL,
                             ),
                         ),
                     ),

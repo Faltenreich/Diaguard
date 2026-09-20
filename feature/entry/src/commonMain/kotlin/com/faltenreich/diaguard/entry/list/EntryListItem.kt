@@ -29,6 +29,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import com.faltenreich.diaguard.data.entry.tag.EntryTag
+import com.faltenreich.diaguard.data.measurement.value.MeasurementValueTint
 import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import com.faltenreich.diaguard.data.tag.Tag
 import com.faltenreich.diaguard.entry.form.tag.EntryTagList
@@ -146,13 +147,25 @@ private fun MeasurementValues(state: EntryListItemState) {
 
                     Column(verticalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_2)) {
                         category.values.forEach { value ->
+                            val color = when (value.tint) {
+                                MeasurementValueTint.NONE,
+                                MeasurementValueTint.NORMAL -> AppTheme.colors.scheme.onSurface
+                                MeasurementValueTint.LOW -> AppTheme.colors.ValueLow
+                                MeasurementValueTint.HIGH -> AppTheme.colors.ValueHigh
+                            }
                             Row(
                                 modifier = Modifier.padding(top = AppTheme.dimensions.padding.P_1),
                                 horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.padding.P_2),
                                 verticalAlignment = Alignment.CenterVertically,
                             ) {
-                                Text(value.valueLocalized)
-                                Text(value.property.unit.abbreviation)
+                                Text(
+                                    text = value.valueLocalized,
+                                    color = color,
+                                )
+                                Text(
+                                    text = value.property.unit.abbreviation,
+                                    color = color,
+                                )
 
                                 if (value.property.name != category.category.name) {
                                     Text(value.property.name)
@@ -206,6 +219,7 @@ private fun Preview() = PreviewScaffold {
                             property = property(),
                             value = value(),
                             valueLocalized = value().value.toString(),
+                            tint = MeasurementValueTint.NORMAL,
                         ),
                     ),
                 ),

@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.faltenreich.diaguard.data.measurement.value.MeasurementValueTint
 import com.faltenreich.diaguard.data.preview.PreviewScaffold
 import com.faltenreich.diaguard.entry.list.EntryList
 import com.faltenreich.diaguard.entry.list.EntryListItemState
@@ -78,6 +79,7 @@ private fun Preview() = PreviewScaffold {
                                             property = property(),
                                             value = value(),
                                             valueLocalized = value().value.toString(),
+                                            tint = MeasurementValueTint.NORMAL,
                                         ),
                                     ),
                                 ),

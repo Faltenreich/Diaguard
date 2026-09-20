@@ -5,6 +5,7 @@ import com.faltenreich.diaguard.data.entry.tag.EntryTagRepository
 import com.faltenreich.diaguard.data.food.eaten.FoodEatenRepository
 import com.faltenreich.diaguard.data.measurement.value.MeasurementValueMapper
 import com.faltenreich.diaguard.data.measurement.value.MeasurementValueRepository
+import com.faltenreich.diaguard.data.measurement.value.MeasurementValueTintMapper
 import com.faltenreich.diaguard.data.preference.decimal.DecimalPlacesPreference
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.localization.Localization
@@ -22,6 +23,7 @@ class MapEntryListItemStateUseCase(
     private val dateTimeFormatter: DateTimeFormatter,
     private val numberFormatter: NumberFormatter,
     private val measurementValueMapper: MeasurementValueMapper,
+    private val tintMapper: MeasurementValueTintMapper,
     private val localization: Localization,
 ) {
 
@@ -62,6 +64,7 @@ class MapEntryListItemStateUseCase(
                                     property = value.property,
                                     value = value,
                                     valueLocalized = measurementValueMapper(value, decimalPlaces).value,
+                                    tint = tintMapper(value),
                                 )
                             },
                     )

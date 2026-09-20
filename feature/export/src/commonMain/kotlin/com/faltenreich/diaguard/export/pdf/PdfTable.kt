@@ -1,11 +1,13 @@
 package com.faltenreich.diaguard.export.pdf
 
+import androidx.compose.ui.graphics.Color
 import com.faltenreich.diaguard.data.entry.Entry
 import com.faltenreich.diaguard.data.export.ExportSettings.Category
 import com.faltenreich.diaguard.data.measurement.property.MeasurementAggregationStyle
 import com.faltenreich.diaguard.data.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.data.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.data.measurement.value.MeasurementValueMapper
+import com.faltenreich.diaguard.data.measurement.value.MeasurementValueTint
 import com.faltenreich.diaguard.data.measurement.value.MeasurementValueTintMapper
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.TimeUnit
@@ -142,9 +144,14 @@ internal class PdfTable(
                     property = property,
                 )
                 val valueLocalized = valueMapper(value, decimalPlaces).value
-                val tint = tintMapper(value)
-
-                val text = PdfText(valueLocalized, PdfPaint.normal)
+                // TODO: Check setting and get colors from Theme
+                val color = when (tintMapper(value)) {
+                    MeasurementValueTint.NONE -> Color.Black
+                    MeasurementValueTint.LOW -> Color.Blue
+                    MeasurementValueTint.NORMAL -> Color.Black
+                    MeasurementValueTint.HIGH -> Color.Red
+                }
+                val text = PdfText(valueLocalized, PdfPaint(color))
                 val x = position.x + (index * hourWidth) + hourWidth / 2 - text.getSize().width / 2
                 val y = position.y
                 text.drawOn(page, PdfPosition(x, y))

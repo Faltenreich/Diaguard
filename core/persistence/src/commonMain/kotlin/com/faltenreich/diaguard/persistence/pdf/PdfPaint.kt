@@ -3,7 +3,7 @@ package com.faltenreich.diaguard.persistence.pdf
 import androidx.compose.ui.graphics.Color
 
 expect class PdfPaint(
-    color: Color,
+    color: Color = Color.Black,
     typeface: PdfTypeface = PdfTypeface.NORMAL,
     textSize: Float = 12f,
 ) {

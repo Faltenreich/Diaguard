@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.export.history
 
 import com.faltenreich.diaguard.data.export.ExportType
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
+import com.faltenreich.diaguard.persistence.file.File
 import com.faltenreich.diaguard.persistence.file.FileRepository
 
 internal class GetExportFilesUseCase(
@@ -11,17 +12,19 @@ internal class GetExportFilesUseCase(
 
     operator fun invoke(): List<ExportFile> {
         val files = fileRepository.getDocuments()
-        return files.mapNotNull { file ->
-            ExportType.entries
-                .firstOrNull { file.absolutePath.endsWith(it.extension) }
-                ?.let { type ->
-                    ExportFile(
-                        file = file,
-                        type = type,
-                        dateTime = file.createdAt?.let(dateTimeFormatter::formatDateTime),
-                    )
-                }
+        return files
+            .sortedByDescending(File::createdAt)
+            .mapNotNull { file ->
+                ExportType.entries
+                    .firstOrNull { file.absolutePath.endsWith(it.extension) }
+                    ?.let { type ->
+                        ExportFile(
+                            file = file,
+                            type = type,
+                            dateTime = file.createdAt?.let(dateTimeFormatter::formatDateTime),
+                        )
+                    }
 
-        }
+            }
     }
 }

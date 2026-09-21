@@ -18,12 +18,11 @@ internal class PdfEmpty(
     private val date = PdfDate(date, dateTimeFormatter)
     private val label = PdfText(label, PdfPaint.label)
     private val padding = PdfSpacing.CELL_PADDING.points
-    private val bottomSpacing = PdfSpacing.DAY_PADDING_BOTTOM.points
 
     override fun getSize(): PdfSize {
         return PdfSize(
             width = width,
-            height = date.getSize().height + label.getSize().height + (padding * 4) + bottomSpacing,
+            height = date.getSize().height + label.getSize().height + (padding * 4),
         )
     }
 

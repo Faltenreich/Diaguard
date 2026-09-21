@@ -73,7 +73,7 @@ internal class ExportPdfUseCase(
                         PdfLayout.LOG -> PdfLog()
                         PdfLayout.TABLE -> PdfTable(
                             date = date,
-                            entries = entries,
+                            entries = entriesOfDate,
                             categories = settings.categories,
                             width = page.viewport.width,
                             decimalPlaces = decimalPlaces,
@@ -104,6 +104,18 @@ internal class ExportPdfUseCase(
 
                 content.drawOn(page, page.offset)
                 page.move(contentHeight)
+
+                // TODO: Break between rows if needed
+                val notes = PdfNotes(entriesOfDate, page.viewport.width, dateTimeFormatter)
+                val notesHeight = notes.getSize().height
+                if (!page.canMove(notesHeight)) {
+                    page.finish()
+                    page = createPage(pdfDocument, date, settings)
+                }
+                notes.drawOn(page, page.offset)
+                page.move(notesHeight)
+
+                page.move(PdfSpacing.DAY_PADDING_BOTTOM.points)
             }
 
             page.finish()

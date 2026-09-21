@@ -36,14 +36,13 @@ internal class PdfTable(
     private val text = PdfText("Placeholder", PdfPaint.normal)
     private val padding = PdfSpacing.CELL_PADDING.points
     private val rowCount = categories.sumOf { it.properties.size }
-    private val bottomSpacing = PdfSpacing.DAY_PADDING_BOTTOM.points
 
     override fun getSize(): PdfSize {
         val dateHeight = date.getSize().height + padding * 2
         val rowHeight = text.getSize().height + padding * 2
         return PdfSize(
             width = width,
-            height = dateHeight + (rowHeight * rowCount) + bottomSpacing,
+            height = dateHeight + (rowHeight * rowCount),
         )
     }
 

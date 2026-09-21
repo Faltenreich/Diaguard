@@ -2,6 +2,9 @@ package com.faltenreich.diaguard.persistence.pdf
 
 import android.graphics.pdf.PdfDocument.Page
 import android.graphics.pdf.PdfDocument.PageInfo
+import android.text.Layout
+import android.text.StaticLayout
+import android.text.TextPaint
 
 actual class PdfPage actual constructor(
     private val document: PdfDocument,
@@ -35,9 +38,25 @@ actual class PdfPage actual constructor(
 
     actual fun drawText(text: String, position: PdfPosition, paint: PdfPaint) {
         val paint = paint.actual
+        // TODO: Align text by compensating ascent/descent
+        val fontMetrics = paint.fontMetrics
         val x = position.x
-        val y = position.y - paint.fontMetrics.ascent
-        actual.canvas.drawText(text, x, y, paint)
+        val y = position.y
+
+        @Suppress("Deprecation")
+        val layout = StaticLayout(
+            text,
+            TextPaint(paint),
+            viewport.width.toInt(), // TODO: Pass width
+            Layout.Alignment.ALIGN_NORMAL,
+            1f,
+            0f,
+            false,
+        )
+        actual.canvas.save()
+        actual.canvas.translate(x, y)
+        layout.draw(actual.canvas)
+        actual.canvas.restore()
     }
 
     actual fun drawRectangle(rectangle: PdfRectangle, paint: PdfPaint) {

@@ -31,6 +31,7 @@ internal class PdfNotes(
             null
         }
     }
+    private val divider = PdfBackground(PdfSize(width = width, height = .75f), PdfPaint.divider)
 
     override fun getSize(): PdfSize {
         return PdfSize(
@@ -43,6 +44,8 @@ internal class PdfNotes(
         if (rows.isNotEmpty()) {
             var position = position
             rows.forEach { row ->
+                divider.drawOn(page, position)
+
                 row.dateTime.drawOn(page, position)
                 row.content.drawOn(page, position.copy(x = position.x + DAY_WIDTH))
                 position = position.copy(y = position.y + row.content.getSize().height)

@@ -50,5 +50,8 @@ actual class PdfPaint actual constructor(
         actual val background: PdfPaint = PdfPaint(
             color = Color(0xFFF3F3F3),
         )
+        actual val divider: PdfPaint = PdfPaint(
+            color = Color.LightGray,
+        )
     }
 }

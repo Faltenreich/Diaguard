@@ -25,7 +25,11 @@ actual class PdfPaint actual constructor(
     actual fun getTextBounds(text: String): PdfSize {
         val bounds = Rect()
         actual.getTextBounds(text, 0, text.length, bounds)
-        return PdfSize(bounds.width().toFloat(), bounds.height().toFloat())
+        val width = bounds.width().toFloat()
+        
+        val height = actual.fontMetrics.run { bottom - top }
+
+        return PdfSize(width, height)
     }
 
     actual companion object {

@@ -1,7 +1,9 @@
 package com.faltenreich.diaguard.persistence.pdf
 
+import android.annotation.SuppressLint
 import android.graphics.pdf.PdfDocument.Page
 import android.graphics.pdf.PdfDocument.PageInfo
+import android.os.Build
 import android.text.Layout
 import android.text.StaticLayout
 import android.text.TextPaint
@@ -45,15 +47,32 @@ actual class PdfPage actual constructor(
 
         if (maxWidth != null) {
             canvas.withTranslation(x, y) {
-                StaticLayout(
-                    text,
-                    TextPaint(paint),
-                    maxWidth.toInt(),
-                    Layout.Alignment.ALIGN_NORMAL,
-                    1f,
-                    0f,
-                    false,
-                ).draw(canvas)
+                val layout = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    // Workaround: Layout.LineBreaker.JUSTIFICATION_MODE_INTER_WORD requires API 29
+                    @SuppressLint("WrongConstant")
+                    StaticLayout.Builder.obtain(
+                        text,
+                        0,
+                        text.length,
+                        TextPaint(paint),
+                        maxWidth.toInt(),
+                    )
+                        .setAlignment(Layout.Alignment.ALIGN_NORMAL)
+                        .setJustificationMode(Layout.JUSTIFICATION_MODE_INTER_WORD)
+                        .build()
+                } else {
+                    @Suppress("Deprecation")
+                    StaticLayout(
+                        text,
+                        TextPaint(paint),
+                        maxWidth.toInt(),
+                        Layout.Alignment.ALIGN_NORMAL,
+                        1f,
+                        0f,
+                        false,
+                    )
+                }
+                layout.draw(canvas)
             }
         } else {
             canvas.drawText(text, x, y - paint.fontMetrics.ascent, paint)

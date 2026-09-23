@@ -9,14 +9,14 @@ import com.faltenreich.diaguard.persistence.pdf.PdfSize
 class PdfText(
     private val text: String,
     private val paint: PdfPaint,
-    private val size: PdfSize = PdfSize.Max,
+    private val maxWidth: Float? = null,
 ) : PdfDrawable {
 
     override fun getSize(): PdfSize {
-        return paint.getTextBounds(text)
+        return paint.getTextBounds(text, maxWidth)
     }
 
     override fun drawOn(page: PdfPage, position: PdfPosition) {
-        page.drawText(text, position, size, paint)
+        page.drawText(text, position, maxWidth, paint)
     }
 }

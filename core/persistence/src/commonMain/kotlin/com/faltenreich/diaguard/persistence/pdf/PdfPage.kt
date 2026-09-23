@@ -15,7 +15,7 @@ expect class PdfPage(
 
     fun move(by: Float)
 
-    fun drawText(text: String, position: PdfPosition, size: PdfSize, paint: PdfPaint)
+    fun drawText(text: String, position: PdfPosition, maxWidth: Float?, paint: PdfPaint)
 
     fun drawRectangle(rectangle: PdfRectangle, paint: PdfPaint)
 }

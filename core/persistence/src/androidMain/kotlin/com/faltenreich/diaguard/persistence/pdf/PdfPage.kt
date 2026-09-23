@@ -5,6 +5,7 @@ import android.graphics.pdf.PdfDocument.PageInfo
 import android.text.Layout
 import android.text.StaticLayout
 import android.text.TextPaint
+import androidx.core.graphics.withTranslation
 
 actual class PdfPage actual constructor(
     private val document: PdfDocument,
@@ -36,25 +37,27 @@ actual class PdfPage actual constructor(
         offset = offset.copy(x = offset.x, y = offset.y + by)
     }
 
-    actual fun drawText(text: String, position: PdfPosition, size: PdfSize, paint: PdfPaint) {
+    actual fun drawText(text: String, position: PdfPosition, maxWidth: Float?, paint: PdfPaint) {
+        val canvas = actual.canvas
         val paint = paint.actual
         val x = position.x
         val y = position.y
 
-        @Suppress("Deprecation")
-        val layout = StaticLayout(
-            text,
-            TextPaint(paint),
-            size.width.toInt(),
-            Layout.Alignment.ALIGN_NORMAL,
-            1f,
-            0f,
-            false,
-        )
-        actual.canvas.save()
-        actual.canvas.translate(x, y)
-        layout.draw(actual.canvas)
-        actual.canvas.restore()
+        if (maxWidth != null) {
+            canvas.withTranslation(x, y) {
+                StaticLayout(
+                    text,
+                    TextPaint(paint),
+                    maxWidth.toInt(),
+                    Layout.Alignment.ALIGN_NORMAL,
+                    1f,
+                    0f,
+                    false,
+                ).draw(canvas)
+            }
+        } else {
+            canvas.drawText(text, x, y - paint.fontMetrics.ascent, paint)
+        }
     }
 
     actual fun drawRectangle(rectangle: PdfRectangle, paint: PdfPaint) {

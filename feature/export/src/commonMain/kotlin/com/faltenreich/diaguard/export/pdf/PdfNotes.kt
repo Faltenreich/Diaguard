@@ -23,10 +23,10 @@ internal class PdfNotes(
         val texts = listOfNotNull(entry.note) + entry.entryTags.map { it.tag.name }
         if (texts.isNotEmpty()) {
             val dateTime = dateTimeFormatter.formatTime(entry.dateTime.time)
-            val size = PdfSize.Max.copy(width = width - DAY_WIDTH)
+            val maxWidth = width - DAY_WIDTH
             Row(
                 dateTime = PdfCell(PdfText(dateTime, PdfPaint.label)),
-                content = PdfCell(PdfText(texts.joinToString(", "), PdfPaint.label, size)),
+                content = PdfCell(PdfText(texts.joinToString(", "), PdfPaint.label, maxWidth)),
             )
         } else {
             null

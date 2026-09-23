@@ -3,6 +3,9 @@ package com.faltenreich.diaguard.persistence.pdf
 import android.graphics.Paint
 import android.graphics.Rect
 import android.graphics.Typeface
+import android.text.Layout
+import android.text.StaticLayout
+import android.text.TextPaint
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 
@@ -22,14 +25,26 @@ actual class PdfPaint actual constructor(
         this.textSize = textSize
     }
 
-    actual fun getTextBounds(text: String): PdfSize {
-        val bounds = Rect()
-        actual.getTextBounds(text, 0, text.length, bounds)
-        val width = bounds.width().toFloat()
-        
-        val height = actual.fontMetrics.run { bottom - top }
+    actual fun getTextBounds(text: String, maxWidth: Float?): PdfSize {
+        return if (maxWidth != null) {
+            val height = StaticLayout(
+                text,
+                TextPaint(actual),
+                maxWidth.toInt(),
+                Layout.Alignment.ALIGN_NORMAL,
+                1f,
+                0f,
+                false,
+            ).height.toFloat()
+            PdfSize(maxWidth, height)
+        } else {
+            val bounds = Rect()
+            actual.getTextBounds(text, 0, text.length, bounds)
+            val width = bounds.width().toFloat()
+            val height = actual.fontMetrics.run { bottom - top }
+            PdfSize(width, height)
+        }
 
-        return PdfSize(width, height)
     }
 
     actual companion object {

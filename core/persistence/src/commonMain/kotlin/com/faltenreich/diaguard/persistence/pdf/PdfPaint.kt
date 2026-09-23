@@ -8,7 +8,7 @@ expect class PdfPaint(
     textSize: Float = 12f,
 ) {
 
-    fun getTextBounds(text: String): PdfSize
+    fun getTextBounds(text: String, maxWidth: Float?): PdfSize
 
     companion object {
 

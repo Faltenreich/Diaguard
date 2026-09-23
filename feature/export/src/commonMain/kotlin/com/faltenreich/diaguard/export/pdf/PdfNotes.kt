@@ -22,7 +22,7 @@ internal class PdfNotes(
 ) : PdfDrawable {
 
     data class Row(
-        val dateTime: PdfDrawable,
+        val time: PdfDrawable,
         val content: PdfDrawable,
     )
 
@@ -41,10 +41,10 @@ internal class PdfNotes(
         val content = listOfNotNull(notesAndTags, foodEaten)
             .joinToString("\n")
         if (content.isNotEmpty()) {
-            val dateTime = dateTimeFormatter.formatTime(entry.dateTime.time)
+            val time = dateTimeFormatter.formatTime(entry.dateTime.time)
             val maxWidth = width - DAY_WIDTH
             Row(
-                dateTime = PdfCell(PdfText(dateTime, PdfPaint.label)),
+                time = PdfCell(PdfText(time, PdfPaint.label)),
                 content = PdfCell(PdfText(content, PdfPaint.label, maxWidth)),
             )
         } else {
@@ -66,7 +66,7 @@ internal class PdfNotes(
             rows.forEach { row ->
                 divider.drawOn(page, position)
 
-                row.dateTime.drawOn(page, position)
+                row.time.drawOn(page, position)
                 row.content.drawOn(page, position.copy(x = position.x + DAY_WIDTH))
                 position = position.copy(y = position.y + row.content.getSize().height)
             }

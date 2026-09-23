@@ -72,7 +72,18 @@ internal class ExportPdfUseCase(
 
                 val content = when {
                     entriesOfDate.isNotEmpty() -> when (settings.pdfLayout) {
-                        PdfLayout.LOG -> PdfLog()
+                        PdfLayout.LOG -> PdfLog(
+                            date = date,
+                            entries = entriesOfDate,
+                            categories = settings.categories,
+                            width = page.viewport.width,
+                            decimalPlaces = decimalPlaces,
+                            dateTimeFactory = dateTimeFactory,
+                            dateTimeFormatter = dateTimeFormatter,
+                            valueMapper = valueMapper,
+                            tintMapper = tintMapper,
+                        )
+
                         PdfLayout.TABLE -> PdfTable(
                             date = date,
                             entries = entriesOfDate,

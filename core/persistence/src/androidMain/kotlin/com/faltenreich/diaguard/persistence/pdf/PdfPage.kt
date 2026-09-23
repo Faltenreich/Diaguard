@@ -36,10 +36,8 @@ actual class PdfPage actual constructor(
         offset = offset.copy(x = offset.x, y = offset.y + by)
     }
 
-    actual fun drawText(text: String, position: PdfPosition, paint: PdfPaint) {
+    actual fun drawText(text: String, position: PdfPosition, size: PdfSize, paint: PdfPaint) {
         val paint = paint.actual
-        // TODO: Align text by compensating ascent/descent
-        val fontMetrics = paint.fontMetrics
         val x = position.x
         val y = position.y
 
@@ -47,7 +45,7 @@ actual class PdfPage actual constructor(
         val layout = StaticLayout(
             text,
             TextPaint(paint),
-            viewport.width.toInt(), // TODO: Pass width
+            size.width.toInt(),
             Layout.Alignment.ALIGN_NORMAL,
             1f,
             0f,

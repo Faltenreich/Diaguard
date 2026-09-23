@@ -13,6 +13,7 @@ import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.localization.Localization
+import com.faltenreich.diaguard.localization.NumberFormatter
 import com.faltenreich.diaguard.logging.Logger
 import com.faltenreich.diaguard.persistence.file.File
 import com.faltenreich.diaguard.persistence.file.FileRepository
@@ -31,6 +32,7 @@ internal class ExportPdfUseCase(
     private val dateTimeFactory: DateTimeFactory,
     private val dateTimeFormatter: DateTimeFormatter,
     private val valueMapper: MeasurementValueMapper,
+    private val numberFormatter: NumberFormatter,
     private val tintMapper: MeasurementValueTintMapper,
     private val getPreference: GetPreferenceUseCase,
     private val createPage: CreatePdfPageUseCase,
@@ -106,7 +108,14 @@ internal class ExportPdfUseCase(
                 page.move(contentHeight)
 
                 // TODO: Break between rows if needed
-                val notes = PdfNotes(entriesOfDate, page.viewport.width, dateTimeFormatter)
+                val notes = PdfNotes(
+                    entriesOfDate,
+                    page.viewport.width,
+                    decimalPlaces,
+                    localization,
+                    dateTimeFormatter,
+                    numberFormatter,
+                )
                 val notesHeight = notes.getSize().height
                 if (!page.canMove(notesHeight)) {
                     page.finish()

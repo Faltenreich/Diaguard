@@ -2,16 +2,23 @@ package com.faltenreich.diaguard.export.pdf
 
 import com.faltenreich.diaguard.data.entry.Entry
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
+import com.faltenreich.diaguard.localization.Localization
+import com.faltenreich.diaguard.localization.NumberFormatter
 import com.faltenreich.diaguard.persistence.pdf.PdfDrawable
 import com.faltenreich.diaguard.persistence.pdf.PdfPage
 import com.faltenreich.diaguard.persistence.pdf.PdfPaint
 import com.faltenreich.diaguard.persistence.pdf.PdfPosition
 import com.faltenreich.diaguard.persistence.pdf.PdfSize
+import com.faltenreich.diaguard.resource.Res
+import com.faltenreich.diaguard.resource.grams_abbreviation
 
 internal class PdfNotes(
     entries: List<Entry.Local>,
     private val width: Float,
+    decimalPlaces: Int,
+    localization: Localization,
     dateTimeFormatter: DateTimeFormatter,
+    numberFormatter: NumberFormatter,
 ) : PdfDrawable {
 
     data class Row(
@@ -20,13 +27,25 @@ internal class PdfNotes(
     )
 
     private val rows: List<Row> = entries.mapNotNull { entry ->
-        val texts = listOfNotNull(entry.note) + entry.entryTags.map { it.tag.name }
-        if (texts.isNotEmpty()) {
+        val gramsAbbreviation = localization.getString(Res.string.grams_abbreviation)
+        val notesAndTags = (listOfNotNull(entry.note) + entry.entryTags.map { it.tag.name })
+            .joinToString(", ")
+            .takeIf(String::isNotBlank)
+        val foodEaten = entry.foodEaten
+            .joinToString("\n") { foodEaten ->
+                val amount = numberFormatter(foodEaten.amountInGrams, decimalPlaces)
+                val name = foodEaten.food.name
+                "$amount $gramsAbbreviation $name"
+            }
+            .takeIf(String::isNotBlank)
+        val content = listOfNotNull(notesAndTags, foodEaten)
+            .joinToString("\n")
+        if (content.isNotEmpty()) {
             val dateTime = dateTimeFormatter.formatTime(entry.dateTime.time)
             val maxWidth = width - DAY_WIDTH
             Row(
                 dateTime = PdfCell(PdfText(dateTime, PdfPaint.label)),
-                content = PdfCell(PdfText(texts.joinToString(", "), PdfPaint.label, maxWidth)),
+                content = PdfCell(PdfText(content, PdfPaint.label, maxWidth)),
             )
         } else {
             null

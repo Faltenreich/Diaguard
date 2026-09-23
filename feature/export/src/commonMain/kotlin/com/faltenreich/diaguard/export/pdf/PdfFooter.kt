@@ -1,19 +1,26 @@
 package com.faltenreich.diaguard.export.pdf
 
+import com.faltenreich.diaguard.localization.Localization
 import com.faltenreich.diaguard.persistence.pdf.PdfDrawable
 import com.faltenreich.diaguard.persistence.pdf.PdfPage
 import com.faltenreich.diaguard.persistence.pdf.PdfPaint
 import com.faltenreich.diaguard.persistence.pdf.PdfPosition
 import com.faltenreich.diaguard.persistence.pdf.PdfSize
+import com.faltenreich.diaguard.resource.Res
+import com.faltenreich.diaguard.resource.page
 import kotlin.math.max
 
 internal class PdfFooter(
     dateOfExport: String?,
     pageNumber: String?,
+    localization: Localization,
 ) : PdfDrawable {
 
-    private val dateOfExport: PdfText? = dateOfExport?.let { PdfText(it, PdfPaint.normal) }
-    private val pageNumber: PdfText? = pageNumber?.let { PdfText(it, PdfPaint.normal) }
+    private val dateOfExport: PdfText? = dateOfExport?.let { PdfText(it, PdfPaint.label) }
+    private val pageNumber: PdfText? = pageNumber?.let {
+        val text = "${localization.getString(Res.string.page)} $pageNumber"
+        PdfText(text, PdfPaint.label)
+    }
 
     override fun getSize(): PdfSize {
         val dateOfExportSize = dateOfExport?.getSize() ?: PdfSize.Zero

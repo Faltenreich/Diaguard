@@ -60,6 +60,7 @@ internal class CreatePdfPageUseCase(
                 dateTimeFormatter.formatDate(date),
             ).takeIf { settings.includeDateOfExport },
             pageNumber = pageNumber.toString().takeIf { settings.includePageNumber },
+            localization = localization,
         ).takeIf { settings.includeDateOfExport || settings.includePageNumber }?.let { footer ->
             val height = footer.getSize().height
             val position = PdfPosition(x = viewport.left, y = viewport.bottom - height)

@@ -10,6 +10,7 @@ import com.faltenreich.diaguard.export.history.ExportHistoryViewModel
 import com.faltenreich.diaguard.export.history.GetExportFilesUseCase
 import com.faltenreich.diaguard.export.pdf.CreatePdfPageUseCase
 import com.faltenreich.diaguard.export.pdf.ExportPdfUseCase
+import com.faltenreich.diaguard.export.pdf.note.MapPdfNoteListDataUseCase
 import com.faltenreich.diaguard.export.pdf.table.MapPdfTableDataUseCase
 import com.faltenreich.diaguard.measurement.measurementModule
 import org.koin.core.module.dsl.factoryOf
@@ -30,6 +31,7 @@ fun exportModule() = module {
     factoryOf(::ExportPdfUseCase)
     factoryOf(::CreatePdfPageUseCase)
     factoryOf(::MapPdfTableDataUseCase)
+    factoryOf(::MapPdfNoteListDataUseCase)
 
     viewModelOf(::ExportFormViewModel)
     viewModelOf(::ExportHistoryViewModel)

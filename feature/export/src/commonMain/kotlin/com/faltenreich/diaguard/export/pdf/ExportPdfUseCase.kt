@@ -12,8 +12,9 @@ import com.faltenreich.diaguard.datetime.DateRange
 import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
+import com.faltenreich.diaguard.export.pdf.table.MapPdfTableDataUseCase
+import com.faltenreich.diaguard.export.pdf.table.PdfTable
 import com.faltenreich.diaguard.localization.Localization
-import com.faltenreich.diaguard.localization.NumberFormatter
 import com.faltenreich.diaguard.logging.Logger
 import com.faltenreich.diaguard.persistence.file.File
 import com.faltenreich.diaguard.persistence.file.FileRepository
@@ -32,10 +33,10 @@ internal class ExportPdfUseCase(
     private val dateTimeFactory: DateTimeFactory,
     private val dateTimeFormatter: DateTimeFormatter,
     private val valueMapper: MeasurementValueMapper,
-    private val numberFormatter: NumberFormatter,
     private val tintMapper: MeasurementValueTintMapper,
     private val getPreference: GetPreferenceUseCase,
     private val createPage: CreatePdfPageUseCase,
+    private val mapTableData: MapPdfTableDataUseCase,
 ) {
 
     suspend operator fun invoke(
@@ -87,14 +88,13 @@ internal class ExportPdfUseCase(
 
                         PdfLayout.TABLE -> PdfTable(
                             date = date,
-                            entries = entriesOfDate,
-                            categories = settings.categories,
+                            data = mapTableData(
+                                entries = entriesOfDate,
+                                categories = settings.categories,
+                                decimalPlaces = decimalPlaces,
+                            ),
                             width = page.viewport.width,
-                            decimalPlaces = decimalPlaces,
-                            dateTimeFactory = dateTimeFactory,
                             dateTimeFormatter = dateTimeFormatter,
-                            valueMapper = valueMapper,
-                            tintMapper = tintMapper,
                         )
 
                         PdfLayout.TIMELINE -> PdfTimeline()

@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.export.pdf.table
 
-import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.export.pdf.PdfBackground
 import com.faltenreich.diaguard.export.pdf.PdfDate
@@ -14,13 +13,11 @@ import com.faltenreich.diaguard.persistence.pdf.PdfRectangle
 import com.faltenreich.diaguard.persistence.pdf.PdfSize
 
 internal class PdfTable(
-    date: Date,
     private val data: PdfTableData,
-    private val width: Float,
     dateTimeFormatter: DateTimeFormatter,
 ) : PdfDrawable {
 
-    private val date = PdfDate(date, dateTimeFormatter)
+    private val date = PdfDate(data.date, dateTimeFormatter)
     private val text = PdfText("Placeholder", PdfPaint.normal)
     private val padding = PdfSpacing.CELL_PADDING.points
     private val rowCount = data.categories.sumOf { it.properties.size }
@@ -29,7 +26,7 @@ internal class PdfTable(
         val dateHeight = date.getSize().height + padding * 2
         val rowHeight = text.getSize().height + padding * 2
         return PdfSize(
-            width = width,
+            width = data.width,
             height = dateHeight + (rowHeight * rowCount),
         )
     }

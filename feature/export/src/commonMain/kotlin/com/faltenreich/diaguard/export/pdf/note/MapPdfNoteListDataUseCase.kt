@@ -21,7 +21,11 @@ internal class MapPdfNoteListDataUseCase(
         decimalPlaces: Int,
         width: Float,
     ): PdfNoteListData {
+        val timeWidth = TIME_WIDTH
+        val contentWidth = width - timeWidth
         return PdfNoteListData(
+            timeWidth = timeWidth,
+            contentWidth = contentWidth,
             rows = entries.mapNotNull { entry ->
                 val gramsAbbreviation = localization.getString(Res.string.grams_abbreviation)
                 val notesAndTags = (listOfNotNull(entry.note) + entry.entryTags.map { it.tag.name })
@@ -47,5 +51,10 @@ internal class MapPdfNoteListDataUseCase(
                 }
             }
         )
+    }
+
+    private companion object {
+
+        const val TIME_WIDTH = 100f
     }
 }

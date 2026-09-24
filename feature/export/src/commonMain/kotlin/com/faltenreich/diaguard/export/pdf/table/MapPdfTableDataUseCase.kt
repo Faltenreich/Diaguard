@@ -8,24 +8,31 @@ import com.faltenreich.diaguard.data.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.data.measurement.value.MeasurementValueMapper
 import com.faltenreich.diaguard.data.measurement.value.MeasurementValueTint
 import com.faltenreich.diaguard.data.measurement.value.MeasurementValueTintMapper
+import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.TimeUnit
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.export.pdf.PdfCell
 import com.faltenreich.diaguard.export.pdf.PdfText
+import com.faltenreich.diaguard.export.pdf.note.MapPdfNoteListDataUseCase
 import com.faltenreich.diaguard.persistence.pdf.PdfPaint
 
 internal class MapPdfTableDataUseCase(
+    private val mapNotes: MapPdfNoteListDataUseCase,
     private val dateTimeFactory: DateTimeFactory,
     private val valueMapper: MeasurementValueMapper,
     private val tintMapper: MeasurementValueTintMapper,
 ) {
 
     operator fun invoke(
+        date: Date,
+        width: Float,
         entries: List<Entry.Local>,
         categories: List<ExportSettings.Category>,
         decimalPlaces: Int,
     ): PdfTableData {
         return PdfTableData(
+            date = date,
+            width = width,
             categories = categories
                 .filter { it.isExported }
                 .map { category ->
@@ -89,6 +96,11 @@ internal class MapPdfTableDataUseCase(
                             }
                     )
                 },
+            notes = mapNotes(
+                entries = entries,
+                decimalPlaces = decimalPlaces,
+                width = width,
+            ),
         )
     }
 

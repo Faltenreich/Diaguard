@@ -87,13 +87,13 @@ internal class ExportPdfUseCase(
                         )
 
                         PdfLayout.TABLE -> PdfTable(
-                            date = date,
                             data = mapTableData(
+                                date = date,
+                                width = page.viewport.width,
                                 entries = entriesOfDate,
                                 categories = settings.categories,
                                 decimalPlaces = decimalPlaces,
                             ),
-                            width = page.viewport.width,
                             dateTimeFormatter = dateTimeFormatter,
                         )
 

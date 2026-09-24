@@ -1,9 +1,14 @@
 package com.faltenreich.diaguard.export.pdf.table
 
+import com.faltenreich.diaguard.datetime.Date
+import com.faltenreich.diaguard.export.pdf.note.PdfNoteListData
 import com.faltenreich.diaguard.persistence.pdf.PdfDrawable
 
 internal data class PdfTableData(
+    val date: Date,
+    val width: Float,
     val categories: List<Category>,
+    val notes: PdfNoteListData,
 ) {
 
     data class Category(

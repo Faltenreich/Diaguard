@@ -1,8 +1,6 @@
 package com.faltenreich.diaguard.export.pdf.table
 
-import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.export.pdf.PdfBackground
-import com.faltenreich.diaguard.export.pdf.PdfDate
 import com.faltenreich.diaguard.export.pdf.PdfSpacing
 import com.faltenreich.diaguard.export.pdf.PdfText
 import com.faltenreich.diaguard.persistence.pdf.PdfDrawable
@@ -12,33 +10,23 @@ import com.faltenreich.diaguard.persistence.pdf.PdfPosition
 import com.faltenreich.diaguard.persistence.pdf.PdfRectangle
 import com.faltenreich.diaguard.persistence.pdf.PdfSize
 
-internal class PdfTable(
-    private val data: PdfTableData,
-    dateTimeFormatter: DateTimeFormatter,
-) : PdfDrawable {
+internal class PdfTable(private val data: PdfTableData) : PdfDrawable {
 
-    private val date = PdfDate(data.date, dateTimeFormatter)
     private val text = PdfText("Placeholder", PdfPaint.normal)
     private val padding = PdfSpacing.CELL_PADDING.points
-    private val rowCount = data.categories.sumOf { it.properties.size }
 
     override fun getSize(): PdfSize {
-        val dateHeight = date.getSize().height + padding * 2
-        val rowHeight = text.getSize().height + padding * 2
-        return PdfSize(
-            width = data.width,
-            height = dateHeight + (rowHeight * rowCount),
-        )
+        return data.size
     }
 
     override fun drawOn(page: PdfPage, position: PdfPosition) {
         drawDate(page, position.copy(x = position.x + padding, y = position.y + padding))
         drawHours(page, position.copy(x = position.x + DAY_WIDTH, y = position.y + padding))
-        drawValues(page, position.copy(y = position.y + date.getSize().height + padding * 2))
+        drawValues(page, position.copy(y = position.y + data.date.getSize().height + padding * 2))
     }
 
     private fun drawDate(page: PdfPage, position: PdfPosition) {
-        date.drawOn(page, position)
+        data.date.drawOn(page, position)
     }
 
     private fun drawHours(page: PdfPage, position: PdfPosition) {

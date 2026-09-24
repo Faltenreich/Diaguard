@@ -94,7 +94,6 @@ internal class ExportPdfUseCase(
                                 categories = settings.categories,
                                 decimalPlaces = decimalPlaces,
                             ),
-                            dateTimeFormatter = dateTimeFormatter,
                         )
 
                         PdfLayout.TIMELINE -> PdfTimeline()

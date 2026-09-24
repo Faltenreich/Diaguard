@@ -11,7 +11,9 @@ import com.faltenreich.diaguard.data.measurement.value.MeasurementValueTintMappe
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.TimeUnit
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
+import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.export.pdf.PdfCell
+import com.faltenreich.diaguard.export.pdf.PdfDate
 import com.faltenreich.diaguard.export.pdf.PdfText
 import com.faltenreich.diaguard.export.pdf.note.MapPdfNoteListDataUseCase
 import com.faltenreich.diaguard.persistence.pdf.PdfPaint
@@ -19,6 +21,7 @@ import com.faltenreich.diaguard.persistence.pdf.PdfPaint
 internal class MapPdfTableDataUseCase(
     private val mapNotes: MapPdfNoteListDataUseCase,
     private val dateTimeFactory: DateTimeFactory,
+    private val dateTimeFormatter: DateTimeFormatter,
     private val valueMapper: MeasurementValueMapper,
     private val tintMapper: MeasurementValueTintMapper,
 ) {
@@ -31,7 +34,7 @@ internal class MapPdfTableDataUseCase(
         decimalPlaces: Int,
     ): PdfTableData {
         return PdfTableData(
-            date = date,
+            date = PdfDate(date, dateTimeFormatter),
             width = width,
             categories = categories
                 .filter { it.isExported }

@@ -82,6 +82,7 @@ internal class ExportPdfUseCase(
                             dateTimeFormatter = dateTimeFormatter,
                             valueMapper = valueMapper,
                             tintMapper = tintMapper,
+                            localization = localization,
                         )
 
                         PdfLayout.TABLE -> PdfTable(

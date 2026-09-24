@@ -7,12 +7,16 @@ import com.faltenreich.diaguard.data.measurement.value.MeasurementValueTintMappe
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
+import com.faltenreich.diaguard.localization.Localization
 import com.faltenreich.diaguard.persistence.pdf.PdfDrawable
 import com.faltenreich.diaguard.persistence.pdf.PdfPage
 import com.faltenreich.diaguard.persistence.pdf.PdfPaint
 import com.faltenreich.diaguard.persistence.pdf.PdfPosition
 import com.faltenreich.diaguard.persistence.pdf.PdfRectangle
 import com.faltenreich.diaguard.persistence.pdf.PdfSize
+import com.faltenreich.diaguard.resource.Res
+import com.faltenreich.diaguard.resource.note
+import com.faltenreich.diaguard.resource.tags
 
 internal class PdfLog(
     date: Date,
@@ -24,6 +28,7 @@ internal class PdfLog(
     dateTimeFormatter: DateTimeFormatter,
     private val valueMapper: MeasurementValueMapper,
     private val tintMapper: MeasurementValueTintMapper,
+    private val localization: Localization,
 ) : PdfDrawable {
 
     data class Row(
@@ -40,7 +45,8 @@ internal class PdfLog(
     private val date = PdfDate(date, dateTimeFormatter)
     private val properties = categories.flatMap { it.properties.map { it.property } }
     private val rows: List<Row> = entries.mapNotNull { entry ->
-        val items = entry.values
+        val contentWidth = width - TIME_WIDTH - LABEL_WIDTH
+        val values = entry.values
             .filter { it.property in properties }
             .map { value ->
                 val text = valueMapper(value, decimalPlaces).value
@@ -48,9 +54,25 @@ internal class PdfLog(
                     label = PdfCell(PdfText(value.property.name, PdfPaint.label)),
                     // TODO: Add notes and tags and remove from parent
                     // TODO: Tint like in PdfTable
-                    content = PdfCell(PdfText(text, PdfPaint.normal))
+                    content = PdfCell(PdfText(text, PdfPaint.normal, contentWidth))
                 )
             }
+        val tags = entry.entryTags.takeIf(List<*>::isNotEmpty)?.let {
+            val label = localization.getString(Res.string.tags)
+            val content = entry.entryTags.joinToString(", ") { it.tag.name }
+            Row.Item(
+                label = PdfCell(PdfText(label, PdfPaint.label)),
+                content = PdfCell(PdfText(content, PdfPaint.normal, contentWidth))
+            )
+        }
+        val note = entry.note?.let { note ->
+            val label = localization.getString(Res.string.note)
+            Row.Item(
+                label = PdfCell(PdfText(label, PdfPaint.label)),
+                content = PdfCell(PdfText(note, PdfPaint.normal, contentWidth))
+            )
+        }
+        val items = values + listOfNotNull(tags, note)
         if (items.isNotEmpty()) {
             val time = dateTimeFormatter.formatTime(entry.dateTime.time)
             Row(
@@ -88,7 +110,7 @@ internal class PdfLog(
                 item.label.drawOn(page, position.copy(x = position.x + TIME_WIDTH))
                 item.content.drawOn(
                     page,
-                    position.copy(x = position.x + TIME_WIDTH + CATEGORY_WIDTH)
+                    position.copy(x = position.x + TIME_WIDTH + LABEL_WIDTH)
                 )
                 position = position.copy(y = position.y + item.content.getSize().height)
             }
@@ -98,6 +120,6 @@ internal class PdfLog(
     private companion object {
 
         const val TIME_WIDTH = 72f
-        const val CATEGORY_WIDTH = 100f
+        const val LABEL_WIDTH = 100f
     }
 }

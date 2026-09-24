@@ -119,23 +119,6 @@ internal class ExportPdfUseCase(
                 content.drawOn(page, page.offset)
                 page.move(contentHeight)
 
-                // TODO: Break between rows if needed
-                val notes = PdfNotes(
-                    entriesOfDate,
-                    page.viewport.width,
-                    decimalPlaces,
-                    localization,
-                    dateTimeFormatter,
-                    numberFormatter,
-                )
-                val notesHeight = notes.getSize().height
-                if (!page.canMove(notesHeight)) {
-                    page.finish()
-                    page = createPage(pdfDocument, date, settings)
-                }
-                notes.drawOn(page, page.offset)
-                page.move(notesHeight)
-
                 page.move(PdfSpacing.DAY_PADDING_BOTTOM.points)
             }
 

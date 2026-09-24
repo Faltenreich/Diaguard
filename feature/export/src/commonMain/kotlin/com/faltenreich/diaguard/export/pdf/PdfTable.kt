@@ -4,7 +4,6 @@ import androidx.compose.ui.graphics.Color
 import com.faltenreich.diaguard.data.entry.Entry
 import com.faltenreich.diaguard.data.export.ExportSettings.Category
 import com.faltenreich.diaguard.data.measurement.property.MeasurementAggregationStyle
-import com.faltenreich.diaguard.data.measurement.property.MeasurementProperty
 import com.faltenreich.diaguard.data.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.data.measurement.value.MeasurementValueMapper
 import com.faltenreich.diaguard.data.measurement.value.MeasurementValueTint
@@ -22,8 +21,8 @@ import com.faltenreich.diaguard.persistence.pdf.PdfSize
 
 internal class PdfTable(
     date: Date,
-    private val entries: List<Entry.Local>,
-    private val categories: List<Category>,
+    entries: List<Entry.Local>,
+    categories: List<Category>,
     private val width: Float,
     private val decimalPlaces: Int,
     private val dateTimeFactory: DateTimeFactory,
@@ -36,6 +35,87 @@ internal class PdfTable(
     private val text = PdfText("Placeholder", PdfPaint.normal)
     private val padding = PdfSpacing.CELL_PADDING.points
     private val rowCount = categories.sumOf { it.properties.size }
+
+    private val rows = Rows(
+        categories = categories
+            .filter { it.isExported }
+            .map { category ->
+                Rows.Category(
+                    properties = category.properties
+                        .filter { it.isExported }
+                        .map { (property, _) ->
+                            val categoryName = property.category.name
+                            val labelText = listOfNotNull(
+                                categoryName,
+                                property.name.takeIf { it != categoryName },
+                            ).joinToString(" ")
+                            Rows.Property(
+                                property = PdfCell(PdfText(labelText, PdfPaint.label)),
+                                values = HOURS.map { hour ->
+                                    val values = entries.flatMap { entry ->
+                                        val entryTime = entry.dateTime.time
+                                        val startTime =
+                                            dateTimeFactory.time(hourOfDay = hour, minuteOfHour = 0)
+                                        val endTime = dateTimeFactory.timeAtEndOf(
+                                            time = startTime.copy(hourOfDay = hour + DAY_STEP - 1),
+                                            unit = TimeUnit.HOUR,
+                                        )
+                                        if (entryTime in startTime..<endTime) {
+                                            entry.values.filter { value -> value.property == property }
+                                        } else {
+                                            emptyList()
+                                        }
+                                    }
+                                    val value = if (values.isNotEmpty()) {
+                                        val sum = values.sumOf { it.value }
+                                        val value = MeasurementValue.Average(
+                                            value = when (property.aggregationStyle) {
+                                                MeasurementAggregationStyle.CUMULATIVE -> sum
+                                                MeasurementAggregationStyle.AVERAGE -> sum / values.size
+                                            },
+                                            property = property,
+                                        )
+                                        val valueLocalized = valueMapper(value, decimalPlaces).value
+                                        // TODO: Check setting and get colors from Theme
+                                        val color = when (tintMapper(value)) {
+                                            MeasurementValueTint.NONE -> Color.Black
+                                            MeasurementValueTint.LOW -> Color.Blue
+                                            MeasurementValueTint.NORMAL -> Color.Black
+                                            MeasurementValueTint.HIGH -> Color.Red
+                                        }
+                                        PdfText(valueLocalized, PdfPaint(color))
+                                    } else {
+                                        null
+                                    }
+                                    Rows.Value(
+                                        hour = hour,
+                                        value = value,
+                                    )
+                                }
+                            )
+                        }
+                )
+            },
+    )
+
+    data class Rows(
+        val categories: List<Rows.Category>,
+    ) {
+
+        data class Category(
+            val properties: List<Property>,
+        )
+
+        data class Property(
+            val property: PdfDrawable,
+            val values: List<Value>,
+        )
+
+        data class Value(
+            val hour: Int,
+            val value: PdfDrawable?,
+        )
+    }
 
     override fun getSize(): PdfSize {
         val dateHeight = date.getSize().height + padding * 2
@@ -72,7 +152,7 @@ internal class PdfTable(
     private fun drawValues(page: PdfPage, position: PdfPosition) {
         val rowHeight = text.getSize().height + (padding * 2)
         var index = 0
-        categories.forEachIndexed { categoryIndex, category ->
+        rows.categories.forEachIndexed { categoryIndex, category ->
             category.properties.forEach { property ->
                 val y = position.y + (rowHeight * index)
                 if (categoryIndex % 2 == 0) {
@@ -90,20 +170,12 @@ internal class PdfTable(
                     x = position.x + padding,
                     y = y + padding,
                 )
-                val categoryName = property.property.category.name
-                val propertyName = property.property.name
-
-                val labelText = listOfNotNull(
-                    categoryName,
-                    propertyName.takeIf { it != categoryName },
-                ).joinToString(" ")
-                val label = PdfText(labelText, PdfPaint.label)
-                label.drawOn(page, labelPosition)
+                property.property.drawOn(page, labelPosition)
 
                 drawValues(
                     page = page,
                     position = PdfPosition(x = labelPosition.x + DAY_WIDTH, y = labelPosition.y),
-                    property = property.property,
+                    property = property,
                 )
                 index += 1
             }
@@ -113,47 +185,16 @@ internal class PdfTable(
     private fun drawValues(
         page: PdfPage,
         position: PdfPosition,
-        property: MeasurementProperty.Local
+        property: Rows.Property,
     ) {
-        val progression = 0..<DAY_HOURS step DAY_STEP
         val hoursWidth = page.viewport.right - position.x
-        val hourWidth = hoursWidth / progression.count()
-        for (hour in progression) {
-            val index = hour / progression.step
-            val values = entries.flatMap { entry ->
-                val entryTime = entry.dateTime.time
-                val startTime = dateTimeFactory.time(hourOfDay = hour, minuteOfHour = 0)
-                val endTime = dateTimeFactory.timeAtEndOf(
-                    time = startTime.copy(hourOfDay = hour + DAY_STEP - 1),
-                    unit = TimeUnit.HOUR,
-                )
-                if (entryTime in startTime..<endTime) {
-                    entry.values.filter { value -> value.property == property }
-                } else {
-                    emptyList()
-                }
-            }
-            if (values.isNotEmpty()) {
-                val sum = values.sumOf { it.value }
-                val value = MeasurementValue.Average(
-                    value = when (property.aggregationStyle) {
-                        MeasurementAggregationStyle.CUMULATIVE -> sum
-                        MeasurementAggregationStyle.AVERAGE -> sum / values.size
-                    },
-                    property = property,
-                )
-                val valueLocalized = valueMapper(value, decimalPlaces).value
-                // TODO: Check setting and get colors from Theme
-                val color = when (tintMapper(value)) {
-                    MeasurementValueTint.NONE -> Color.Black
-                    MeasurementValueTint.LOW -> Color.Blue
-                    MeasurementValueTint.NORMAL -> Color.Black
-                    MeasurementValueTint.HIGH -> Color.Red
-                }
-                val text = PdfText(valueLocalized, PdfPaint(color))
-                val x = position.x + (index * hourWidth) + hourWidth / 2 - text.getSize().width / 2
+        val hourWidth = hoursWidth / HOURS.count()
+        property.values.forEach { (hour, value) ->
+            if (value != null) {
+                val index = hour / HOURS.step
+                val x = position.x + (index * hourWidth) + hourWidth / 2 - value.getSize().width / 2
                 val y = position.y
-                text.drawOn(page, PdfPosition(x, y))
+                value.drawOn(page, PdfPosition(x, y))
             }
         }
     }
@@ -168,5 +209,6 @@ internal class PdfTable(
         const val DAY_WIDTH = 100f
         const val DAY_HOURS = 24
         const val DAY_STEP = 2
+        val HOURS = 0..<DAY_HOURS step DAY_STEP
     }
 }

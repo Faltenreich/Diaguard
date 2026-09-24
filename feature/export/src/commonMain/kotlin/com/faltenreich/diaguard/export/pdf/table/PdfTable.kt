@@ -23,6 +23,7 @@ internal class PdfTable(private val data: PdfTableData) : PdfDrawable {
         drawDate(page, position.copy(x = position.x + padding, y = position.y + padding))
         drawHours(page, position.copy(x = position.x + DAY_WIDTH, y = position.y + padding))
         drawValues(page, position.copy(y = position.y + data.date.getSize().height + padding * 2))
+        // TODO: Draw data.notes
     }
 
     private fun drawDate(page: PdfPage, position: PdfPosition) {

@@ -10,15 +10,12 @@ import com.faltenreich.diaguard.persistence.pdf.PdfSize
 internal class PdfNoteList(private val data: PdfNoteListData) : PdfDrawable {
 
     private val divider = PdfBackground(
-        size = PdfSize(width = data.width, height = .75f),
+        size = PdfSize(width = data.size.width, height = .75f),
         paint = PdfPaint.divider,
     )
 
     override fun getSize(): PdfSize {
-        return PdfSize(
-            width = data.width,
-            height = data.rows.sumOf { it.content.getSize().height.toDouble() }.toFloat(),
-        )
+        return data.size
     }
 
     override fun drawOn(page: PdfPage, position: PdfPosition) {

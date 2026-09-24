@@ -17,7 +17,7 @@ internal data class PdfTableData(
             category.properties.sumOf { property ->
                 property.property.getSize().height.toDouble()
             }
-        }.toFloat(),
+        }.toFloat() + notes.size.height,
     )
 
     data class Category(

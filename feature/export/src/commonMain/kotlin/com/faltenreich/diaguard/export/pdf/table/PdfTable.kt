@@ -8,24 +8,52 @@ import com.faltenreich.diaguard.persistence.pdf.PdfPosition
 import com.faltenreich.diaguard.persistence.pdf.PdfRectangle
 import com.faltenreich.diaguard.persistence.pdf.PdfSize
 
-internal class PdfTable(private val data: PdfTableData) : PdfDrawable {
+internal class PdfTable(
+    private val date: PdfDrawable,
+    private val width: Float,
+    private val categories: List<Category>,
+    private val notes: PdfDrawable,
+) : PdfDrawable {
+
+    data class Category(
+        val properties: List<Property>,
+    ) {
+
+        data class Property(
+            val property: PdfDrawable,
+            val values: List<Value>,
+        ) {
+
+            data class Value(
+                val hour: Int,
+                val value: PdfDrawable?,
+            )
+        }
+    }
 
     override fun getSize(): PdfSize {
-        return data.size
+        return PdfSize(
+            width = width,
+            height = date.getSize().height + categories.sumOf { category ->
+                category.properties.sumOf { property ->
+                    property.property.getSize().height.toDouble()
+                }
+            }.toFloat() + notes.getSize().height,
+        )
     }
 
     override fun drawOn(page: PdfPage, position: PdfPosition) {
-        data.date.drawOn(page, position)
-        drawValues(page, position.copy(y = position.y + data.date.getSize().height))
-        data.notes.drawOn(
+        date.drawOn(page, position)
+        drawValues(page, position.copy(y = position.y + date.getSize().height))
+        notes.drawOn(
             page,
-            position.copy(y = position.y + data.size.height - data.notes.getSize().height)
+            position.copy(y = position.y + getSize().height - notes.getSize().height)
         )
     }
 
     private fun drawValues(page: PdfPage, position: PdfPosition) {
         var position = position
-        data.categories.forEachIndexed { categoryIndex, category ->
+        categories.forEachIndexed { categoryIndex, category ->
             category.properties.forEach { property ->
                 val height = property.property.getSize().height
 
@@ -55,7 +83,7 @@ internal class PdfTable(private val data: PdfTableData) : PdfDrawable {
     private fun drawValues(
         page: PdfPage,
         position: PdfPosition,
-        property: PdfTableData.Category.Property,
+        property: Category.Property,
     ) {
         val hoursWidth = page.viewport.right - position.x
         val hourWidth = hoursWidth / HOURS.count()

@@ -12,8 +12,7 @@ import com.faltenreich.diaguard.datetime.DateRange
 import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
-import com.faltenreich.diaguard.export.pdf.table.MapPdfTableDataUseCase
-import com.faltenreich.diaguard.export.pdf.table.PdfTable
+import com.faltenreich.diaguard.export.pdf.table.PdfTableFactory
 import com.faltenreich.diaguard.localization.Localization
 import com.faltenreich.diaguard.logging.Logger
 import com.faltenreich.diaguard.persistence.file.File
@@ -36,7 +35,7 @@ internal class ExportPdfUseCase(
     private val tintMapper: MeasurementValueTintMapper,
     private val getPreference: GetPreferenceUseCase,
     private val createPage: CreatePdfPageUseCase,
-    private val mapTableData: MapPdfTableDataUseCase,
+    private val tableFactory: PdfTableFactory,
 ) {
 
     suspend operator fun invoke(
@@ -86,14 +85,12 @@ internal class ExportPdfUseCase(
                             localization = localization,
                         )
 
-                        PdfLayout.TABLE -> PdfTable(
-                            data = mapTableData(
-                                date = date,
-                                width = page.viewport.width,
-                                entries = entriesOfDate,
-                                categories = settings.categories,
-                                decimalPlaces = decimalPlaces,
-                            ),
+                        PdfLayout.TABLE -> tableFactory.create(
+                            date = date,
+                            width = page.viewport.width,
+                            entries = entriesOfDate,
+                            categories = settings.categories,
+                            decimalPlaces = decimalPlaces,
                         )
 
                         PdfLayout.TIMELINE -> PdfTimeline()

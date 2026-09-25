@@ -19,7 +19,7 @@ import com.faltenreich.diaguard.export.pdf.note.MapPdfNoteListDataUseCase
 import com.faltenreich.diaguard.export.pdf.note.PdfNoteList
 import com.faltenreich.diaguard.persistence.pdf.PdfPaint
 
-internal class MapPdfTableDataUseCase(
+internal class PdfTableFactory(
     private val mapNotes: MapPdfNoteListDataUseCase,
     private val dateTimeFactory: DateTimeFactory,
     private val dateTimeFormatter: DateTimeFormatter,
@@ -27,20 +27,20 @@ internal class MapPdfTableDataUseCase(
     private val tintMapper: MeasurementValueTintMapper,
 ) {
 
-    operator fun invoke(
+    fun create(
         date: Date,
         width: Float,
         entries: List<Entry.Local>,
         categories: List<ExportSettings.Category>,
         decimalPlaces: Int,
-    ): PdfTableData {
-        return PdfTableData(
+    ): PdfTable {
+        return PdfTable(
             date = PdfDateWithHours(date, width, dateTimeFormatter),
             width = width,
             categories = categories
                 .filter { it.isExported }
                 .map { category ->
-                    PdfTableData.Category(
+                    PdfTable.Category(
                         properties = category.properties
                             .filter { it.isExported }
                             .map { (property, _) ->
@@ -49,7 +49,7 @@ internal class MapPdfTableDataUseCase(
                                     categoryName,
                                     property.name.takeIf { it != categoryName },
                                 ).joinToString(" ")
-                                PdfTableData.Category.Property(
+                                PdfTable.Category.Property(
                                     property = PdfCell(PdfText(labelText, PdfPaint.label)),
                                     values = HOURS.map { hour ->
                                         val values = entries.flatMap { entry ->
@@ -91,7 +91,7 @@ internal class MapPdfTableDataUseCase(
                                         } else {
                                             null
                                         }
-                                        PdfTableData.Category.Property.Value(
+                                        PdfTable.Category.Property.Value(
                                             hour = hour,
                                             value = value,
                                         )

@@ -1,8 +1,6 @@
 package com.faltenreich.diaguard.export.pdf.table
 
 import com.faltenreich.diaguard.export.pdf.PdfBackground
-import com.faltenreich.diaguard.export.pdf.PdfSpacing
-import com.faltenreich.diaguard.export.pdf.PdfText
 import com.faltenreich.diaguard.persistence.pdf.PdfDrawable
 import com.faltenreich.diaguard.persistence.pdf.PdfPage
 import com.faltenreich.diaguard.persistence.pdf.PdfPaint
@@ -11,9 +9,6 @@ import com.faltenreich.diaguard.persistence.pdf.PdfRectangle
 import com.faltenreich.diaguard.persistence.pdf.PdfSize
 
 internal class PdfTable(private val data: PdfTableData) : PdfDrawable {
-
-    private val text = PdfText("Placeholder", PdfPaint.normal)
-    private val padding = PdfSpacing.CELL_PADDING.points
 
     override fun getSize(): PdfSize {
         return data.size
@@ -26,34 +21,30 @@ internal class PdfTable(private val data: PdfTableData) : PdfDrawable {
     }
 
     private fun drawValues(page: PdfPage, position: PdfPosition) {
-        val rowHeight = text.getSize().height + (padding * 2)
-        var index = 0
+        var position = position
         data.categories.forEachIndexed { categoryIndex, category ->
             category.properties.forEach { property ->
-                val y = position.y + (rowHeight * index)
+                val height = property.property.getSize().height
+
                 if (categoryIndex % 2 == 0) {
                     drawBackground(
                         page = page,
                         rectangle = PdfRectangle(
                             left = position.x,
-                            top = y,
+                            top = position.y,
                             right = page.viewport.right,
-                            bottom = y + rowHeight,
+                            bottom = position.y + height,
                         ),
                     )
                 }
-                val labelPosition = PdfPosition(
-                    x = position.x + padding,
-                    y = y + padding,
-                )
-                property.property.drawOn(page, labelPosition)
+                property.property.drawOn(page, position)
 
                 drawValues(
                     page = page,
-                    position = PdfPosition(x = labelPosition.x + DAY_WIDTH, y = labelPosition.y),
+                    position = PdfPosition(x = position.x + DAY_WIDTH, y = position.y),
                     property = property,
                 )
-                index += 1
+                position = position.copy(y = position.y + height)
             }
         }
     }

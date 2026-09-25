@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.export.pdf.datetime
 
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
+import com.faltenreich.diaguard.export.pdf.PdfCell
 import com.faltenreich.diaguard.export.pdf.PdfText
 import com.faltenreich.diaguard.persistence.pdf.PdfDrawable
 import com.faltenreich.diaguard.persistence.pdf.PdfPage
@@ -14,7 +15,7 @@ internal class PdfDate(
     dateTimeFormatter: DateTimeFormatter,
 ) : PdfDrawable {
 
-    private val text = PdfText(dateTimeFormatter.formatDate(date), PdfPaint.bold)
+    private val text = PdfCell(PdfText(dateTimeFormatter.formatDate(date), PdfPaint.bold))
 
     override fun getSize(): PdfSize {
         return text.getSize()

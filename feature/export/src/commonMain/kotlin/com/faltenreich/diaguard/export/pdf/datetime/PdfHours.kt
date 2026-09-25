@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.export.pdf.datetime
 
+import com.faltenreich.diaguard.export.pdf.PdfCell
 import com.faltenreich.diaguard.export.pdf.PdfText
 import com.faltenreich.diaguard.persistence.pdf.PdfDrawable
 import com.faltenreich.diaguard.persistence.pdf.PdfPage
@@ -19,7 +20,7 @@ internal class PdfHours(private val size: PdfSize) : PdfDrawable {
         val hourWidth = hoursWidth / progression.count()
         for (hour in progression) {
             val index = hour / progression.step
-            val text = PdfText(hour.toString(), PdfPaint.label)
+            val text = PdfCell(PdfText(hour.toString(), PdfPaint.label))
             val x = position.x + (index * hourWidth) + hourWidth / 2 - text.getSize().width / 2
             val y = position.y
             text.drawOn(page, PdfPosition(x, y))

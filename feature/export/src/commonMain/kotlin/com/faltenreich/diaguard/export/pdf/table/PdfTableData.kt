@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.export.pdf.table
 
-import com.faltenreich.diaguard.export.pdf.note.PdfNoteListData
 import com.faltenreich.diaguard.persistence.pdf.PdfDrawable
 import com.faltenreich.diaguard.persistence.pdf.PdfSize
 
@@ -8,7 +7,7 @@ internal data class PdfTableData(
     val date: PdfDrawable,
     val width: Float,
     val categories: List<Category>,
-    val notes: PdfNoteListData,
+    val notes: PdfDrawable,
 ) {
 
     val size: PdfSize = PdfSize(
@@ -17,7 +16,7 @@ internal data class PdfTableData(
             category.properties.sumOf { property ->
                 property.property.getSize().height.toDouble()
             }
-        }.toFloat() + notes.size.height,
+        }.toFloat() + notes.getSize().height,
     )
 
     data class Category(

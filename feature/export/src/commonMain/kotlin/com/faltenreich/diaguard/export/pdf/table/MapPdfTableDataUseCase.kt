@@ -16,6 +16,7 @@ import com.faltenreich.diaguard.export.pdf.PdfCell
 import com.faltenreich.diaguard.export.pdf.PdfText
 import com.faltenreich.diaguard.export.pdf.datetime.PdfDateWithHours
 import com.faltenreich.diaguard.export.pdf.note.MapPdfNoteListDataUseCase
+import com.faltenreich.diaguard.export.pdf.note.PdfNoteList
 import com.faltenreich.diaguard.persistence.pdf.PdfPaint
 
 internal class MapPdfTableDataUseCase(
@@ -99,10 +100,12 @@ internal class MapPdfTableDataUseCase(
                             }
                     )
                 },
-            notes = mapNotes(
-                entries = entries,
-                decimalPlaces = decimalPlaces,
-                width = width,
+            notes = PdfNoteList(
+                data = mapNotes(
+                    entries = entries,
+                    decimalPlaces = decimalPlaces,
+                    width = width,
+                ),
             ),
         )
     }

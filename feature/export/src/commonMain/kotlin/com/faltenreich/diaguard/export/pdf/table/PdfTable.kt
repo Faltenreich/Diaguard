@@ -17,7 +17,10 @@ internal class PdfTable(private val data: PdfTableData) : PdfDrawable {
     override fun drawOn(page: PdfPage, position: PdfPosition) {
         data.date.drawOn(page, position)
         drawValues(page, position.copy(y = position.y + data.date.getSize().height))
-        // TODO: Draw data.notes
+        data.notes.drawOn(
+            page,
+            position.copy(y = position.y + data.size.height - data.notes.getSize().height)
+        )
     }
 
     private fun drawValues(page: PdfPage, position: PdfPosition) {

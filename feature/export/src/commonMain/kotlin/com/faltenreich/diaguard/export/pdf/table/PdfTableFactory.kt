@@ -15,12 +15,11 @@ import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.export.pdf.PdfCell
 import com.faltenreich.diaguard.export.pdf.PdfText
 import com.faltenreich.diaguard.export.pdf.datetime.PdfDateWithHours
-import com.faltenreich.diaguard.export.pdf.note.MapPdfNoteListDataUseCase
-import com.faltenreich.diaguard.export.pdf.note.PdfNoteList
+import com.faltenreich.diaguard.export.pdf.note.PdfNoteListFactory
 import com.faltenreich.diaguard.persistence.pdf.PdfPaint
 
 internal class PdfTableFactory(
-    private val mapNotes: MapPdfNoteListDataUseCase,
+    private val noteFactory: PdfNoteListFactory,
     private val dateTimeFactory: DateTimeFactory,
     private val dateTimeFormatter: DateTimeFormatter,
     private val valueMapper: MeasurementValueMapper,
@@ -100,12 +99,10 @@ internal class PdfTableFactory(
                             }
                     )
                 },
-            notes = PdfNoteList(
-                data = mapNotes(
-                    entries = entries,
-                    decimalPlaces = decimalPlaces,
-                    width = width,
-                ),
+            notes = noteFactory.create(
+                entries = entries,
+                decimalPlaces = decimalPlaces,
+                width = width,
             ),
         )
     }

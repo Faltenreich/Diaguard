@@ -10,20 +10,20 @@ import com.faltenreich.diaguard.persistence.pdf.PdfPaint
 import com.faltenreich.diaguard.resource.Res
 import com.faltenreich.diaguard.resource.grams_abbreviation
 
-internal class MapPdfNoteListDataUseCase(
+internal class PdfNoteListFactory(
     private val localization: Localization,
     private val dateTimeFormatter: DateTimeFormatter,
     private val numberFormatter: NumberFormatter,
 ) {
 
-    operator fun invoke(
+    fun create(
         entries: List<Entry.Local>,
         decimalPlaces: Int,
         width: Float,
-    ): PdfNoteListData {
+    ): PdfNoteList {
         val timeWidth = TIME_WIDTH
         val contentWidth = width - timeWidth
-        return PdfNoteListData(
+        return PdfNoteList(
             timeWidth = timeWidth,
             contentWidth = contentWidth,
             rows = entries.mapNotNull { entry ->
@@ -42,7 +42,7 @@ internal class MapPdfNoteListDataUseCase(
                     .joinToString("\n")
                 if (content.isNotEmpty()) {
                     val time = dateTimeFormatter.formatTime(entry.dateTime.time)
-                    PdfNoteListData.Row(
+                    PdfNoteList.Row(
                         time = PdfCell(PdfText(time, PdfPaint.label)),
                         content = PdfCell(PdfText(content, PdfPaint.label, contentWidth)),
                     )

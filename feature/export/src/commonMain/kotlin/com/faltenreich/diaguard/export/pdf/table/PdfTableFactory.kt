@@ -11,17 +11,16 @@ import com.faltenreich.diaguard.data.measurement.value.MeasurementValueTintMappe
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.TimeUnit
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
-import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.export.pdf.PdfCell
 import com.faltenreich.diaguard.export.pdf.PdfText
-import com.faltenreich.diaguard.export.pdf.datetime.PdfDateWithHours
+import com.faltenreich.diaguard.export.pdf.datetime.PdfDateFactory
 import com.faltenreich.diaguard.export.pdf.note.PdfNoteListFactory
 import com.faltenreich.diaguard.persistence.pdf.PdfPaint
 
 internal class PdfTableFactory(
     private val noteFactory: PdfNoteListFactory,
+    private val dateFactory: PdfDateFactory,
     private val dateTimeFactory: DateTimeFactory,
-    private val dateTimeFormatter: DateTimeFormatter,
     private val valueMapper: MeasurementValueMapper,
     private val tintMapper: MeasurementValueTintMapper,
 ) {
@@ -34,7 +33,7 @@ internal class PdfTableFactory(
         decimalPlaces: Int,
     ): PdfTable {
         return PdfTable(
-            date = PdfDateWithHours(date, width, dateTimeFormatter),
+            date = dateFactory.create(date, width, withHours = true),
             categories = PdfTableCategories(
                 width = width,
                 categories = categories

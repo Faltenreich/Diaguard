@@ -12,6 +12,7 @@ import com.faltenreich.diaguard.datetime.DateRange
 import com.faltenreich.diaguard.datetime.DateUnit
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
+import com.faltenreich.diaguard.export.pdf.empty.PdfEmptyFactory
 import com.faltenreich.diaguard.export.pdf.table.PdfTableFactory
 import com.faltenreich.diaguard.localization.Localization
 import com.faltenreich.diaguard.logging.Logger
@@ -19,8 +20,6 @@ import com.faltenreich.diaguard.persistence.file.File
 import com.faltenreich.diaguard.persistence.file.FileRepository
 import com.faltenreich.diaguard.persistence.pdf.PdfDocument
 import com.faltenreich.diaguard.preference.GetPreferenceUseCase
-import com.faltenreich.diaguard.resource.Res
-import com.faltenreich.diaguard.resource.export_empty
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
@@ -35,6 +34,7 @@ internal class ExportPdfUseCase(
     private val tintMapper: MeasurementValueTintMapper,
     private val getPreference: GetPreferenceUseCase,
     private val createPage: CreatePdfPageUseCase,
+    private val emptyFactory: PdfEmptyFactory,
     private val tableFactory: PdfTableFactory,
 ) {
 
@@ -96,11 +96,9 @@ internal class ExportPdfUseCase(
                         PdfLayout.TIMELINE -> PdfTimeline()
                     }
 
-                    settings.includeDaysWithoutEntries -> PdfEmpty(
+                    settings.includeDaysWithoutEntries -> emptyFactory.create(
                         date = date,
-                        label = localization.getString(Res.string.export_empty),
                         width = page.viewport.width,
-                        dateTimeFormatter = dateTimeFormatter,
                     )
 
                     else -> return@forEachIndexed

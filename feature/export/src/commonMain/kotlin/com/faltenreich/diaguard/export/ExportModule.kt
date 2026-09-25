@@ -10,6 +10,8 @@ import com.faltenreich.diaguard.export.history.ExportHistoryViewModel
 import com.faltenreich.diaguard.export.history.GetExportFilesUseCase
 import com.faltenreich.diaguard.export.pdf.CreatePdfPageUseCase
 import com.faltenreich.diaguard.export.pdf.ExportPdfUseCase
+import com.faltenreich.diaguard.export.pdf.datetime.PdfDateFactory
+import com.faltenreich.diaguard.export.pdf.empty.PdfEmptyFactory
 import com.faltenreich.diaguard.export.pdf.note.PdfNoteListFactory
 import com.faltenreich.diaguard.export.pdf.table.PdfTableFactory
 import com.faltenreich.diaguard.measurement.measurementModule
@@ -30,6 +32,8 @@ fun exportModule() = module {
     factoryOf(::ExportUseCase)
     factoryOf(::ExportPdfUseCase)
     factoryOf(::CreatePdfPageUseCase)
+    factoryOf(::PdfDateFactory)
+    factoryOf(::PdfEmptyFactory)
     factoryOf(::PdfTableFactory)
     factoryOf(::PdfNoteListFactory)
 

@@ -12,19 +12,17 @@ internal class PdfTable(
     private val notes: PdfDrawable,
 ) : PdfDrawable {
 
+    private val dateHeight = date.getSize().height
+    private val categoriesHeight = categories.getSize().height
+    private val notesHeight = notes.getSize().height
+
     override fun getSize(): PdfSize {
-        return PdfSize(
-            width = width,
-            height = date.getSize().height + categories.getSize().height + notes.getSize().height,
-        )
+        return PdfSize(width = width, height = dateHeight + categoriesHeight + notesHeight)
     }
 
     override fun drawOn(page: PdfPage, position: PdfPosition) {
         date.drawOn(page, position)
-        categories.drawOn(page, position.copy(y = position.y + date.getSize().height))
-        notes.drawOn(
-            page,
-            position.copy(y = position.y + getSize().height - notes.getSize().height)
-        )
+        categories.drawOn(page, position.copy(y = position.y + dateHeight))
+        notes.drawOn(page, position.copy(y = position.y + dateHeight + categoriesHeight))
     }
 }

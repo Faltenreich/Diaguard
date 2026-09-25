@@ -36,69 +36,72 @@ internal class PdfTableFactory(
         return PdfTable(
             date = PdfDateWithHours(date, width, dateTimeFormatter),
             width = width,
-            categories = categories
-                .filter { it.isExported }
-                .map { category ->
-                    PdfTable.Category(
-                        properties = category.properties
-                            .filter { it.isExported }
-                            .map { (property, _) ->
-                                val categoryName = property.category.name
-                                val labelText = listOfNotNull(
-                                    categoryName,
-                                    property.name.takeIf { it != categoryName },
-                                ).joinToString(" ")
-                                PdfTable.Category.Property(
-                                    property = PdfCell(PdfText(labelText, PdfPaint.label)),
-                                    values = HOURS.map { hour ->
-                                        val values = entries.flatMap { entry ->
-                                            val entryTime = entry.dateTime.time
-                                            val startTime =
-                                                dateTimeFactory.time(
-                                                    hourOfDay = hour,
-                                                    minuteOfHour = 0
+            categories = PdfTableCategories(
+                width = width,
+                categories = categories
+                    .filter { it.isExported }
+                    .map { category ->
+                        PdfTableCategories.Category(
+                            properties = category.properties
+                                .filter { it.isExported }
+                                .map { (property, _) ->
+                                    val categoryName = property.category.name
+                                    val labelText = listOfNotNull(
+                                        categoryName,
+                                        property.name.takeIf { it != categoryName },
+                                    ).joinToString(" ")
+                                    PdfTableCategories.Category.Property(
+                                        property = PdfCell(PdfText(labelText, PdfPaint.label)),
+                                        values = HOURS.map { hour ->
+                                            val values = entries.flatMap { entry ->
+                                                val entryTime = entry.dateTime.time
+                                                val startTime =
+                                                    dateTimeFactory.time(
+                                                        hourOfDay = hour,
+                                                        minuteOfHour = 0
+                                                    )
+                                                val endTime = dateTimeFactory.timeAtEndOf(
+                                                    time = startTime.copy(hourOfDay = hour + DAY_STEP - 1),
+                                                    unit = TimeUnit.HOUR,
                                                 )
-                                            val endTime = dateTimeFactory.timeAtEndOf(
-                                                time = startTime.copy(hourOfDay = hour + DAY_STEP - 1),
-                                                unit = TimeUnit.HOUR,
-                                            )
-                                            if (entryTime in startTime..<endTime) {
-                                                entry.values.filter { value -> value.property == property }
+                                                if (entryTime in startTime..<endTime) {
+                                                    entry.values.filter { value -> value.property == property }
+                                                } else {
+                                                    emptyList()
+                                                }
+                                            }
+                                            val value = if (values.isNotEmpty()) {
+                                                val sum = values.sumOf { it.value }
+                                                val value = MeasurementValue.Average(
+                                                    value = when (property.aggregationStyle) {
+                                                        MeasurementAggregationStyle.CUMULATIVE -> sum
+                                                        MeasurementAggregationStyle.AVERAGE -> sum / values.size
+                                                    },
+                                                    property = property,
+                                                )
+                                                val valueLocalized =
+                                                    valueMapper(value, decimalPlaces).value
+                                                // TODO: Check setting and get colors from Theme
+                                                val color = when (tintMapper(value)) {
+                                                    MeasurementValueTint.NONE -> Color.Black
+                                                    MeasurementValueTint.LOW -> Color.Blue
+                                                    MeasurementValueTint.NORMAL -> Color.Black
+                                                    MeasurementValueTint.HIGH -> Color.Red
+                                                }
+                                                PdfText(valueLocalized, PdfPaint(color))
                                             } else {
-                                                emptyList()
+                                                null
                                             }
-                                        }
-                                        val value = if (values.isNotEmpty()) {
-                                            val sum = values.sumOf { it.value }
-                                            val value = MeasurementValue.Average(
-                                                value = when (property.aggregationStyle) {
-                                                    MeasurementAggregationStyle.CUMULATIVE -> sum
-                                                    MeasurementAggregationStyle.AVERAGE -> sum / values.size
-                                                },
-                                                property = property,
+                                            PdfTableCategories.Category.Property.Value(
+                                                hour = hour,
+                                                value = value,
                                             )
-                                            val valueLocalized =
-                                                valueMapper(value, decimalPlaces).value
-                                            // TODO: Check setting and get colors from Theme
-                                            val color = when (tintMapper(value)) {
-                                                MeasurementValueTint.NONE -> Color.Black
-                                                MeasurementValueTint.LOW -> Color.Blue
-                                                MeasurementValueTint.NORMAL -> Color.Black
-                                                MeasurementValueTint.HIGH -> Color.Red
-                                            }
-                                            PdfText(valueLocalized, PdfPaint(color))
-                                        } else {
-                                            null
                                         }
-                                        PdfTable.Category.Property.Value(
-                                            hour = hour,
-                                            value = value,
-                                        )
-                                    }
-                                )
-                            }
-                    )
-                },
+                                    )
+                                }
+                        )
+                    },
+            ),
             notes = noteFactory.create(
                 entries = entries,
                 decimalPlaces = decimalPlaces,

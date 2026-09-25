@@ -13,8 +13,8 @@ import com.faltenreich.diaguard.datetime.TimeUnit
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.export.pdf.PdfCell
-import com.faltenreich.diaguard.export.pdf.PdfDate
 import com.faltenreich.diaguard.export.pdf.PdfText
+import com.faltenreich.diaguard.export.pdf.datetime.PdfDateWithHours
 import com.faltenreich.diaguard.export.pdf.note.MapPdfNoteListDataUseCase
 import com.faltenreich.diaguard.persistence.pdf.PdfPaint
 
@@ -34,7 +34,7 @@ internal class MapPdfTableDataUseCase(
         decimalPlaces: Int,
     ): PdfTableData {
         return PdfTableData(
-            date = PdfDate(date, dateTimeFormatter),
+            date = PdfDateWithHours(date, width, dateTimeFormatter),
             width = width,
             categories = categories
                 .filter { it.isExported }

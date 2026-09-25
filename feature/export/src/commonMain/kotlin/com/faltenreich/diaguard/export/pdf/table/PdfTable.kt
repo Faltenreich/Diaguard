@@ -20,27 +20,9 @@ internal class PdfTable(private val data: PdfTableData) : PdfDrawable {
     }
 
     override fun drawOn(page: PdfPage, position: PdfPosition) {
-        drawDate(page, position.copy(x = position.x + padding, y = position.y + padding))
-        drawHours(page, position.copy(x = position.x + DAY_WIDTH, y = position.y + padding))
+        data.date.drawOn(page, position.copy(x = position.x + padding, y = position.y + padding))
         drawValues(page, position.copy(y = position.y + data.date.getSize().height + padding * 2))
         // TODO: Draw data.notes
-    }
-
-    private fun drawDate(page: PdfPage, position: PdfPosition) {
-        data.date.drawOn(page, position)
-    }
-
-    private fun drawHours(page: PdfPage, position: PdfPosition) {
-        val progression = 0..<DAY_HOURS step DAY_STEP
-        val hoursWidth = page.viewport.right - position.x
-        val hourWidth = hoursWidth / progression.count()
-        for (hour in progression) {
-            val index = hour / progression.step
-            val text = PdfText(hour.toString(), PdfPaint.label)
-            val x = position.x + (index * hourWidth) + hourWidth / 2 - text.getSize().width / 2
-            val y = position.y
-            text.drawOn(page, PdfPosition(x, y))
-        }
     }
 
     private fun drawValues(page: PdfPage, position: PdfPosition) {

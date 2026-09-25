@@ -7,6 +7,7 @@ import com.faltenreich.diaguard.data.measurement.value.MeasurementValueTintMappe
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
+import com.faltenreich.diaguard.export.pdf.datetime.PdfDate
 import com.faltenreich.diaguard.localization.Localization
 import com.faltenreich.diaguard.persistence.pdf.PdfDrawable
 import com.faltenreich.diaguard.persistence.pdf.PdfPage

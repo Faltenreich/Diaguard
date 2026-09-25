@@ -35,7 +35,6 @@ internal class PdfTableFactory(
     ): PdfTable {
         return PdfTable(
             date = PdfDateWithHours(date, width, dateTimeFormatter),
-            width = width,
             categories = PdfTableCategories(
                 width = width,
                 categories = categories

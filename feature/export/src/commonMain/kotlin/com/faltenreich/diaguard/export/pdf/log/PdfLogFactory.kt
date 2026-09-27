@@ -9,7 +9,6 @@ import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.export.pdf.PdfCell
 import com.faltenreich.diaguard.export.pdf.PdfText
 import com.faltenreich.diaguard.export.pdf.datetime.PdfDateFactory
-import com.faltenreich.diaguard.export.pdf.log.PdfLog.Row
 import com.faltenreich.diaguard.localization.Localization
 import com.faltenreich.diaguard.localization.NumberFormatter
 import com.faltenreich.diaguard.persistence.pdf.PdfPaint
@@ -36,63 +35,65 @@ internal class PdfLogFactory(
     ): PdfLog {
         val properties = categories.flatMap { it.properties.map { it.property } }
         return PdfLog(
-            width = width,
             date = dateFactory.create(date, width, withHours = false),
-            rows = entries.mapNotNull { entry ->
-                val contentWidth = width - TIME_WIDTH - LABEL_WIDTH
-                val values = entry.values
-                    .filter { it.property in properties }
-                    .map {
-                        val property = it.property
-                        val value = valueMapper(it, decimalPlaces).value
-                        val unit = property.unit.abbreviation
-                        val text = "$value $unit".run {
-                            if (property.category.isMeal) {
-                                this + "\n" + entry.foodEaten.joinToString("\n") { foodEaten ->
-                                    val amount =
-                                        numberFormatter(foodEaten.amountInGrams, decimalPlaces)
-                                    val name = foodEaten.food.name
-                                    val gramsAbbreviation = localization
-                                        .getString(Res.string.grams_abbreviation)
-                                    "$amount $gramsAbbreviation $name"
+            entries = PdfLogEntries(
+                width = width,
+                entries = entries.mapNotNull { entry ->
+                    val contentWidth = width - TIME_WIDTH - LABEL_WIDTH
+                    val values = entry.values
+                        .filter { it.property in properties }
+                        .map {
+                            val property = it.property
+                            val value = valueMapper(it, decimalPlaces).value
+                            val unit = property.unit.abbreviation
+                            val text = "$value $unit".run {
+                                if (property.category.isMeal) {
+                                    this + "\n" + entry.foodEaten.joinToString("\n") { foodEaten ->
+                                        val amount =
+                                            numberFormatter(foodEaten.amountInGrams, decimalPlaces)
+                                        val name = foodEaten.food.name
+                                        val gramsAbbreviation = localization
+                                            .getString(Res.string.grams_abbreviation)
+                                        "$amount $gramsAbbreviation $name"
+                                    }
+                                } else {
+                                    this
                                 }
-                            } else {
-                                this
                             }
-                        }
 
-                        Row.Item(
-                            label = PdfCell(PdfText(property.name, PdfPaint.label)),
-                            // TODO: Tint like in PdfTable
-                            content = PdfCell(PdfText(text, PdfPaint.normal, contentWidth))
+                            PdfLogEntries.Entry.Value(
+                                label = PdfCell(PdfText(property.name, PdfPaint.label)),
+                                // TODO: Tint like in PdfTable
+                                content = PdfCell(PdfText(text, PdfPaint.normal, contentWidth))
+                            )
+                        }
+                    val tags = entry.entryTags.takeIf(List<*>::isNotEmpty)?.let {
+                        val label = localization.getString(Res.string.tags)
+                        val content = entry.entryTags.joinToString(", ") { it.tag.name }
+                        PdfLogEntries.Entry.Value(
+                            label = PdfCell(PdfText(label, PdfPaint.label)),
+                            content = PdfCell(PdfText(content, PdfPaint.normal, contentWidth))
                         )
                     }
-                val tags = entry.entryTags.takeIf(List<*>::isNotEmpty)?.let {
-                    val label = localization.getString(Res.string.tags)
-                    val content = entry.entryTags.joinToString(", ") { it.tag.name }
-                    Row.Item(
-                        label = PdfCell(PdfText(label, PdfPaint.label)),
-                        content = PdfCell(PdfText(content, PdfPaint.normal, contentWidth))
-                    )
-                }
-                val note = entry.note?.let { note ->
-                    val label = localization.getString(Res.string.note)
-                    Row.Item(
-                        label = PdfCell(PdfText(label, PdfPaint.label)),
-                        content = PdfCell(PdfText(note, PdfPaint.normal, contentWidth))
-                    )
-                }
-                val items = values + listOfNotNull(tags, note)
-                if (items.isNotEmpty()) {
-                    val time = dateTimeFormatter.formatTime(entry.dateTime.time)
-                    Row(
-                        time = PdfCell(PdfText(time, PdfPaint.label)),
-                        items = items,
-                    )
-                } else {
-                    null
-                }
-            }
+                    val note = entry.note?.let { note ->
+                        val label = localization.getString(Res.string.note)
+                        PdfLogEntries.Entry.Value(
+                            label = PdfCell(PdfText(label, PdfPaint.label)),
+                            content = PdfCell(PdfText(note, PdfPaint.normal, contentWidth))
+                        )
+                    }
+                    val items = values + listOfNotNull(tags, note)
+                    if (items.isNotEmpty()) {
+                        val time = dateTimeFormatter.formatTime(entry.dateTime.time)
+                        PdfLogEntries.Entry(
+                            time = PdfCell(PdfText(time, PdfPaint.label)),
+                            values = items,
+                        )
+                    } else {
+                        null
+                    }
+                },
+            ),
         )
     }
 

@@ -15,6 +15,7 @@ import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.export.pdf.empty.PdfEmptyFactory
 import com.faltenreich.diaguard.export.pdf.table.PdfTableFactory
 import com.faltenreich.diaguard.localization.Localization
+import com.faltenreich.diaguard.localization.NumberFormatter
 import com.faltenreich.diaguard.logging.Logger
 import com.faltenreich.diaguard.persistence.file.File
 import com.faltenreich.diaguard.persistence.file.FileRepository
@@ -36,6 +37,7 @@ internal class ExportPdfUseCase(
     private val createPage: CreatePdfPageUseCase,
     private val emptyFactory: PdfEmptyFactory,
     private val tableFactory: PdfTableFactory,
+    private val numberFormatter: NumberFormatter,
 ) {
 
     suspend operator fun invoke(
@@ -83,6 +85,7 @@ internal class ExportPdfUseCase(
                             valueMapper = valueMapper,
                             tintMapper = tintMapper,
                             localization = localization,
+                            numberFormatter = numberFormatter,
                         )
 
                         PdfLayout.TABLE -> tableFactory.create(

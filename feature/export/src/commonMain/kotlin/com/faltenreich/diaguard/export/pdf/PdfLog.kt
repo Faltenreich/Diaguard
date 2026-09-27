@@ -9,6 +9,7 @@ import com.faltenreich.diaguard.datetime.factory.DateTimeFactory
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.export.pdf.datetime.PdfDate
 import com.faltenreich.diaguard.localization.Localization
+import com.faltenreich.diaguard.localization.NumberFormatter
 import com.faltenreich.diaguard.persistence.pdf.PdfDrawable
 import com.faltenreich.diaguard.persistence.pdf.PdfPage
 import com.faltenreich.diaguard.persistence.pdf.PdfPaint
@@ -16,6 +17,7 @@ import com.faltenreich.diaguard.persistence.pdf.PdfPosition
 import com.faltenreich.diaguard.persistence.pdf.PdfRectangle
 import com.faltenreich.diaguard.persistence.pdf.PdfSize
 import com.faltenreich.diaguard.resource.Res
+import com.faltenreich.diaguard.resource.grams_abbreviation
 import com.faltenreich.diaguard.resource.note
 import com.faltenreich.diaguard.resource.tags
 
@@ -30,6 +32,7 @@ internal class PdfLog(
     private val valueMapper: MeasurementValueMapper,
     private val tintMapper: MeasurementValueTintMapper,
     private val localization: Localization,
+    private val numberFormatter: NumberFormatter,
 ) : PdfDrawable {
 
     data class Row(
@@ -49,12 +52,26 @@ internal class PdfLog(
         val contentWidth = width - TIME_WIDTH - LABEL_WIDTH
         val values = entry.values
             .filter { it.property in properties }
-            .map { value ->
-                val text =
-                    "${valueMapper(value, decimalPlaces).value} ${value.property.unit.abbreviation}"
+            .map {
+                val property = it.property
+                val value = valueMapper(it, decimalPlaces).value
+                val unit = property.unit.abbreviation
+                val text = "$value $unit".run {
+                    if (property.category.isMeal) {
+                        this + "\n" + entry.foodEaten.joinToString("\n") { foodEaten ->
+                            val amount = numberFormatter(foodEaten.amountInGrams, decimalPlaces)
+                            val name = foodEaten.food.name
+                            val gramsAbbreviation = localization
+                                .getString(Res.string.grams_abbreviation)
+                            "$amount $gramsAbbreviation $name"
+                        }
+                    } else {
+                        this
+                    }
+                }
+
                 Row.Item(
-                    label = PdfCell(PdfText(value.property.name, PdfPaint.label)),
-                    // TODO: Add notes and tags and remove from parent
+                    label = PdfCell(PdfText(property.name, PdfPaint.label)),
                     // TODO: Tint like in PdfTable
                     content = PdfCell(PdfText(text, PdfPaint.normal, contentWidth))
                 )

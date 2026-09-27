@@ -50,7 +50,8 @@ internal class PdfLog(
         val values = entry.values
             .filter { it.property in properties }
             .map { value ->
-                val text = valueMapper(value, decimalPlaces).value
+                val text =
+                    "${valueMapper(value, decimalPlaces).value} ${value.property.unit.abbreviation}"
                 Row.Item(
                     label = PdfCell(PdfText(value.property.name, PdfPaint.label)),
                     // TODO: Add notes and tags and remove from parent

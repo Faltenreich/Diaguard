@@ -1,8 +1,10 @@
 package com.faltenreich.diaguard.datetime
 
+import com.faltenreich.diaguard.datetime.format.DateFormatStyle
+
 class DateTimePlatformFakeApi : DateTimePlatformApi {
 
-    override fun formatDate(date: Date): String = date.toString()
+    override fun formatDate(date: Date, style: DateFormatStyle): String = date.toString()
 
     override fun getStartOfWeek(): DayOfWeek = DayOfWeek.MONDAY
 

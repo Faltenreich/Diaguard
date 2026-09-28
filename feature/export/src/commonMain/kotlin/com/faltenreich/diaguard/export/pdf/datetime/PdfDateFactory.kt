@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.export.pdf.datetime
 
 import com.faltenreich.diaguard.datetime.Date
+import com.faltenreich.diaguard.datetime.format.DateFormatStyle
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.export.pdf.PdfCell
 import com.faltenreich.diaguard.export.pdf.PdfText
@@ -15,9 +16,12 @@ internal class PdfDateFactory(private val dateTimeFormatter: DateTimeFormatter) 
         width: Float,
         withHours: Boolean,
     ): PdfDrawable {
-        val date = PdfCell(PdfText(dateTimeFormatter.formatDate(date), PdfPaint.bold))
+        val dayOfWeek = dateTimeFormatter.formatDayOfWeek(date, abbreviated = true)
+        val dateShort = dateTimeFormatter.formatDate(date, DateFormatStyle.SHORT)
+        val text = "$dayOfWeek, $dateShort"
+        val date = PdfCell(PdfText(text, PdfPaint.bold))
         return if (withHours) {
-            PdfDateWithHours(
+            PdfDate(
                 date = date,
                 hours = PdfHours(
                     size = PdfSize(

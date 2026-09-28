@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.datetime
 
 import android.content.Context
 import android.text.format.DateFormat
+import com.faltenreich.diaguard.datetime.format.DateFormatStyle
 import com.faltenreich.diaguard.localization.Localization
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -13,10 +14,14 @@ class DateTimeAndroidApi(
     private val context: Context,
 ) : DateTimePlatformApi {
 
-    override fun formatDate(date: Date): String {
+    override fun formatDate(date: Date, style: DateFormatStyle): String {
         val localDate = LocalDate.of(date.year, date.monthNumber, date.dayOfMonth)
         val locale = localization.getLocale().platformLocale
-        val formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM).withLocale(locale)
+        val nativeStyle = when (style) {
+            DateFormatStyle.MEDIUM -> FormatStyle.MEDIUM
+            DateFormatStyle.SHORT -> FormatStyle.SHORT
+        }
+        val formatter = DateTimeFormatter.ofLocalizedDate(nativeStyle).withLocale(locale)
         return formatter.format(localDate)
     }
 

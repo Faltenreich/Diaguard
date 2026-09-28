@@ -14,7 +14,7 @@ interface DateTimeFormatter {
 
     fun formatTimePassed(start: DateTime, end: DateTime): String
 
-    fun formatDate(date: Date): String
+    fun formatDate(date: Date, style: DateFormatStyle = DateFormatStyle.MEDIUM): String
 
     fun formatDateRange(dateRange: ClosedRange<Date>): String
 

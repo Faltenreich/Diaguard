@@ -15,6 +15,7 @@ import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
 import com.faltenreich.diaguard.export.pdf.empty.PdfEmptyFactory
 import com.faltenreich.diaguard.export.pdf.log.PdfLogFactory
 import com.faltenreich.diaguard.export.pdf.table.PdfTableFactory
+import com.faltenreich.diaguard.export.pdf.timeline.PdfTimelineFactory
 import com.faltenreich.diaguard.localization.Localization
 import com.faltenreich.diaguard.localization.NumberFormatter
 import com.faltenreich.diaguard.logging.Logger
@@ -39,6 +40,7 @@ internal class ExportPdfUseCase(
     private val emptyFactory: PdfEmptyFactory,
     private val logFactory: PdfLogFactory,
     private val tableFactory: PdfTableFactory,
+    private val timelineFactory: PdfTimelineFactory,
     private val numberFormatter: NumberFormatter,
 ) {
 
@@ -92,7 +94,13 @@ internal class ExportPdfUseCase(
                             decimalPlaces = decimalPlaces,
                         )
 
-                        PdfLayout.TIMELINE -> PdfTimeline()
+                        PdfLayout.TIMELINE -> timelineFactory.create(
+                            date = date,
+                            width = page.viewport.width,
+                            entries = entriesOfDate,
+                            categories = settings.categories,
+                            decimalPlaces = decimalPlaces,
+                        )
                     }
 
                     settings.includeDaysWithoutEntries -> emptyFactory.create(

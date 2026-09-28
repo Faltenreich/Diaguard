@@ -15,6 +15,7 @@ import com.faltenreich.diaguard.export.pdf.empty.PdfEmptyFactory
 import com.faltenreich.diaguard.export.pdf.log.PdfLogFactory
 import com.faltenreich.diaguard.export.pdf.note.PdfNoteListFactory
 import com.faltenreich.diaguard.export.pdf.table.PdfTableFactory
+import com.faltenreich.diaguard.export.pdf.timeline.PdfTimelineFactory
 import com.faltenreich.diaguard.measurement.measurementModule
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.viewModelOf
@@ -37,6 +38,7 @@ fun exportModule() = module {
     factoryOf(::PdfEmptyFactory)
     factoryOf(::PdfLogFactory)
     factoryOf(::PdfTableFactory)
+    factoryOf(::PdfTimelineFactory)
     factoryOf(::PdfNoteListFactory)
 
     viewModelOf(::ExportFormViewModel)

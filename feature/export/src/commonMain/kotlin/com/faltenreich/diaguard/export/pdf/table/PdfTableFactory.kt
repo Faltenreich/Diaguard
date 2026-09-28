@@ -15,6 +15,7 @@ import com.faltenreich.diaguard.export.pdf.PdfCell
 import com.faltenreich.diaguard.export.pdf.PdfText
 import com.faltenreich.diaguard.export.pdf.datetime.PdfDateFactory
 import com.faltenreich.diaguard.export.pdf.note.PdfNoteListFactory
+import com.faltenreich.diaguard.persistence.pdf.PdfDrawable
 import com.faltenreich.diaguard.persistence.pdf.PdfPaint
 
 internal class PdfTableFactory(
@@ -31,7 +32,7 @@ internal class PdfTableFactory(
         entries: List<Entry.Local>,
         categories: List<ExportSettings.Category>,
         decimalPlaces: Int,
-    ): PdfTable {
+    ): PdfDrawable {
         return PdfTable(
             date = dateFactory.create(date, width, withHours = true),
             categories = PdfTableCategories(

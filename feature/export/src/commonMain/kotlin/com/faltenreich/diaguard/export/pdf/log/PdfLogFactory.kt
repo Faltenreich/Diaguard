@@ -11,6 +11,7 @@ import com.faltenreich.diaguard.export.pdf.PdfText
 import com.faltenreich.diaguard.export.pdf.datetime.PdfDateFactory
 import com.faltenreich.diaguard.localization.Localization
 import com.faltenreich.diaguard.localization.NumberFormatter
+import com.faltenreich.diaguard.persistence.pdf.PdfDrawable
 import com.faltenreich.diaguard.persistence.pdf.PdfPaint
 import com.faltenreich.diaguard.resource.Res
 import com.faltenreich.diaguard.resource.grams_abbreviation
@@ -32,7 +33,7 @@ internal class PdfLogFactory(
         entries: List<Entry.Local>,
         categories: List<ExportSettings.Category>,
         decimalPlaces: Int,
-    ): PdfLog {
+    ): PdfDrawable {
         val properties = categories.flatMap { it.properties.map { it.property } }
         return PdfLog(
             date = dateFactory.create(date, width, withHours = false),

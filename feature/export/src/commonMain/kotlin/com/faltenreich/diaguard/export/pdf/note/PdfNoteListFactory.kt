@@ -6,6 +6,7 @@ import com.faltenreich.diaguard.export.pdf.PdfCell
 import com.faltenreich.diaguard.export.pdf.PdfText
 import com.faltenreich.diaguard.localization.Localization
 import com.faltenreich.diaguard.localization.NumberFormatter
+import com.faltenreich.diaguard.persistence.pdf.PdfDrawable
 import com.faltenreich.diaguard.persistence.pdf.PdfPaint
 import com.faltenreich.diaguard.resource.Res
 import com.faltenreich.diaguard.resource.grams_abbreviation
@@ -20,7 +21,7 @@ internal class PdfNoteListFactory(
         entries: List<Entry.Local>,
         decimalPlaces: Int,
         width: Float,
-    ): PdfNoteList {
+    ): PdfDrawable {
         val timeWidth = TIME_WIDTH
         val contentWidth = width - timeWidth
         return PdfNoteList(

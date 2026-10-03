@@ -49,3 +49,4 @@ output.json
 output-metadata.json
 
 .kotlin/
+/gradle/gradle-daemon-jvm.properties

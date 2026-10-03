@@ -27,7 +27,12 @@ internal class PdfTimelineFactory(
     ): PdfDrawable {
         return PdfTimeline(
             date = dateFactory.create(date, width, withHours = true),
-            chart = PdfTimelineChart(),
+            chart = PdfTimelineChart(
+                width = width,
+                values = entries.flatMap { entry ->
+                    entry.values.filter { value -> value.property.category.isBloodSugar }
+                }.takeIf { categories.any { it.category.isBloodSugar } }
+            ),
             table = PdfTimelineTable(),
             notes = noteFactory.create(
                 entries = entries,

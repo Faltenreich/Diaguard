@@ -13,6 +13,7 @@ import com.faltenreich.diaguard.datetime.DateTime
  */
 sealed interface MeasurementValue {
 
+    // TODO: Should be Float
     val value: Double
     val property: MeasurementProperty.Local
 

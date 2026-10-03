@@ -1,12 +1,15 @@
 package com.faltenreich.diaguard.persistence.pdf
 
 import android.annotation.SuppressLint
+import android.graphics.Paint
 import android.graphics.pdf.PdfDocument.Page
 import android.graphics.pdf.PdfDocument.PageInfo
 import android.os.Build
 import android.text.Layout
 import android.text.StaticLayout
 import android.text.TextPaint
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.core.graphics.withTranslation
 
 actual class PdfPage actual constructor(
@@ -86,6 +89,19 @@ actual class PdfPage actual constructor(
             rectangle.right,
             rectangle.bottom,
             paint.actual,
+        )
+    }
+
+    actual fun drawLine(start: PdfPosition, end: PdfPosition, color: Color, width: Float) {
+        actual.canvas.drawLine(
+            start.x,
+            start.y,
+            end.x,
+            end.y,
+            Paint().apply {
+                this.color = color.toArgb()
+                strokeWidth = width
+            },
         )
     }
 }

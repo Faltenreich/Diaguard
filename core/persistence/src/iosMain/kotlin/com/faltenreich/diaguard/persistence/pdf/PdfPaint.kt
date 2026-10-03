@@ -8,7 +8,7 @@ actual class PdfPaint actual constructor(
     textSize: Float,
 ) {
 
-    actual fun getTextBounds(text: String): PdfSize {
+    actual fun getTextBounds(text: String, maxWidth: Float?): PdfSize {
         TODO("Not yet implemented")
     }
 

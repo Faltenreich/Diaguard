@@ -1,5 +1,7 @@
 package com.faltenreich.diaguard.persistence.pdf
 
+import androidx.compose.ui.graphics.Color
+
 expect class PdfPage(
     document: PdfDocument,
     size: PdfSize,
@@ -18,4 +20,6 @@ expect class PdfPage(
     fun drawText(text: String, position: PdfPosition, maxWidth: Float?, paint: PdfPaint)
 
     fun drawRectangle(rectangle: PdfRectangle, paint: PdfPaint)
+
+    fun drawLine(start: PdfPosition, end: PdfPosition, color: Color, width: Float)
 }

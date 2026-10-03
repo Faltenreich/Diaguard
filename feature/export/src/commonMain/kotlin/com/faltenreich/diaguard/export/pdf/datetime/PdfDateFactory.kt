@@ -3,11 +3,7 @@ package com.faltenreich.diaguard.export.pdf.datetime
 import com.faltenreich.diaguard.datetime.Date
 import com.faltenreich.diaguard.datetime.format.DateFormatStyle
 import com.faltenreich.diaguard.datetime.format.DateTimeFormatter
-import com.faltenreich.diaguard.export.pdf.PdfCell
-import com.faltenreich.diaguard.export.pdf.PdfText
 import com.faltenreich.diaguard.persistence.pdf.PdfDrawable
-import com.faltenreich.diaguard.persistence.pdf.PdfPaint
-import com.faltenreich.diaguard.persistence.pdf.PdfSize
 
 internal class PdfDateFactory(private val dateTimeFormatter: DateTimeFormatter) {
 
@@ -19,20 +15,11 @@ internal class PdfDateFactory(private val dateTimeFormatter: DateTimeFormatter) 
         val dayOfWeek = dateTimeFormatter.formatDayOfWeek(date, abbreviated = true)
         val dateShort = dateTimeFormatter.formatDate(date, DateFormatStyle.SHORT)
         val text = "$dayOfWeek, $dateShort"
-        val date = PdfCell(PdfText(text, PdfPaint.bold))
-        return if (withHours) {
-            PdfDate(
-                date = date,
-                hours = PdfHours(
-                    size = PdfSize(
-                        width = width - DATE_WIDTH,
-                        height = date.getSize().height,
-                    )
-                )
-            )
-        } else {
-            date
-        }
+        return PdfDateHeader(
+            width = width,
+            date = PdfDate(text),
+            hours = PdfHours(width = width - DATE_WIDTH).takeIf { withHours },
+        )
     }
 
     private companion object {

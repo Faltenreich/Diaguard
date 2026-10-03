@@ -19,6 +19,5 @@ actual class PdfPaint actual constructor(
         actual val bold: PdfPaint = TODO("Not yet implemented")
         actual val header: PdfPaint = TODO("Not yet implemented")
         actual val background: PdfPaint = TODO("Not yet implemented")
-        actual val divider: PdfPaint = TODO("Not yet implemented")
     }
 }

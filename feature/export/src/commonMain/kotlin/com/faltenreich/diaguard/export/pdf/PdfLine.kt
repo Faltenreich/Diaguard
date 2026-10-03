@@ -7,8 +7,7 @@ import com.faltenreich.diaguard.persistence.pdf.PdfPosition
 import com.faltenreich.diaguard.persistence.pdf.PdfSize
 
 internal class PdfLine(
-    private val start: PdfPosition,
-    private val end: PdfPosition,
+    private val vector: PdfPosition,
     private val color: Color,
     private val width: Float = .75f,
 ) : PdfDrawable {
@@ -19,6 +18,11 @@ internal class PdfLine(
     }
 
     override fun drawOn(page: PdfPage, position: PdfPosition) {
-        page.drawLine(start, end, color, width)
+        page.drawLine(
+            start = position,
+            end = position.copy(x = position.x + vector.x, y = position.y + vector.y),
+            color = color,
+            width = width,
+        )
     }
 }

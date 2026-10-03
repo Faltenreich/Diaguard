@@ -17,6 +17,5 @@ expect class PdfPaint(
         val bold: PdfPaint
         val header: PdfPaint
         val background: PdfPaint
-        val divider: PdfPaint
     }
 }

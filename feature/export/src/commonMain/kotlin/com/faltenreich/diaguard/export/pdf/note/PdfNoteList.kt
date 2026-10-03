@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.export.pdf.note
 
-import androidx.compose.ui.graphics.Color
 import com.faltenreich.diaguard.export.pdf.PdfLine
 import com.faltenreich.diaguard.persistence.pdf.PdfDrawable
 import com.faltenreich.diaguard.persistence.pdf.PdfPage
@@ -14,10 +13,7 @@ internal class PdfNoteList(
 ) : PdfDrawable {
 
     private val width = timeWidth + contentWidth
-    private val divider = PdfLine(
-        vector = PdfPosition(x = width, y = 0f),
-        color = Color.LightGray,
-    )
+    private val divider = PdfLine(vector = PdfPosition(x = width, y = 0f))
 
     data class Row(
         val time: PdfDrawable,

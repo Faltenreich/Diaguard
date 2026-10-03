@@ -8,13 +8,15 @@ import com.faltenreich.diaguard.persistence.pdf.PdfSize
 
 internal class PdfLine(
     private val vector: PdfPosition,
-    private val color: Color,
+    private val color: Color = Color.LightGray,
     private val width: Float = .75f,
 ) : PdfDrawable {
 
     override fun getSize(): PdfSize {
-        // Unimportant
-        return PdfSize.Zero
+        return PdfSize(
+            width = vector.x,
+            height = vector.y,
+        )
     }
 
     override fun drawOn(page: PdfPage, position: PdfPosition) {

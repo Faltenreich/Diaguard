@@ -7,7 +7,7 @@ import com.faltenreich.diaguard.persistence.pdf.PdfSize
 
 internal class PdfCell(
     private val text: PdfText,
-    private val padding: Float = PdfSpacing.CELL_PADDING.points,
+    private val padding: Float = PdfSpacing.P_4.points,
 ) : PdfDrawable {
 
     override fun getSize(): PdfSize {

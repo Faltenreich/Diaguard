@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.export.pdf.timeline
 
 import com.faltenreich.diaguard.data.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.export.pdf.PdfLine
+import com.faltenreich.diaguard.export.pdf.PdfSpacing
 import com.faltenreich.diaguard.export.pdf.PdfText
 import com.faltenreich.diaguard.persistence.pdf.PdfDrawable
 import com.faltenreich.diaguard.persistence.pdf.PdfPage
@@ -18,6 +19,7 @@ internal class PdfTimelineChart(
     private val height = HEIGHT
     private val maxValue = max(values?.maxOf { it.value.toFloat() } ?: 0f, 250f)
     private val xAxisLine = PdfLine(vector = PdfPosition(x = 0f, y = height))
+    private val padding = PdfSpacing.P_16.points
 
     override fun getSize(): PdfSize {
         return if (values != null) PdfSize(width, height) else PdfSize.Zero
@@ -32,15 +34,23 @@ internal class PdfTimelineChart(
     }
 
     private fun drawYAxis(page: PdfPage, position: PdfPosition) {
-        (0..<Y_AXIS_LABEL_COUNT).forEach { index ->
+        val labelCount = Y_AXIS_LABEL_COUNT
+        val labelHeight = height / labelCount
+        (0..<labelCount).forEach { index ->
+            val x = position.x
+            val y = position.y + height - labelHeight * index
+
             val label = PdfText(index.toString(), PdfPaint.label)
-            val labelPosition = PdfPosition(x = position.x, y = position.y) // FIXME
             val labelSize = label.getSize()
+            val labelPosition = PdfPosition(
+                x = x,
+                y = y - labelSize.height / 2,
+            )
             label.drawOn(page, labelPosition)
 
             val linePosition = PdfPosition(
-                x = labelPosition.x + labelSize.width,
-                y = labelPosition.y + labelSize.height / 2,
+                x = x + labelSize.width + padding,
+                y = y,
             )
             val line = PdfLine(vector = PdfPosition(x = width - linePosition.x, y = 0f))
             line.drawOn(page, linePosition)

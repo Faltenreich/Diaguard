@@ -22,7 +22,7 @@ internal class PdfHeader(
         val dateRangeSize = calendarWeek.getSize()
         return PdfSize(
             width = max(calendarWeekSize.width, dateRangeSize.width),
-            height = calendarWeekSize.height + spacing + dateRangeSize.height + PdfSpacing.HEADER_PADDING_BOTTOM.points,
+            height = calendarWeekSize.height + spacing + dateRangeSize.height + PdfSpacing.P_32.points,
         )
     }
 

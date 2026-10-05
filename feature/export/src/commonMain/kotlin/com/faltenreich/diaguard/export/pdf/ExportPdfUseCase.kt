@@ -68,7 +68,7 @@ internal class ExportPdfUseCase(
 
             DateProgression(dateRange).forEachIndexed { index, date ->
                 val isNewPage = index != 0 &&
-                    date == dateTimeFactory.dateAtStartOf(date, DateUnit.WEEK)
+                        date == dateTimeFactory.dateAtStartOf(date, DateUnit.WEEK)
                 if (isNewPage) {
                     page.finish()
                     page = createPage(pdfDocument, date, settings)
@@ -120,7 +120,7 @@ internal class ExportPdfUseCase(
                 content.drawOn(page, page.offset)
                 page.move(contentHeight)
 
-                page.move(PdfSpacing.DAY_PADDING_BOTTOM.points)
+                page.move(PdfSpacing.P_24.points)
             }
 
             page.finish()

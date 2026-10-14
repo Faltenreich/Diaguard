@@ -7,27 +7,32 @@ import com.faltenreich.diaguard.serialization.Serializable
 interface Time : Serializable, Comparable<Time> {
 
     /**
-     * Hour-of-day ranging from 0 to 24
+     * Hour-of-day ranging from 0 to 23
      */
     val hourOfDay: Int
 
     /**
-     * Minute-of-hour ranging from 0 to 60
+     * Minute-of-hour ranging from 0 to 59
      */
     val minuteOfHour: Int
 
     /**
-     * Second-of-minute ranging from 0 to 60
+     * Minute-of-day ranging from 0 to 1439
+     */
+    val minuteOfDay: Int get() = (hourOfDay * DateTimeConstants.MINUTES_PER_HOUR) + minuteOfHour
+
+    /**
+     * Second-of-minute ranging from 0 to 59
      */
     val secondOfMinute: Int
 
     /**
-     * Milliseconds-of-second ranging from 0 to 1,000
+     * Milliseconds-of-second ranging from 0 to 999
      */
     val millisOfSecond: Int
 
     /**
-     * Nanoseconds-of-millisecond ranging from 0 to 1,000
+     * Nanoseconds-of-millisecond ranging from 0 to 999
      */
     val nanosOfMilli: Int
 

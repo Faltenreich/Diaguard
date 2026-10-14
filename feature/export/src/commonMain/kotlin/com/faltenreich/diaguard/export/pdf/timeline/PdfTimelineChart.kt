@@ -1,7 +1,8 @@
 package com.faltenreich.diaguard.export.pdf.timeline
 
-import androidx.compose.ui.graphics.Color
 import com.faltenreich.diaguard.data.measurement.value.MeasurementValue
+import com.faltenreich.diaguard.datetime.DateTimeConstants
+import com.faltenreich.diaguard.datetime.Time
 import com.faltenreich.diaguard.export.pdf.PdfCell
 import com.faltenreich.diaguard.export.pdf.PdfLine
 import com.faltenreich.diaguard.export.pdf.PdfPoint
@@ -12,12 +13,13 @@ import com.faltenreich.diaguard.persistence.pdf.PdfPage
 import com.faltenreich.diaguard.persistence.pdf.PdfPaint
 import com.faltenreich.diaguard.persistence.pdf.PdfPosition
 import com.faltenreich.diaguard.persistence.pdf.PdfSize
+import com.faltenreich.diaguard.view.theme.color.Colors
 import kotlin.math.max
 import kotlin.math.round
 
 internal class PdfTimelineChart(
     private val width: Float,
-    private val values: List<MeasurementValue>?,
+    private val values: List<MeasurementValue.Local>?,
 ) : PdfDrawable {
 
     private val height = HEIGHT
@@ -40,16 +42,12 @@ internal class PdfTimelineChart(
         drawValues(values, page, position)
     }
 
-    private fun getYForValue(value: Float): Float {
-        return height - (value / maxValue) * height
-    }
-
     private fun drawYAxis(page: PdfPage, position: PdfPosition) {
         val step = ((maxValue - minValue) / Y_AXIS_LABEL_COUNT).let { round((it + 10f) / 10) * 10 }
         var value = step
         while (value <= maxValue) {
             val x = position.x
-            val y = position.y + getYForValue(value)
+            val y = getYForValue(value, position)
 
             // TODO: Format value via MeasurementValueMapper
             val label = PdfCell(PdfText(value.toInt().toString(), PdfPaint.label))
@@ -81,18 +79,27 @@ internal class PdfTimelineChart(
         }
     }
 
-    private fun drawValues(values: List<MeasurementValue>, page: PdfPage, position: PdfPosition) {
+    private fun drawValues(
+        values: List<MeasurementValue.Local>,
+        page: PdfPage,
+        position: PdfPosition
+    ) {
         values.forEach { value ->
-            val drawable = PdfPoint(
-                color = Color.Green,
-                radius = POINT_RADIUS,
-            )
+            val drawable = PdfPoint(Colors.Green, POINT_RADIUS)
             val position = PdfPosition(
-                x = position.x + 50f, // TODO: Calculate from time
-                y = position.y + getYForValue(value.value.toFloat()),
+                x = getXForTime(value.entry.dateTime.time, position),
+                y = getYForValue(value.value.toFloat(), position),
             )
             drawable.drawOn(page, position)
         }
+    }
+
+    private fun getXForTime(time: Time, at: PdfPosition): Float {
+        return at.x + ((time.minuteOfDay.toFloat() / DateTimeConstants.MINUTES_PER_DAY.toFloat()) * (width - at.x))
+    }
+
+    private fun getYForValue(value: Float, at: PdfPosition): Float {
+        return at.y + height - (value / maxValue) * height
     }
 
     private companion object {

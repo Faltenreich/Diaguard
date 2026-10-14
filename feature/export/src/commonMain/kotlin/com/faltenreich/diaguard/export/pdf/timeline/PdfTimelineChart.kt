@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.export.pdf.timeline
 
 import com.faltenreich.diaguard.data.measurement.value.MeasurementValue
+import com.faltenreich.diaguard.export.pdf.PdfCell
 import com.faltenreich.diaguard.export.pdf.PdfLine
 import com.faltenreich.diaguard.export.pdf.PdfSpacing
 import com.faltenreich.diaguard.export.pdf.PdfText
@@ -10,6 +11,7 @@ import com.faltenreich.diaguard.persistence.pdf.PdfPaint
 import com.faltenreich.diaguard.persistence.pdf.PdfPosition
 import com.faltenreich.diaguard.persistence.pdf.PdfSize
 import kotlin.math.max
+import kotlin.math.round
 
 internal class PdfTimelineChart(
     private val width: Float,
@@ -17,14 +19,17 @@ internal class PdfTimelineChart(
 ) : PdfDrawable {
 
     private val height = HEIGHT
-    private val maxValue = max(values?.maxOf { it.value.toFloat() } ?: 0f, 250f)
     private val xAxisLine = PdfLine(vector = PdfPosition(x = 0f, y = height))
     private val padding = PdfSpacing.P_16.points
+
+    private val maxValue = max(values?.maxOf { it.value.toFloat() + 50f } ?: 0f, 210f)
+    private val minValue = 0f
 
     override fun getSize(): PdfSize {
         return if (values != null) PdfSize(width, height) else PdfSize.Zero
     }
 
+    // TODO: Calculate and format axis and values before
     override fun drawOn(page: PdfPage, position: PdfPosition) {
         val values = values ?: return
         drawYAxis(page, position)
@@ -33,14 +38,19 @@ internal class PdfTimelineChart(
         drawValues(values, page, position)
     }
 
-    private fun drawYAxis(page: PdfPage, position: PdfPosition) {
-        val labelCount = Y_AXIS_LABEL_COUNT
-        val labelHeight = height / labelCount
-        (0..<labelCount).forEach { index ->
-            val x = position.x
-            val y = position.y + height - labelHeight * index
+    private fun getYForValue(value: Float): Float {
+        return height - (value / maxValue) * height
+    }
 
-            val label = PdfText(index.toString(), PdfPaint.label)
+    private fun drawYAxis(page: PdfPage, position: PdfPosition) {
+        val step = ((maxValue - minValue) / Y_AXIS_LABEL_COUNT).let { round((it + 10f) / 10) * 10 }
+        var value = step
+        while (value <= maxValue) {
+            val x = position.x
+            val y = position.y + getYForValue(value)
+
+            // TODO: Format value via MeasurementValueMapper
+            val label = PdfCell(PdfText(value.toInt().toString(), PdfPaint.label))
             val labelSize = label.getSize()
             val labelPosition = PdfPosition(
                 x = x,
@@ -54,6 +64,8 @@ internal class PdfTimelineChart(
             )
             val line = PdfLine(vector = PdfPosition(x = width - linePosition.x, y = 0f))
             line.drawOn(page, linePosition)
+
+            value += step
         }
     }
 
@@ -68,7 +80,9 @@ internal class PdfTimelineChart(
     }
 
     private fun drawValues(values: List<MeasurementValue>, page: PdfPage, position: PdfPosition) {
-        values.forEach {
+        values.forEach { value ->
+            val x = position.x + 50f // TODO: Calculate from time
+            val y = position.y + (maxValue / value.value)
             // TODO: Draw dots
         }
     }

@@ -22,7 +22,11 @@ actual class PdfPage actual constructor(
         offset = offset.copy(x = offset.x, y = offset.y + by)
     }
 
-    actual fun drawText(text: String, position: PdfPosition, maxWidth: Float?, paint: PdfPaint) {
+    actual fun drawCircle(position: PdfPosition, color: Color, radius: Float) {
+        TODO("Not yet implemented")
+    }
+
+    actual fun drawLine(start: PdfPosition, end: PdfPosition, color: Color, width: Float) {
         TODO("Not yet implemented")
     }
 
@@ -30,7 +34,7 @@ actual class PdfPage actual constructor(
         TODO("Not yet implemented")
     }
 
-    actual fun drawLine(start: PdfPosition, end: PdfPosition, color: Color, width: Float) {
+    actual fun drawText(text: String, position: PdfPosition, maxWidth: Float?, paint: PdfPaint) {
         TODO("Not yet implemented")
     }
 }

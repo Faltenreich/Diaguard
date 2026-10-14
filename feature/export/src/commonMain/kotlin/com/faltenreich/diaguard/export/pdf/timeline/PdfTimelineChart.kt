@@ -1,8 +1,10 @@
 package com.faltenreich.diaguard.export.pdf.timeline
 
+import androidx.compose.ui.graphics.Color
 import com.faltenreich.diaguard.data.measurement.value.MeasurementValue
 import com.faltenreich.diaguard.export.pdf.PdfCell
 import com.faltenreich.diaguard.export.pdf.PdfLine
+import com.faltenreich.diaguard.export.pdf.PdfPoint
 import com.faltenreich.diaguard.export.pdf.PdfSpacing
 import com.faltenreich.diaguard.export.pdf.PdfText
 import com.faltenreich.diaguard.persistence.pdf.PdfDrawable
@@ -81,9 +83,15 @@ internal class PdfTimelineChart(
 
     private fun drawValues(values: List<MeasurementValue>, page: PdfPage, position: PdfPosition) {
         values.forEach { value ->
-            val x = position.x + 50f // TODO: Calculate from time
-            val y = position.y + (maxValue / value.value)
-            // TODO: Draw dots
+            val drawable = PdfPoint(
+                color = Color.Green,
+                radius = POINT_RADIUS,
+            )
+            val position = PdfPosition(
+                x = position.x + 50f, // TODO: Calculate from time
+                y = position.y + getYForValue(value.value.toFloat()),
+            )
+            drawable.drawOn(page, position)
         }
     }
 
@@ -95,5 +103,7 @@ internal class PdfTimelineChart(
         const val Y_AXIS_WIDTH = 100f
 
         const val X_AXIS_LABEL_COUNT = 12
+
+        private const val POINT_RADIUS = 5f
     }
 }

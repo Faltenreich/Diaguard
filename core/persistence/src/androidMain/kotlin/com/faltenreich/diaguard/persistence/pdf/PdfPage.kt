@@ -42,6 +42,38 @@ actual class PdfPage actual constructor(
         offset = offset.copy(x = offset.x, y = offset.y + by)
     }
 
+    actual fun drawCircle(position: PdfPosition, color: Color, radius: Float) {
+        actual.canvas.drawCircle(
+            position.x,
+            position.y,
+            radius,
+            Paint().apply { this.color = color.toArgb() },
+        )
+    }
+
+    actual fun drawLine(start: PdfPosition, end: PdfPosition, color: Color, width: Float) {
+        actual.canvas.drawLine(
+            start.x,
+            start.y,
+            end.x,
+            end.y,
+            Paint().apply {
+                this.color = color.toArgb()
+                strokeWidth = width
+            },
+        )
+    }
+
+    actual fun drawRectangle(rectangle: PdfRectangle, paint: PdfPaint) {
+        actual.canvas.drawRect(
+            rectangle.left,
+            rectangle.top,
+            rectangle.right,
+            rectangle.bottom,
+            paint.actual,
+        )
+    }
+
     actual fun drawText(text: String, position: PdfPosition, maxWidth: Float?, paint: PdfPaint) {
         val canvas = actual.canvas
         val paint = paint.actual
@@ -80,28 +112,5 @@ actual class PdfPage actual constructor(
         } else {
             canvas.drawText(text, x, y - paint.fontMetrics.ascent, paint)
         }
-    }
-
-    actual fun drawRectangle(rectangle: PdfRectangle, paint: PdfPaint) {
-        actual.canvas.drawRect(
-            rectangle.left,
-            rectangle.top,
-            rectangle.right,
-            rectangle.bottom,
-            paint.actual,
-        )
-    }
-
-    actual fun drawLine(start: PdfPosition, end: PdfPosition, color: Color, width: Float) {
-        actual.canvas.drawLine(
-            start.x,
-            start.y,
-            end.x,
-            end.y,
-            Paint().apply {
-                this.color = color.toArgb()
-                strokeWidth = width
-            },
-        )
     }
 }

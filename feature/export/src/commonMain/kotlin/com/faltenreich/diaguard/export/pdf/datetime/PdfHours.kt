@@ -32,7 +32,7 @@ internal class PdfHours(private val width: Float) : PdfDrawable {
     override fun drawOn(page: PdfPage, position: PdfPosition) {
         val progression = PROGRESSION
         val hoursWidth = page.viewport.right - position.x
-        val hourWidth = hoursWidth / progression.count()
+        val hourWidth = hoursWidth / (progression.count() - 1)
         drawables.forEach { (hour, drawable) ->
             val index = hour / progression.step
             val x = position.x + (index * hourWidth) - drawable.getSize().width / 2
@@ -46,7 +46,6 @@ internal class PdfHours(private val width: Float) : PdfDrawable {
         const val COUNT = 24
         const val STEP = 2
 
-        // TODO: Add 24:00
-        val PROGRESSION = 0..<COUNT step STEP
+        val PROGRESSION = 0..COUNT step STEP
     }
 }

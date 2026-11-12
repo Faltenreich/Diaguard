@@ -73,7 +73,7 @@ configurations {
     all*.exclude group: "org.apache.commons", module: "commons-io"
 }
 
-def espresso = "3.6.1"
+def espresso = "3.7.0"
 def jodaTime = "2.15.1"
 def ormLite = "5.1"
 def retrofit = "2.9.0"
@@ -99,6 +99,7 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$espresso"
     androidTestImplementation "androidx.test:runner:1.7.0"
     androidTestUtil "androidx.test:orchestrator:1.6.1"
+    androidTestImplementation "org.hamcrest:hamcrest:3.0"
 
     // Update requires minSdk 23
     // noinspection GradleDependency

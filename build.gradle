@@ -1,5 +1,6 @@
 buildscript {
     ext {
+        // 15.0.0 drops support for XML-based views
         aboutLibrariesVersion = '14.2.1'
 
         repos = {
@@ -13,7 +14,6 @@ buildscript {
     repositories repos
 
     dependencies {
-        // FIXME: Breaks aboutlibraries' resource generation
         classpath 'com.android.tools.build:gradle:9.5.1'
         classpath "com.mikepenz.aboutlibraries.plugin:aboutlibraries-plugin:$aboutLibrariesVersion"
     }

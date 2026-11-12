@@ -113,8 +113,6 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:$retrofit"
     implementation "com.google.code.gson:gson:2.15.0"
 
-    // Newer versions do not support XML views
-    // noinspection GradleDependency
     implementation "com.mikepenz:aboutlibraries-core:$aboutLibrariesVersion"
     implementation "com.mikepenz:aboutlibraries:$aboutLibrariesVersion"
 

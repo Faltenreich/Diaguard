@@ -37,10 +37,7 @@ public class LicenseFragment extends BaseFragment<FragmentLicenseBinding> implem
     }
 
     private void addLicenses() {
-        LibsBuilder builder = new LibsBuilder().withFields(R.string.class.getFields());
-        builder.setAboutShowIcon(false);
-        builder.setAboutShowVersionName(false);
-        builder.setAboutShowVersionCode(false);
+        LibsBuilder builder = new LibsBuilder().withAboutVersionShown(false);
         Fragment fragment = builder.supportFragment();
         openFragment(fragment, false);
     }

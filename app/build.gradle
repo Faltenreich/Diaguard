@@ -74,7 +74,7 @@ configurations {
 }
 
 def espresso = "3.6.1"
-def jodaTime = "2.12.5"
+def jodaTime = "2.15.1"
 def ormLite = "5.1"
 def retrofit = "2.9.0"
 

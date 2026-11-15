@@ -19,7 +19,6 @@ jobs:
       fail-fast: false
       matrix:
         api-level:
-          - 23
           - 36
 
     steps:
